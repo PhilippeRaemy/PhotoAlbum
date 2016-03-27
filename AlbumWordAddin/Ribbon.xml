@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <officeMenu>
+            <button id="button1" onAction="button1_Click" supertip="Tip to button 1" label="Button 1" />
+            <checkBox id="checkBox1" label="checkBox1" />
+        </officeMenu>
+        <tabs>
+            <tab idMso="TabAddIns" label="Album Ribbon">
+                <group id="group1" label="group1" />
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>
