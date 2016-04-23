@@ -27,17 +27,35 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>AlbumWordAddin</RootNamespace>
     <AssemblyName>AlbumWordAddin</AssemblyName>
-    <LoadBehavior>3</LoadBehavior>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <InstallUrl />
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+    <ProductName>AlbumWordAddin</ProductName>
+    <PublisherName />
+    <SupportUrl />
+    <FriendlyName>AlbumWordAddin</FriendlyName>
+    <OfficeApplicationDescription />
+    <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
       <Visible>False</Visible>
@@ -172,6 +190,7 @@
     <Compile Include="AlbumRibbon.Designer.cs">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </Compile>
+    <Compile Include="AlbumWordAddinUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -218,6 +237,10 @@
     <ProjectReference Include="..\VstoEx\VstoEx.csproj">
       <Project>{1cc0c8f7-fc7f-44cb-adc8-caa0b383b274}</Project>
       <Name>VstoEx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VstoWordStatePreserver\VstoWordStatePreserver.csproj">
+      <Project>{6ae96d5b-0d0d-49c3-a94b-5b8cc63e8a92}</Project>
+      <Name>VstoWordStatePreserver</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

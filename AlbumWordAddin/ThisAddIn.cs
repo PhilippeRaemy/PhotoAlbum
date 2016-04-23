@@ -1,61 +1,75 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using Mannex;
 using Word = Microsoft.Office.Interop.Word;
-using Office = Microsoft.Office.Core;
+
 using Microsoft.Office.Tools.Word;
 using MoreLinq;
 using VstoEx;
+using Mannex.Collections.Generic;
 
 namespace AlbumWordAddin
 {
     public partial class ThisAddIn
     {
+        Document       ActiveDocument => Globals.Factory.GetVstoObject(Application.ActiveDocument);
+        Word.Selection Selection      => ActiveDocument.Application.Selection;
+        public static AlbumRibbon ThisRibbon { get; set; }
+
+        private AlbumWordAddinUtils _utilities;
+
+        protected override object RequestComAddInAutomationService()
+        {
+            if (_utilities == null)
+                _utilities = new AlbumWordAddinUtils();
+
+            return _utilities;
+        }
         private void ThisAddIn_Startup(object sender, EventArgs e)
         {
-            
+            try
+            {
+                Application_DocumentOpen(Application.ActiveDocument);
+            }
+            catch { }
+            Application.DocumentOpen += Application_DocumentOpen;
+            ((Word.ApplicationEvents4_Event)Application).NewDocument += Application_DocumentOpen;
+        }
+
+        private void Application_DocumentOpen(Word.Document doc)
+        {
+            Globals.Factory.GetVstoObject(doc).SelectionChange += ThisAddIn_SelectionChange;
+        }
+
+        private void ThisAddIn_SelectionChange(object sender, SelectionEventArgs e)
+        {
+            Func<float, float, float> sameOrDefect = (t, s) => t<=-2 ? t : t<=-1 ? s : Math.Abs(t - s) < .5 ? s : -2f;
+            Func<float, string> sizeToText = t => t < 0 ? string.Empty : t.ToInvariantString();
+
+            var sizes= e.Selection.ShapeRange.Cast<Word.Shape>()
+                .Aggregate(Tuple.Create(-1f, -1f),
+                    (t, s) => Tuple.Create(sameOrDefect(t.Item1, s.Width), sameOrDefect(t.Item2, s.Height)));
+            ThisRibbon.editBoxSizeWidth.Text  = sizeToText(sizes.Item1);
+            ThisRibbon.editBoxSizeHeight.Text = sizeToText(sizes.Item2);
         }
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
         }
 
-        internal void RemoveEmptyPages()
+        public void RemoveEmptyPages()
         {
-            var doc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
-            // get paragraph information by page
-
-            var paragraphsToBeDeleted = doc.Paragraphs.Cast<Word.Paragraph>()
-                .Select(p => new
-                    {
-                        Paragraph  = p,
-                        PageNumber = p.Range.GetPageNumber(),
-                        IsEmpty    = p.Range.ShapeRange.Count == 0 
-                            && string.IsNullOrWhiteSpace(Regex.Replace(p.Range.Text, @"\x12\x09", string.Empty))
-                    }
-                )
-                .GroupBy          (p=>p.PageNumber              )
-                .OrderByDescending(g=>g.Key                     )
-                .Where            (g=>g.All(p=>p.IsEmpty)       )
-                .SelectMany       (g=>g.Select(gg=>gg.Paragraph))
-                .ToList           (                             )
-                ;
-            foreach (var paragraph in paragraphsToBeDeleted)
-            {
-                paragraph.Range.Delete();
-            }
+            _utilities.RemoveEmptyPages();
         }
-
         public void SelectShapesOnPage()
         {
-            var doc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
-            var pageNumber = doc.Application.Selection.GetPageNumber();
-            var shapesOnPage = doc.Shapes.Cast<Word.Shape>()
-                .Where(s => ( s.Type == Office.MsoShapeType.msoLinkedPicture 
-                           || s.Type == Office.MsoShapeType.msoPicture 
-                           ) && s.Anchor.GetPageNumber() == pageNumber
-                           );
-            shapesOnPage.ForEach(s => s.Select(Replace:false));
+            _utilities.SelectShapesOnPage();
+        }
+
+        public void FixAnchorOfSelectedImages() {
+            _utilities.FixAnchorOfSelectedImages();
         }
 
         #region VSTO generated code
