@@ -55,6 +55,11 @@ namespace AlbumWordAddin
             ThisRibbon.editBoxSizeHeight.Text = sizeToText(sizes.Item2);
         }
 
+        internal void AlignSelectedImages(Alignment alignment)
+        {
+            _utilities.AlignSelectedImages(alignment);
+        }
+
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
         }
