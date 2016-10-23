@@ -9,13 +9,13 @@ namespace AlbumWordAddin
 {
     public enum VShape
     {
-        FLAT, RIGHTDOWN, RIGHTUP, BENDRIGHT, BENDLEFT
+        FLAT, TOP, BOTTOM, RIGHTDOWN, RIGHTUP, BENDRIGHT, BENDLEFT
     }
     public enum HShape
     {
-        FLAT, RIGHTDOWN, RIGHTUP, BENDUP, BENDDOWN
+        FLAT, LEFT, RIGHT, RIGHTDOWN, RIGHTUP, BENDUP, BENDDOWN
     }
-    public class Positionner
+    public class Positioner
     {
         public int rows { get; set; }
         public int cols { get; set; }
@@ -48,10 +48,12 @@ namespace AlbumWordAddin
             switch (hShape)
             {
                 case HShape.FLAT     : return (_, __) => 0.5F;
+                case HShape.LEFT     : return (_, __) => 0F;
+                case HShape.RIGHT    : return (_, __) => 1F;
                 case HShape.RIGHTDOWN: return (_, c) => 1 - (c / (cols - 1));
                 case HShape.RIGHTUP  : return (_, c) => (c / (cols - 1));
-                case HShape.BENDDOWN:
-                case HShape.BENDUP:
+                case HShape.BENDDOWN : 
+                case HShape.BENDUP   :
                 default:
                     throw new NotImplementedException($"Invalid ShaperH value {hShape}");
             }
@@ -60,7 +62,9 @@ namespace AlbumWordAddin
         {
             switch (vShape)
             {
-                case VShape.FLAT: return (_, __) => 0.5F;
+                case VShape.FLAT     : return (_, __) => 0.5F;
+                case VShape.TOP      : return (_, __) => 0F;
+                case VShape.BOTTOM   : return (_, __) => 1F;
                 case VShape.RIGHTDOWN: return (r, _) => 1 - (r / (rows - 1));
                 case VShape.RIGHTUP  : return (r, _) => (r / (rows - 1));
                 case VShape.BENDLEFT:
@@ -81,6 +85,8 @@ namespace AlbumWordAddin
 
         public Rectangle(float left, float top, float width, float height)
         {
+            if (width < float.Epsilon) throw new InvalidOperationException("Rectangle cannot have negative or zero width.");
+            if (height < float.Epsilon) throw new InvalidOperationException("Rectangle cannot have negative or zero height.");
             Left = left;
             Top = top;
             Width = width;
@@ -107,5 +113,8 @@ namespace AlbumWordAddin
                 newHeight
             );
         }
+
+        public override string ToString()
+            => $"[{Left}..{Left + Width},{Top}..{Top + Height}, ({Width}x{Height})";
     }
 }
