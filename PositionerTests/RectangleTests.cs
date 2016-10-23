@@ -5,7 +5,7 @@ using AlbumWordAddin;
 namespace PositionerTests
 {
     [TestClass]
-    public class PositionerRectangle
+    public class RectangleTests
     {
         [TestMethod]
         public void TestRectangle()
@@ -22,7 +22,7 @@ namespace PositionerTests
             try
             {
                 var r = new Rectangle(0, 0, 1, 0);
-                Assert.Fail("Rectangle should not accept zero or negavite height");
+                Assert.Fail("Rectangle should not accept zero or negative height");
             }
             catch (InvalidOperationException) { }
         }
@@ -32,7 +32,7 @@ namespace PositionerTests
             try
             {
                 var r = new Rectangle(0, 0, 0, 1);
-                Assert.Fail("Rectangle should not accept zero or negavite width");
+                Assert.Fail("Rectangle should not accept zero or negative width");
             }
             catch (InvalidOperationException) { }
         }
