@@ -47,9 +47,9 @@ namespace AlbumWordAddin
         {
             switch (hShape)
             {
-                case HShape.FLAT: return (_, __) => 0.5F;
-                case HShape.RIGHTDOWN:
-                case HShape.RIGHTUP:
+                case HShape.FLAT     : return (_, __) => 0.5F;
+                case HShape.RIGHTDOWN: return (_, c) => 1 - (c / (cols - 1));
+                case HShape.RIGHTUP  : return (_, c) => (c / (cols - 1));
                 case HShape.BENDDOWN:
                 case HShape.BENDUP:
                 default:
@@ -61,8 +61,8 @@ namespace AlbumWordAddin
             switch (vShape)
             {
                 case VShape.FLAT: return (_, __) => 0.5F;
-                case VShape.RIGHTDOWN:
-                case VShape.RIGHTUP:
+                case VShape.RIGHTDOWN: return (r, _) => 1 - (r / (rows - 1));
+                case VShape.RIGHTUP  : return (r, _) => (r / (rows - 1));
                 case VShape.BENDLEFT:
                 case VShape.BENDRIGHT:
                 default:
