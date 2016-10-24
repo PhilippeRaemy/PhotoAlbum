@@ -57,6 +57,8 @@ namespace PositionerTests
             Assert.AreEqual(expected, rc.First());
             expected = expected.Move(1 / 3f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(1).First());
+            expected = expected.Move(1 / 3f * factor, 0);
+            Assert.AreEqual(expected, rc.Skip(2).First());
         }
     }
 }
