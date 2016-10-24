@@ -89,6 +89,7 @@ namespace AlbumWordAddin
         public float Top    { get; }
         public float Width  { get; }
         public float Height { get; }
+        const float Epsilon = .0000001f;
 
         public Rectangle(float left, float top, float width, float height)
         {
@@ -132,11 +133,15 @@ namespace AlbumWordAddin
             if (this == null) return false;
             var other = obj as Rectangle;
             if (other == null) return false;
-            return Math.Abs(Left   - other.Left  ) < float.Epsilon
-                && Math.Abs(Top    - other.Top   ) < float.Epsilon
-                && Math.Abs(Width  - other.Width ) < float.Epsilon
-                && Math.Abs(Height - other.Height) < float.Epsilon
+            return Math.Abs(Left   - other.Left  ) < Epsilon
+                && Math.Abs(Top    - other.Top   ) < Epsilon
+                && Math.Abs(Width  - other.Width ) < Epsilon
+                && Math.Abs(Height - other.Height) < Epsilon
             ;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
