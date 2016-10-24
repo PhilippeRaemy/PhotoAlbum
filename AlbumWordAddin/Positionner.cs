@@ -30,17 +30,25 @@ namespace AlbumWordAddin
         }
         public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles)
         {
-            return DoPosition(rectangles, HShape.FLAT, VShape.FLAT);
+            return DoPosition(rectangles, HShape, VShape);
         }
         public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles, HShape HShape, VShape VShape)
         {
             var scaleX = 1f / cols;
             var scaleY = 1f / rows;
-            return Enumerable.Range(0, rows)
-                .SelectMany(r => Enumerable.Range(0, cols).Select(c => new Rectangle( r* scaleY, c* scaleX, scaleY, scaleX)))
-                .ZipLongest(rectangles, (rectangle, area) => new { rectangle, area })
+            var shaperH = ShaperH(HShape, rows, cols);
+            var shaperV = ShaperV(VShape, rows, cols);
+            var grid = Enumerable.Range(0, rows)
+                .SelectMany(r => Enumerable.Range(0, cols)
+                    .Select(c => new {
+                        area = new Rectangle(c * scaleX, r * scaleY, scaleX, scaleY),
+                        hShape = shaperH(r, c),
+                        vShape = shaperV(r, c),
+                    }));
+            return grid
+                .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
-                .Select(x=> x.rectangle.FitIn(x.area, .5f, .5f))
+                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape))
             ;
         }
         static Func<int, int, float> ShaperH(HShape hShape, int rows, int cols)
@@ -99,13 +107,16 @@ namespace AlbumWordAddin
         public Rectangle Grow(float g)
            => new Rectangle(Left, Top, Width * g, Height * g);
 
+        public Rectangle Grow(float w, float h)
+           => new Rectangle(Left, Top, Width * w, Height * h);
+
         public Rectangle Scale(float scaleX, float scaleY)
            => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
         public Rectangle FitIn(Rectangle other, float padTopPerc = 0.5f, float padLeftPerc = 0.5f) {
-            var factor = new[] { other.Width / Width, other.Height / Height }.Min();
-            var newWidth  = Width * factor;
-            var newHeight = Height * factor;
+            var scale = new[] { other.Width / Width, other.Height / Height }.Min();
+            var newWidth  = Width * scale;
+            var newHeight = Height * scale;
             return new Rectangle(
                 other.Left + (other.Width - newWidth) * padLeftPerc,
                 other.Top + (other.Height - newHeight) * padTopPerc,
