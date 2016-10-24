@@ -83,12 +83,11 @@ namespace AlbumWordAddin
         }
     }
 
-
     public class Rectangle
     {
-        public float Left { get; }
-        public float Top { get; }
-        public float Width { get; }
+        public float Left   { get; }
+        public float Top    { get; }
+        public float Width  { get; }
         public float Height { get; }
 
         public Rectangle(float left, float top, float width, float height)
@@ -127,5 +126,17 @@ namespace AlbumWordAddin
 
         public override string ToString()
             => $"[{Left}..{Left + Width},{Top}..{Top + Height}, ({Width}x{Height})";
+
+        public override bool Equals(object obj)
+        {
+            if (this == null) return false;
+            var other = obj as Rectangle;
+            if (other == null) return false;
+            return Math.Abs(Left   - other.Left  ) < float.Epsilon
+                && Math.Abs(Top    - other.Top   ) < float.Epsilon
+                && Math.Abs(Width  - other.Width ) < float.Epsilon
+                && Math.Abs(Height - other.Height) < float.Epsilon
+            ;
+        }
     }
 }

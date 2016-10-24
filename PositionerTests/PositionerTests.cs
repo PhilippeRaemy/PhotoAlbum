@@ -46,6 +46,8 @@ namespace PositionerTests
             var rc = pos.DoPosition(square1x1.Grow(factor), new[] { square1x1, square1x1 });
             Assert.AreEqual(2, rc.Count());
             var rc1 = rc.First();
+            var expected = new Rectangle(0, .25f, .5f, .5f).Scale(factor,factor);
+            Assert.AreEqual(expected, rc1);
             Assert.AreEqual(factor * 0f, rc1.Left, float.Epsilon, "Left  :" + rc1.ToString());
             Assert.AreEqual(factor * 0.25f, rc1.Top, float.Epsilon, "Left  :" + rc1.ToString());
             Assert.AreEqual(factor * .5f, rc1.Width, float.Epsilon, "Width :" + rc1.ToString());
