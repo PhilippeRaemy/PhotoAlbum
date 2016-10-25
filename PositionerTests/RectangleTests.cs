@@ -55,7 +55,7 @@ namespace PositionerTests
         {
             var container = new Rectangle(1, 2, 3, 4);
             var contained = new Rectangle(4, 3, 2, 1);
-            var r = contained.FitIn(container, .5f, .5f);
+            var r = contained.FitIn(container, .5f, .5f, 1);
             Assert.IsTrue(container.Left <= r.Left, "Overlap left border");
             Assert.IsTrue(r.Left + r.Width <= container.Left + container.Width, "Overlap right border");
         }
@@ -64,7 +64,7 @@ namespace PositionerTests
         {
             var container = new Rectangle(1, 2, 3, 4);
             var contained = new Rectangle(4, 3, 2, 1);
-            var r = contained.FitIn(container, .5f, .5f);
+            var r = contained.FitIn(container, .5f, .5f, 1);
             Assert.IsTrue(container.Top <= r.Top, "Overlap top border");
             Assert.IsTrue(r.Top + r.Height <= container.Top + container.Height, "Overlap bottom border");
         }

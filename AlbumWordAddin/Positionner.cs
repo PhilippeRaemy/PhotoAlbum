@@ -47,7 +47,7 @@ namespace AlbumWordAddin
             return grid
                 .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
-                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape))
+                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, 1))
             ;
         }
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage

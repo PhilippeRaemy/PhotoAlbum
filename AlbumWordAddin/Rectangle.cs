@@ -36,16 +36,16 @@ namespace AlbumWordAddin
         public Rectangle Scale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
-        public Rectangle FitIn(Rectangle other, float padTopPerc, float padLeftPerc) {
+        public Rectangle FitIn(Rectangle other, float fitTopPerc, float fitLeftPerc, float padding) {
             var scale = new[] { other.Width / Width, other.Height / Height }.Min();
             var newWidth  = Width * scale;
             var newHeight = Height * scale;
             return new Rectangle(
-                other.Left + (other.Width - newWidth) * padLeftPerc,
-                other.Top + (other.Height - newHeight) * padTopPerc,
+                other.Left + (other.Width - newWidth) * fitLeftPerc,
+                other.Top + (other.Height - newHeight) * fitTopPerc,
                 newWidth,
                 newHeight
-            );
+            ).Scale(padding);
         }
 
         public override string ToString()
