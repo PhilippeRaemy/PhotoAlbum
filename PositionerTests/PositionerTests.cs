@@ -63,8 +63,9 @@ namespace PositionerTests
         public void TestPositioner_global()
         {
         }
-        void TestPositioner_global(Rectangle clientArea, Positioner pos, Rectangle[] expected)
+        void TestPositioner_global(Rectangle clientArea, Rectangle[] rectangles, Positioner pos, Rectangle[] expected)
         {
+
         }
     }
 }

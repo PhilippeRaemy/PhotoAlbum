@@ -29,14 +29,10 @@ namespace AlbumWordAddin
         }
         public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles)
         {
-            return DoPosition(rectangles, HShape, VShape);
-        }
-        public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles, HShape hShape, VShape vShape)
-        {
             var scaleX = 1f / Cols;
             var scaleY = 1f / Rows;
-            var shaperH = ShaperH(hShape, Rows, Cols);
-            var shaperV = ShaperV(vShape, Rows, Cols);
+            var shaperH = ShaperH(HShape, Rows, Cols);
+            var shaperV = ShaperV(VShape, Rows, Cols);
             var grid = Enumerable.Range(0, Rows)
                 .SelectMany(r => Enumerable.Range(0, Cols)
                     .Select(c => new {
@@ -47,7 +43,7 @@ namespace AlbumWordAddin
             return grid
                 .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
-                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, 1))
+                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, Padding))
             ;
         }
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
