@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MoreLinq;
 
 namespace AlbumWordAddin
 {
     public enum VShape
     {
-        FLAT, TOP, BOTTOM, RIGHTDOWN, RIGHTUP, BENDRIGHT, BENDLEFT
+        Flat, Top, Bottom, Rightdown, Rightup, Bendright, Bendleft
     }
     public enum HShape
     {
-        FLAT, LEFT, RIGHT, RIGHTDOWN, RIGHTUP, BENDUP, BENDDOWN
+        Flat, Left, Right, Rightdown, Rightup, Bendup, Benddown
     }
     public class Positioner
     {
-        public int rows { get; set; }
-        public int cols { get; set; }
+        public int Rows { get; set; }
+        public int Cols { get; set; }
         public HShape HShape { get; set; }
         public VShape VShape { get; set; }
         public int Margin { get; set; }
@@ -32,14 +31,14 @@ namespace AlbumWordAddin
         {
             return DoPosition(rectangles, HShape, VShape);
         }
-        public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles, HShape HShape, VShape VShape)
+        public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles, HShape hShape, VShape vShape)
         {
-            var scaleX = 1f / cols;
-            var scaleY = 1f / rows;
-            var shaperH = ShaperH(HShape, rows, cols);
-            var shaperV = ShaperV(VShape, rows, cols);
-            var grid = Enumerable.Range(0, rows)
-                .SelectMany(r => Enumerable.Range(0, cols)
+            var scaleX = 1f / Cols;
+            var scaleY = 1f / Rows;
+            var shaperH = ShaperH(hShape, Rows, Cols);
+            var shaperV = ShaperV(vShape, Rows, Cols);
+            var grid = Enumerable.Range(0, Rows)
+                .SelectMany(r => Enumerable.Range(0, Cols)
                     .Select(c => new {
                         area = new Rectangle(c * scaleX, r * scaleY, scaleX, scaleY),
                         hShape = shaperH(r, c),
@@ -51,32 +50,36 @@ namespace AlbumWordAddin
                 .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape))
             ;
         }
+        // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
+        [SuppressMessage("ReSharper", "RedundantCaseLabel")]
         static Func<int, int, float> ShaperH(HShape hShape, int rows, int cols)
         {
             switch (hShape)
             {
-                case HShape.FLAT     : return (_, __) => 0.5F;
-                case HShape.LEFT     : return (_, __) => 0F;
-                case HShape.RIGHT    : return (_, __) => 1F;
-                case HShape.RIGHTDOWN: return (_, c) => 1 - (c / (cols - 1));
-                case HShape.RIGHTUP  : return (_, c) => (c / (cols - 1));
-                case HShape.BENDDOWN : 
-                case HShape.BENDUP   :
+                case HShape.Flat     : return (_, __) => 0.5F;
+                case HShape.Left     : return (_, __) => 0F;
+                case HShape.Right    : return (_, __) => 1F;
+                case HShape.Rightdown: return (_, c) => 1 - c / ((float)cols - 1);
+                case HShape.Rightup  : return (_, c) => c / ((float)cols - 1);
+                case HShape.Benddown : 
+                case HShape.Bendup   :
                 default:
                     throw new NotImplementedException($"Invalid ShaperH value {hShape}");
             }
         }
+        // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
+        [SuppressMessage("ReSharper", "RedundantCaseLabel")]
         static Func<int, int, float> ShaperV(VShape vShape, int rows, int cols)
         {
             switch (vShape)
             {
-                case VShape.FLAT     : return (_, __) => 0.5F;
-                case VShape.TOP      : return (_, __) => 0F;
-                case VShape.BOTTOM   : return (_, __) => 1F;
-                case VShape.RIGHTDOWN: return (r, _) => 1 - (r / (rows - 1));
-                case VShape.RIGHTUP  : return (r, _) => (r / (rows - 1));
-                case VShape.BENDLEFT:
-                case VShape.BENDRIGHT:
+                case VShape.Flat     : return (_, __) => 0.5F;
+                case VShape.Top      : return (_, __) => 0F;
+                case VShape.Bottom   : return (_, __) => 1F;
+                case VShape.Rightdown: return (r, _) => 1 - r / ((float)rows - 1);
+                case VShape.Rightup  : return (r, _) => r / ((float)rows - 1);
+                case VShape.Bendleft:
+                case VShape.Bendright:
                 default:
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }
@@ -130,7 +133,6 @@ namespace AlbumWordAddin
 
         public override bool Equals(object obj)
         {
-            if (this == null) return false;
             var other = obj as Rectangle;
             if (other == null) return false;
             return Math.Abs(Left   - other.Left  ) < Epsilon
@@ -141,6 +143,7 @@ namespace AlbumWordAddin
         }
         public override int GetHashCode()
         {
+            // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
             return base.GetHashCode();
         }
     }

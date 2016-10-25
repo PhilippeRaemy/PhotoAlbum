@@ -39,7 +39,7 @@ namespace AlbumWordAddin.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlbumWordAddin.Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("AlbumWordAddin.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x1 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x2 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x2", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x3 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x3", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x4 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x4", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_2x2 {
             get {
-                object obj = ResourceManager.GetObject("Pict_2x2", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_2x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_2x3 {
             get {
-                object obj = ResourceManager.GetObject("Pict_2x3", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_2x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x1 {
             get {
-                object obj = ResourceManager.GetObject("Pict_3x1", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_3x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x2 {
             get {
-                object obj = ResourceManager.GetObject("Pict_3x2", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_3x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x3 {
             get {
-                object obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

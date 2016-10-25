@@ -51,7 +51,7 @@ namespace PositionerTests
             Assert.AreEqual(.6f, r.Height, float.Epsilon);
         }
         [TestMethod]
-        public void testRectangleFitInWidth()
+        public void TestRectangleFitInWidth()
         {
             var container = new Rectangle(1, 2, 3, 4);
             var contained = new Rectangle(4, 3, 2, 1);
@@ -60,7 +60,7 @@ namespace PositionerTests
             Assert.IsTrue(r.Left + r.Width <= container.Left + container.Width, "Overlap right border");
         }
         [TestMethod]
-        public void testRectangleFitInHeight()
+        public void TestRectangleFitInHeight()
         {
             var container = new Rectangle(1, 2, 3, 4);
             var contained = new Rectangle(4, 3, 2, 1);

@@ -4,9 +4,9 @@ namespace VstoWordStatePreserver
     using Word = Microsoft.Office.Interop.Word;
     public class StatePreserver : System.IDisposable
     {
-        private bool _screenUpdatingSet;
-        private bool _previousScreenUpdating;
-        private Word.Application _application;
+        bool _screenUpdatingSet;
+        bool _previousScreenUpdating;
+        readonly Word.Application _application;
 
         public StatePreserver(Word.Application application) {
             _application = application;

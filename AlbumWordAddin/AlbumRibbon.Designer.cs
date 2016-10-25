@@ -35,11 +35,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlbumRibbon));
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl3 = this.Factory.CreateRibbonDropDownItem();
-            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(AlbumRibbon));
+            var ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
+            var ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
+            var ribbonDropDownItemImpl3 = this.Factory.CreateRibbonDropDownItem();
+            var ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.TabAddIns = this.Factory.CreateRibbonTab();
             this.groupPage = this.Factory.CreateRibbonGroup();
             this.ButtonRemoveEmptyPages = this.Factory.CreateRibbonButton();

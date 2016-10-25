@@ -28,15 +28,12 @@ namespace AlbumWordAddin
     [ComVisible(true)]
     public class Ribbon : Office.IRibbonExtensibility
     {
-        private Office.IRibbonUI ribbon;
-
-        public Ribbon()
-        {
-        }
+        // ReSharper disable once NotAccessedField.Local
+        Office.IRibbonUI _ribbon;
 
         #region IRibbonExtensibility Members
 
-        public string GetCustomUI(string ribbonID)
+        public string GetCustomUI(string ribbonId)
         {
             return GetResourceText("AlbumWordAddin.Ribbon.xml");
         }
@@ -46,30 +43,27 @@ namespace AlbumWordAddin
         #region Ribbon Callbacks
         //Create callback methods here. For more information about adding callback methods, visit http://go.microsoft.com/fwlink/?LinkID=271226
 
-        public void Ribbon_Load(Office.IRibbonUI ribbonUI)
+        public void Ribbon_Load(Office.IRibbonUI ribbonUi)
         {
-            ribbon = ribbonUI;
+            _ribbon = ribbonUi;
         }
 
         #endregion
 
         #region Helpers
 
-        private static string GetResourceText(string resourceName)
+        static string GetResourceText(string resourceName)
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            string[] resourceNames = asm.GetManifestResourceNames();
-            for (int i = 0; i < resourceNames.Length; ++i)
+            var asm = Assembly.GetExecutingAssembly();
+            var resourceNames = asm.GetManifestResourceNames();
+            foreach (var t in resourceNames)
             {
-                if (string.Compare(resourceName, resourceNames[i], StringComparison.OrdinalIgnoreCase) == 0)
+                if (string.Compare(resourceName, t, StringComparison.OrdinalIgnoreCase) != 0) continue;
+                var stream = asm.GetManifestResourceStream(t);
+                if (stream == null) continue;
+                using (var resourceReader = new StreamReader(stream))
                 {
-                    using (StreamReader resourceReader = new StreamReader(asm.GetManifestResourceStream(resourceNames[i])))
-                    {
-                        if (resourceReader != null)
-                        {
-                            return resourceReader.ReadToEnd();
-                        }
-                    }
+                    return resourceReader.ReadToEnd();
                 }
             }
             return null;
