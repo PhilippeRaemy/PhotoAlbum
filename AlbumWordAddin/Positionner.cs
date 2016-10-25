@@ -20,8 +20,8 @@ namespace AlbumWordAddin
         public int Cols { get; set; }
         public HShape HShape { get; set; }
         public VShape VShape { get; set; }
-        public int Margin { get; set; }
-        public int Padding { get; set; }
+        public float Margin { get; set; }
+        public float Padding { get; set; }
         public IEnumerable<Rectangle> DoPosition(Rectangle clientArea, IEnumerable<Rectangle> rectangles)
         {
             return from rectangle in DoPosition(rectangles)
