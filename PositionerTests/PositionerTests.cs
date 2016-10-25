@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AlbumWordAddin;
 using System.Linq;
 using MoreLinq;
@@ -9,6 +10,11 @@ namespace PositionerTests
     public class PositionerTests
     {
         static readonly Rectangle Square1X1 = new Rectangle(0, 0, 1, 1);
+
+        IEnumerable<Rectangle> Square1X1S(int count)
+        {
+            return Enumerable.Range(0, count).Select(_=>Square1X1):
+        }
 
         [TestMethod]
         public void TestPositioner_1x1()
@@ -59,13 +65,26 @@ namespace PositionerTests
             expected = expected.Move(1 / 3f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(2).First());
         }
+
         [TestMethod]
         public void TestPositioner_global()
         {
+            var pos = new Positioner { Cols = 3, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Padding = 0 };
+            var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f);
+            TestPositioner_global(Square1X1, Square1X1S(3), pos,
+                new[] {expected, expected.Move(1/3f, 0), expected.Move(2/3f, 0)}, "Three in a row");
         }
-        void TestPositioner_global(Rectangle clientArea, Rectangle[] rectangles, Positioner pos, Rectangle[] expected)
-        {
 
+        static void TestPositioner_global(Rectangle clientArea, IEnumerable<Rectangle> rectangles, Positioner pos, IEnumerable<Rectangle> expected, string label)
+        {
+            var rc = pos.DoPosition(clientArea, rectangles).ToArray();
+            expected = expected.ToArray();
+            Assert.AreEqual(expected.Count(), rc.Length);
+            foreach (var rr in rc.EquiZip(expected,(e,r)=> new {expected=r, results=r})
+                                 .Select((r,i)=>new {i, r.expected, r.results}))
+            {
+                Assert.AreEqual(rr.expected, rr.results, $"{label}:{rr.i}");
+            }
         }
     }
 }
