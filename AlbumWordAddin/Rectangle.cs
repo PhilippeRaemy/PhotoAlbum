@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace AlbumWordAddin
 {
@@ -40,12 +41,16 @@ namespace AlbumWordAddin
             var scale = new[] { other.Width / Width, other.Height / Height }.Min();
             var newWidth  = Width * scale;
             var newHeight = Height * scale;
-            return new Rectangle(
+            var rc=new Rectangle(
                 other.Left + (other.Width - newWidth) * fitLeftPerc,
                 other.Top + (other.Height - newHeight) * fitTopPerc,
                 newWidth,
                 newHeight
-            ).Scale(padding);
+            );
+            if (Math.Abs(padding) < Epsilon ) return rc;
+            if (Math.Abs(padding) >=.5f ) throw new InvalidOperationException("Invalid padding ");
+            return rc.Move(padding, padding)
+                     .Grow(1-2*padding);
         }
 
         public override string ToString()
