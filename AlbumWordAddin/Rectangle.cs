@@ -10,7 +10,7 @@ namespace AlbumWordAddin
         public float Top    { get; }
         public float Width  { get; }
         public float Height { get; }
-        const float Epsilon = .0000001f;
+        const float Epsilon = .000001f;
 
         public Rectangle(float left, float top, float width, float height)
         {
@@ -38,19 +38,19 @@ namespace AlbumWordAddin
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
         public Rectangle FitIn(Rectangle other, float fitTopPerc, float fitLeftPerc, float padding) {
+            if (Math.Abs(padding) > Epsilon)
+            {
+                other=new Rectangle(other.Left + padding, other.Top + padding, other.Width - 2 * padding, other.Height - 2 * padding); ;   
+            }
             var scale = new[] { other.Width / Width, other.Height / Height }.Min();
             var newWidth  = Width * scale;
             var newHeight = Height * scale;
-            var rc=new Rectangle(
+            return new Rectangle(
                 other.Left + (other.Width - newWidth) * fitLeftPerc,
                 other.Top + (other.Height - newHeight) * fitTopPerc,
                 newWidth,
                 newHeight
             );
-            if (Math.Abs(padding) < Epsilon ) return rc;
-            if (Math.Abs(padding) >=.5f ) throw new InvalidOperationException("Invalid padding ");
-            return rc.Move(padding, padding)
-                     .Grow(1-2*padding);
         }
 
         public override string ToString()
