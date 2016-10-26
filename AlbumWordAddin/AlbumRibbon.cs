@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Tools.Ribbon;
+﻿using System.Globalization;
+using Microsoft.Office.Tools.Ribbon;
 
 namespace AlbumWordAddin
 {
@@ -26,32 +27,30 @@ namespace AlbumWordAddin
 
         void buttonSizeToWidest_Click(object sender, RibbonControlEventArgs e)
         {
-
-        }
-
-        void buttonSizeToNarrowset_Click(object sender, RibbonControlEventArgs e)
-        {
-
+            Globals.ThisAddIn.AlignSelectedImages(Alignment.Widest);
         }
 
         void buttonSizeToTallest_Click(object sender, RibbonControlEventArgs e)
         {
-
-        }
-
-        void buttonSizeToSmallest_Click(object sender, RibbonControlEventArgs e)
-        {
-
+            Globals.ThisAddIn.AlignSelectedImages(Alignment.Tallest);
         }
 
         void editBoxSizeWidth_TextChanged(object sender, RibbonControlEventArgs e)
         {
-
+            float f;
+            if (float.TryParse(editBoxSizeWidth.Text, NumberStyles.Float, CultureInfo.CurrentUICulture, out f))
+            {
+                Globals.ThisAddIn.AlignSelectedImages(Alignment.ForceWidth, f);
+            }
         }
 
         void editBoxSizedHeight_TextChanged(object sender, RibbonControlEventArgs e)
         {
-
+            float f;
+            if (float.TryParse(editBoxSizeWidth.Text, NumberStyles.Float, CultureInfo.CurrentUICulture, out f))
+            {
+                Globals.ThisAddIn.AlignSelectedImages(Alignment.ForceHeight, f);
+            }
         }
 
         void buttonBestFit_Click(object sender, RibbonControlEventArgs e)
@@ -89,9 +88,14 @@ namespace AlbumWordAddin
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Right);
         }
 
-        void buttonSizeToWidest_Click_1(object sender, RibbonControlEventArgs e)
+        private void buttonSizeToNarrowest_Click(object sender, RibbonControlEventArgs e)
         {
+            Globals.ThisAddIn.AlignSelectedImages(Alignment.Narrowest);
+        }
 
+        private void buttonSizeToShortest_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.AlignSelectedImages(Alignment.Shortest);
         }
     }
 }

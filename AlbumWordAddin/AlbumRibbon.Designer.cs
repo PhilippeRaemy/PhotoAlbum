@@ -35,11 +35,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            var resources = new System.ComponentModel.ComponentResourceManager(typeof(AlbumRibbon));
-            var ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
-            var ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
-            var ribbonDropDownItemImpl3 = this.Factory.CreateRibbonDropDownItem();
-            var ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlbumRibbon));
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl3 = this.Factory.CreateRibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             this.TabAddIns = this.Factory.CreateRibbonTab();
             this.groupPage = this.Factory.CreateRibbonGroup();
             this.ButtonRemoveEmptyPages = this.Factory.CreateRibbonButton();
@@ -67,14 +67,14 @@
             this.buttonBestFit = this.Factory.CreateRibbonButton();
             this.dropDownPadding = this.Factory.CreateRibbonDropDown();
             this.groupArrange = this.Factory.CreateRibbonGroup();
-            this.box3 = this.Factory.CreateRibbonBox();
-            this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
             this.box4 = this.Factory.CreateRibbonBox();
             this.buttonArrangeLV = this.Factory.CreateRibbonButton();
             this.buttonArrangeRV = this.Factory.CreateRibbonButton();
             this.buttonArrangeSq = this.Factory.CreateRibbonButton();
             this.buttonArrangeRH = this.Factory.CreateRibbonButton();
             this.buttonArrangeH = this.Factory.CreateRibbonButton();
+            this.box3 = this.Factory.CreateRibbonBox();
+            this.toggleButton1 = this.Factory.CreateRibbonToggleButton();
             this.TabAddIns.SuspendLayout();
             this.groupPage.SuspendLayout();
             this.groupAlign.SuspendLayout();
@@ -85,8 +85,8 @@
             this.box1.SuspendLayout();
             this.box2.SuspendLayout();
             this.groupArrange.SuspendLayout();
-            this.box3.SuspendLayout();
             this.box4.SuspendLayout();
+            this.box3.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabAddIns
@@ -221,7 +221,7 @@
             this.buttonSizeToWidest.Name = "buttonSizeToWidest";
             this.buttonSizeToWidest.OfficeImageId = "SizeToWidest";
             this.buttonSizeToWidest.ShowImage = true;
-            this.buttonSizeToWidest.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSizeToWidest_Click_1);
+            this.buttonSizeToWidest.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSizeToWidest_Click);
             // 
             // buttonSizeToNarrowest
             // 
@@ -229,6 +229,7 @@
             this.buttonSizeToNarrowest.Name = "buttonSizeToNarrowest";
             this.buttonSizeToNarrowest.OfficeImageId = "SizeToNarrowest";
             this.buttonSizeToNarrowest.ShowImage = true;
+            this.buttonSizeToNarrowest.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSizeToNarrowest_Click);
             // 
             // buttonSizeToShortest
             // 
@@ -236,6 +237,7 @@
             this.buttonSizeToShortest.Name = "buttonSizeToShortest";
             this.buttonSizeToShortest.OfficeImageId = "SizeToShortest";
             this.buttonSizeToShortest.ShowImage = true;
+            this.buttonSizeToShortest.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSizeToShortest_Click);
             // 
             // buttonSizeToTallest
             // 
@@ -243,6 +245,7 @@
             this.buttonSizeToTallest.Name = "buttonSizeToTallest";
             this.buttonSizeToTallest.OfficeImageId = "SizeToTallest";
             this.buttonSizeToTallest.ShowImage = true;
+            this.buttonSizeToTallest.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSizeToTallest_Click);
             // 
             // box1
             // 
@@ -295,17 +298,6 @@
             this.groupArrange.Label = "Arrange";
             this.groupArrange.Name = "groupArrange";
             // 
-            // box3
-            // 
-            this.box3.Items.Add(this.toggleButton1);
-            this.box3.Name = "box3";
-            // 
-            // toggleButton1
-            // 
-            this.toggleButton1.Label = "o";
-            this.toggleButton1.Name = "toggleButton1";
-            this.toggleButton1.ShowImage = true;
-            // 
             // box4
             // 
             this.box4.Items.Add(this.buttonArrangeLV);
@@ -320,35 +312,56 @@
             this.buttonArrangeLV.Image = global::AlbumWordAddin.Properties.Resources.Pict_3x1;
             this.buttonArrangeLV.Label = "";
             this.buttonArrangeLV.Name = "buttonArrangeLV";
+            this.buttonArrangeLV.ScreenTip = "Position selected images in a single column";
             this.buttonArrangeLV.ShowImage = true;
+            this.buttonArrangeLV.ShowLabel = false;
             // 
             // buttonArrangeRV
             // 
             this.buttonArrangeRV.Image = global::AlbumWordAddin.Properties.Resources.Pict_3x2;
             this.buttonArrangeRV.Label = "";
             this.buttonArrangeRV.Name = "buttonArrangeRV";
+            this.buttonArrangeRV.ScreenTip = "Position selected images a rectangular manner, fit to many lanscape picturess";
             this.buttonArrangeRV.ShowImage = true;
+            this.buttonArrangeRV.ShowLabel = false;
             // 
             // buttonArrangeSq
             // 
             this.buttonArrangeSq.Image = global::AlbumWordAddin.Properties.Resources.Pict_2x2;
             this.buttonArrangeSq.Label = "";
             this.buttonArrangeSq.Name = "buttonArrangeSq";
+            this.buttonArrangeSq.ScreenTip = "Position selected images a square manner.";
             this.buttonArrangeSq.ShowImage = true;
+            this.buttonArrangeSq.ShowLabel = false;
             // 
             // buttonArrangeRH
             // 
             this.buttonArrangeRH.Image = global::AlbumWordAddin.Properties.Resources.Pict_2x3;
             this.buttonArrangeRH.Label = "";
             this.buttonArrangeRH.Name = "buttonArrangeRH";
+            this.buttonArrangeRH.ScreenTip = "Position selected images a rectangular manner, fit to many portrait pictures.";
             this.buttonArrangeRH.ShowImage = true;
+            this.buttonArrangeRH.ShowLabel = false;
             // 
             // buttonArrangeH
             // 
             this.buttonArrangeH.Image = global::AlbumWordAddin.Properties.Resources.Pict_1x3;
             this.buttonArrangeH.Label = "";
             this.buttonArrangeH.Name = "buttonArrangeH";
+            this.buttonArrangeH.ScreenTip = "Position selected images in a single row";
             this.buttonArrangeH.ShowImage = true;
+            this.buttonArrangeH.ShowLabel = false;
+            // 
+            // box3
+            // 
+            this.box3.Items.Add(this.toggleButton1);
+            this.box3.Name = "box3";
+            // 
+            // toggleButton1
+            // 
+            this.toggleButton1.Label = "o";
+            this.toggleButton1.Name = "toggleButton1";
+            this.toggleButton1.ShowImage = true;
             // 
             // AlbumRibbon
             // 
@@ -376,10 +389,10 @@
             this.box2.PerformLayout();
             this.groupArrange.ResumeLayout(false);
             this.groupArrange.PerformLayout();
-            this.box3.ResumeLayout(false);
-            this.box3.PerformLayout();
             this.box4.ResumeLayout(false);
             this.box4.PerformLayout();
+            this.box3.ResumeLayout(false);
+            this.box3.PerformLayout();
             this.ResumeLayout(false);
 
         }

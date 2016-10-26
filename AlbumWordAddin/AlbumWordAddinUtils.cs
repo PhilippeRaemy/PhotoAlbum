@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Tools.Word;
@@ -20,7 +21,13 @@ namespace AlbumWordAddin
         Bottom,
         Left,
         Center,
-        Right
+        Right,
+        Narrowest,
+        Shortest,
+        Tallest,
+        Widest,
+        ForceWidth,
+        ForceHeight
     }
 
     [ComVisible(true)]
@@ -28,7 +35,7 @@ namespace AlbumWordAddin
     {
         void RemoveEmptyPages();
         void SelectShapesOnPage();
-        void AlignSelectedImages(Alignment alignment);
+        void AlignSelectedImages(Alignment alignment, float forcedValue);
     }
 
     [ComVisible(true)]
@@ -76,8 +83,12 @@ namespace AlbumWordAddin
                         );
             shapesOnPage.ForEach(s => s.Select(Replace: false));
         }
-
-        public void  AlignSelectedImages(Alignment alignment)
+        /// <summary>
+        /// Aligns the selected images according to the passl Alignment enum.
+        /// </summary>
+        /// <param name="alignment"></param>
+        /// <param name="forced">Used only for some forced alignment behaviors such as ForcedWidth or ForcedHeight</param>
+        public void  AlignSelectedImages(Alignment alignment, float forced)
         {
             using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
             {
@@ -122,6 +133,44 @@ namespace AlbumWordAddin
                             shapes.ForEach(shp => shp.Top = pos - shp.Width);
                         }
                         break;
+                    case Alignment.Narrowest:
+                        {
+                            var pos = shapes.Min(shp => shp.Width);
+                            shapes.ForEach(shp => shp.Width = pos);
+                        }
+                        break;
+                    case Alignment.Shortest:
+                        {
+                            var pos = shapes.Min(shp => shp.Height);
+                            shapes.ForEach(shp => shp.Height = pos);
+                        }
+                        break;
+                    case Alignment.Tallest:
+                        {
+                            var pos = shapes.Max(shp => shp.Height);
+                            shapes.ForEach(shp => shp.Height = pos);
+                        }
+                        break;
+                    case Alignment.Widest:
+                        {
+                            var pos = shapes.Max(shp => shp.Width);
+                            shapes.ForEach(shp => shp.Width = pos);
+                        }
+                        break;
+                    case Alignment.ForceWidth:
+                        if(!float.IsNaN(forced) && forced>0)
+                        {
+                            shapes.ForEach(shp => shp.Width = forced);
+                        }
+                        break;
+                    case Alignment.ForceHeight:
+                        if (!float.IsNaN(forced) && forced > 0)
+                        {
+                            shapes.ForEach(shp => shp.Height = forced);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
                 }
             }
         }
