@@ -22,15 +22,11 @@ namespace AlbumWordAddin
         public VShape VShape { get; set; }
         public float Margin { get; set; }
         public float Padding { get; set; }
+
         public IEnumerable<Rectangle> DoPosition(Rectangle clientArea, IEnumerable<Rectangle> rectangles)
         {
-            return from rectangle in DoPosition(rectangles)
-                   select rectangle.Scale(clientArea.Width, clientArea.Height);
-        }
-        public IEnumerable<Rectangle> DoPosition(IEnumerable<Rectangle> rectangles)
-        {
-            var scaleX = 1f / Cols;
-            var scaleY = 1f / Rows;
+            var scaleX = clientArea.Width / Cols;
+            var scaleY = clientArea.Height / Rows;
             var shaperH = ShaperH(HShape, Rows, Cols);
             var shaperV = ShaperV(VShape, Rows, Cols);
             var grid = Enumerable.Range(0, Rows)

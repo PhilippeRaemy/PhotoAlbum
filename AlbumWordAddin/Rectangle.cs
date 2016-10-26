@@ -54,7 +54,7 @@ namespace AlbumWordAddin
         }
 
         public override string ToString()
-            => $"[{Left}..{Left + Width},{Top}..{Top + Height}, ({Width}x{Height})";
+            => $"[{Left},{Top}]..[{Left + Width},{Top + Height}] ({Width}x{Height})";
 
         public override bool Equals(object obj)
         {
