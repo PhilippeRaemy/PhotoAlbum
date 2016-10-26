@@ -37,7 +37,7 @@ namespace AlbumWordAddin
         public Rectangle Scale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
-        public Rectangle FitIn(Rectangle other, float fitTopPerc, float fitLeftPerc, float padding) {
+        public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float padding) {
             if (Math.Abs(padding) > Epsilon)
             {
                 other=new Rectangle(other.Left + padding, other.Top + padding, other.Width - 2 * padding, other.Height - 2 * padding); ;   
