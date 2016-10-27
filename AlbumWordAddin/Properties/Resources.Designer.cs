@@ -39,7 +39,7 @@ namespace AlbumWordAddin.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    var temp = new global::System.Resources.ResourceManager("AlbumWordAddin.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlbumWordAddin.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,79 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap HAlignBendLeft {
+            get {
+                object obj = ResourceManager.GetObject("HAlignBendLeft", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HAlignBendRight {
+            get {
+                object obj = ResourceManager.GetObject("HAlignBendRight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HAlignFlat {
+            get {
+                object obj = ResourceManager.GetObject("HAlignFlat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HAlignLeft {
+            get {
+                object obj = ResourceManager.GetObject("HAlignLeft", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HAlignRight {
+            get {
+                object obj = ResourceManager.GetObject("HAlignRight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HAlignRightDown {
+            get {
+                object obj = ResourceManager.GetObject("HAlignRightDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HAlignRightUp {
+            get {
+                object obj = ResourceManager.GetObject("HAlignRightUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pict_1x1 {
             get {
-                var obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +145,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x2 {
             get {
-                var obj = ResourceManager.GetObject("Pict_1x2", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_1x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +155,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x3 {
             get {
-                var obj = ResourceManager.GetObject("Pict_1x3", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_1x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +165,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x4 {
             get {
-                var obj = ResourceManager.GetObject("Pict_1x4", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_1x4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +175,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_2x2 {
             get {
-                var obj = ResourceManager.GetObject("Pict_2x2", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_2x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +185,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_2x3 {
             get {
-                var obj = ResourceManager.GetObject("Pict_2x3", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_2x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +195,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x1 {
             get {
-                var obj = ResourceManager.GetObject("Pict_3x1", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_3x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +205,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x2 {
             get {
-                var obj = ResourceManager.GetObject("Pict_3x2", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_3x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +215,77 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x3 {
             get {
-                var obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
+                object obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignBendBottom {
+            get {
+                object obj = ResourceManager.GetObject("VAlignBendBottom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignBendTop {
+            get {
+                object obj = ResourceManager.GetObject("VAlignBendTop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignBottom {
+            get {
+                object obj = ResourceManager.GetObject("VAlignBottom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignFlat {
+            get {
+                object obj = ResourceManager.GetObject("VAlignFlat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignRightDown {
+            get {
+                object obj = ResourceManager.GetObject("VAlignRightDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignRightUp {
+            get {
+                object obj = ResourceManager.GetObject("VAlignRightUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAlignTop {
+            get {
+                object obj = ResourceManager.GetObject("VAlignTop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

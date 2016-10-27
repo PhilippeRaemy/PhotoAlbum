@@ -118,6 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="HAlignBendLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignBendLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HAlignBendRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignBendRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HAlignFlat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignFlat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HAlignLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HAlignRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HAlignRightDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HAlignRightUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\HAlignRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Pict_1x1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\pict_1x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -144,5 +165,26 @@
   </data>
   <data name="Pict_3x3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\pict_3x3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignBendBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignBendBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignBendTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignBendTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignBottom" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignBottom.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignFlat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignFlat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignRightDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignRightUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAlignTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\VAlignTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

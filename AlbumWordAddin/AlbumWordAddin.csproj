@@ -248,6 +248,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Icons\VAlignTop.png" />
+    <None Include="Icons\VAlignRightUp.png" />
+    <None Include="Icons\VAlignRightDown.png" />
+    <None Include="Icons\VAlignFlat.png" />
+    <None Include="Icons\VAlignBottom.png" />
+    <None Include="Icons\VAlignBendTop.png" />
+    <None Include="Icons\VAlignBendBottom.png" />
+    <None Include="Icons\HAlignBendLeft.png" />
+    <None Include="Icons\HAlignBendRight.png" />
+    <None Include="Icons\HAlignFlat.png" />
+    <None Include="Icons\HAlignLeft.png" />
+    <None Include="Icons\HAlignRight.png" />
+    <None Include="Icons\HAlignRightDown.png" />
+    <None Include="Icons\HAlignRightUp.png" />
     <Content Include="Icons\Pict_1x1.PNG" />
     <Content Include="Icons\Pict_1x2.PNG" />
     <Content Include="Icons\Pict_1x3.PNG" />
