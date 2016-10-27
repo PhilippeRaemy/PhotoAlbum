@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Microsoft.Office.Tools.Ribbon;
 
 namespace AlbumWordAddin
@@ -119,6 +120,34 @@ namespace AlbumWordAddin
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
+        {
+            var ribbonButton = sender as RibbonButton;
+            if (ribbonButton == null) throw new InvalidOperationException();
+            mnuHAlign.Image = ribbonButton.Image;
+            mnuHAlign.Tag = ribbonButton.Id;
+            mnuHAlign_Click(sender, e);
+        }
+
+        void MenuItemVAlign_Click(object sender, RibbonControlEventArgs e)
+        {
+            var ribbonButton = sender as RibbonButton;
+            if (ribbonButton == null) throw new InvalidOperationException();
+            mnuVAlign.Image = ribbonButton.Image;
+            mnuVAlign.Tag = ribbonButton.Id;
+            mnuVAlign_Click(sender, e);
+        }
+
+        void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
         {
 
         }
