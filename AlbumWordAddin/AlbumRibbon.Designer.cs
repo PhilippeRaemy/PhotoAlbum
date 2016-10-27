@@ -315,6 +315,7 @@
             this.buttonArrangeLV.ScreenTip = "Position selected images in a single column";
             this.buttonArrangeLV.ShowImage = true;
             this.buttonArrangeLV.ShowLabel = false;
+            this.buttonArrangeLV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeLV_Click);
             // 
             // buttonArrangeRV
             // 
@@ -324,6 +325,7 @@
             this.buttonArrangeRV.ScreenTip = "Position selected images a rectangular manner, fit to many lanscape picturess";
             this.buttonArrangeRV.ShowImage = true;
             this.buttonArrangeRV.ShowLabel = false;
+            this.buttonArrangeRV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeRV_Click);
             // 
             // buttonArrangeSq
             // 
@@ -333,6 +335,7 @@
             this.buttonArrangeSq.ScreenTip = "Position selected images a square manner.";
             this.buttonArrangeSq.ShowImage = true;
             this.buttonArrangeSq.ShowLabel = false;
+            this.buttonArrangeSq.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeSq_Click);
             // 
             // buttonArrangeRH
             // 
@@ -342,6 +345,7 @@
             this.buttonArrangeRH.ScreenTip = "Position selected images a rectangular manner, fit to many portrait pictures.";
             this.buttonArrangeRH.ShowImage = true;
             this.buttonArrangeRH.ShowLabel = false;
+            this.buttonArrangeRH.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeRH_Click);
             // 
             // buttonArrangeH
             // 
@@ -351,6 +355,7 @@
             this.buttonArrangeH.ScreenTip = "Position selected images in a single row";
             this.buttonArrangeH.ShowImage = true;
             this.buttonArrangeH.ShowLabel = false;
+            this.buttonArrangeH.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeH_Click);
             // 
             // box3
             // 

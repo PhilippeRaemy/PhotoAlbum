@@ -44,6 +44,7 @@ namespace AlbumWordAddin
     {
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         Word.Selection Selection => ActiveDocument.Application.Selection;
+        IEnumerable<Word.Shape> SelectedShapes() => Selection.ShapeRange.Cast<Word.Shape>();
 
         public void RemoveEmptyPages()
         {
@@ -93,7 +94,7 @@ namespace AlbumWordAddin
             using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
-                var shapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();
+                var shapes = SelectedShapes().ToArray();
                 if (shapes.Length<2) return;
                 switch (alignment)
                 {
@@ -180,7 +181,7 @@ namespace AlbumWordAddin
             using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
-                var shapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();
+                var shapes = SelectedShapes().ToArray();
                 if (!shapes.Any()) return;
                 var paragraphsByPage =
                     doc.Paragraphs.Cast<Word.Paragraph>()
@@ -199,7 +200,7 @@ namespace AlbumWordAddin
                         Selection.Cut();
                         kvp.Value.Range.Select();
                         Selection.Paste();
-                        var sh = Selection.ShapeRange.Cast<Word.Shape>().FirstOrDefault();
+                        var sh = SelectedShapes().FirstOrDefault();
                         if (sh != null)
                         {
                             newShapes.Add(sh);

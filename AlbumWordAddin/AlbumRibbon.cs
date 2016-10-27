@@ -88,14 +88,39 @@ namespace AlbumWordAddin
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Right);
         }
 
-        private void buttonSizeToNarrowest_Click(object sender, RibbonControlEventArgs e)
+        void buttonSizeToNarrowest_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Narrowest);
         }
 
-        private void buttonSizeToShortest_Click(object sender, RibbonControlEventArgs e)
+        void buttonSizeToShortest_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Shortest);
+        }
+
+        void buttonArrangeLV_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
+        {
+
         }
     }
 }
