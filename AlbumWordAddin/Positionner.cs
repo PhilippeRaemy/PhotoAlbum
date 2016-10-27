@@ -8,11 +8,11 @@ namespace AlbumWordAddin
 {
     public enum VShape
     {
-        Flat, Top, Bottom, Rightdown, Rightup, Bendright, Bendleft
+        Flat, Top, Bottom, Rightdown, Rightup, Bendup, Benddown
     }
     public enum HShape
     {
-        Flat, Left, Right, Rightdown, Rightup, Bendup, Benddown
+        Flat, Left, Right, Rightdown, Rightup, Bendright, Bendleft
     }
     public class Positioner
     {
@@ -53,8 +53,8 @@ namespace AlbumWordAddin
                 case HShape.Right    : return (_, __) => 1F;
                 case HShape.Rightdown: return (_, c) => 1 - c / ((float)cols - 1);
                 case HShape.Rightup  : return (_, c) => c / ((float)cols - 1);
-                case HShape.Benddown : 
-                case HShape.Bendup   :
+                case HShape.Bendleft :
+                case HShape.Bendright:
                 default:
                     throw new NotImplementedException($"Invalid ShaperH value {hShape}");
             }
@@ -70,8 +70,8 @@ namespace AlbumWordAddin
                 case VShape.Bottom   : return (_, __) => 1F;
                 case VShape.Rightdown: return (r, _) => 1 - r / ((float)rows - 1);
                 case VShape.Rightup  : return (r, _) => r / ((float)rows - 1);
-                case VShape.Bendleft:
-                case VShape.Bendright:
+                case VShape.Benddown :
+                case VShape.Bendup   :
                 default:
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }
