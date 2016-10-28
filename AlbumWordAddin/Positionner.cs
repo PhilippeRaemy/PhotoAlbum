@@ -14,23 +14,47 @@ namespace AlbumWordAddin
     {
         Flat, Left, Right, Rightdown, Rightup, Bendright, Bendleft
     }
-    public class Positioner
+    public static class Positioner
     {
-        public int Rows { get; set; }
-        public int Cols { get; set; }
-        public HShape HShape { get; set; }
-        public VShape VShape { get; set; }
-        public float Margin { get; set; }
-        public float Padding { get; set; }
-
-        public IEnumerable<Rectangle> DoPosition(Rectangle clientArea, IEnumerable<Rectangle> rectangles)
+        public class Parms
         {
-            var scaleX = clientArea.Width / Cols;
-            var scaleY = clientArea.Height / Rows;
-            var shaperH = ShaperH(HShape, Rows, Cols);
-            var shaperV = ShaperV(VShape, Rows, Cols);
-            var grid = Enumerable.Range(0, Rows)
-                .SelectMany(r => Enumerable.Range(0, Cols)
+            public int Rows         { get; set; }
+            public int Cols         { get; set; }
+            public HShape HShape    { get; set; }
+            public VShape VShape    { get; set; }
+            public float Margin     { get; set; }
+            public float Padding    { get; set; }
+        }
+
+        public static IEnumerable<Rectangle> DoPosition(Parms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
+        {
+            return DoPosition(
+                parms.Rows,
+                parms.Cols,
+                parms.HShape,
+                parms.VShape,
+                parms.Margin,
+                parms.Padding,
+                clientArea,
+                rectangles
+                );
+        }
+
+        public static IEnumerable<Rectangle> DoPosition(
+            int rows,
+            int cols,
+            HShape hShape,
+            VShape vShape,
+            float margin,
+            float padding,
+            Rectangle clientArea, IEnumerable<Rectangle> rectangles)
+        {
+            var scaleX = clientArea.Width / cols;
+            var scaleY = clientArea.Height / rows;
+            var shaperH = ShaperH(hShape, rows, cols);
+            var shaperV = ShaperV(vShape, rows, cols);
+            var grid = Enumerable.Range(0, rows)
+                .SelectMany(r => Enumerable.Range(0, cols)
                     .Select(c => new {
                         area = new Rectangle(c * scaleX, r * scaleY, scaleX, scaleY),
                         hShape = shaperH(r, c),
@@ -39,7 +63,7 @@ namespace AlbumWordAddin
             return grid
                 .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
-                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, Padding))
+                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, padding))
             ;
         }
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
