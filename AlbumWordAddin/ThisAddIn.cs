@@ -87,6 +87,9 @@ namespace AlbumWordAddin
 
         #endregion
 
-
+        public void DoPositionSelectedImages(string hAlign=null, string vAlign = null)
+        {
+            _utilities.DoPositionSelectedImages(hAlign, vAlign);
+        }
     }
 }

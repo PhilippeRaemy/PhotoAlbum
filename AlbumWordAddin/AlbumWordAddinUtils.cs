@@ -213,5 +213,16 @@ namespace AlbumWordAddin
 
         }
 
+        public void DoPositionSelectedImages(string hAlign, string vAlign)
+        {
+            var shapes = MoveAllToSamePage(SelectedShapes());
+
+        }
+
+        static IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
+        {
+
+            return selectedShapes;
+        }
     }
 }

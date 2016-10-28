@@ -124,11 +124,6 @@ namespace AlbumWordAddin
 
         }
 
-        void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
-        {
-
-        }
-
         void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
         {
             var ribbonButton = sender as RibbonButton;
@@ -147,9 +142,14 @@ namespace AlbumWordAddin
             mnuVAlign_Click(sender, e);
         }
 
+        void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.DoPositionSelectedImages(hAlign: (string)mnuHAlign.Tag);
+        }
+
         void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.DoPositionSelectedImages(vAlign: (string)mnuVAlign.Tag);
         }
     }
 }
