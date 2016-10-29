@@ -151,5 +151,69 @@ namespace AlbumWordAddin
         {
             Globals.ThisAddIn.DoPositionSelectedImages(vAlign: (string)mnuVAlign.Tag);
         }
+
+        void buttonPaddingLess_Click(object sender, RibbonControlEventArgs e)
+        {
+            dropDownPadding_Change(sender, e, -1);
+        }
+
+        void buttonPaddingMore_Click(object sender, RibbonControlEventArgs e)
+        {
+            dropDownPadding_Change(sender, e, +1);
+        }
+
+        void dropDownPadding_Change(object sender, RibbonControlEventArgs e, int i)
+        {
+            try
+            {
+                dropDownPadding.SelectedItemIndex += i;
+            }
+            catch
+            {
+                // ignored : we're top or bottom of possible solutions and i would lead out of range...
+            }
+        }
+
+        void dropDownPadding_ButtonClick(object sender, RibbonControlEventArgs e)
+        {
+        }
+
+        void dropDownPadding_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            dropDownPadding_ButtonClick(sender, e);
+        }
+
+        void dropDownMargin_ButtonClick(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void dropDownMargin_SelectionChanged(object sender, RibbonControlEventArgs e)
+        {
+            dropDownMargin_ButtonClick(sender, e);
+        }
+
+        void buttonMarginLess_Click(object sender, RibbonControlEventArgs e)
+        {
+            dropDownMargin_Change(sender, e, -1);
+        }
+
+        void buttonMarginMore_Click(object sender, RibbonControlEventArgs e)
+        {
+            dropDownMargin_Change(sender, e, +1);
+        }
+        void dropDownMargin_Change(object sender, RibbonControlEventArgs e, int i)
+        {
+            try
+            {
+                dropDownMargin.SelectedItemIndex += i;
+            }
+            catch
+            {
+                // ignored : we're top or bottom of possible solutions and i would lead out of range...
+            }
+        }
+
+
     }
 }
