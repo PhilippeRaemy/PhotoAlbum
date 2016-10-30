@@ -191,6 +191,9 @@
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </Compile>
     <Compile Include="AlbumWordAddinUtils.cs" />
+    <Compile Include="Alignment.cs" />
+    <Compile Include="Arrangement.cs" />
+    <Compile Include="IAlbumWordAddinUtils.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

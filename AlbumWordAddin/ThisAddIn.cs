@@ -91,5 +91,10 @@ namespace AlbumWordAddin
         {
             _utilities.DoPositionSelectedImages(hAlign, vAlign);
         }
+
+        public void ArrangeSelectedImages(Arrangement arrangement)
+        {
+            _utilities.DoPositionSelectedImages(arrangement);
+        }
     }
 }

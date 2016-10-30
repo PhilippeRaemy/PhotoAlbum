@@ -14,34 +14,10 @@ using stdole;
 namespace AlbumWordAddin
 {
     [ComVisible(true)]
-    public enum Alignment
-    {
-        Top,
-        Middle,
-        Bottom,
-        Left,
-        Center,
-        Right,
-        Narrowest,
-        Shortest,
-        Tallest,
-        Widest,
-        ForceWidth,
-        ForceHeight
-    }
-
-    [ComVisible(true)]
-    public interface IAlbumWordAddinUtils
-    {
-        void RemoveEmptyPages();
-        void SelectShapesOnPage();
-        void AlignSelectedImages(Alignment alignment, float forcedValue);
-    }
-
-    [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     public class AlbumWordAddinUtils : IAlbumWordAddinUtils, IDispatch
     {
+        readonly Positioner.Parms _positionerParms = new Positioner.Parms();
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         Word.Selection Selection => ActiveDocument.Application.Selection;
         IEnumerable<Word.Shape> SelectedShapes() => Selection.ShapeRange.Cast<Word.Shape>();
@@ -52,20 +28,22 @@ namespace AlbumWordAddin
             {
 
                 var paragraphsToBeDeleted = ActiveDocument.Paragraphs.Cast<Word.Paragraph>()
-                .Select(p => new
-                    {
-                        Paragraph = p,
-                        PageNumber = p.Range.GetPageNumber(),
-                        IsEmpty = p.Range.ShapeRange.Count == 0
-                                && string.IsNullOrWhiteSpace(Regex.Replace(p.Range.Text, @"\x12\x09", string.Empty))
-                    }
-                )
-                .GroupBy(p => p.PageNumber)
-                .Where(g => g.All(p => p.IsEmpty))
-                .OrderByDescending(g => g.Key)
-                .SelectMany(g => g.Select(gg => gg.Paragraph))
-                .ToList()
-                ;
+                        .Select(p => new
+                            {
+                                Paragraph = p,
+                                PageNumber = p.Range.GetPageNumber(),
+                                IsEmpty = p.Range.ShapeRange.Count == 0
+                                          &&
+                                          string.IsNullOrWhiteSpace(Regex.Replace(p.Range.Text, @"\x12\x09",
+                                              string.Empty))
+                            }
+                        )
+                        .GroupBy(p => p.PageNumber)
+                        .Where(g => g.All(p => p.IsEmpty))
+                        .OrderByDescending(g => g.Key)
+                        .SelectMany(g => g.Select(gg => gg.Paragraph))
+                        .ToList()
+                    ;
                 foreach (var paragraph in paragraphsToBeDeleted)
                 {
                     paragraph.Range.Delete();
@@ -79,87 +57,88 @@ namespace AlbumWordAddin
             var pageNumber = Selection.GetPageNumber();
             var shapesOnPage = doc.Shapes.Cast<Word.Shape>()
                 .Where(s => (s.Type == Office.MsoShapeType.msoLinkedPicture
-                           || s.Type == Office.MsoShapeType.msoPicture
-                           ) && s.Anchor.GetPageNumber() == pageNumber
-                        );
+                             || s.Type == Office.MsoShapeType.msoPicture
+                            ) && s.Anchor.GetPageNumber() == pageNumber
+                );
             shapesOnPage.ForEach(s => s.Select(Replace: false));
         }
+
         /// <summary>
         /// Aligns the selected images according to the passl Alignment enum.
         /// </summary>
         /// <param name="alignment"></param>
         /// <param name="forced">Used only for some forced alignment behaviors such as ForcedWidth or ForcedHeight</param>
-        public void  AlignSelectedImages(Alignment alignment, float forced)
+        public void AlignSelectedImages(Alignment alignment, float forced)
         {
             using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
                 var shapes = SelectedShapes().ToArray();
-                if (shapes.Length<2) return;
+                if (shapes.Length < 2) return;
                 switch (alignment)
                 {
                     case Alignment.Top:
-                        {
-                            var pos = shapes.Min(shp => shp.Top);
-                            shapes.ForEach(shp => shp.Top = pos);
-                        }
+                    {
+                        var pos = shapes.Min(shp => shp.Top);
+                        shapes.ForEach(shp => shp.Top = pos);
+                    }
                         break;
                     case Alignment.Middle:
-                        {
-                            var pos = shapes.Average(shp => shp.Top + shp.Height / 2);
-                            shapes.ForEach(shp => shp.Top = pos - shp.Height / 2);
-                        }
+                    {
+                        var pos = shapes.Average(shp => shp.Top + shp.Height/2);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Height/2);
+                    }
                         break;
                     case Alignment.Bottom:
-                        {
-                            var pos = shapes.Max(shp => shp.Top + shp.Height);
-                            shapes.ForEach(shp => shp.Top = pos - shp.Height);
-                        }
+                    {
+                        var pos = shapes.Max(shp => shp.Top + shp.Height);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Height);
+                    }
                         break;
                     case Alignment.Left:
-                        {
-                            var pos = shapes.Min(shp => shp.Left);
-                            shapes.ForEach(shp => shp.Left = pos);
-                        }
+                    {
+                        var pos = shapes.Min(shp => shp.Left);
+                        shapes.ForEach(shp => shp.Left = pos);
+                    }
                         break;
                     case Alignment.Center:
-                        {
-                            var pos = shapes.Average(shp => shp.Left + shp.Width / 2);
-                            shapes.ForEach(shp => shp.Top = pos - shp.Width/ 2);
-                        }
+                    {
+                        var pos = shapes.Average(shp => shp.Left + shp.Width/2);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Width/2);
+                    }
                         break;
                     case Alignment.Right:
-                        {
-                            var pos = shapes.Max(shp => shp.Left + shp.Width);
-                            shapes.ForEach(shp => shp.Top = pos - shp.Width);
-                        }
+                    {
+                        var pos = shapes.Max(shp => shp.Left + shp.Width);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Width);
+                    }
                         break;
                     case Alignment.Narrowest:
-                        {
-                            var pos = shapes.Min(shp => shp.Width);
-                            shapes.ForEach(shp => shp.Width = pos);
-                        }
+                    {
+                        var pos = shapes.Min(shp => shp.Width);
+                        shapes.ForEach(shp => shp.Width = pos);
+                    }
                         break;
                     case Alignment.Shortest:
-                        {
-                            var pos = shapes.Min(shp => shp.Height);
-                            shapes.ForEach(shp => shp.Height = pos);
-                        }
+                    {
+                        var pos = shapes.Min(shp => shp.Height);
+                        shapes.ForEach(shp => shp.Height = pos);
+                    }
                         break;
                     case Alignment.Tallest:
-                        {
-                            var pos = shapes.Max(shp => shp.Height);
-                            shapes.ForEach(shp => shp.Height = pos);
-                        }
+                    {
+                        var pos = shapes.Max(shp => shp.Height);
+                        shapes.ForEach(shp => shp.Height = pos);
+                    }
                         break;
                     case Alignment.Widest:
-                        {
-                            var pos = shapes.Max(shp => shp.Width);
-                            shapes.ForEach(shp => shp.Width = pos);
-                        }
+                    {
+                        var pos = shapes.Max(shp => shp.Width);
+                        shapes.ForEach(shp => shp.Width = pos);
+                    }
                         break;
                     case Alignment.ForceWidth:
-                        if(!float.IsNaN(forced) && forced>0)
+                        if (!float.IsNaN(forced) && forced > 0)
                         {
                             shapes.ForEach(shp => shp.Width = forced);
                         }
@@ -185,8 +164,8 @@ namespace AlbumWordAddin
                 if (!shapes.Any()) return;
                 var paragraphsByPage =
                     doc.Paragraphs.Cast<Word.Paragraph>()
-                       .GroupBy(p => p.Range.GetPageNumber())
-                       .ToArray();
+                        .GroupBy(p => p.Range.GetPageNumber())
+                        .ToArray();
                 var bestAnchors =
                     shapes
                         .Select(sh => sh.AsKeyTo(paragraphsByPage.First(p => p.Key == sh.GetPageNumber()).First()));
@@ -213,16 +192,70 @@ namespace AlbumWordAddin
 
         }
 
-        public void DoPositionSelectedImages(string hAlign, string vAlign)
+        internal void DoPositionSelectedImages(Arrangement arrangement)
+        {
+            var shapesCount = SelectedShapes().Count();
+            switch (arrangement)
+            {
+                case Arrangement.LineVertical:
+                    _positionerParms.Rows = shapesCount;
+                    _positionerParms.Cols = 1;
+                    break;
+                case Arrangement.RectangleVertical:
+                {
+                    var tup = EuristicArrangeRectangle(shapesCount);
+                    _positionerParms.Rows = tup.Item2;
+                    _positionerParms.Cols = tup.Item1;
+                }
+                    break;
+                case Arrangement.Square:
+                    _positionerParms.Rows = _positionerParms.Cols = (int) Math.Floor(Math.Sqrt(shapesCount)) + 1;
+                    break;
+                case Arrangement.RectangleHorizontal:
+                {
+                    var tup = EuristicArrangeRectangle(shapesCount);
+                    _positionerParms.Rows = tup.Item1;
+                    _positionerParms.Cols = tup.Item2;
+                }
+                    break;
+                case Arrangement.LineHorizonal:
+                    _positionerParms.Rows = 1;
+                    _positionerParms.Cols = shapesCount;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(arrangement), arrangement, null);
+            }
+        }
+
+        internal void DoPositionSelectedImages(string hAlign, string vAlign)
+        {
+            HShape hShape;
+            if (Enum.TryParse(hAlign, true, out hShape))
+                _positionerParms.HShape = hShape;
+            VShape vShape;
+            if (Enum.TryParse(vAlign, true, out vShape))
+                _positionerParms.VShape = vShape;
+            DoPositionSelectedImages(_positionerParms);
+        }
+
+        void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
             var shapes = MoveAllToSamePage(SelectedShapes());
-
         }
+
 
         static IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
         {
-
             return selectedShapes;
+        }
+
+        static Tuple<int, int> EuristicArrangeRectangle(int shapeCount)
+        {
+            var fac1 = (int) Math.Floor(Math.Sqrt(shapeCount));
+            var fac2 = fac1;
+            while (fac1*fac2 < shapeCount) fac2++;
+            return new Tuple<int, int>(fac1, fac2);
         }
     }
 }
+

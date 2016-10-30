@@ -101,27 +101,27 @@ namespace AlbumWordAddin
 
         void buttonArrangeLV_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical);
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical);
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square);
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal);
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal);
         }
 
         void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
