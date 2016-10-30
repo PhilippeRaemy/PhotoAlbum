@@ -176,6 +176,7 @@ namespace AlbumWordAddin
 
         void dropDownPadding_ButtonClick(object sender, RibbonControlEventArgs e)
         {
+            Globals.ThisAddIn.DoPositionSelectedImages(padding: (int)dropDownPadding.SelectedItem.Tag, margin: (int)dropDownMargin.SelectedItem.Tag);
         }
 
         void dropDownPadding_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -185,7 +186,7 @@ namespace AlbumWordAddin
 
         void dropDownMargin_ButtonClick(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.DoPositionSelectedImages(padding: (int)dropDownPadding.SelectedItem.Tag, margin: (int)dropDownMargin.SelectedItem.Tag);
         }
 
         void dropDownMargin_SelectionChanged(object sender, RibbonControlEventArgs e)

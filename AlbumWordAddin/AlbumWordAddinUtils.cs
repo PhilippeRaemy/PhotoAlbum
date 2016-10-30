@@ -237,6 +237,12 @@ namespace AlbumWordAddin
                 _positionerParms.VShape = vShape;
             DoPositionSelectedImages(_positionerParms);
         }
+        internal void DoPositionSelectedImages(int padding, int margin)
+        {
+            _positionerParms.Padding = padding;
+            _positionerParms.Margin = margin;
+            DoPositionSelectedImages(_positionerParms);
+        }
 
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {

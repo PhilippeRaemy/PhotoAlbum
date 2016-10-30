@@ -105,5 +105,10 @@ namespace AlbumWordAddin
         {
             _utilities.DoPositionSelectedImages(arrangement);
         }
+        internal void DoPositionSelectedImages(int padding, int margin)
+        {
+            _utilities.DoPositionSelectedImages(padding, margin);
+        }
+
     }
 }
