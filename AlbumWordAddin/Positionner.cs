@@ -47,19 +47,26 @@ namespace AlbumWordAddin
             VShape vShape,
             float margin,
             float padding,
-            Rectangle clientArea, IEnumerable<Rectangle> rectangles)
+            Rectangle clientArea, 
+            IEnumerable<Rectangle> rectangles
+        )
         {
-            var scaleX = clientArea.Width / cols;
-            var scaleY = clientArea.Height / rows;
+            var clientAreaWithMargin = new Rectangle(margin, margin, clientArea.Width - 2*margin, clientArea.Height - 2*margin);
+
+            var scaleX = (clientArea.Width - 2 * margin) / cols;
+            var scaleY = (clientArea.Height - 2 * margin) / rows;
             var shaperH = ShaperH(hShape, rows, cols);
             var shaperV = ShaperV(vShape, rows, cols);
             var grid = Enumerable.Range(0, rows)
                 .SelectMany(r => Enumerable.Range(0, cols)
-                    .Select(c => new {
-                        area = new Rectangle(c * scaleX, r * scaleY, scaleX, scaleY),
-                        hShape = shaperH(r, c),
-                        vShape = shaperV(r, c),
-                    }));
+                    .Select(c => new
+                        {
+                            area   = new Rectangle(margin + c*scaleX, margin + r*scaleY, scaleX, scaleY),
+                            hShape = shaperH(r, c),
+                            vShape = shaperV(r, c),
+                        }
+                    )
+                );
             return grid
                 .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
@@ -75,8 +82,8 @@ namespace AlbumWordAddin
                 case HShape.Flat     : return (_, __) => 0.5F;
                 case HShape.Left     : return (_, __) => 0F;
                 case HShape.Right    : return (_, __) => 1F;
-                case HShape.Rightdown: return (_, c) => 1 - c / ((float)cols - 1);
-                case HShape.Rightup  : return (_, c) => c / ((float)cols - 1);
+                case HShape.Rightdown: return (r, _) => r / ((float)rows - 1);
+                case HShape.Rightup  : return (r, _) => 1 - r / ((float)rows - 1);
                 case HShape.Bendleft :
                 case HShape.Bendright:
                 default:
@@ -92,8 +99,8 @@ namespace AlbumWordAddin
                 case VShape.Flat     : return (_, __) => 0.5F;
                 case VShape.Top      : return (_, __) => 0F;
                 case VShape.Bottom   : return (_, __) => 1F;
-                case VShape.Rightdown: return (r, _) => 1 - r / ((float)rows - 1);
-                case VShape.Rightup  : return (r, _) => r / ((float)rows - 1);
+                case VShape.Rightdown: return (_, c) => c / ((float)cols - 1);
+                case VShape.Rightup  : return (_, c) => 1 - c / ((float)cols - 1);
                 case VShape.Benddown :
                 case VShape.Bendup   :
                 default:
