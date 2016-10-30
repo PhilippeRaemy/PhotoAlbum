@@ -230,10 +230,10 @@ namespace AlbumWordAddin
         internal void DoPositionSelectedImages(string hAlign, string vAlign)
         {
             HShape hShape;
-            if (Enum.TryParse(hAlign, true, out hShape))
+            if (Enum.TryParse(hAlign?.Replace("hAlign", string.Empty), true, out hShape))
                 _positionerParms.HShape = hShape;
             VShape vShape;
-            if (Enum.TryParse(vAlign, true, out vShape))
+            if (Enum.TryParse(vAlign?.Replace("vAlign", string.Empty), true, out vShape))
                 _positionerParms.VShape = vShape;
             DoPositionSelectedImages(_positionerParms);
         }
