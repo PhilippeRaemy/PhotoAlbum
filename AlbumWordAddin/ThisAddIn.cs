@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Forms;
 using Mannex;
 using Word = Microsoft.Office.Interop.Word;
 
@@ -32,6 +33,14 @@ namespace AlbumWordAddin
             }
             Application.DocumentOpen += Application_DocumentOpen;
             ((Word.ApplicationEvents4_Event)Application).NewDocument += Application_DocumentOpen;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(((Exception) e.ExceptionObject).Message, "An error occured in AlbumWordAddin",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         void Application_DocumentOpen(Word.Document doc)
