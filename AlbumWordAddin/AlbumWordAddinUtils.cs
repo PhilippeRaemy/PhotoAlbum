@@ -189,7 +189,6 @@ namespace AlbumWordAddin
                 newShapes.FirstOrDefault()?.Select(Replace: true);
                 newShapes.Skip(1).ForEach(sh => sh.Select(Replace: false));
             }
-
         }
 
         internal void DoPositionSelectedImages(Arrangement arrangement)
@@ -225,6 +224,7 @@ namespace AlbumWordAddin
                 default:
                     throw new ArgumentOutOfRangeException(nameof(arrangement), arrangement, null);
             }
+            DoPositionSelectedImages(_positionerParms);
         }
 
         internal void DoPositionSelectedImages(string hAlign, string vAlign)
@@ -240,13 +240,51 @@ namespace AlbumWordAddin
 
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
-            var shapes = MoveAllToSamePage(SelectedShapes());
+            var shapes = MoveAllToSamePage(SelectedShapes()).ToArray();
+            if(shapes.Length==0) throw new InvalidOperationException("Please select one or more images.");
+            var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth, shapes[0].Anchor.PageSetup.PageHeight);
+            var rectangles = shapes.Select(s => new Rectangle(s.Left, s.Top, s.Width, s.Height));
+            var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
+
+            foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
+                                      .Where(r=>r.re!=null && r.sh!=null)
+            )
+            {
+                pos.sh.Left = pos.re.Left;
+                pos.sh.Top = pos.re.Top;
+                pos.sh.Width = pos.re.Width;
+                pos.sh.Height = pos.re.Height;
+            }
         }
 
 
-        static IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
+        IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
         {
-            return selectedShapes;
+            Word.Range anchor = null;
+            var pageNumber=-1;
+            foreach (var shape in selectedShapes)
+            {
+                if (anchor == null)
+                {
+                    anchor = shape.Anchor;
+                    pageNumber = anchor.GetPageNumber();
+                    yield return shape;
+                }
+                else
+                {
+                    if (shape.Anchor.GetPageNumber() == pageNumber)
+                    {
+                        yield return shape;
+                    }
+                    else { 
+                        shape.Select(Replace: true);
+                        Selection.Cut();
+                        anchor.Select();
+                        Selection.Paste();
+                        yield return SelectedShapes().FirstOrDefault();
+                    }
+                }
+            }
         }
 
         static Tuple<int, int> EuristicArrangeRectangle(int shapeCount)
