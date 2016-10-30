@@ -51,8 +51,6 @@ namespace AlbumWordAddin
             IEnumerable<Rectangle> rectangles
         )
         {
-            var clientAreaWithMargin = new Rectangle(margin, margin, clientArea.Width - 2*margin, clientArea.Height - 2*margin);
-
             var scaleX = (clientArea.Width - 2 * margin) / cols;
             var scaleY = (clientArea.Height - 2 * margin) / rows;
             var shaperH = ShaperH(hShape, rows, cols);
@@ -82,9 +80,11 @@ namespace AlbumWordAddin
                 case HShape.Flat     : return (_, __) => 0.5F;
                 case HShape.Left     : return (_, __) => 0F;
                 case HShape.Right    : return (_, __) => 1F;
-                case HShape.Rightdown: return (r, _) => r / ((float)rows - 1);
-                case HShape.Rightup  : return (r, _) => 1 - r / ((float)rows - 1);
+                case HShape.Rightdown: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => r / ((float)rows - 1);
+                case HShape.Rightup  : if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
                 case HShape.Bendleft :
+//                    if (rows <= 2) return (_, __) => 0F;
+//                    if(rows % 2==1) return (r, _) => 1 - Math.Abs(2 * r / ((float)rows - 1) - 1);
                 case HShape.Bendright:
                 default:
                     throw new NotImplementedException($"Invalid ShaperH value {hShape}");
@@ -99,8 +99,8 @@ namespace AlbumWordAddin
                 case VShape.Flat     : return (_, __) => 0.5F;
                 case VShape.Top      : return (_, __) => 0F;
                 case VShape.Bottom   : return (_, __) => 1F;
-                case VShape.Rightdown: return (_, c) => c / ((float)cols - 1);
-                case VShape.Rightup  : return (_, c) => 1 - c / ((float)cols - 1);
+                case VShape.Rightdown: if (cols <= 1) return (_, __) => 0.5F; return (_, c) => c / ((float)cols - 1);
+                case VShape.Rightup  : if (cols <= 1) return (_, __) => 0.5F; return (_, c) => 1 - c / ((float)cols - 1);
                 case VShape.Benddown :
                 case VShape.Bendup   :
                 default:
