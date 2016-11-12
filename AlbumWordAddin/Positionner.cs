@@ -84,16 +84,16 @@ namespace AlbumWordAddin
                 case HShape.Rightup  : if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
                 case HShape.Bendleft :
                     if (rows <= 2) return (_, __) => 0F;
-                    if (rows % 2 == 1) return (r, _) => Math.Abs(2 * r / ((float)rows - 1) - 1);
-                    return (r, _) => r<=rows/2
-                        ? Math.Abs(2*r/(float) rows - 1)
-                        : Math.Abs(2 * (r+1) / (float)(rows+1) - 1);
+                    if (rows % 2 == 1) return (r, _) => 1 - Math.Abs(2 * r / ((float)rows - 1) - 1);
+                    return (r, _) => r < rows / 2
+                        ? 2 * r / ((float)rows - 2)
+                        : 2 * (rows - r - 1) / ((float)rows - 2);
                 case HShape.Bendright:
                     if (rows <= 2) return (_, __) => 1F;
-                    if (rows % 2 == 1) return (r, _) => Math.Abs(1 - 2 * r / ((float)rows - 1));
-                    return (r, _) => r <= rows / 2
-                        ? Math.Abs(1 - 2 * r / (float)rows)
-                        : Math.Abs(1 - 2 * (r + 1) / (float)(rows + 1));
+                    if (rows % 2 == 1) return (r, _) => Math.Abs(2 * r / ((float)rows - 1) - 1);
+                    return (r, _) => r < rows / 2
+                        ? 1 - 2 * r / ((float)rows - 2)
+                        : 1 - 2 * (rows - r - 1) / ((float)rows - 2);
                 default:
                     throw new NotImplementedException($"Invalid ShaperH value {hShape}");
             }
