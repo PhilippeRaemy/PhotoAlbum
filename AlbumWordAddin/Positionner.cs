@@ -110,7 +110,17 @@ namespace AlbumWordAddin
                 case VShape.Rightdown: if (cols <= 1) return (_, __) => 0.5F; return (_, c) => c / ((float)cols - 1);
                 case VShape.Rightup  : if (cols <= 1) return (_, __) => 0.5F; return (_, c) => 1 - c / ((float)cols - 1);
                 case VShape.Benddown :
+                    if (cols <= 2) return (_, __) => 0F;
+                    if (cols % 2 == 1) return (_, c) => 1 - Math.Abs(2 * c / ((float)cols - 1) - 1);
+                    return (_, c) => c < cols / 2
+                        ? 2 * c / ((float)cols - 2)
+                        : 2 * (cols-c-1) / ((float)cols - 2);
                 case VShape.Bendup   :
+                    if (cols <= 2) return (_, __) => 1F;
+                    if (cols % 2 == 1) return (_, c) => Math.Abs(2 * c / ((float)cols - 1) - 1);
+                    return (_, c) => c < cols / 2
+                        ? 1 - 2 * c / ((float)cols - 2)
+                        : 1 - 2 * (cols - c - 1) / ((float)cols - 2);
                 default:
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }

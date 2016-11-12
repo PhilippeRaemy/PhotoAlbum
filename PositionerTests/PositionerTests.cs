@@ -20,6 +20,14 @@ namespace PositionerTests
             => first.Range(count, 0, 0);
     }
 
+    public static class PositionerExtensions
+    {
+        public static Positioner.Parms WithRowsCols(this Positioner.Parms model, int rows, int cols)
+        {
+            return new Positioner.Parms {Cols=cols, Rows=rows,HShape = model.HShape, VShape = model.VShape, Padding = model.Padding, Margin = model.Margin};
+        }
+    }
+
     [TestClass]
     public class PositionerTests
     {
@@ -37,6 +45,8 @@ namespace PositionerTests
         static readonly Positioner.Parms VFlatPosPad  = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Padding = 0.1f };
         static readonly Positioner.Parms VFlatLeftPos = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Left, VShape = VShape.Flat, Margin = 0, Padding = 0    };
         static readonly Positioner.Parms VFlatTopPos  = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Flat, VShape = VShape.Top , Margin = 0, Padding = 0};
+        static readonly Positioner.Parms BendDownPos  = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Benddown, Margin = 0, Padding = 0};
+        static readonly Positioner.Parms BendUpPos    = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Bendup  , Margin = 0, Padding = 0};
 
         [TestMethod]
         public void TestPositioner_1x1()
@@ -140,6 +150,67 @@ namespace PositionerTests
             TestPositioner_global(R1X4, R4X2.Range(4), VFlatTopPos, R4X2.Grow(.25f).Range(4, 0, 1), nameof(R4X2));
             TestPositioner_global(R1X4, R2X4.Range(4), VFlatTopPos, R2X4.Move(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
+
+        [TestMethod]
+        public void TestPositioner_BendDown2Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(2), R1X1.Range(2), BendDownPos.WithRowsCols(1, 2), R1X1.Range(2, 1, 0), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendDown3Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(3), R1X1.Range(3), BendDownPos.WithRowsCols(1, 3), new []{R1X1.Move(0, 0), R1X1.Move(1, 2) , R1X1.Move(2, 0) } , nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendDown4Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(4), R1X1.Range(4), BendDownPos.WithRowsCols(1, 4), new[] { R1X1.Move(0, 0), R1X1.Move(1, 3), R1X1.Move(2, 3), R1X1.Move(3, 0) }, nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendDown5Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(5), R1X1.Range(5), BendDownPos.WithRowsCols(1, 5), new[] { R1X1.Move(0, 0), R1X1.Move(1, 2), R1X1.Move(2, 4), R1X1.Move(3, 2), R1X1.Move(4, 0) }, nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendDown6Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(6), R1X1.Range(6), BendDownPos.WithRowsCols(1, 6), new[] { R1X1.Move(0, 0), R1X1.Move(1, 2.5f), R1X1.Move(2, 5), R1X1.Move(3, 5), R1X1.Move(4, 2.5f), R1X1.Move(5, 0) }, nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendUp2Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(2), R1X1.Range(2), BendUpPos.WithRowsCols(1, 2), R1X1.Move(0, 1).Range(2, 1, 0), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendUp3Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(3), R1X1.Range(3), BendUpPos.WithRowsCols(1, 3), new[] { R1X1.Move(0, 2), R1X1.Move(1, 0), R1X1.Move(2, 2) }, nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendUp4Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(4), R1X1.Range(4), BendUpPos.WithRowsCols(1, 4), new[] { R1X1.Move(0, 3), R1X1.Move(1, 0), R1X1.Move(2, 0), R1X1.Move(3, 3) }, nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendUp5Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(5), R1X1.Range(5), BendUpPos.WithRowsCols(1, 5), new[] { R1X1.Move(0, 4), R1X1.Move(1, 2), R1X1.Move(2, 0), R1X1.Move(3, 2), R1X1.Move(4, 4) }, nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_BendUp6Shapes()
+        {
+            TestPositioner_global(R1X1.Grow(6), R1X1.Range(6), BendUpPos.WithRowsCols(1, 6), new[] { R1X1.Move(0, 5), R1X1.Move(1, 2.5f), R1X1.Move(2, 0), R1X1.Move(3, 0), R1X1.Move(4, 2.5f), R1X1.Move(5, 5) }, nameof(R1X1));
+        }
+
         static void TestPositioner_global(Rectangle clientArea, IEnumerable<Rectangle> rectangles, Positioner.Parms pos, IEnumerable<Rectangle> expected, string label)
         {
             var rc = Positioner.DoPosition(pos, clientArea, rectangles).ToArray();
