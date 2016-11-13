@@ -1,5 +1,6 @@
 ﻿namespace PositionerTests
 {
+    using System;
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AlbumWordAddin;
@@ -151,11 +152,11 @@
             var rc = Positioner.DoPosition(pos, clientArea, rectangles).ToArray();
             expected = expected.ToArray();
             Assert.AreEqual(expected.Count(), rc.Length, "Results length");
-            foreach (var rr in expected.EquiZip(rc,(e,r)=> new {expected=e, results=r})
-                                 .Select((r,i)=>new {i, r.expected, r.results}))
-            {
-                Assert.AreEqual(rr.expected, rr.results, $"{label} failed expected #{rr.i}");
-            }
+            var results = expected.EquiZip(rc, (e, r) => new {expected = e, results = r})
+                .Select((r, i) => new {i, r.expected, r.results, success = r.expected.Equals(r.results)})
+                .ToArray();
+
+            Assert.IsTrue(results.All(r=>r.success), results.Select(r=> $"{Environment.NewLine}{r.expected} {(r.success ? "==" : "<>")} {r.results}").ToDelimitedString());
         }
     }
 }
