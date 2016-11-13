@@ -42,7 +42,7 @@
         [TestMethod]
         public void TestPositioner_BendRight2Shapes()
         {
-            PositionerTests.Run(PositionerTests.R1X1.Grow(2), PositionerTests.R1X1.Range(2), BendRightPos.WithRowsCols(1, 2), PositionerTests.R1X1.Move(1, 0).Range(2, 1, 0), nameof(PositionerTests.R1X1));
+            PositionerTests.Run(PositionerTests.R1X1.Grow(2), PositionerTests.R1X1.Range(2), BendRightPos.WithRowsCols(1, 2), PositionerTests.R1X1.Move(1, 0).Range(2, 0, 1), nameof(PositionerTests.R1X1));
         }
 
         [TestMethod]
