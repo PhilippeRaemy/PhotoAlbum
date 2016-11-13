@@ -223,9 +223,9 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VAlignBendBottom {
+        internal static System.Drawing.Bitmap VAlignBendDown {
             get {
-                object obj = ResourceManager.GetObject("VAlignBendBottom", resourceCulture);
+                object obj = ResourceManager.GetObject("VAlignBendDown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +233,9 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap VAlignBendTop {
+        internal static System.Drawing.Bitmap VAlignBendUp {
             get {
-                object obj = ResourceManager.GetObject("VAlignBendTop", resourceCulture);
+                object obj = ResourceManager.GetObject("VAlignBendUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

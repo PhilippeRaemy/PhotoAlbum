@@ -499,7 +499,7 @@ namespace AlbumWordAddin
             // 
             // vAlignBendDown
             // 
-            this.vAlignBendDown.Image = global::AlbumWordAddin.Properties.Resources.VAlignBendBottom;
+            this.vAlignBendDown.Image = global::AlbumWordAddin.Properties.Resources.VAlignBendDown;
             this.vAlignBendDown.Label = " ";
             this.vAlignBendDown.Name = "vAlignBendDown";
             this.vAlignBendDown.ShowImage = true;
@@ -507,7 +507,7 @@ namespace AlbumWordAddin
             // 
             // vAlignBendUp
             // 
-            this.vAlignBendUp.Image = global::AlbumWordAddin.Properties.Resources.VAlignBendTop;
+            this.vAlignBendUp.Image = global::AlbumWordAddin.Properties.Resources.VAlignBendUp;
             this.vAlignBendUp.Label = " ";
             this.vAlignBendUp.Name = "vAlignBendUp";
             this.vAlignBendUp.ShowImage = true;
