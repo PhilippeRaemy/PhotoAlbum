@@ -260,8 +260,8 @@
     <None Include="Icons\VAlignBottom.png" />
     <None Include="Icons\VAlignBendUp.png" />
     <None Include="Icons\VAlignBendDown.png" />
-    <None Include="Icons\HAlignBendLeft.png" />
     <None Include="Icons\HAlignBendRight.png" />
+    <None Include="Icons\HAlignBendLeft.png" />
     <None Include="Icons\HAlignFlat.png" />
     <None Include="Icons\HAlignLeft.png" />
     <None Include="Icons\HAlignRight.png" />
