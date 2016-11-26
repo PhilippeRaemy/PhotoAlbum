@@ -216,5 +216,10 @@ namespace AlbumWordAddin
                 // ignored : we're top or bottom of possible solutions and i would lead out of range...
             }
         }
+
+        void ButtonImport_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }

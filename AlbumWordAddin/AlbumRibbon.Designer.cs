@@ -112,6 +112,10 @@ namespace AlbumWordAddin
             this.buttonMarginLess = this.Factory.CreateRibbonButton();
             this.dropDownMargin = this.Factory.CreateRibbonDropDown();
             this.buttonMarginMore = this.Factory.CreateRibbonButton();
+            this.groupFile = this.Factory.CreateRibbonGroup();
+            this.ButtonImport = this.Factory.CreateRibbonButton();
+            this.ButtonLowRes = this.Factory.CreateRibbonButton();
+            this.ButtonHiRes = this.Factory.CreateRibbonButton();
             this.TabAddIns.SuspendLayout();
             this.groupPage.SuspendLayout();
             this.groupAlign.SuspendLayout();
@@ -124,11 +128,13 @@ namespace AlbumWordAddin
             this.box4.SuspendLayout();
             this.box5.SuspendLayout();
             this.box3.SuspendLayout();
+            this.groupFile.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabAddIns
             // 
             this.TabAddIns.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
+            this.TabAddIns.Groups.Add(this.groupFile);
             this.TabAddIns.Groups.Add(this.groupPage);
             this.TabAddIns.Groups.Add(this.groupAlign);
             this.TabAddIns.Groups.Add(this.groupSize);
@@ -565,6 +571,30 @@ namespace AlbumWordAddin
             this.buttonMarginMore.Name = "buttonMarginMore";
             this.buttonMarginMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginMore_Click);
             // 
+            // groupFile
+            // 
+            this.groupFile.Items.Add(this.ButtonImport);
+            this.groupFile.Items.Add(this.ButtonLowRes);
+            this.groupFile.Items.Add(this.ButtonHiRes);
+            this.groupFile.Label = "File";
+            this.groupFile.Name = "groupFile";
+            // 
+            // ButtonImport
+            // 
+            this.ButtonImport.Label = "Import pictures";
+            this.ButtonImport.Name = "ButtonImport";
+            this.ButtonImport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonImport_Click);
+            // 
+            // ButtonLowRes
+            // 
+            this.ButtonLowRes.Label = "Low Res Images";
+            this.ButtonLowRes.Name = "ButtonLowRes";
+            // 
+            // ButtonHiRes
+            // 
+            this.ButtonHiRes.Label = "Hi Res Images";
+            this.ButtonHiRes.Name = "ButtonHiRes";
+            // 
             // AlbumRibbon
             // 
             this.Name = "AlbumRibbon";
@@ -595,6 +625,8 @@ namespace AlbumWordAddin
             this.box5.PerformLayout();
             this.box3.ResumeLayout(false);
             this.box3.PerformLayout();
+            this.groupFile.ResumeLayout(false);
+            this.groupFile.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -655,6 +687,10 @@ namespace AlbumWordAddin
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonMarginLess;
         internal Microsoft.Office.Tools.Ribbon.RibbonDropDown dropDownMargin;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonMarginMore;
+        internal RibbonGroup groupFile;
+        internal RibbonButton ButtonImport;
+        internal RibbonButton ButtonLowRes;
+        internal RibbonButton ButtonHiRes;
     }
 
     partial class ThisRibbonCollection

@@ -193,6 +193,12 @@
     <Compile Include="AlbumWordAddinUtils.cs" />
     <Compile Include="Alignment.cs" />
     <Compile Include="Arrangement.cs" />
+    <Compile Include="FormImportPictures.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormImportPictures.Designer.cs">
+      <DependentUpon>FormImportPictures.cs</DependentUpon>
+    </Compile>
     <Compile Include="IAlbumWordAddinUtils.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -200,6 +206,9 @@
     </Compile>
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormImportPictures.resx">
+      <DependentUpon>FormImportPictures.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
