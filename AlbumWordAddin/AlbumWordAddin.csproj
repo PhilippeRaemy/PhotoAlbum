@@ -204,6 +204,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="UserPreferences.cs" />
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </EmbeddedResource>
