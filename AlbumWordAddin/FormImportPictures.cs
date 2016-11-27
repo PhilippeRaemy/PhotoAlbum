@@ -31,5 +31,25 @@ namespace AlbumWordAddin
         {
 
         }
+
+        private void ChkConfirmOverwrite_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboMaxPicsPerFile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonOpenStartFolder_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonOpenEndFolder_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
