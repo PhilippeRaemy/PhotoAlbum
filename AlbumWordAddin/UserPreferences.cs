@@ -5,15 +5,33 @@ using System.Xml.Serialization;
 namespace AlbumWordAddin
 {
     using System;
+    using System.Reflection;
 
     [XmlRoot("UserPreferences")]
     public class UserPreferences:IDisposable
     {
-        public UserPreferences(bool fromConfig = true)
+        readonly bool _fromConfig;
+
+        readonly string _prefFileName = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "AlbumWordAddin",
+            "UserPreferences.xml"
+        );
+
+        public UserPreferences()
         {
-            
         }
 
+        public UserPreferences(bool fromConfig = true)
+        {
+            _fromConfig = fromConfig;
+            if (!_fromConfig) return;
+            var prefs = new StreamReader(_prefFileName).Deserialize<UserPreferences>();
+            foreach (var prop in typeof(UserPreferences).GetProperties(BindingFlags.Public) )
+            {
+                prop.SetValue(this, prop.GetValue(prefs));
+            }
+        }
 
         [XmlElement("FolderImportStart" )] public static string FolderImportStart  { get; set; }
         [XmlElement("FolderImportEnd"   )] public static string FolderImportEnd    { get; set; }
@@ -22,7 +40,9 @@ namespace AlbumWordAddin
         [XmlElement("Padding"           )] public static int    Padding            { get; set; }
         public void Dispose()
         {
-            throw new NotImplementedException();
+            if (!_fromConfig) return;
+
+            new StreamWriter(_prefFileName).Write(this.Serialize());
         }
     }
 
