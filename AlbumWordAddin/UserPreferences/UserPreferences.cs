@@ -14,6 +14,8 @@
         private int _margin;
         private int _padding;
         protected bool Modified;
+        private bool _confirmFileOverwrite;
+
         [XmlElement("FolderImportStart")]
         public string FolderImportStart
         {
@@ -47,6 +49,13 @@
         {
             get { return _padding; }
             set { Modified = true; _padding = value; }
+        }
+
+        [XmlElement("ConfirmFileOverwrite")]
+        public bool ConfirmFileOverwrite
+        {
+            get { return _confirmFileOverwrite; }
+            set { Modified = true; _confirmFileOverwrite = value; }
         }
     }
 

@@ -60,7 +60,6 @@
             this.label1.Size = new System.Drawing.Size(65, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Start Folder";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // buttonOpenStartFolder
             // 
@@ -83,7 +82,6 @@
             this.panelStartFolder.Name = "panelStartFolder";
             this.panelStartFolder.Size = new System.Drawing.Size(710, 21);
             this.panelStartFolder.TabIndex = 2;
-            this.panelStartFolder.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // textStartFolder
             // 
@@ -171,6 +169,7 @@
             this.buttonGo.TabIndex = 9;
             this.buttonGo.Text = "Go...";
             this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
             // comboMaxPicsPerFile
             // 
