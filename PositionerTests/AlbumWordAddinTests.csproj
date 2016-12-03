@@ -59,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PositionerTests.cs" />
     <Compile Include="PositionerTestsBendUpDown.cs" />
+    <Compile Include="UserPreferencesTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlbumWordAddin\AlbumWordAddin.csproj">

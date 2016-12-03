@@ -26,23 +26,30 @@ namespace AlbumWordAddin
         {
             _fromConfig = fromConfig;
             if (!_fromConfig) return;
-            var prefs = new StreamReader(_prefFileName).Deserialize<UserPreferences>();
-            foreach (var prop in typeof(UserPreferences).GetProperties(BindingFlags.Public) )
+            var file=new FileInfo(_prefFileName);
+            // ReSharper disable once AssignNullToNotNullAttribute
+            new DirectoryInfo(file.DirectoryName).Create();
+            if (!file.Exists) return;
+            var reader = new StreamReader(_prefFileName);
+            var prefs = reader.ReadToEnd().Deserialize<UserPreferences>();
+            reader.Close();
+            foreach (var prop in typeof(UserPreferences).GetProperties() )
             {
                 prop.SetValue(this, prop.GetValue(prefs));
             }
         }
 
-        [XmlElement("FolderImportStart" )] public static string FolderImportStart  { get; set; }
-        [XmlElement("FolderImportEnd"   )] public static string FolderImportEnd    { get; set; }
-        [XmlElement("MaxPicturesPerFile")] public static int    MaxPicturesPerFile { get; set; }
-        [XmlElement("Margin"            )] public static int    Margin             { get; set; }
-        [XmlElement("Padding"           )] public static int    Padding            { get; set; }
+        [XmlElement("FolderImportStart" )] public string FolderImportStart  { get; set; }
+        [XmlElement("FolderImportEnd"   )] public string FolderImportEnd    { get; set; }
+        [XmlElement("MaxPicturesPerFile")] public int    MaxPicturesPerFile { get; set; }
+        [XmlElement("Margin"            )] public int    Margin             { get; set; }
+        [XmlElement("Padding"           )] public int    Padding            { get; set; }
         public void Dispose()
         {
             if (!_fromConfig) return;
-
-            new StreamWriter(_prefFileName).Write(this.Serialize());
+            var writer = new StreamWriter(_prefFileName);
+            writer.Write(this.Serialize());
+            writer.Close();
         }
     }
 
@@ -70,10 +77,17 @@ namespace AlbumWordAddin
             }
         }
 
-        public static T Deserialize<T>(this StreamReader stream) where T : new()
+        public static T Deserialize<T>(this string xmltext) where T : new()
         {
-            var xmlserializer = new XmlSerializer(typeof(T));
-            return (T) xmlserializer.Deserialize(stream);
+            try
+            {
+                var xmlserializer = new XmlSerializer(typeof(T));
+                return (T) xmlserializer.Deserialize(new StringReader(xmltext));
+            }
+            catch
+            {
+                return new T();
+            }
         }
     }
 }

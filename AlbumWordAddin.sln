@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddin", "AlbumWordAddin\AlbumWordAddin.csproj", "{BD7257CC-26EE-4AB5-9702-F493572324E6}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoEx", "VstoEx\VstoEx.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoWordStatePreserver", "VstoWordStatePreserver\VstoWordStatePreserver.csproj", "{6AE96D5B-0D0D-49C3-A94B-5B8CC63E8A92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PositionerTests", "PositionerTests\PositionerTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "PositionerTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialogConsoleStarter", "DialogConsoleStarter\DialogConsoleStarter.csproj", "{2B2B63BD-6823-416C-B32D-914DFBC8EEAB}"
 EndProject
