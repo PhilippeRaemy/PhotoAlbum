@@ -37,6 +37,7 @@
             this.buttonOpenEndFolder = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.panelButtons = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonGo = new System.Windows.Forms.Button();
             this.comboMaxPicsPerFile = new System.Windows.Forms.ComboBox();
@@ -44,7 +45,6 @@
             this.panelProgress = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelProgress = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panelStartFolder.SuspendLayout();
             this.panelEndFolder.SuspendLayout();
@@ -145,6 +145,15 @@
             this.panelButtons.Size = new System.Drawing.Size(710, 57);
             this.panelButtons.TabIndex = 7;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 8);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(112, 13);
+            this.label4.TabIndex = 11;
+            this.label4.Text = "Confirm overwrite files:";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -215,15 +224,6 @@
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(0, 13);
             this.labelProgress.TabIndex = 10;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 8);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(112, 13);
-            this.label4.TabIndex = 11;
-            this.label4.Text = "Confirm overwrite files:";
             // 
             // openFileDialog
             // 

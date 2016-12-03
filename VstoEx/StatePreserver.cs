@@ -1,8 +1,9 @@
 ﻿
-namespace VstoWordStatePreserver
+namespace VstoEx
 {
+    using System;
     using Word = Microsoft.Office.Interop.Word;
-    public class StatePreserver : System.IDisposable
+    public class StatePreserver : IDisposable
     {
         bool _screenUpdatingSet;
         bool _previousScreenUpdating;

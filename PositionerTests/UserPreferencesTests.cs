@@ -2,12 +2,7 @@
 
 namespace PositionerTests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using AlbumWordAddin;
+    using AlbumWordAddin.UserPreferences;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     [TestClass]
     public  class UserPreferencesTests
@@ -26,16 +21,16 @@ namespace PositionerTests
             {
                 margin = prefs.Margin;
                 prefs.Margin = margin + 1;
-                Assert.AreEqual(margin + 1, prefs.Margin);
+                Assert.AreEqual(margin + 1, prefs.Margin, "Set Value");
             }
             using (var prefs = new PersistedUserPreferences())
             {
-                Assert.AreEqual(margin + 1, prefs.Margin);
+                Assert.AreEqual(margin + 1, prefs.Margin, "Reread Value");
                 prefs.Margin = margin;
             }
             using (var prefs = new PersistedUserPreferences())
             {
-                Assert.AreEqual(margin, prefs.Margin);
+                Assert.AreEqual(margin, prefs.Margin, "Reset Value");
             }
         }
     }

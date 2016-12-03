@@ -53,12 +53,7 @@
     <Compile Include="RangeExtensions.cs" />
     <Compile Include="SelectionExtensions.cs" />
     <Compile Include="ShapeExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VstoWordStatePreserver\VstoWordStatePreserver.csproj">
-      <Project>{6ae96d5b-0d0d-49c3-a94b-5b8cc63e8a92}</Project>
-      <Name>VstoWordStatePreserver</Name>
-    </ProjectReference>
+    <Compile Include="StatePreserver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
