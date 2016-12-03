@@ -200,11 +200,12 @@
       <DependentUpon>FormImportPictures.cs</DependentUpon>
     </Compile>
     <Compile Include="IAlbumWordAddinUtils.cs" />
+    <Compile Include="UserPreferences\PersistedUserPreferences.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UserPreferences.cs" />
+    <Compile Include="UserPreferences\UserPreferences.cs" />
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </EmbeddedResource>
@@ -256,10 +257,6 @@
     <ProjectReference Include="..\VstoEx\VstoEx.csproj">
       <Project>{1cc0c8f7-fc7f-44cb-adc8-caa0b383b274}</Project>
       <Name>VstoEx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VstoWordStatePreserver\VstoWordStatePreserver.csproj">
-      <Project>{6ae96d5b-0d0d-49c3-a94b-5b8cc63e8a92}</Project>
-      <Name>VstoWordStatePreserver</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
