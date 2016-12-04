@@ -163,6 +163,7 @@
             // 
             // buttonGo
             // 
+            this.buttonGo.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonGo.Location = new System.Drawing.Point(632, 28);
             this.buttonGo.Name = "buttonGo";
             this.buttonGo.Size = new System.Drawing.Size(75, 23);

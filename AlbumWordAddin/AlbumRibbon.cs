@@ -4,6 +4,9 @@ using Microsoft.Office.Tools.Ribbon;
 
 namespace AlbumWordAddin
 {
+    using System.Windows.Forms;
+    using UserPreferences;
+
     public partial class AlbumRibbon
     {
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
@@ -219,7 +222,36 @@ namespace AlbumWordAddin
 
         void ButtonImport_Click(object sender, RibbonControlEventArgs e)
         {
+            var frm = new FormImportPictures();
+            if (frm.ShowDialog() != DialogResult.OK) return;
+            var userPrefs=new PersistedUserPreferences();
+            var walker=new FolderWalker(
+                userPrefs.FolderImportStart, 
+                userPrefs.FolderImportEnd, 
+                @"\.((jpeg)|(jpg))$", 
+                null,
+                @"\.small\.((jpeg)|(jpg))$",
+                s=>s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg")
+                );
+            walker.StartingFolder += Walker_StartingFolder;
+            walker.EndingFolder += Walker_EndingFolder;
+            walker.FoundAFile += Walker_FoundAFile;
+            walker.Run();
+        }
 
+        private void Walker_FoundAFile(object sender, FileEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Walker_EndingFolder(object sender, FolderEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Walker_StartingFolder(object sender, FolderEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

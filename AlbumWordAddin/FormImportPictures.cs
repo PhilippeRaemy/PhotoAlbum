@@ -59,6 +59,7 @@
                         ? maxPics: -1;
                 userprefs.ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState ==CheckState.Checked;
             }
+            Close();
         }
     }
 }

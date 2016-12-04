@@ -34,23 +34,25 @@
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
             if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
             if (string.Compare(folderFrom, folderTo, StringComparison.InvariantCultureIgnoreCase) > 0) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
-            _filePattern = new Regex(filePattern);
-            _excludePattern = new Regex(excludePattern);
-            _smallPattern = new Regex(smallPattern);
+            _filePattern = new Regex(filePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            _excludePattern = new Regex(excludePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            _smallPattern = new Regex(smallPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         public event EventHandler<FolderEventArgs> StartingFolder;
         public event EventHandler<FolderEventArgs> EndingFolder;
         public event EventHandler<FileEventArgs  > FoundAFile;
 
-        public void Go()
+        public void Run()
         {
-            Go(_diFolderFrom);
+            _cancel = false;
+            Run(_diFolderFrom);
         }
 
-        private void Go(DirectoryInfo folderFrom)
+        private void Run(DirectoryInfo folderFrom)
         {
             OnStartingFolder(folderFrom);
+            if (_cancel) return;
             foreach (var fi in 
                 folderFrom
                     .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
@@ -59,21 +61,30 @@
                     .ToArray()
                 )
             {
-                if (fi.smallMatch) OnFoundAFile(fi.fileInfo);
+                if (fi.smallMatch)
+                {
+                    OnFoundAFile(fi.fileInfo);
+                    if (_cancel) return;
+                }
                 if (!fi.fileMatch) continue;
                 var small=Path.Combine(folderFrom.FullName, _smallFileNameMaker(fi.fileInfo.Name));
                 var smallFi = new FileInfo(small);
                 if (!smallFi.Exists)
                 {
                     OnFoundAFile(MakeSmallImage(smallFi, small));
+                    if (_cancel) return;
                 }
             }
             OnEndingFolder(folderFrom);
+            if (_cancel) return;
             folderFrom
-                .EnumerateDirectories()
+                            .EnumerateDirectories()
                 .TakeWhile(di=>string.Compare(di.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) > 0)
-                .ForEach(Go);
+                .ForEach(Run);
         }
+
+        private bool _cancel;
+        public void Cancel() { _cancel = true; }
 
         private void OnStartingFolder(DirectoryInfo di) { StartingFolder?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
         private void OnEndingFolder  (DirectoryInfo di) { EndingFolder  ?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
