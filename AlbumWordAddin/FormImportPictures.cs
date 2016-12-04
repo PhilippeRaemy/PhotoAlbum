@@ -19,17 +19,17 @@
             ChkConfirmOverwrite.CheckState = userprefs.ConfirmFileOverwrite ? CheckState.Checked : CheckState.Unchecked;
         }
 
-        private void ChkConfirmOverwrite_CheckedChanged(object sender, EventArgs e)
+        void ChkConfirmOverwrite_CheckedChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void comboMaxPicsPerFile_SelectedIndexChanged(object sender, EventArgs e)
+        void comboMaxPicsPerFile_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void buttonOpenStartFolder_Click(object sender, EventArgs e)
+        void buttonOpenStartFolder_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog {SelectedPath = textStartFolder.Text};
             if (fbd.ShowDialog() == DialogResult.OK)
@@ -38,7 +38,7 @@
             }
         }
 
-        private void buttonOpenEndFolder_Click(object sender, EventArgs e)
+        void buttonOpenEndFolder_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog { SelectedPath = textEndFolder.Text };
             if (fbd.ShowDialog() == DialogResult.OK)
@@ -47,7 +47,7 @@
             }
         }
 
-        private void buttonGo_Click(object sender, EventArgs e)
+        void buttonGo_Click(object sender, EventArgs e)
         {
             using (var userprefs = new PersistedUserPreferences())
             {

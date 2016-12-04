@@ -8,13 +8,13 @@
     [XmlRoot("UserPreferences")]
     public class UserPreferences
     {
-        private string _folderImportStart;
-        private string _folderImportEnd;
-        private int _maxPicturesPerFile;
-        private int _margin;
-        private int _padding;
+        string _folderImportStart;
+        string _folderImportEnd;
+        int _maxPicturesPerFile;
+        int _margin;
+        int _padding;
         protected bool Modified;
-        private bool _confirmFileOverwrite;
+        bool _confirmFileOverwrite;
 
         [XmlElement("FolderImportStart")]
         public string FolderImportStart

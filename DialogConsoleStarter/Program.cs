@@ -3,7 +3,7 @@
     using System;
     using System.Windows.Forms;
 
-    class Program
+    internal class Program
     {
         [STAThread]
         static void Main(string[] args)

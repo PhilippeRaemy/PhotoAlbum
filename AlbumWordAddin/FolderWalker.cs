@@ -10,12 +10,12 @@
 
     public class FolderWalker
     {
-        private readonly Func<string, string> _smallFileNameMaker;
-        private readonly DirectoryInfo _diFolderFrom;
-        private readonly DirectoryInfo _diFolderTo;
-        private readonly Regex _filePattern;
-        private readonly Regex _excludePattern;
-        private readonly Regex _smallPattern;
+        readonly Func<string, string> _smallFileNameMaker;
+        readonly DirectoryInfo _diFolderFrom;
+        readonly DirectoryInfo _diFolderTo;
+        readonly Regex _filePattern;
+        readonly Regex _excludePattern;
+        readonly Regex _smallPattern;
 
         public FolderWalker(
             string folderFrom, 
@@ -49,7 +49,7 @@
             Run(_diFolderFrom);
         }
 
-        private void Run(DirectoryInfo folderFrom)
+        void Run(DirectoryInfo folderFrom)
         {
             OnStartingFolder(folderFrom);
             if (_cancel) return;
@@ -83,13 +83,14 @@
                 .ForEach(Run);
         }
 
-        private bool _cancel;
+        bool _cancel;
         public void Cancel() { _cancel = true; }
 
-        private void OnStartingFolder(DirectoryInfo di) { StartingFolder?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
-        private void OnEndingFolder  (DirectoryInfo di) { EndingFolder  ?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
-        private void OnFoundAFile    (FileInfo      fi) { FoundAFile    ?.Invoke(this, new FileEventArgs   { FileInfo      = fi }); }
-        private static FileInfo MakeSmallImage(FileInfo sourceFileInfo, string newFileName)
+        void OnStartingFolder(DirectoryInfo di) { StartingFolder?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
+        void OnEndingFolder  (DirectoryInfo di) { EndingFolder  ?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
+        void OnFoundAFile    (FileInfo      fi) { FoundAFile    ?.Invoke(this, new FileEventArgs   { FileInfo      = fi }); }
+
+        static FileInfo MakeSmallImage(FileInfo sourceFileInfo, string newFileName)
         {
             using (var img = Image.FromFile(sourceFileInfo.FullName))
                 using (var newImg = img.Scale(0.1))

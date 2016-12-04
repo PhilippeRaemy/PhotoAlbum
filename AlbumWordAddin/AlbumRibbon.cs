@@ -239,17 +239,17 @@ namespace AlbumWordAddin
             walker.Run();
         }
 
-        private void Walker_FoundAFile(object sender, FileEventArgs e)
+        void Walker_FoundAFile(object sender, FileEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void Walker_EndingFolder(object sender, FolderEventArgs e)
+        void Walker_EndingFolder(object sender, FolderEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void Walker_StartingFolder(object sender, FolderEventArgs e)
+        void Walker_StartingFolder(object sender, FolderEventArgs e)
         {
             throw new NotImplementedException();
         }
