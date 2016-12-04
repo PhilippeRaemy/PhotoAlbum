@@ -193,6 +193,7 @@
     <Compile Include="AlbumWordAddinUtils.cs" />
     <Compile Include="Alignment.cs" />
     <Compile Include="Arrangement.cs" />
+    <Compile Include="FolderWalker.cs" />
     <Compile Include="FormImportPictures.cs">
       <SubType>Form</SubType>
     </Compile>
