@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormImportPictures));
             this.label1 = new System.Windows.Forms.Label();
             this.buttonOpenStartFolder = new System.Windows.Forms.Button();
             this.panelStartFolder = new System.Windows.Forms.Panel();
@@ -39,17 +41,26 @@
             this.panelButtons = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.buttonGo = new System.Windows.Forms.Button();
             this.comboMaxPicsPerFile = new System.Windows.Forms.ComboBox();
             this.ChkConfirmOverwrite = new System.Windows.Forms.CheckBox();
             this.panelProgress = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelProgress = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.panelExcludeFiles = new System.Windows.Forms.Panel();
+            this.textExcludeFiles = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.panelIncludeFiles = new System.Windows.Forms.Panel();
+            this.textIncludeFiles = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonGo = new System.Windows.Forms.Button();
             this.panelStartFolder.SuspendLayout();
             this.panelEndFolder.SuspendLayout();
             this.panelButtons.SuspendLayout();
             this.panelProgress.SuspendLayout();
+            this.panelExcludeFiles.SuspendLayout();
+            this.panelIncludeFiles.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -57,14 +68,14 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Left;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 21);
+            this.label1.Size = new System.Drawing.Size(91, 21);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Start Folder";
+            this.label1.Text = "Start Folder:";
             // 
             // buttonOpenStartFolder
             // 
             this.buttonOpenStartFolder.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonOpenStartFolder.Location = new System.Drawing.Point(685, 0);
+            this.buttonOpenStartFolder.Location = new System.Drawing.Point(521, 0);
             this.buttonOpenStartFolder.Name = "buttonOpenStartFolder";
             this.buttonOpenStartFolder.Size = new System.Drawing.Size(25, 21);
             this.buttonOpenStartFolder.TabIndex = 2;
@@ -80,16 +91,17 @@
             this.panelStartFolder.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelStartFolder.Location = new System.Drawing.Point(0, 0);
             this.panelStartFolder.Name = "panelStartFolder";
-            this.panelStartFolder.Size = new System.Drawing.Size(710, 21);
+            this.panelStartFolder.Size = new System.Drawing.Size(546, 21);
             this.panelStartFolder.TabIndex = 2;
             // 
             // textStartFolder
             // 
             this.textStartFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textStartFolder.Location = new System.Drawing.Point(65, 0);
+            this.textStartFolder.Location = new System.Drawing.Point(91, 0);
             this.textStartFolder.Name = "textStartFolder";
-            this.textStartFolder.Size = new System.Drawing.Size(620, 20);
-            this.textStartFolder.TabIndex = 3;
+            this.textStartFolder.Size = new System.Drawing.Size(430, 20);
+            this.textStartFolder.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textStartFolder, resources.GetString("textStartFolder.ToolTip"));
             // 
             // panelEndFolder
             // 
@@ -99,24 +111,25 @@
             this.panelEndFolder.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelEndFolder.Location = new System.Drawing.Point(0, 21);
             this.panelEndFolder.Name = "panelEndFolder";
-            this.panelEndFolder.Size = new System.Drawing.Size(710, 21);
+            this.panelEndFolder.Size = new System.Drawing.Size(546, 21);
             this.panelEndFolder.TabIndex = 3;
             // 
             // textEndFolder
             // 
             this.textEndFolder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textEndFolder.Location = new System.Drawing.Point(65, 0);
+            this.textEndFolder.Location = new System.Drawing.Point(91, 0);
             this.textEndFolder.Name = "textEndFolder";
-            this.textEndFolder.Size = new System.Drawing.Size(620, 20);
+            this.textEndFolder.Size = new System.Drawing.Size(430, 20);
             this.textEndFolder.TabIndex = 3;
+            this.toolTip.SetToolTip(this.textEndFolder, resources.GetString("textEndFolder.ToolTip"));
             // 
             // buttonOpenEndFolder
             // 
             this.buttonOpenEndFolder.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonOpenEndFolder.Location = new System.Drawing.Point(685, 0);
+            this.buttonOpenEndFolder.Location = new System.Drawing.Point(521, 0);
             this.buttonOpenEndFolder.Name = "buttonOpenEndFolder";
             this.buttonOpenEndFolder.Size = new System.Drawing.Size(25, 21);
-            this.buttonOpenEndFolder.TabIndex = 2;
+            this.buttonOpenEndFolder.TabIndex = 4;
             this.buttonOpenEndFolder.Text = "...";
             this.buttonOpenEndFolder.UseVisualStyleBackColor = true;
             this.buttonOpenEndFolder.Click += new System.EventHandler(this.buttonOpenEndFolder_Click);
@@ -126,21 +139,20 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Left;
             this.label2.Location = new System.Drawing.Point(0, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(65, 21);
+            this.label2.Size = new System.Drawing.Size(91, 21);
             this.label2.TabIndex = 0;
-            this.label2.Text = "End Folder";
+            this.label2.Text = "End Folder:";
             // 
             // panelButtons
             // 
             this.panelButtons.Controls.Add(this.label4);
             this.panelButtons.Controls.Add(this.label3);
-            this.panelButtons.Controls.Add(this.buttonGo);
             this.panelButtons.Controls.Add(this.comboMaxPicsPerFile);
             this.panelButtons.Controls.Add(this.ChkConfirmOverwrite);
             this.panelButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelButtons.Location = new System.Drawing.Point(0, 71);
+            this.panelButtons.Location = new System.Drawing.Point(0, 101);
             this.panelButtons.Name = "panelButtons";
-            this.panelButtons.Size = new System.Drawing.Size(710, 57);
+            this.panelButtons.Size = new System.Drawing.Size(546, 57);
             this.panelButtons.TabIndex = 7;
             // 
             // label4
@@ -161,17 +173,6 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Max pictures per file:";
             // 
-            // buttonGo
-            // 
-            this.buttonGo.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonGo.Location = new System.Drawing.Point(632, 28);
-            this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(75, 23);
-            this.buttonGo.TabIndex = 9;
-            this.buttonGo.Text = "Go...";
-            this.buttonGo.UseVisualStyleBackColor = true;
-            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
-            // 
             // comboMaxPicsPerFile
             // 
             this.comboMaxPicsPerFile.FormattingEnabled = true;
@@ -186,6 +187,9 @@
             this.comboMaxPicsPerFile.Name = "comboMaxPicsPerFile";
             this.comboMaxPicsPerFile.Size = new System.Drawing.Size(121, 21);
             this.comboMaxPicsPerFile.TabIndex = 8;
+            this.toolTip.SetToolTip(this.comboMaxPicsPerFile, "Indicates the maximum if picture files included in a single \r\nWord document.\r\nif " +
+        "there are more picture files in a folder than this setting allows, \r\nseveral wor" +
+        "d documents will be created.");
             this.comboMaxPicsPerFile.SelectedIndexChanged += new System.EventHandler(this.comboMaxPicsPerFile_SelectedIndexChanged);
             // 
             // ChkConfirmOverwrite
@@ -195,25 +199,27 @@
             this.ChkConfirmOverwrite.Name = "ChkConfirmOverwrite";
             this.ChkConfirmOverwrite.Size = new System.Drawing.Size(15, 14);
             this.ChkConfirmOverwrite.TabIndex = 7;
+            this.toolTip.SetToolTip(this.ChkConfirmOverwrite, resources.GetString("ChkConfirmOverwrite.ToolTip"));
             this.ChkConfirmOverwrite.UseVisualStyleBackColor = true;
             this.ChkConfirmOverwrite.CheckedChanged += new System.EventHandler(this.ChkConfirmOverwrite_CheckedChanged);
             // 
             // panelProgress
             // 
+            this.panelProgress.Controls.Add(this.buttonGo);
             this.panelProgress.Controls.Add(this.progressBar);
             this.panelProgress.Controls.Add(this.labelProgress);
             this.panelProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelProgress.Location = new System.Drawing.Point(0, 128);
+            this.panelProgress.Location = new System.Drawing.Point(0, 158);
             this.panelProgress.Name = "panelProgress";
-            this.panelProgress.Size = new System.Drawing.Size(710, 43);
+            this.panelProgress.Size = new System.Drawing.Size(546, 43);
             this.panelProgress.TabIndex = 10;
             // 
             // progressBar
             // 
-            this.progressBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar.Location = new System.Drawing.Point(0, 0);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(710, 23);
+            this.progressBar.Size = new System.Drawing.Size(546, 30);
             this.progressBar.TabIndex = 11;
             // 
             // labelProgress
@@ -229,13 +235,88 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
+            // panelExcludeFiles
+            // 
+            this.panelExcludeFiles.Controls.Add(this.textExcludeFiles);
+            this.panelExcludeFiles.Controls.Add(this.label6);
+            this.panelExcludeFiles.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelExcludeFiles.Location = new System.Drawing.Point(0, 63);
+            this.panelExcludeFiles.Name = "panelExcludeFiles";
+            this.panelExcludeFiles.Size = new System.Drawing.Size(546, 21);
+            this.panelExcludeFiles.TabIndex = 2;
+            // 
+            // textExcludeFiles
+            // 
+            this.textExcludeFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textExcludeFiles.Location = new System.Drawing.Point(91, 0);
+            this.textExcludeFiles.Name = "textExcludeFiles";
+            this.textExcludeFiles.Size = new System.Drawing.Size(455, 20);
+            this.textExcludeFiles.TabIndex = 6;
+            this.toolTip.SetToolTip(this.textExcludeFiles, "A semi-colon delimited list of file masks, to indicate which picture files \r\nwill" +
+        " be not imported.\r\nFor example *small*");
+            // 
+            // label6
+            // 
+            this.label6.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label6.Location = new System.Drawing.Point(0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(91, 21);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Exclude Files:";
+            // 
+            // panelIncludeFiles
+            // 
+            this.panelIncludeFiles.Controls.Add(this.textIncludeFiles);
+            this.panelIncludeFiles.Controls.Add(this.label5);
+            this.panelIncludeFiles.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelIncludeFiles.Location = new System.Drawing.Point(0, 42);
+            this.panelIncludeFiles.Name = "panelIncludeFiles";
+            this.panelIncludeFiles.Size = new System.Drawing.Size(546, 21);
+            this.panelIncludeFiles.TabIndex = 2;
+            // 
+            // textIncludeFiles
+            // 
+            this.textIncludeFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textIncludeFiles.Location = new System.Drawing.Point(91, 0);
+            this.textIncludeFiles.Name = "textIncludeFiles";
+            this.textIncludeFiles.Size = new System.Drawing.Size(455, 20);
+            this.textIncludeFiles.TabIndex = 5;
+            this.toolTip.SetToolTip(this.textIncludeFiles, "A semi-colon delimited list of file masks, to indicate which picture files \r\nwill" +
+        " be imported.\r\nFor example *.jpg;*.jpeg");
+            // 
+            // label5
+            // 
+            this.label5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label5.Location = new System.Drawing.Point(0, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(91, 21);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Include Files:";
+            // 
+            // toolTip
+            // 
+            this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            // 
+            // buttonGo
+            // 
+            this.buttonGo.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonGo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonGo.Location = new System.Drawing.Point(471, 0);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(75, 30);
+            this.buttonGo.TabIndex = 12;
+            this.buttonGo.Text = "Go...";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            // 
             // FormImportPictures
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(710, 171);
+            this.ClientSize = new System.Drawing.Size(546, 201);
             this.Controls.Add(this.panelButtons);
             this.Controls.Add(this.panelProgress);
+            this.Controls.Add(this.panelExcludeFiles);
+            this.Controls.Add(this.panelIncludeFiles);
             this.Controls.Add(this.panelEndFolder);
             this.Controls.Add(this.panelStartFolder);
             this.Name = "FormImportPictures";
@@ -248,6 +329,10 @@
             this.panelButtons.PerformLayout();
             this.panelProgress.ResumeLayout(false);
             this.panelProgress.PerformLayout();
+            this.panelExcludeFiles.ResumeLayout(false);
+            this.panelExcludeFiles.PerformLayout();
+            this.panelIncludeFiles.ResumeLayout(false);
+            this.panelIncludeFiles.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -263,7 +348,6 @@
         private System.Windows.Forms.Button buttonOpenEndFolder;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panelButtons;
-        private System.Windows.Forms.Button buttonGo;
         private System.Windows.Forms.ComboBox comboMaxPicsPerFile;
         private System.Windows.Forms.CheckBox ChkConfirmOverwrite;
         private System.Windows.Forms.Label label3;
@@ -272,5 +356,13 @@
         private System.Windows.Forms.Label labelProgress;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Panel panelExcludeFiles;
+        private System.Windows.Forms.Panel panelIncludeFiles;
+        private System.Windows.Forms.TextBox textExcludeFiles;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox textIncludeFiles;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button buttonGo;
     }
 }
