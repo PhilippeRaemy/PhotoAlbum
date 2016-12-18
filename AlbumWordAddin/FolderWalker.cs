@@ -71,13 +71,14 @@
                 {
                     OnFoundAFile(fi.fileInfo);
                     if (_cancel) return;
+                    continue;
                 }
                 if (!fi.fileMatch) continue;
                 var small=Path.Combine(folderFrom.FullName, _smallFileNameMaker(fi.fileInfo.Name));
                 var smallFi = new FileInfo(small);
                 if (!smallFi.Exists)
                 {
-                    OnFoundAFile(MakeSmallImage(smallFi, small));
+                    OnFoundAFile(MakeSmallImage(fi.fileInfo, small));
                     if (_cancel) return;
                 }
             }
@@ -85,7 +86,7 @@
             if (_cancel) return;
             folderFrom
                             .EnumerateDirectories()
-                .TakeWhile(di=>string.Compare(di.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) > 0)
+                .TakeWhile(di=>string.Compare(di.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) < 0)
                 .ForEach(Run);
         }
 
