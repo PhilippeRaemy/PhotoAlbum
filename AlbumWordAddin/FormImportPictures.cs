@@ -2,7 +2,6 @@
 {
     using System;
     using System.Globalization;
-    using System.IO;
     using System.Windows.Forms;
 
     using UserPreferences;
@@ -15,6 +14,8 @@
             var userprefs=new PersistedUserPreferences();
             textStartFolder.Text = userprefs.FolderImportStart;
             textEndFolder.Text = userprefs.FolderImportEnd;
+            textIncludeFiles.Text = userprefs.IncludeFiles;
+            textExcludeFiles.Text = userprefs.ExcludeFiles;
             comboMaxPicsPerFile.Text = userprefs.MaxPicturesPerFile.ToString();
             ChkConfirmOverwrite.CheckState = userprefs.ConfirmFileOverwrite ? CheckState.Checked : CheckState.Unchecked;
         }
@@ -53,6 +54,8 @@
             {
                 userprefs.FolderImportStart = textStartFolder.Text;
                 userprefs.FolderImportEnd = textEndFolder.Text;
+                userprefs.IncludeFiles = textIncludeFiles.Text;
+                userprefs.ExcludeFiles = textExcludeFiles.Text;
                 int maxPics;
                 userprefs.MaxPicturesPerFile =
                     int.TryParse(comboMaxPicsPerFile.SelectedItem.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out maxPics)

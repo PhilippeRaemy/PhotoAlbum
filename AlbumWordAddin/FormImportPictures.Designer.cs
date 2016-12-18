@@ -44,6 +44,7 @@
             this.comboMaxPicsPerFile = new System.Windows.Forms.ComboBox();
             this.ChkConfirmOverwrite = new System.Windows.Forms.CheckBox();
             this.panelProgress = new System.Windows.Forms.Panel();
+            this.buttonGo = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelProgress = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -54,7 +55,6 @@
             this.textIncludeFiles = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonGo = new System.Windows.Forms.Button();
             this.panelStartFolder.SuspendLayout();
             this.panelEndFolder.SuspendLayout();
             this.panelButtons.SuspendLayout();
@@ -214,6 +214,18 @@
             this.panelProgress.Size = new System.Drawing.Size(546, 43);
             this.panelProgress.TabIndex = 10;
             // 
+            // buttonGo
+            // 
+            this.buttonGo.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonGo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonGo.Location = new System.Drawing.Point(471, 0);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(75, 30);
+            this.buttonGo.TabIndex = 12;
+            this.buttonGo.Text = "Go...";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
+            // 
             // progressBar
             // 
             this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -296,17 +308,6 @@
             // toolTip
             // 
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            // 
-            // buttonGo
-            // 
-            this.buttonGo.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonGo.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonGo.Location = new System.Drawing.Point(471, 0);
-            this.buttonGo.Name = "buttonGo";
-            this.buttonGo.Size = new System.Drawing.Size(75, 30);
-            this.buttonGo.TabIndex = 12;
-            this.buttonGo.Text = "Go...";
-            this.buttonGo.UseVisualStyleBackColor = true;
             // 
             // FormImportPictures
             // 

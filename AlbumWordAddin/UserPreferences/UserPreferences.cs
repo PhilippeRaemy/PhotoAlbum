@@ -15,6 +15,8 @@
         int _padding;
         protected bool Modified;
         bool _confirmFileOverwrite;
+        string _includeFiles;
+        string _excludeFiles;
 
         [XmlElement("FolderImportStart")]
         public string FolderImportStart
@@ -56,6 +58,20 @@
         {
             get { return _confirmFileOverwrite; }
             set { Modified = true; _confirmFileOverwrite = value; }
+        }
+
+        [XmlElement("IncludeFiles")]
+        public string IncludeFiles
+        {
+            get { return _includeFiles; }
+            set { Modified = true; _includeFiles = value; }
+        }
+
+        [XmlElement("ExcludeFiles")]
+        public string ExcludeFiles
+        {
+            get { return _excludeFiles; }
+            set { Modified = true; _excludeFiles = value; }
         }
     }
 

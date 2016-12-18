@@ -228,8 +228,8 @@ namespace AlbumWordAddin
             var walker=new FolderWalker(
                 userPrefs.FolderImportStart, 
                 userPrefs.FolderImportEnd, 
-                @"\.((jpeg)|(jpg))$", 
-                null,
+                userPrefs.IncludeFiles,
+                userPrefs.ExcludeFiles,
                 @"\.small\.((jpeg)|(jpg))$",
                 s=>s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg")
                 );

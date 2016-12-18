@@ -20,8 +20,8 @@
         public FolderWalker(
             string folderFrom, 
             string folderTo, 
-            string filePattern, 
-            string excludePattern, 
+            string fileMaskList, 
+            string excludeMaskList, 
             string smallPattern, 
             Func<string, string> smallFileNameMaker
         )
@@ -34,10 +34,16 @@
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
             if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
             if (string.Compare(folderFrom, folderTo, StringComparison.InvariantCultureIgnoreCase) > 0) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
-            _filePattern = new Regex(filePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            _excludePattern = new Regex(excludePattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            _filePattern = RegexFromPatternList(fileMaskList);
+            _excludePattern = RegexFromPatternList(excludeMaskList);
             _smallPattern = new Regex(smallPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
+
+        Regex RegexFromPatternList(string maskList) 
+            => new Regex(
+                "(" + maskList.Split(';').Select(m=>m.Replace("?", "\\.").Replace("*", "*.")).ToDelimitedString(")|(") + ")", 
+                RegexOptions.Compiled | RegexOptions.IgnoreCase
+        );
 
         public event EventHandler<FolderEventArgs> StartingFolder;
         public event EventHandler<FolderEventArgs> EndingFolder;
