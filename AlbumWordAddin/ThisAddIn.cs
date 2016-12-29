@@ -110,5 +110,9 @@ namespace AlbumWordAddin
             _utilities.DoPositionSelectedImages(padding, margin);
         }
 
+        public void DoRelativePositionSelectedImages()
+        {
+            _utilities.DoRelativePositionSelectedImages();
+        }
     }
 }

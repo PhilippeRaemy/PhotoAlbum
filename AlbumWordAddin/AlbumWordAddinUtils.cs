@@ -237,6 +237,7 @@ namespace AlbumWordAddin
                 _positionerParms.VShape = vShape;
             DoPositionSelectedImages(_positionerParms);
         }
+
         internal void DoPositionSelectedImages(int padding, int margin)
         {
             _positionerParms.Padding = padding;
@@ -247,13 +248,14 @@ namespace AlbumWordAddin
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
             var shapes = MoveAllToSamePage(SelectedShapes()).ToArray();
-            if(shapes.Length==0) throw new InvalidOperationException("Please select one or more images.");
-            var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth, shapes[0].Anchor.PageSetup.PageHeight);
+            if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
+            var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
+                shapes[0].Anchor.PageSetup.PageHeight);
             var rectangles = shapes.Select(s => new Rectangle(s.Left, s.Top, s.Width, s.Height));
             var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
 
             foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
-                                      .Where(r=>r.re!=null && r.sh!=null)
+                    .Where(r => r.re != null && r.sh != null)
             )
             {
                 pos.sh.Left = pos.re.Left;
@@ -267,7 +269,7 @@ namespace AlbumWordAddin
         IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
         {
             Word.Range anchor = null;
-            var pageNumber=-1;
+            var pageNumber = -1;
             foreach (var shape in selectedShapes)
             {
                 if (anchor == null)
@@ -282,7 +284,8 @@ namespace AlbumWordAddin
                     {
                         yield return shape;
                     }
-                    else { 
+                    else
+                    {
                         shape.Select(Replace: true);
                         Selection.Cut();
                         anchor.Select();
@@ -299,6 +302,20 @@ namespace AlbumWordAddin
             var fac2 = fac1;
             while (fac1*fac2 < shapeCount) fac2++;
             return new Tuple<int, int>(fac1, fac2);
+        }
+
+        public void DoRelativePositionSelectedImages()
+        {
+            using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
+            {
+                var shapes = SelectedShapes().ToArray();
+                if (!shapes.Any()) return;
+                foreach (var shape in shapes)
+                {
+                    shape.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+                    shape.RelativeVerticalPosition   = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+                }
+            }
         }
     }
 }

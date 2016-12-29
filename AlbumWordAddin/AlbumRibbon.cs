@@ -253,5 +253,10 @@ namespace AlbumWordAddin
         {
             throw new NotImplementedException();
         }
+
+        void ButtonSetRelativePosition_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.DoRelativePositionSelectedImages();
+        }
     }
 }
