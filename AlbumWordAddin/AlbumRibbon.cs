@@ -169,7 +169,7 @@ namespace AlbumWordAddin
         {
             try
             {
-                dropDownPadding.SelectedItemIndex += i;
+                dropDownPadding.SelectedItemIndex += 5 * i;
                 dropDownPadding_ButtonClick(sender, e);
             }
             catch
@@ -180,7 +180,7 @@ namespace AlbumWordAddin
 
         void dropDownPadding_ButtonClick(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(padding: (int)dropDownPadding.SelectedItem.Tag, margin: (int)dropDownMargin.SelectedItem.Tag);
+            Globals.ThisAddIn.DoPositionSelectedImages(padding: 5 * (int)dropDownPadding.SelectedItem.Tag, margin: 5 * (int)dropDownMargin.SelectedItem.Tag);
         }
 
         void dropDownPadding_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -190,7 +190,7 @@ namespace AlbumWordAddin
 
         void dropDownMargin_ButtonClick(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(padding: (int)dropDownPadding.SelectedItem.Tag, margin: (int)dropDownMargin.SelectedItem.Tag);
+            Globals.ThisAddIn.DoPositionSelectedImages(padding: 5 * (int)dropDownPadding.SelectedItem.Tag, margin: 5 * (int)dropDownMargin.SelectedItem.Tag);
         }
 
         void dropDownMargin_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -211,7 +211,7 @@ namespace AlbumWordAddin
         {
             try
             {
-                dropDownMargin.SelectedItemIndex += i;
+                dropDownMargin.SelectedItemIndex += 5 * i;
                 dropDownMargin_ButtonClick(sender, e);
             }
             catch

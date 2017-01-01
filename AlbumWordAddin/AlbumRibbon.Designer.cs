@@ -17,8 +17,10 @@ namespace AlbumWordAddin
         {
             InitializeComponent();
 
-            GenIntDropdownItems(  0,  50).ForEach(dropDownMargin.Items.Add);
-            GenIntDropdownItems(-50, 101).ForEach(dropDownPadding.Items.Add);
+            GenIntDropdownItems(  0, 10).ForEach(dropDownMargin.Items.Add);
+            dropDownMargin.SelectedItemIndex = 3;
+            GenIntDropdownItems(-10, 20).ForEach(dropDownPadding.Items.Add);
+            dropDownPadding.SelectedItemIndex = 13;
 
             ThisAddIn.ThisRibbon = this;
         }
