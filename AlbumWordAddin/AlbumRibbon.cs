@@ -169,7 +169,7 @@ namespace AlbumWordAddin
         {
             try
             {
-                dropDownPadding.SelectedItemIndex += 5 * i;
+                dropDownPadding.SelectedItemIndex += i;
                 dropDownPadding_ButtonClick(sender, e);
             }
             catch
@@ -211,7 +211,7 @@ namespace AlbumWordAddin
         {
             try
             {
-                dropDownMargin.SelectedItemIndex += 5 * i;
+                dropDownMargin.SelectedItemIndex += i;
                 dropDownMargin_ButtonClick(sender, e);
             }
             catch

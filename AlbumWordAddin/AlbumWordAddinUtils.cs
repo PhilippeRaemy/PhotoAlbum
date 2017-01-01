@@ -19,12 +19,14 @@ namespace AlbumWordAddin
     {
         readonly Positioner.Parms _positionerParms = new Positioner.Parms();
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
-        Word.Selection Selection => ActiveDocument.Application.Selection;
+        Word.Application Application => ActiveDocument.Application;
+        Word.Selection Selection => Application.Selection;
+
         IEnumerable<Word.Shape> SelectedShapes() => Selection.ShapeRange.Cast<Word.Shape>();
 
         public void RemoveEmptyPages()
         {
-            using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
+            using (Application.StatePreserver().FreezeScreenUpdating())
             {
 
                 var paragraphsToBeDeleted = ActiveDocument.Paragraphs.Cast<Word.Paragraph>()
@@ -60,7 +62,8 @@ namespace AlbumWordAddin
                              || s.Type == Office.MsoShapeType.msoPicture
                             ) && s.Anchor.GetPageNumber() == pageNumber
                 );
-            shapesOnPage.ForEach(s => s.Select(Replace: false));
+            using (Application.StatePreserver().FreezeScreenUpdating())
+                shapesOnPage.ForEach(s => s.Select(Replace: false));
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace AlbumWordAddin
         /// <param name="forced">Used only for some forced alignment behaviors such as ForcedWidth or ForcedHeight</param>
         public void AlignSelectedImages(Alignment alignment, float forced)
         {
-            using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
+            using (Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
                 var shapes = SelectedShapes().ToArray();
@@ -157,7 +160,7 @@ namespace AlbumWordAddin
 
         internal void FixAnchorOfSelectedImages()
         {
-            using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
+            using (Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
                 var shapes = SelectedShapes().ToArray();
@@ -254,15 +257,16 @@ namespace AlbumWordAddin
             var rectangles = shapes.Select(s => new Rectangle(s.Left, s.Top, s.Width, s.Height));
             var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
 
-            foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
-                    .Where(r => r.re != null && r.sh != null)
-            )
-            {
-                pos.sh.Left = pos.re.Left;
-                pos.sh.Top = pos.re.Top;
-                pos.sh.Width = pos.re.Width;
-                pos.sh.Height = pos.re.Height;
-            }
+            using (Application.StatePreserver().FreezeScreenUpdating())
+                foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
+                        .Where(r => r.re != null && r.sh != null)
+                )
+                {
+                    pos.sh.Left = pos.re.Left;
+                    pos.sh.Top = pos.re.Top;
+                    pos.sh.Width = pos.re.Width;
+                    pos.sh.Height = pos.re.Height;
+                }
 
         }
 
@@ -307,7 +311,7 @@ namespace AlbumWordAddin
 
         public void DoRelativePositionSelectedImages()
         {
-            using (ActiveDocument.Application.StatePreserver().FreezeScreenUpdating())
+            using (Application.StatePreserver().FreezeScreenUpdating())
             {
                 var shapes = SelectedShapes().ToArray();
                 if (!shapes.Any()) return;
