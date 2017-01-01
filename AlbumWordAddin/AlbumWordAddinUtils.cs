@@ -247,7 +247,7 @@ namespace AlbumWordAddin
 
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
-            var shapes = MoveAllToSamePage(SelectedShapes()).ToArray();
+            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection().ToArray();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
@@ -263,6 +263,7 @@ namespace AlbumWordAddin
                 pos.sh.Width = pos.re.Width;
                 pos.sh.Height = pos.re.Height;
             }
+
         }
 
 
