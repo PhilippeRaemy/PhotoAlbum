@@ -57,11 +57,6 @@ namespace AlbumWordAddin
             }
         }
 
-        void buttonBestFit_Click(object sender, RibbonControlEventArgs e)
-        {
-
-        }
-
         void buttonAlignTop_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Top);
@@ -129,30 +124,26 @@ namespace AlbumWordAddin
 
         void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
         {
-            var ribbonButton = sender as RibbonButton;
-            if (ribbonButton == null) throw new InvalidOperationException();
-            mnuHAlign.Image = ribbonButton.Image;
-            mnuHAlign.Tag = ribbonButton.Id;
             mnuHAlign_Click(sender, e);
         }
 
         void MenuItemVAlign_Click(object sender, RibbonControlEventArgs e)
         {
-            var ribbonButton = sender as RibbonButton;
-            if (ribbonButton == null) throw new InvalidOperationException();
-            mnuVAlign.Image = ribbonButton.Image;
-            mnuVAlign.Tag = ribbonButton.Id;
             mnuVAlign_Click(sender, e);
         }
 
-        void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
+        static void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(hAlign: (string)mnuHAlign.Tag);
+            var ribbonButton = sender as RibbonButton;
+            if (ribbonButton == null) throw new InvalidOperationException();
+            Globals.ThisAddIn.DoPositionSelectedImages(hAlign: ribbonButton.Id);
         }
 
-        void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
+        static void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(vAlign: (string)mnuVAlign.Tag);
+            var ribbonButton = sender as RibbonButton;
+            if (ribbonButton == null) throw new InvalidOperationException();
+            Globals.ThisAddIn.DoPositionSelectedImages(vAlign: ribbonButton.Id);
         }
 
         void buttonPaddingLess_Click(object sender, RibbonControlEventArgs e)
