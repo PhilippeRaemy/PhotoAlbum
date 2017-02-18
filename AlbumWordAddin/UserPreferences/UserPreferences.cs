@@ -17,6 +17,7 @@
         bool _confirmFileOverwrite;
         string _includeFiles;
         string _excludeFiles;
+        string _newDocumentTemplate;
 
         [XmlElement("FolderImportStart")]
         public string FolderImportStart
@@ -72,6 +73,13 @@
         {
             get { return _excludeFiles; }
             set { Modified = true; _excludeFiles = value; }
+        }
+
+        [XmlElement("NewDocumentTemplate")]
+        public string NewDocumentTemplate
+        {
+            get { return _newDocumentTemplate; }
+            set { Modified = true; _newDocumentTemplate = value; }
         }
     }
 

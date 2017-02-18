@@ -6,7 +6,7 @@
 
     using UserPreferences;
 
-    public partial class FormImportPictures : Form
+    public partial class FormImportPictures : Form, IProgress
     {
         public FormImportPictures()
         {
@@ -63,6 +63,24 @@
                 userprefs.ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState ==CheckState.Checked;
             }
             Close();
+        }
+
+        public void InitProgress(int max)
+        {
+            progressBar.Maximum = max;
+            progressBar.Minimum = 0;
+            progressBar.Value = 0;
+            progressBar.Visible = true;
+        }
+
+        public void Progress()
+        {
+            progressBar.Value++;
+        }
+
+        public void CloseProgress()
+        {
+            progressBar.Visible = false;
         }
     }
 }

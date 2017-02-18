@@ -11,6 +11,7 @@
     public class FolderWalker
     {
         readonly Func<string, string> _smallFileNameMaker;
+        readonly IProgress _progressIndicator;
         readonly DirectoryInfo _diFolderFrom;
         readonly DirectoryInfo _diFolderTo;
         readonly Regex _filePattern;
@@ -23,10 +24,11 @@
             string fileMaskList, 
             string excludeMaskList, 
             string smallPattern, 
-            Func<string, string> smallFileNameMaker
-        )
+            Func<string, string> smallFileNameMaker, 
+            IProgress progressIndicator)
         {
             _smallFileNameMaker = smallFileNameMaker;
+            _progressIndicator = progressIndicator;
             if (folderFrom == null) throw new ArgumentNullException(nameof(folderFrom));
             if (folderTo == null) throw new ArgumentNullException(nameof(folderTo));
             _diFolderFrom = new DirectoryInfo(folderFrom);
@@ -57,18 +59,19 @@
 
         void Run(DirectoryInfo folderFrom)
         {
-            OnStartingFolder(folderFrom);
+            var matchingFiles = folderFrom
+                .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
+                .Where(fi => !_excludePattern.Match(fi.Name).Success)
+                .Select(fi=>new {fileInfo=fi, fileMatch = _filePattern.Match(fi.Name).Success, smallMatch = _smallPattern.Match(fi.Name).Success })
+                .ToArray();
+            OnStartingFolder(folderFrom, matchingFiles.Length);
             if (_cancel) return;
-            foreach (var fi in 
-                folderFrom
-                    .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
-                    .Where(fi => !_excludePattern.Match(fi.Name).Success)
-                    .Select(fi=>new {fileInfo=fi, fileMatch = _filePattern.Match(fi.Name).Success, smallMatch = _smallPattern.Match(fi.Name).Success })
-                    .ToArray()
-                )
+            _progressIndicator?.InitProgress(matchingFiles.Length);
+            foreach (var fi in matchingFiles)
             {
                 if (fi.smallMatch)
                 {
+                    _progressIndicator?.Progress();
                     OnFoundAFile(fi.fileInfo);
                     if (_cancel) return;
                     continue;
@@ -78,11 +81,13 @@
                 var smallFi = new FileInfo(small);
                 if (!smallFi.Exists)
                 {
+                    _progressIndicator?.Progress();
                     OnFoundAFile(MakeSmallImage(fi.fileInfo, small));
                     if (_cancel) return;
                 }
             }
             OnEndingFolder(folderFrom);
+            _progressIndicator?.CloseProgress();
             if (_cancel) return;
             folderFrom
                             .EnumerateDirectories()
@@ -93,7 +98,7 @@
         bool _cancel;
         public void Cancel() { _cancel = true; }
 
-        void OnStartingFolder(DirectoryInfo di) { StartingFolder?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
+        void OnStartingFolder(DirectoryInfo di, int count) { StartingFolder?.Invoke(this, new FolderEventArgs { DirectoryInfo = di, MatchingFilesCount=count }); }
         void OnEndingFolder  (DirectoryInfo di) { EndingFolder  ?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
         void OnFoundAFile    (FileInfo      fi) { FoundAFile    ?.Invoke(this, new FileEventArgs   { FileInfo      = fi }); }
 
@@ -116,6 +121,7 @@
     public class FolderEventArgs:EventArgs
     {
         public DirectoryInfo DirectoryInfo { get; set; }
+        public int MatchingFilesCount { get; set; }
     }
 
     public static class ImageExtensions
