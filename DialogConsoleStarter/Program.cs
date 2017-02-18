@@ -25,8 +25,7 @@
                 @"\.jpg$",
                 @"\*",
                 @"small\.jpg$",
-                s=> new Regex(@"\.jpg$", RegexOptions.IgnoreCase).Replace(s, ".small.jpg"),
-                null
+                s=> new Regex(@"\.jpg$", RegexOptions.IgnoreCase).Replace(s, ".small.jpg")
             );
             folderWalker.StartingFolder += FolderWalker_StartingFolder;
             folderWalker.EndingFolder += FolderWalker_EndingFolder;

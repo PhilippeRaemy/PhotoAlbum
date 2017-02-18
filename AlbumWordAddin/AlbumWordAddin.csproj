@@ -201,7 +201,6 @@
       <DependentUpon>FormImportPictures.cs</DependentUpon>
     </Compile>
     <Compile Include="IAlbumWordAddinUtils.cs" />
-    <Compile Include="IProgress.cs" />
     <Compile Include="UserPreferences\PersistedUserPreferences.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
