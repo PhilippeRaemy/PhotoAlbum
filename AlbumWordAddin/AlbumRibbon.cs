@@ -233,17 +233,17 @@ namespace AlbumWordAddin
 
         void Walker_FoundAFile(object sender, FileEventArgs e)
         {
-            throw new NotImplementedException();
+            Globals.ThisAddIn.AddPictureToCurrentDocument(e.FileInfo);
         }
 
         void Walker_EndingFolder(object sender, FolderEventArgs e)
         {
-            throw new NotImplementedException();
+            Globals.ThisAddIn.CloseCurrentAlbumDocument(e.DirectoryInfo);
         }
 
         void Walker_StartingFolder(object sender, FolderEventArgs e)
         {
-            throw new NotImplementedException();
+            Globals.ThisAddIn.CreateNewAlbumDocument(e.DirectoryInfo);
         }
 
         void ButtonSetRelativePosition_Click(object sender, RibbonControlEventArgs e)
