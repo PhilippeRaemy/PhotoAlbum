@@ -222,7 +222,8 @@ namespace AlbumWordAddin
                 userPrefs.IncludeFiles,
                 userPrefs.ExcludeFiles,
                 @"\.small\.((jpeg)|(jpg))$",
-                s=>s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg")
+                s=>s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg"),
+                frm
                 );
             walker.StartingFolder += Walker_StartingFolder;
             walker.EndingFolder += Walker_EndingFolder;
