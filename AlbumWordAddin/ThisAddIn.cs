@@ -8,6 +8,10 @@ using Microsoft.Office.Tools.Word;
 
 namespace AlbumWordAddin
 {
+    using System.IO;
+    using Microsoft.Office.Core;
+    using UserPreferences;
+
     public partial class ThisAddIn
     {
         Document       ActiveDocument => Globals.Factory.GetVstoObject(Application.ActiveDocument);
@@ -113,6 +117,39 @@ namespace AlbumWordAddin
         public void DoRelativePositionSelectedImages()
         {
             _utilities.DoRelativePositionSelectedImages();
+        }
+
+        public void CreateNewAlbumDocument(DirectoryInfo directoryInfo)
+        {
+            var userPrefs = new PersistedUserPreferences();
+            var newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.docx"));
+            if(newDocFile.Exists) newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.{DateTime.Now:yyyyMMdd.HHmmss}.docx"));
+            Application.Documents.Add(Template: userPrefs.NewDocumentTemplate, NewTemplate: false,
+                DocumentType: Word.WdNewDocumentType.wdNewBlankDocument);
+        }
+
+        public void CloseCurrentAlbumDocument(DirectoryInfo directoryInfo)
+        {
+            Application.ActiveDocument.Close(Word.WdSaveOptions.wdSaveChanges);
+        }
+
+        public void AddPictureToCurrentDocument(FileInfo fileInfo)
+        {
+            var pageWidth = Selection.PageSetup.PageWidth;
+            var pageHeight = Selection.PageSetup.PageHeight;
+            var sel = Application.Selection;
+            sel.MoveEnd(Word.WdUnits.wdStory);
+            var shp = sel.Document.Shapes.AddPicture(fileInfo.FullName, LinkToFile: true, SaveWithDocument: false,
+                Left: pageWidth * .05f, Top: pageHeight * .05f, Anchor: sel);
+            shp.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+            shp.RelativeVerticalPosition = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+            shp.LockAspectRatio = MsoTriState.msoCTrue;
+            var hRatio = pageWidth / shp.Width;
+            var vRatio = pageHeight / shp.Height;
+            shp.Width = shp.Width * 0.90f * (vRatio < hRatio ? vRatio : hRatio);
+            shp.WrapFormat.Type = Word.WdWrapType.wdWrapTight;
+            sel.MoveEnd(Word.WdUnits.wdStory);
+            sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
         }
     }
 }
