@@ -262,6 +262,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Icons\SelectAllImagesOnPage.png" />
+    <None Include="Icons\PositionRelativeToPage.png" />
+    <None Include="Icons\RemoveEmptyPages.png" />
     <None Include="Icons\VAlignTop.png" />
     <None Include="Icons\VAlignRightUp.png" />
     <None Include="Icons\VAlignRightDown.png" />
@@ -276,6 +279,9 @@
     <None Include="Icons\HAlignRight.png" />
     <None Include="Icons\HAlignRightDown.png" />
     <None Include="Icons\HAlignRightUp.png" />
+    <None Include="Icons\Margins.png" />
+    <None Include="Icons\padding.png" />
+    <None Include="Icons\MoveAnchorsToTop.png" />
     <Content Include="Icons\Pict_1x1.PNG" />
     <Content Include="Icons\Pict_1x2.PNG" />
     <Content Include="Icons\Pict_1x3.PNG" />

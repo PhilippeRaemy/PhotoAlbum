@@ -133,6 +133,36 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Margins {
+            get {
+                object obj = ResourceManager.GetObject("Margins", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MoveAnchorsToTop {
+            get {
+                object obj = ResourceManager.GetObject("MoveAnchorsToTop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap padding {
+            get {
+                object obj = ResourceManager.GetObject("padding", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pict_1x1 {
             get {
                 object obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
@@ -216,6 +246,36 @@ namespace AlbumWordAddin.Properties {
         internal static System.Drawing.Bitmap Pict_3x3 {
             get {
                 object obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PositionRelativeToPage {
+            get {
+                object obj = ResourceManager.GetObject("PositionRelativeToPage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RemoveEmptyPages {
+            get {
+                object obj = ResourceManager.GetObject("RemoveEmptyPages", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SelectAllImagesOnPage {
+            get {
+                object obj = ResourceManager.GetObject("SelectAllImagesOnPage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

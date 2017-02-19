@@ -79,6 +79,14 @@ namespace AlbumWordAddin
             this.buttonAlignLeft = this.Factory.CreateRibbonButton();
             this.buttonAlignCenter = this.Factory.CreateRibbonButton();
             this.buttonAlignRight = this.Factory.CreateRibbonButton();
+            this.box3 = this.Factory.CreateRibbonBox();
+            this.buttonMarginLess = this.Factory.CreateRibbonButton();
+            this.dropDownMargin = this.Factory.CreateRibbonDropDown();
+            this.buttonMarginMore = this.Factory.CreateRibbonButton();
+            this.box5 = this.Factory.CreateRibbonBox();
+            this.buttonPaddingLess = this.Factory.CreateRibbonButton();
+            this.dropDownPadding = this.Factory.CreateRibbonDropDown();
+            this.buttonPaddingMore = this.Factory.CreateRibbonButton();
             this.groupSize = this.Factory.CreateRibbonGroup();
             this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.buttonSizeToWidest = this.Factory.CreateRibbonButton();
@@ -111,20 +119,14 @@ namespace AlbumWordAddin
             this.vAlignBottom = this.Factory.CreateRibbonButton();
             this.vAlignRightUp = this.Factory.CreateRibbonButton();
             this.vAlignRightDown = this.Factory.CreateRibbonButton();
-            this.box3 = this.Factory.CreateRibbonBox();
-            this.buttonMarginLess = this.Factory.CreateRibbonButton();
-            this.dropDownMargin = this.Factory.CreateRibbonDropDown();
-            this.buttonMarginMore = this.Factory.CreateRibbonButton();
-            this.box5 = this.Factory.CreateRibbonBox();
-            this.buttonPaddingLess = this.Factory.CreateRibbonButton();
-            this.dropDownPadding = this.Factory.CreateRibbonDropDown();
-            this.buttonPaddingMore = this.Factory.CreateRibbonButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
             this.groupPage.SuspendLayout();
             this.groupAlign.SuspendLayout();
             this.buttonGroupAlignVertical.SuspendLayout();
             this.buttonGroupAlignHorizontal.SuspendLayout();
+            this.box3.SuspendLayout();
+            this.box5.SuspendLayout();
             this.groupSize.SuspendLayout();
             this.buttonGroup2.SuspendLayout();
             this.box1.SuspendLayout();
@@ -132,8 +134,6 @@ namespace AlbumWordAddin
             this.box4.SuspendLayout();
             this.box2.SuspendLayout();
             this.box6.SuspendLayout();
-            this.box3.SuspendLayout();
-            this.box5.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabAddIns
@@ -182,29 +182,42 @@ namespace AlbumWordAddin
             // 
             // ButtonRemoveEmptyPages
             // 
-            this.ButtonRemoveEmptyPages.Image = ((System.Drawing.Image)(resources.GetObject("ButtonRemoveEmptyPages.Image")));
-            this.ButtonRemoveEmptyPages.Label = "Remove empty pages";
+            this.ButtonRemoveEmptyPages.Image = global::AlbumWordAddin.Properties.Resources.RemoveEmptyPages;
+            this.ButtonRemoveEmptyPages.Label = "";
             this.ButtonRemoveEmptyPages.Name = "ButtonRemoveEmptyPages";
+            this.ButtonRemoveEmptyPages.ScreenTip = "Remove empty pages";
             this.ButtonRemoveEmptyPages.ShowImage = true;
-            this.ButtonRemoveEmptyPages.SuperTip = "Tip to button 1";
+            this.ButtonRemoveEmptyPages.SuperTip = "Remove empty pages";
             this.ButtonRemoveEmptyPages.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonRemoveEmptyPages_Click);
             // 
             // ButtonSelectShapesOnPage
             // 
-            this.ButtonSelectShapesOnPage.Label = "Select Images on Page";
+            this.ButtonSelectShapesOnPage.Image = global::AlbumWordAddin.Properties.Resources.SelectAllImagesOnPage;
+            this.ButtonSelectShapesOnPage.Label = "";
             this.ButtonSelectShapesOnPage.Name = "ButtonSelectShapesOnPage";
+            this.ButtonSelectShapesOnPage.ScreenTip = "Select All Images on Page";
+            this.ButtonSelectShapesOnPage.ShowImage = true;
+            this.ButtonSelectShapesOnPage.SuperTip = "Select All Images on Page";
             this.ButtonSelectShapesOnPage.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSelectShapesOnPage_Click);
             // 
             // ButtonSetRelativePosition
             // 
-            this.ButtonSetRelativePosition.Label = "Set position relative to page";
+            this.ButtonSetRelativePosition.Image = global::AlbumWordAddin.Properties.Resources.PositionRelativeToPage;
+            this.ButtonSetRelativePosition.Label = "";
             this.ButtonSetRelativePosition.Name = "ButtonSetRelativePosition";
+            this.ButtonSetRelativePosition.ScreenTip = "Set position relative to page";
+            this.ButtonSetRelativePosition.ShowImage = true;
+            this.ButtonSetRelativePosition.SuperTip = "Set position relative to page";
             this.ButtonSetRelativePosition.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSetRelativePosition_Click);
             // 
             // ButtonFixAnchors
             // 
-            this.ButtonFixAnchors.Label = "Move anchors to top";
+            this.ButtonFixAnchors.Image = global::AlbumWordAddin.Properties.Resources.MoveAnchorsToTop;
+            this.ButtonFixAnchors.Label = "";
             this.ButtonFixAnchors.Name = "ButtonFixAnchors";
+            this.ButtonFixAnchors.ScreenTip = "Move anchors to top";
+            this.ButtonFixAnchors.ShowImage = true;
+            this.ButtonFixAnchors.SuperTip = "Move anchors to top";
             this.ButtonFixAnchors.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonFixAnchors_Click);
             // 
             // groupAlign
@@ -279,6 +292,56 @@ namespace AlbumWordAddin
             this.buttonAlignRight.OfficeImageId = "ObjectsAlignRight";
             this.buttonAlignRight.ShowImage = true;
             this.buttonAlignRight.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonAlignRight_Click);
+            // 
+            // box3
+            // 
+            this.box3.Items.Add(this.buttonMarginLess);
+            this.box3.Items.Add(this.dropDownMargin);
+            this.box3.Items.Add(this.buttonMarginMore);
+            this.box3.Name = "box3";
+            // 
+            // buttonMarginLess
+            // 
+            this.buttonMarginLess.Label = "<";
+            this.buttonMarginLess.Name = "buttonMarginLess";
+            // 
+            // dropDownMargin
+            // 
+            this.dropDownMargin.Image = ((System.Drawing.Image)(resources.GetObject("dropDownMargin.Image")));
+            this.dropDownMargin.Label = "";
+            this.dropDownMargin.Name = "dropDownMargin";
+            this.dropDownMargin.ScreenTip = "Margins";
+            this.dropDownMargin.ShowImage = true;
+            // 
+            // buttonMarginMore
+            // 
+            this.buttonMarginMore.Label = ">";
+            this.buttonMarginMore.Name = "buttonMarginMore";
+            // 
+            // box5
+            // 
+            this.box5.Items.Add(this.buttonPaddingLess);
+            this.box5.Items.Add(this.dropDownPadding);
+            this.box5.Items.Add(this.buttonPaddingMore);
+            this.box5.Name = "box5";
+            // 
+            // buttonPaddingLess
+            // 
+            this.buttonPaddingLess.Label = "<";
+            this.buttonPaddingLess.Name = "buttonPaddingLess";
+            // 
+            // dropDownPadding
+            // 
+            this.dropDownPadding.Image = global::AlbumWordAddin.Properties.Resources.padding;
+            this.dropDownPadding.Label = "";
+            this.dropDownPadding.Name = "dropDownPadding";
+            this.dropDownPadding.ScreenTip = "Padding";
+            this.dropDownPadding.ShowImage = true;
+            // 
+            // buttonPaddingMore
+            // 
+            this.buttonPaddingMore.Label = ">";
+            this.buttonPaddingMore.Name = "buttonPaddingMore";
             // 
             // groupSize
             // 
@@ -549,50 +612,6 @@ namespace AlbumWordAddin
             this.vAlignRightDown.ShowImage = true;
             this.vAlignRightDown.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemVAlign_Click);
             // 
-            // box3
-            // 
-            this.box3.Items.Add(this.buttonMarginLess);
-            this.box3.Items.Add(this.dropDownMargin);
-            this.box3.Items.Add(this.buttonMarginMore);
-            this.box3.Name = "box3";
-            // 
-            // buttonMarginLess
-            // 
-            this.buttonMarginLess.Label = "<";
-            this.buttonMarginLess.Name = "buttonMarginLess";
-            // 
-            // dropDownMargin
-            // 
-            this.dropDownMargin.Label = "  Margin";
-            this.dropDownMargin.Name = "dropDownMargin";
-            // 
-            // buttonMarginMore
-            // 
-            this.buttonMarginMore.Label = ">";
-            this.buttonMarginMore.Name = "buttonMarginMore";
-            // 
-            // box5
-            // 
-            this.box5.Items.Add(this.buttonPaddingLess);
-            this.box5.Items.Add(this.dropDownPadding);
-            this.box5.Items.Add(this.buttonPaddingMore);
-            this.box5.Name = "box5";
-            // 
-            // buttonPaddingLess
-            // 
-            this.buttonPaddingLess.Label = "<";
-            this.buttonPaddingLess.Name = "buttonPaddingLess";
-            // 
-            // dropDownPadding
-            // 
-            this.dropDownPadding.Label = "Padding";
-            this.dropDownPadding.Name = "dropDownPadding";
-            // 
-            // buttonPaddingMore
-            // 
-            this.buttonPaddingMore.Label = ">";
-            this.buttonPaddingMore.Name = "buttonPaddingMore";
-            // 
             // AlbumRibbon
             // 
             this.Name = "AlbumRibbon";
@@ -611,6 +630,10 @@ namespace AlbumWordAddin
             this.buttonGroupAlignVertical.PerformLayout();
             this.buttonGroupAlignHorizontal.ResumeLayout(false);
             this.buttonGroupAlignHorizontal.PerformLayout();
+            this.box3.ResumeLayout(false);
+            this.box3.PerformLayout();
+            this.box5.ResumeLayout(false);
+            this.box5.PerformLayout();
             this.groupSize.ResumeLayout(false);
             this.groupSize.PerformLayout();
             this.buttonGroup2.ResumeLayout(false);
@@ -625,10 +648,6 @@ namespace AlbumWordAddin
             this.box2.PerformLayout();
             this.box6.ResumeLayout(false);
             this.box6.PerformLayout();
-            this.box3.ResumeLayout(false);
-            this.box3.PerformLayout();
-            this.box5.ResumeLayout(false);
-            this.box5.PerformLayout();
             this.ResumeLayout(false);
 
         }

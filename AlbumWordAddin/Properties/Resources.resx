@@ -139,6 +139,15 @@
   <data name="HAlignRightUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\HAlignRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Margins" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\Margins.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MoveAnchorsToTop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\MoveAnchorsToTop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="padding" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\padding.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Pict_1x1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\pict_1x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -165,6 +174,15 @@
   </data>
   <data name="Pict_3x3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\pict_3x3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PositionRelativeToPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\PositionRelativeToPage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RemoveEmptyPages" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\RemoveEmptyPages.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SelectAllImagesOnPage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\SelectAllImagesOnPage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="VAlignBendDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\valignbenddown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
