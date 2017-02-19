@@ -142,4 +142,9 @@ requested before to overwrite a previously existing file.
   <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="textTemplate.ToolTip" xml:space="preserve">
+    <value>Specify here the folder from which the folder walk will start.
+The importer will browse the folder tree in alphabetical order, from the Start Folder until the End Folder is reached.
+One word document will be created and saved for each folder browsed.</value>
+  </data>
 </root>

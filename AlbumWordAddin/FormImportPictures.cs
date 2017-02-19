@@ -82,5 +82,17 @@
         {
             progressBar.Visible = false;
         }
+
+        void buttonOpenTemplate_Click(object sender, EventArgs e)
+        {
+            var fbd = new OpenFileDialog()
+            {
+                FileName=textTemplate.Text,
+            };
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                textEndFolder.Text = fbd.SafeFileName;
+            }
+        }
     }
 }
