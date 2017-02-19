@@ -124,8 +124,9 @@ namespace AlbumWordAddin
             var userPrefs = new PersistedUserPreferences();
             var newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.docx"));
             if(newDocFile.Exists) newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.{DateTime.Now:yyyyMMdd.HHmmss}.docx"));
-            Application.Documents.Add(Template: userPrefs.NewDocumentTemplate, NewTemplate: false,
+            var newdoc = Application.Documents.Add(Template: userPrefs.NewDocumentTemplate, NewTemplate: false,
                 DocumentType: Word.WdNewDocumentType.wdNewBlankDocument);
+            newdoc.SaveAs(newDocFile.FullName);
         }
 
         public void CloseCurrentAlbumDocument(DirectoryInfo directoryInfo)
@@ -138,9 +139,9 @@ namespace AlbumWordAddin
             var pageWidth = Selection.PageSetup.PageWidth;
             var pageHeight = Selection.PageSetup.PageHeight;
             var sel = Application.Selection;
-            sel.MoveEnd(Word.WdUnits.wdStory);
+            sel.EndKey(Word.WdUnits.wdStory, Word.WdMovementType.wdMove);
             var shp = sel.Document.Shapes.AddPicture(fileInfo.FullName, LinkToFile: true, SaveWithDocument: false,
-                Left: pageWidth * .05f, Top: pageHeight * .05f, Anchor: sel);
+                Left: pageWidth * .05f, Top: pageHeight * .05f);
             shp.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
             shp.RelativeVerticalPosition = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
             shp.LockAspectRatio = MsoTriState.msoCTrue;
@@ -148,7 +149,7 @@ namespace AlbumWordAddin
             var vRatio = pageHeight / shp.Height;
             shp.Width = shp.Width * 0.90f * (vRatio < hRatio ? vRatio : hRatio);
             shp.WrapFormat.Type = Word.WdWrapType.wdWrapTight;
-            sel.MoveEnd(Word.WdUnits.wdStory);
+            sel.EndKey(Word.WdUnits.wdStory, Word.WdMovementType.wdMove);
             sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
         }
     }

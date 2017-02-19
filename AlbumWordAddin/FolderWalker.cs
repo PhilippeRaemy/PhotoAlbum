@@ -41,11 +41,19 @@
             _smallPattern = new Regex(smallPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
-        Regex RegexFromPatternList(string maskList) 
-            => new Regex(
-                "(" + maskList.Split(';').Select(m=>m.Replace("?", "\\.").Replace("*", "*.")).ToDelimitedString(")|(") + ")", 
+        Regex RegexFromPatternList(string maskList)
+        {
+            var pattern = "(" + maskList.Replace(".", "\\.")
+                                  .Replace("?", ".")
+                                  .Replace("*", ".*")
+                                  .Split(';')
+                                  .ToDelimitedString(")|(") 
+                        + ")";
+            return new Regex(
+                pattern,
                 RegexOptions.Compiled | RegexOptions.IgnoreCase
-        );
+            );
+        }
 
         public event EventHandler<FolderEventArgs> StartingFolder;
         public event EventHandler<FolderEventArgs> EndingFolder;
@@ -59,11 +67,30 @@
 
         void Run(DirectoryInfo folderFrom)
         {
-            var matchingFiles = folderFrom
+            var matchingFiles1 = folderFrom
                 .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
-                .Where(fi => !_excludePattern.Match(fi.Name).Success)
-                .Select(fi=>new {fileInfo=fi, fileMatch = _filePattern.Match(fi.Name).Success, smallMatch = _smallPattern.Match(fi.Name).Success })
+//                .Where(fi => !_excludePattern.Match(fi.Name).Success)
+                .Select(fi=>new
+                {
+                    fileInfo=fi,
+                    fileMatch  = _filePattern.Match(fi.Name).Success,
+                    smallMatch = _smallPattern.Match(fi.Name).Success,
+                    smallName  = Path.Combine(folderFrom.FullName, _smallFileNameMaker(fi.Name))
+                })
                 .ToArray();
+            var matchingFiles2=matchingFiles1
+                .Select(fi=> new
+                {
+                    fi.fileInfo, fi.fileMatch, fi.smallMatch, fi.smallName, 
+                    SmallFileExists = fi.smallMatch || new FileInfo(fi.smallName).Exists
+                })
+                .ToArray();
+            var matchingFiles=matchingFiles2
+                .Where(fi => fi.fileMatch && !fi.smallMatch && !fi.SmallFileExists // this is an new hi res file
+                          || fi.smallMatch //  this is an already prepared low res file
+                )
+                .ToArray();
+            if (matchingFiles.Length == 0) return;
             OnStartingFolder(folderFrom, matchingFiles.Length);
             if (_cancel) return;
             _progressIndicator?.InitProgress(matchingFiles.Length);
@@ -77,14 +104,9 @@
                     continue;
                 }
                 if (!fi.fileMatch) continue;
-                var small=Path.Combine(folderFrom.FullName, _smallFileNameMaker(fi.fileInfo.Name));
-                var smallFi = new FileInfo(small);
-                if (!smallFi.Exists)
-                {
-                    _progressIndicator?.Progress();
-                    OnFoundAFile(MakeSmallImage(fi.fileInfo, small));
-                    if (_cancel) return;
-                }
+                _progressIndicator?.Progress();
+                OnFoundAFile(MakeSmallImage(fi.fileInfo, fi.smallName));
+                if (_cancel) return;
             }
             OnEndingFolder(folderFrom);
             _progressIndicator?.CloseProgress();
@@ -105,7 +127,7 @@
         static FileInfo MakeSmallImage(FileInfo sourceFileInfo, string newFileName)
         {
             using (var img = Image.FromFile(sourceFileInfo.FullName))
-                using (var newImg = img.Scale(0.1))
+                using (var newImg = img.Scale(0.2))
             {
                 newImg.Save(newFileName, ImageFormat.Jpeg);
                 return new FileInfo(newFileName);

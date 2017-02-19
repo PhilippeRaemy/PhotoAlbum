@@ -4,6 +4,7 @@ using Microsoft.Office.Tools.Ribbon;
 
 namespace AlbumWordAddin
 {
+    using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using UserPreferences;
 
@@ -222,7 +223,9 @@ namespace AlbumWordAddin
                 userPrefs.IncludeFiles,
                 userPrefs.ExcludeFiles,
                 @"\.small\.((jpeg)|(jpg))$",
-                s=>s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg"),
+                s=>// Regex.Replace(s, @"\.([^\.*])$", ".small.$1", RegexOptions.CultureInvariant| RegexOptions.IgnoreCase )
+                s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg")
+                 .Replace(".JPG", ".small.JPG").Replace(".JPEG", ".small.JPEG"),
                 frm
                 );
             walker.StartingFolder += Walker_StartingFolder;
