@@ -68,6 +68,7 @@ namespace AlbumWordAddin
             this.groupPage = this.Factory.CreateRibbonGroup();
             this.ButtonRemoveEmptyPages = this.Factory.CreateRibbonButton();
             this.ButtonSelectShapesOnPage = this.Factory.CreateRibbonButton();
+            this.ButtonSetRelativePosition = this.Factory.CreateRibbonButton();
             this.ButtonFixAnchors = this.Factory.CreateRibbonButton();
             this.groupAlign = this.Factory.CreateRibbonGroup();
             this.buttonGroupAlignVertical = this.Factory.CreateRibbonBox();
@@ -118,7 +119,6 @@ namespace AlbumWordAddin
             this.buttonMarginLess = this.Factory.CreateRibbonButton();
             this.dropDownMargin = this.Factory.CreateRibbonDropDown();
             this.buttonMarginMore = this.Factory.CreateRibbonButton();
-            this.ButtonSetRelativePosition = this.Factory.CreateRibbonButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
             this.groupPage.SuspendLayout();
@@ -163,6 +163,7 @@ namespace AlbumWordAddin
             // 
             this.ButtonLowRes.Label = "Low Res Images";
             this.ButtonLowRes.Name = "ButtonLowRes";
+            this.ButtonLowRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonLowRes_Click);
             // 
             // ButtonHiRes
             // 
@@ -192,6 +193,12 @@ namespace AlbumWordAddin
             this.ButtonSelectShapesOnPage.Label = "Select Images on Page";
             this.ButtonSelectShapesOnPage.Name = "ButtonSelectShapesOnPage";
             this.ButtonSelectShapesOnPage.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSelectShapesOnPage_Click);
+            // 
+            // ButtonSetRelativePosition
+            // 
+            this.ButtonSetRelativePosition.Label = "Set position relative to page";
+            this.ButtonSetRelativePosition.Name = "ButtonSetRelativePosition";
+            this.ButtonSetRelativePosition.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSetRelativePosition_Click);
             // 
             // ButtonFixAnchors
             // 
@@ -598,12 +605,6 @@ namespace AlbumWordAddin
             this.buttonMarginMore.Label = ">";
             this.buttonMarginMore.Name = "buttonMarginMore";
             this.buttonMarginMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginMore_Click);
-            // 
-            // ButtonSetRelativePosition
-            // 
-            this.ButtonSetRelativePosition.Label = "Set position relative to page";
-            this.ButtonSetRelativePosition.Name = "ButtonSetRelativePosition";
-            this.ButtonSetRelativePosition.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSetRelativePosition_Click);
             // 
             // AlbumRibbon
             // 
