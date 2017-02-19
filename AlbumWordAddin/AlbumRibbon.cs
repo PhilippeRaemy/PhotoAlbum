@@ -250,5 +250,10 @@ namespace AlbumWordAddin
         {
             Globals.ThisAddIn.DoRelativePositionSelectedImages();
         }
+
+        private void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }
