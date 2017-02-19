@@ -49,14 +49,14 @@
             this.labelProgress = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panelExcludeFiles = new System.Windows.Forms.Panel();
+            this.textExcludeFiles = new System.Windows.Forms.TextBox();
             this.labelExcludeFiles = new System.Windows.Forms.Label();
             this.panelIncludeFiles = new System.Windows.Forms.Panel();
             this.textIncludeFiles = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.textExcludeFiles = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.textTemplate = new System.Windows.Forms.TextBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.buttonOpenTemplate = new System.Windows.Forms.Button();
             this.labelTemplate = new System.Windows.Forms.Label();
             this.panelStartFolder.SuspendLayout();
@@ -262,6 +262,16 @@
             this.panelExcludeFiles.Size = new System.Drawing.Size(546, 21);
             this.panelExcludeFiles.TabIndex = 2;
             // 
+            // textExcludeFiles
+            // 
+            this.textExcludeFiles.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textExcludeFiles.Location = new System.Drawing.Point(91, 0);
+            this.textExcludeFiles.Name = "textExcludeFiles";
+            this.textExcludeFiles.Size = new System.Drawing.Size(455, 20);
+            this.textExcludeFiles.TabIndex = 6;
+            this.toolTip.SetToolTip(this.textExcludeFiles, "A semi-colon delimited list of file masks, to indicate which picture files \r\nwill" +
+        " be not imported.\r\nFor example *small*");
+            // 
             // labelExcludeFiles
             // 
             this.labelExcludeFiles.Dock = System.Windows.Forms.DockStyle.Left;
@@ -304,15 +314,14 @@
             // 
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             // 
-            // textExcludeFiles
+            // textTemplate
             // 
-            this.textExcludeFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textExcludeFiles.Location = new System.Drawing.Point(91, 0);
-            this.textExcludeFiles.Name = "textExcludeFiles";
-            this.textExcludeFiles.Size = new System.Drawing.Size(455, 20);
-            this.textExcludeFiles.TabIndex = 6;
-            this.toolTip.SetToolTip(this.textExcludeFiles, "A semi-colon delimited list of file masks, to indicate which picture files \r\nwill" +
-        " be not imported.\r\nFor example *small*");
+            this.textTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textTemplate.Location = new System.Drawing.Point(91, 0);
+            this.textTemplate.Name = "textTemplate";
+            this.textTemplate.Size = new System.Drawing.Size(430, 20);
+            this.textTemplate.TabIndex = 1;
+            this.toolTip.SetToolTip(this.textTemplate, resources.GetString("textTemplate.ToolTip"));
             // 
             // panel1
             // 
@@ -324,15 +333,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(546, 21);
             this.panel1.TabIndex = 11;
-            // 
-            // textTemplate
-            // 
-            this.textTemplate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textTemplate.Location = new System.Drawing.Point(91, 0);
-            this.textTemplate.Name = "textTemplate";
-            this.textTemplate.Size = new System.Drawing.Size(430, 20);
-            this.textTemplate.TabIndex = 1;
-            this.toolTip.SetToolTip(this.textTemplate, resources.GetString("textTemplate.ToolTip"));
             // 
             // buttonOpenTemplate
             // 
@@ -352,7 +352,7 @@
             this.labelTemplate.Name = "labelTemplate";
             this.labelTemplate.Size = new System.Drawing.Size(91, 21);
             this.labelTemplate.TabIndex = 0;
-            this.labelTemplate.Text = "Start Folder:";
+            this.labelTemplate.Text = "Template:";
             // 
             // FormImportPictures
             // 
