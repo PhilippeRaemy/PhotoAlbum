@@ -117,14 +117,6 @@ namespace AlbumWordAddin
             this.vAlignRightUp = this.Factory.CreateRibbonButton();
             this.vAlignBendDown = this.Factory.CreateRibbonButton();
             this.vAlignBendUp = this.Factory.CreateRibbonButton();
-            this.box5 = this.Factory.CreateRibbonBox();
-            this.buttonPaddingLess = this.Factory.CreateRibbonButton();
-            this.dropDownPadding = this.Factory.CreateRibbonDropDown();
-            this.buttonPaddingMore = this.Factory.CreateRibbonButton();
-            this.box3 = this.Factory.CreateRibbonBox();
-            this.buttonMarginLess = this.Factory.CreateRibbonButton();
-            this.dropDownMargin = this.Factory.CreateRibbonDropDown();
-            this.buttonMarginMore = this.Factory.CreateRibbonButton();
             this.box2 = this.Factory.CreateRibbonBox();
             this.box6 = this.Factory.CreateRibbonBox();
             this.TabAddIns.SuspendLayout();
@@ -173,7 +165,6 @@ namespace AlbumWordAddin
             // 
             this.ButtonLowRes.Label = "Low Res Images";
             this.ButtonLowRes.Name = "ButtonLowRes";
-            this.ButtonLowRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonLowRes_Click);
             // 
             // ButtonHiRes
             // 
@@ -599,11 +590,16 @@ namespace AlbumWordAddin
             this.box2.Items.Add(this.hAlignRightDown);
             this.box2.Name = "box2";
             // 
-            // ButtonSetRelativePosition
+            // box6
             // 
-            this.ButtonSetRelativePosition.Label = "Set position relative to page";
-            this.ButtonSetRelativePosition.Name = "ButtonSetRelativePosition";
-            this.ButtonSetRelativePosition.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSetRelativePosition_Click);
+            this.box6.Items.Add(this.vAlignTop);
+            this.box6.Items.Add(this.vAlignBendDown);
+            this.box6.Items.Add(this.vAlignFlat);
+            this.box6.Items.Add(this.vAlignBendUp);
+            this.box6.Items.Add(this.vAlignBottom);
+            this.box6.Items.Add(this.vAlignRightUp);
+            this.box6.Items.Add(this.vAlignRightDown);
+            this.box6.Name = "box6";
             // 
             // AlbumRibbon
             // 
