@@ -216,16 +216,15 @@ namespace AlbumWordAddin
         {
             var frm = new FormImportPictures();
             if (frm.ShowDialog() != DialogResult.OK) return;
-            var userPrefs=new PersistedUserPreferences();
-            var walker=new FolderWalker(
+            var userPrefs =new PersistedUserPreferences();
+            var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
+            var walker =new FolderWalker(
                 userPrefs.FolderImportStart, 
                 userPrefs.FolderImportEnd, 
                 userPrefs.IncludeFiles,
                 userPrefs.ExcludeFiles,
                 @"\.small\.((jpeg)|(jpg))$",
-                s=>// Regex.Replace(s, @"\.([^\.*])$", ".small.$1", RegexOptions.CultureInvariant| RegexOptions.IgnoreCase )
-                s.Replace(".jpg", ".small.jpg").Replace(".jpeg", ".small.jpeg")
-                 .Replace(".JPG", ".small.JPG").Replace(".JPEG", ".small.JPEG"),
+                s=> smallFileNameMakerRe.Replace(s, ".small.$1"),
                 frm
                 );
             walker.StartingFolder += Walker_StartingFolder;
