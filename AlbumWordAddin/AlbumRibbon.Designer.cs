@@ -165,11 +165,13 @@ namespace AlbumWordAddin
             // 
             this.ButtonLowRes.Label = "Low Res Images";
             this.ButtonLowRes.Name = "ButtonLowRes";
+            this.ButtonLowRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonLowRes_Click);
             // 
             // ButtonHiRes
             // 
             this.ButtonHiRes.Label = "Hi Res Images";
             this.ButtonHiRes.Name = "ButtonHiRes";
+            this.ButtonHiRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonHiRes_Click);
             // 
             // groupPage
             // 
@@ -304,6 +306,7 @@ namespace AlbumWordAddin
             // 
             this.buttonMarginLess.Label = "<";
             this.buttonMarginLess.Name = "buttonMarginLess";
+            this.buttonMarginLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginLess_Click);
             // 
             // dropDownMargin
             // 
@@ -312,11 +315,14 @@ namespace AlbumWordAddin
             this.dropDownMargin.Name = "dropDownMargin";
             this.dropDownMargin.ScreenTip = "Margins";
             this.dropDownMargin.ShowImage = true;
+            this.dropDownMargin.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownMargin_ButtonClick);
+            this.dropDownMargin.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownMargin_SelectionChanged);
             // 
             // buttonMarginMore
             // 
             this.buttonMarginMore.Label = ">";
             this.buttonMarginMore.Name = "buttonMarginMore";
+            this.buttonMarginMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginMore_Click);
             // 
             // box5
             // 
@@ -329,6 +335,7 @@ namespace AlbumWordAddin
             // 
             this.buttonPaddingLess.Label = "<";
             this.buttonPaddingLess.Name = "buttonPaddingLess";
+            this.buttonPaddingLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPaddingLess_Click);
             // 
             // dropDownPadding
             // 
@@ -337,11 +344,14 @@ namespace AlbumWordAddin
             this.dropDownPadding.Name = "dropDownPadding";
             this.dropDownPadding.ScreenTip = "Padding";
             this.dropDownPadding.ShowImage = true;
+            this.dropDownPadding.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownPadding_ButtonClick);
+            this.dropDownPadding.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownPadding_SelectionChanged);
             // 
             // buttonPaddingMore
             // 
             this.buttonPaddingMore.Label = ">";
             this.buttonPaddingMore.Name = "buttonPaddingMore";
+            this.buttonPaddingMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPaddingMore_Click);
             // 
             // groupSize
             // 

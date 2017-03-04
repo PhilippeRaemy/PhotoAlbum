@@ -257,5 +257,10 @@ namespace AlbumWordAddin
         {
 
         }
+
+        private void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }
