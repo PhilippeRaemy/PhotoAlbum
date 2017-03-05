@@ -322,6 +322,14 @@ namespace AlbumWordAddin
                 }
             }
         }
+
+        public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker, Func<string, bool> toPatternIsMatch)
+        {
+            foreach (var shape in ActiveDocument.Shapes.Cast<Word.Shape>().Where(sh=>sh.LinkFormat.Type==Word.WdLinkType.wdLinkTypePicture))
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
 

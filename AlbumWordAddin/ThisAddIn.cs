@@ -152,5 +152,10 @@ namespace AlbumWordAddin
             sel.EndKey(Word.WdUnits.wdStory, Word.WdMovementType.wdMove);
             sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
         }
+
+        public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker, Func<string, bool> toPatternIsMatch)
+        {
+            _utilities.ChangePicturesResolution(fromPatternIsMatch, fileNameMaker,  toPatternIsMatch);
+        }
     }
 }

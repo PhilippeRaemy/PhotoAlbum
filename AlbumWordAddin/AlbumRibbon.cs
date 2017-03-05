@@ -240,19 +240,11 @@
         {
             var frm = new FormImportPictures();
             if (frm.ShowDialog() != DialogResult.OK) return;
-            var userPrefs =new PersistedUserPreferences();
-            var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
-            var fileNameMaker = new FileNameHandler(
-                userPrefs.IncludeFiles,
-                userPrefs.ExcludeFiles,
-                @"\.small\.((jpeg)|(jpg))$",
-                s => smallFileNameMakerRe.Replace(s, ".small.$1"),
-                s => new Regex(@"(.*\.)small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2")
-            );
-            var walker =new FolderWalker(
+            var userPrefs = new PersistedUserPreferences();
+            var walker = new FolderWalker(
                 userPrefs.FolderImportStart, 
-                userPrefs.FolderImportEnd, 
-                fileNameMaker,
+                userPrefs.FolderImportEnd,
+                FileNameHandlerFromUserPrefs(userPrefs),
                 frm
                 );
             walker.StartingFolder += Walker_StartingFolder;
@@ -261,17 +253,30 @@
             walker.Run();
         }
 
-        void Walker_FoundAFile(object sender, FileEventArgs e)
+        static FileNameHandler FileNameHandlerFromUserPrefs(UserPreferences.UserPreferences userPrefs)
+        {
+            var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
+            var fileNameMaker = new FileNameHandler(
+                userPrefs.IncludeFiles,
+                userPrefs.ExcludeFiles,
+                @"\.small\.((jpeg)|(jpg))$",
+                s => smallFileNameMakerRe.Replace(s, ".small.$1"),
+                s => new Regex(@"(.*\.)small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2")
+            );
+            return fileNameMaker;
+        }
+
+        static void Walker_FoundAFile(object sender, FileEventArgs e)
         {
             Globals.ThisAddIn.AddPictureToCurrentDocument(e.FileInfo);
         }
 
-        void Walker_EndingFolder(object sender, FolderEventArgs e)
+        static void Walker_EndingFolder(object sender, FolderEventArgs e)
         {
             Globals.ThisAddIn.CloseCurrentAlbumDocument(e.DirectoryInfo);
         }
 
-        void Walker_StartingFolder(object sender, FolderEventArgs e)
+        static void Walker_StartingFolder(object sender, FolderEventArgs e)
         {
             Globals.ThisAddIn.CreateNewAlbumDocument(e.DirectoryInfo);
         }
@@ -283,12 +288,14 @@
 
         void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
-
+            var fileNameHandler = FileNameHandlerFromUserPrefs(new PersistedUserPreferences()); 
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.FilePatternIsMatch, fileNameHandler.SmallFileNameMaker, fileNameHandler.SmallPatternIsMatch);
         }
 
         void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
         {
-
+            var fileNameHandler = FileNameHandlerFromUserPrefs(new PersistedUserPreferences());
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallPatternIsMatch, fileNameHandler.LargeFileNameMaker, fileNameHandler.FilePatternIsMatch);
         }
 
     }
