@@ -1,9 +1,8 @@
-﻿using System;
-using System.Globalization;
-using Microsoft.Office.Tools.Ribbon;
-
-namespace AlbumWordAddin
+﻿namespace AlbumWordAddin
 {
+    using System;
+    using System.Globalization;
+    using Microsoft.Office.Tools.Ribbon;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
