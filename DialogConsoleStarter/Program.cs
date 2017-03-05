@@ -19,13 +19,16 @@
             }
             Console.WriteLine("Processing settings...");
             var userPrefs=new PersistedUserPreferences();
+            var fileNameMaker = new FileNameHandler(userPrefs.IncludeFiles,
+                userPrefs.ExcludeFiles,
+                @"\.small\.((jpeg)|(jpg))$",
+                s => new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, ".small.$1")
+            );
+
             var folderWalker = new FolderWalker(
                 userPrefs.FolderImportStart,
                 userPrefs.FolderImportEnd,
-                @"\.jpg$",
-                @"\*",
-                @"small\.jpg$",
-                s=> new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, ".small.$1"),
+                fileNameMaker,
                 null
             );
             folderWalker.StartingFolder += FolderWalker_StartingFolder;

@@ -5,29 +5,22 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using MoreLinq;
 
     public class FolderWalker
     {
-        readonly Func<string, string> _smallFileNameMaker;
+        readonly FileNameHandler _fileNameHandler;
         readonly IProgress _progressIndicator;
         readonly DirectoryInfo _diFolderFrom;
         readonly DirectoryInfo _diFolderTo;
-        readonly Regex _filePattern;
-        readonly Regex _excludePattern;
-        readonly Regex _smallPattern;
 
         public FolderWalker(
             string folderFrom, 
-            string folderTo, 
-            string fileMaskList, 
-            string excludeMaskList, 
-            string smallPattern, 
-            Func<string, string> smallFileNameMaker, 
+            string folderTo,
+            FileNameHandler fileNameHandler,
             IProgress progressIndicator)
         {
-            _smallFileNameMaker = smallFileNameMaker;
+            _fileNameHandler = fileNameHandler;
             _progressIndicator = progressIndicator;
             if (folderFrom == null) throw new ArgumentNullException(nameof(folderFrom));
             if (folderTo == null) throw new ArgumentNullException(nameof(folderTo));
@@ -36,23 +29,6 @@
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
             if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
             if (string.Compare(folderFrom, folderTo, StringComparison.InvariantCultureIgnoreCase) > 0) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
-            _filePattern = RegexFromPatternList(fileMaskList);
-            _excludePattern = RegexFromPatternList(excludeMaskList);
-            _smallPattern = new Regex(smallPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        }
-
-        Regex RegexFromPatternList(string maskList)
-        {
-            var pattern = "(" + maskList.Replace(".", "\\.")
-                                  .Replace("?", ".")
-                                  .Replace("*", ".*")
-                                  .Split(';')
-                                  .ToDelimitedString(")|(") 
-                        + ")";
-            return new Regex(
-                pattern,
-                RegexOptions.Compiled | RegexOptions.IgnoreCase
-            );
         }
 
         public event EventHandler<FolderEventArgs> StartingFolder;
@@ -69,13 +45,13 @@
         {
             var matchingFiles1 = folderFrom
                 .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
-//                .Where(fi => !_excludePattern.Match(fi.Name).Success)
+                .Where(fi => _fileNameHandler.FileMatch(fi.Name))
                 .Select(fi=>new
                 {
                     fileInfo=fi,
-                    fileMatch  = _filePattern.Match(fi.Name).Success,
-                    smallMatch = _smallPattern.Match(fi.Name).Success,
-                    smallName  = Path.Combine(folderFrom.FullName, _smallFileNameMaker(fi.Name))
+                    fileMatch  = _fileNameHandler.FilePatternIsMatch(fi.Name),
+                    smallMatch = _fileNameHandler.SmallPatternIsMatch(fi.Name),
+                    smallName  = Path.Combine(folderFrom.FullName, _fileNameHandler.SmallFileNameMaker(fi.Name))
                 })
                 .ToArray();
             var matchingFiles2=matchingFiles1

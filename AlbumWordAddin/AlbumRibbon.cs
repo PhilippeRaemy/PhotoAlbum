@@ -242,13 +242,15 @@
             if (frm.ShowDialog() != DialogResult.OK) return;
             var userPrefs =new PersistedUserPreferences();
             var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
+            var fileNameMaker = new FileNameHandler(userPrefs.IncludeFiles,
+                userPrefs.ExcludeFiles,
+                @"\.small\.((jpeg)|(jpg))$",
+                s => smallFileNameMakerRe.Replace(s, ".small.$1")
+            );
             var walker =new FolderWalker(
                 userPrefs.FolderImportStart, 
                 userPrefs.FolderImportEnd, 
-                userPrefs.IncludeFiles,
-                userPrefs.ExcludeFiles,
-                @"\.small\.((jpeg)|(jpg))$",
-                s=> smallFileNameMakerRe.Replace(s, ".small.$1"),
+                fileNameMaker,
                 frm
                 );
             walker.StartingFolder += Walker_StartingFolder;
