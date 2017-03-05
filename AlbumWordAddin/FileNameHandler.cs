@@ -10,17 +10,32 @@ namespace AlbumWordAddin
         readonly Regex _excludePattern;
         readonly Regex _smallPattern;
         readonly Func<string, string> _smallFileNameMaker;
+        readonly Func<string, string> _largeFileNameMaker;
 
-        public FileNameHandler(string fileMaskList, string excludeMaskList, string smallPattern, Func<string, string> smallFileNameMaker)
+        public FileNameHandler(
+            string fileMaskList, 
+            string excludeMaskList, 
+            string smallPattern, 
+            Func<string, string> smallFileNameMaker, 
+            Func<string, string> largeFileNameMaker
+        )
         {
             _smallFileNameMaker = smallFileNameMaker;
+            _largeFileNameMaker = largeFileNameMaker;
             _filePattern        = RegexFromPatternList(fileMaskList);
             _excludePattern     = RegexFromPatternList(excludeMaskList);
             _smallPattern       = new Regex(smallPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         public string SmallFileNameMaker(string s)
-            => _smallFileNameMaker?.Invoke(s) ?? s;
+            => SmallPatternIsMatch(s)
+            ? s
+            : _smallFileNameMaker?.Invoke(s) ?? s;
+
+        public string LargeFileNameMaker(string s)
+            => SmallPatternIsMatch(s)
+            ? _largeFileNameMaker?.Invoke(s) ?? s
+            : s;
 
         public bool FileMatch(string fileFullName)
             => (FilePatternIsMatch(fileFullName)
