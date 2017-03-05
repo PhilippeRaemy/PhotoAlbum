@@ -627,6 +627,7 @@ namespace AlbumWordAddin
             this.Name = "AlbumRibbon";
             this.RibbonType = "Microsoft.Word.Document";
             this.Tabs.Add(this.TabAddIns);
+            this.Close += new System.EventHandler(this.AlbumRibbon_Close);
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.AlbumRibbon_Load);
             this.TabAddIns.ResumeLayout(false);
             this.TabAddIns.PerformLayout();

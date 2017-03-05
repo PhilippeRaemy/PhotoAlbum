@@ -4,6 +4,7 @@ using Microsoft.Office.Tools.Ribbon;
 
 namespace AlbumWordAddin
 {
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using UserPreferences;
@@ -13,6 +14,25 @@ namespace AlbumWordAddin
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
             PerformLayout();
+            var userPrefs = new PersistedUserPreferences();
+            DropDownIntSetter(dropDownMargin, userPrefs.Margin);
+            DropDownIntSetter(dropDownPadding, userPrefs.Padding);
+        }
+
+        void AlbumRibbon_Close(object sender, EventArgs e)
+        {
+            using (var userPrefs = new PersistedUserPreferences())
+            {
+                userPrefs.Margin  = (int) dropDownMargin .SelectedItem.Tag;
+                userPrefs.Padding = (int) dropDownPadding.SelectedItem.Tag;
+            }
+        }
+
+        static void DropDownIntSetter(RibbonDropDown ribbonDropDown, int value)
+        {
+            ribbonDropDown.SelectedItem 
+                =  ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag < value)
+                ?? ribbonDropDown.SelectedItem;
         }
 
         void ButtonRemoveEmptyPages_Click(object sender, RibbonControlEventArgs e)
@@ -172,7 +192,12 @@ namespace AlbumWordAddin
 
         void dropDownPadding_ButtonClick(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(padding: 5 * (int)dropDownPadding.SelectedItem.Tag, margin: 5 * (int)dropDownMargin.SelectedItem.Tag);
+            DoPositionSelectedImages();
+        }
+
+        void DoPositionSelectedImages()
+        {
+            Globals.ThisAddIn.DoPositionSelectedImages(padding: 5 * (int) dropDownPadding.SelectedItem.Tag, margin: 5 * (int) dropDownMargin.SelectedItem.Tag);
         }
 
         void dropDownPadding_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -182,7 +207,7 @@ namespace AlbumWordAddin
 
         void dropDownMargin_ButtonClick(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(padding: 5 * (int)dropDownPadding.SelectedItem.Tag, margin: 5 * (int)dropDownMargin.SelectedItem.Tag);
+            DoPositionSelectedImages();
         }
 
         void dropDownMargin_SelectionChanged(object sender, RibbonControlEventArgs e)
@@ -253,14 +278,15 @@ namespace AlbumWordAddin
             Globals.ThisAddIn.DoRelativePositionSelectedImages();
         }
 
-        private void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
+        void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
 
         }
 
-        private void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
+        void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
         {
 
         }
+
     }
 }
