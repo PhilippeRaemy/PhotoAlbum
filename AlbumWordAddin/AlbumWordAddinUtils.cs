@@ -13,6 +13,8 @@ using stdole;
 
 namespace AlbumWordAddin
 {
+    using System.IO;
+
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
     public class AlbumWordAddinUtils : IAlbumWordAddinUtils, IDispatch
@@ -333,7 +335,10 @@ namespace AlbumWordAddin
         {
             foreach (var shape in ActiveDocument.Shapes.Cast<Word.Shape>().Where(sh=>sh.LinkFormat.Type==Word.WdLinkType.wdLinkTypePicture))
             {
-                throw new NotImplementedException();
+                var fileInfo = new FileInfo(shape.LinkFormat.SourceFullName);
+                if (fileInfo.DirectoryName == null) break;
+                var newFileInfo = new FileInfo(Path.Combine(fileInfo.DirectoryName, fileNameMaker(fileInfo.Name)));
+                if (newFileInfo.Exists) shape.LinkFormat.SourceFullName = newFileInfo.FullName;
             }
         }
     }
