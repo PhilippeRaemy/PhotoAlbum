@@ -211,7 +211,7 @@ namespace AlbumWordAddin
                 }
                     break;
                 case Arrangement.Square:
-                    _positionerParms.Rows = _positionerParms.Cols = (int) Math.Floor(Math.Sqrt(shapesCount)) + 1;
+                    _positionerParms.Rows = _positionerParms.Cols = BestSquare(shapesCount);
                     break;
                 case Arrangement.RectangleHorizontal:
                 {
@@ -228,6 +228,12 @@ namespace AlbumWordAddin
                     throw new ArgumentOutOfRangeException(nameof(arrangement), arrangement, null);
             }
             DoPositionSelectedImages(_positionerParms);
+        }
+
+        static int BestSquare(int shapesCount)
+        {
+            var edge = (int) Math.Floor(Math.Sqrt(shapesCount));
+            return edge*edge < shapesCount ? edge + 1 : edge;
         }
 
         internal void DoPositionSelectedImages(string hAlign, string vAlign)
