@@ -77,7 +77,6 @@ namespace AlbumWordAddin
         {
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
-                var doc = ActiveDocument;
                 var shapes = SelectedShapes().ToArray();
                 if (shapes.Length < 2) return;
                 switch (alignment)
