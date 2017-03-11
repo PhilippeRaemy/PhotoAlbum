@@ -195,6 +195,12 @@
     <Compile Include="Arrangement.cs" />
     <Compile Include="FileNameHandler.cs" />
     <Compile Include="FolderWalker.cs" />
+    <Compile Include="FormProgress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormProgress.Designer.cs">
+      <DependentUpon>FormProgress.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormImportPictures.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,6 +217,9 @@
     <Compile Include="UserPreferences\UserPreferences.cs" />
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormProgress.resx">
+      <DependentUpon>FormProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormImportPictures.resx">
       <DependentUpon>FormImportPictures.cs</DependentUpon>
