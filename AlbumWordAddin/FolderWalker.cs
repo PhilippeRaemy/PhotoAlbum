@@ -22,6 +22,7 @@
         {
             _fileNameHandler = fileNameHandler;
             _progressIndicator = progressIndicator;
+            progressIndicator.CancelEvent += ProgressIndicator_CancelEvent;
             if (folderFrom == null) throw new ArgumentNullException(nameof(folderFrom));
             if (folderTo == null) throw new ArgumentNullException(nameof(folderTo));
             _diFolderFrom = new DirectoryInfo(folderFrom);
@@ -94,11 +95,13 @@
         }
 
         bool _cancel;
-        public void Cancel() { _cancel = true; }
 
         void OnStartingFolder(DirectoryInfo di, int count) { StartingFolder?.Invoke(this, new FolderEventArgs { DirectoryInfo = di, MatchingFilesCount=count }); }
         void OnEndingFolder  (DirectoryInfo di) { EndingFolder  ?.Invoke(this, new FolderEventArgs { DirectoryInfo = di }); }
         void OnFoundAFile    (FileInfo      fi) { FoundAFile    ?.Invoke(this, new FileEventArgs   { FileInfo      = fi }); }
+
+        void ProgressIndicator_CancelEvent(object sender, EventArgs e){ _cancel = true; }
+
 
         static FileInfo MakeSmallImage(FileInfo sourceFileInfo, string newFileName)
         {

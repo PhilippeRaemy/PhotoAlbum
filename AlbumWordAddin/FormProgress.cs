@@ -10,8 +10,9 @@
             InitializeComponent();
         }
 
-        void buttonGo_Click(object sender, EventArgs e)
+        void buttonCancel_Click(object sender, EventArgs e)
         {
+            CancelEvent?.Invoke(this, new EventArgs());
             Close();
         }
 
@@ -33,5 +34,7 @@
         {
             progressBar.Visible = false;
         }
+
+        public event EventHandler<EventArgs> CancelEvent;
     }
 }

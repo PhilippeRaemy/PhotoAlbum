@@ -1,5 +1,6 @@
 ﻿namespace AlbumWordAddin
 {
+    using System;
     partial class FormProgress
     {
         /// <summary>
@@ -19,6 +20,7 @@
             }
             base.Dispose(disposing);
         }
+
 
         #region Windows Form Designer generated code
 
@@ -44,7 +46,7 @@
             this.panelProgress.Controls.Add(this.progressBar);
             this.panelProgress.Controls.Add(this.labelProgress);
             this.panelProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelProgress.Location = new System.Drawing.Point(0, 184);
+            this.panelProgress.Location = new System.Drawing.Point(0, 0);
             this.panelProgress.Name = "panelProgress";
             this.panelProgress.Size = new System.Drawing.Size(546, 43);
             this.panelProgress.TabIndex = 10;
@@ -60,7 +62,7 @@
             this.buttonCancel.TabIndex = 12;
             this.buttonCancel.Text = "Cancel...";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonGo_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // progressBar
             // 
@@ -91,10 +93,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(546, 227);
+            this.ClientSize = new System.Drawing.Size(546, 43);
             this.Controls.Add(this.panelProgress);
             this.Name = "FormProgress";
-            this.Text = "Import Pictures";
+            this.Text = "Form Progress";
             this.panelProgress.ResumeLayout(false);
             this.panelProgress.PerformLayout();
             this.ResumeLayout(false);
