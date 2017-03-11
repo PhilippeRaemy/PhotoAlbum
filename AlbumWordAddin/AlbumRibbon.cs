@@ -245,7 +245,7 @@
                 userPrefs.FolderImportStart, 
                 userPrefs.FolderImportEnd,
                 FileNameHandlerFromUserPrefs(userPrefs),
-                frm
+                new FormProgress()
                 );
             walker.StartingFolder += Walker_StartingFolder;
             walker.EndingFolder += Walker_EndingFolder;

@@ -69,18 +69,18 @@
             if (matchingFiles.Length == 0) return;
             OnStartingFolder(folderFrom, matchingFiles.Length);
             if (_cancel) return;
-            _progressIndicator?.InitProgress(matchingFiles.Length);
+            _progressIndicator?.InitProgress(matchingFiles.Length, folderFrom.FullName);
             foreach (var fi in matchingFiles)
             {
                 if (fi.smallMatch)
                 {
-                    _progressIndicator?.Progress();
+                    _progressIndicator?.Progress(fi.fileInfo.FullName);
                     OnFoundAFile(fi.fileInfo);
                     if (_cancel) return;
                     continue;
                 }
                 if (!fi.fileMatch) continue;
-                _progressIndicator?.Progress();
+                _progressIndicator?.Progress(fi.fileInfo.FullName);
                 OnFoundAFile(MakeSmallImage(fi.fileInfo, fi.smallName));
                 if (_cancel) return;
             }
