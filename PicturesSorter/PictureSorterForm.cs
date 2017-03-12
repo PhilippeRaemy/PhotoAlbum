@@ -8,6 +8,7 @@ namespace PicturesSorter
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
+    using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
 
     public partial class PictureSorterForm : Form
@@ -40,14 +41,13 @@ namespace PicturesSorter
             folderBrowserDialog.ShowDialog();
             Text = folderBrowserDialog.SelectedPath;
             _currentDirectory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-            // var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
+             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
             _currentFiles = new LinkedList<ImageHost>(
                     _currentDirectory
-                    .EnumerateFiles("*.jpg")
-                    .Select(f => f)
-                    .Where(f => f != null)
+                    .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+                    .Where  (fi=> fileNameHandler.FileMatch(fi.FullName, includeSmalls: false))
                     .OrderBy(f => f.Name)
-                    .Select(f => new ImageHost { FileInfo = f })
+                    .Select (f => new ImageHost { FileInfo = f })
                 );
             switch (_currentFiles.Count)
             {

@@ -47,14 +47,10 @@ namespace AlbumWordAddin
             ? _largeFileNameMaker?.Invoke(s) ?? s
             : s;
 
-        public bool FileMatch(string fileFullName)
-            => (FilePatternIsMatch(fileFullName)
-                || SmallPatternIsMatch(fileFullName)
-               )
-               && 
-                (_excludePattern==null 
-                || !_excludePattern.Match(fileFullName).Success
-               );
+        public bool FileMatch(string fileFullName, bool includeSmalls)
+            => (FilePatternIsMatch(fileFullName) || SmallPatternIsMatch(fileFullName))
+            && (_excludePattern==null            || !_excludePattern.Match(fileFullName).Success)
+            && (includeSmalls                    || !SmallPatternIsMatch(fileFullName));
 
         public bool SmallPatternIsMatch(string fileFullName) => _smallPattern.Match(fileFullName).Success;
         public bool FilePatternIsMatch (string fileFullName) => _filePattern .Match(fileFullName).Success;

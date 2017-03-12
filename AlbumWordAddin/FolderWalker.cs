@@ -46,7 +46,7 @@
         {
             var matchingFiles1 = folderFrom
                 .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
-                .Where(fi => _fileNameHandler.FileMatch(fi.Name))
+                .Where(fi => _fileNameHandler.FileMatch(fi.Name, includeSmalls:true))
                 .Select(fi=>new
                 {
                     fileInfo=fi,
