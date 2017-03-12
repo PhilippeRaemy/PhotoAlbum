@@ -261,7 +261,7 @@
                 userPrefs.ExcludeFiles,
                 @"\.small\.((jpeg)|(jpg))$",
                 s => smallFileNameMakerRe.Replace(s, ".small.$1"),
-                s => new Regex(@"(.*\.)small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2")
+                s => new Regex(@"(.*)\.small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2")
             );
             return fileNameMaker;
         }
