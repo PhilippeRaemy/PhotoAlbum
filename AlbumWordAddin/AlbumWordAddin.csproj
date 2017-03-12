@@ -27,7 +27,7 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>AlbumWordAddin</RootNamespace>
     <AssemblyName>AlbumWordAddin</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
     <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -45,6 +45,7 @@
     <FriendlyName>AlbumWordAddin</FriendlyName>
     <OfficeApplicationDescription />
     <LoadBehavior>3</LoadBehavior>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -246,6 +247,7 @@
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Rectangle.cs" />
     <Compile Include="Ribbon.cs">
@@ -266,6 +268,10 @@
     <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PicturesSorter\PicturesSorter.csproj">
+      <Project>{7dd760cb-1e03-4dfb-8af6-2825bcdbf6f2}</Project>
+      <Name>PicturesSorter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VstoEx\VstoEx.csproj">
       <Project>{1cc0c8f7-fc7f-44cb-adc8-caa0b383b274}</Project>
       <Name>VstoEx</Name>

@@ -119,6 +119,7 @@ namespace AlbumWordAddin
             this.vAlignBottom = this.Factory.CreateRibbonButton();
             this.vAlignRightUp = this.Factory.CreateRibbonButton();
             this.vAlignRightDown = this.Factory.CreateRibbonButton();
+            this.buttonPictureSorter = this.Factory.CreateRibbonButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
             this.groupPage.SuspendLayout();
@@ -152,6 +153,7 @@ namespace AlbumWordAddin
             this.groupFile.Items.Add(this.ButtonImport);
             this.groupFile.Items.Add(this.ButtonLowRes);
             this.groupFile.Items.Add(this.ButtonHiRes);
+            this.groupFile.Items.Add(this.buttonPictureSorter);
             this.groupFile.Label = "File";
             this.groupFile.Name = "groupFile";
             // 
@@ -622,6 +624,12 @@ namespace AlbumWordAddin
             this.vAlignRightDown.ShowImage = true;
             this.vAlignRightDown.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemVAlign_Click);
             // 
+            // buttonPictureSorter
+            // 
+            this.buttonPictureSorter.Label = "Open Picture Sorter";
+            this.buttonPictureSorter.Name = "buttonPictureSorter";
+            this.buttonPictureSorter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPictureSorter_Click);
+            // 
             // AlbumRibbon
             // 
             this.Name = "AlbumRibbon";
@@ -724,6 +732,7 @@ namespace AlbumWordAddin
         internal RibbonButton buttonPaddingLess;
         internal RibbonDropDown dropDownPadding;
         internal RibbonButton buttonPaddingMore;
+        internal RibbonButton buttonPictureSorter;
     }
 
     partial class ThisRibbonCollection

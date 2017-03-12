@@ -298,5 +298,9 @@
             Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallPatternIsMatch, fileNameHandler.LargeFileNameMaker, fileNameHandler.FilePatternIsMatch);
         }
 
+        void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)
+        {
+            new PicturesSorter.PictureSorterForm().Show();
+        }
     }
 }
