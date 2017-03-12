@@ -56,7 +56,6 @@
             // 
             // folderBrowserDialog
             // 
-            this.folderBrowserDialog.SelectedPath = "D:\\Users\\Public\\Pictures\\2016\\201607\\20160709-20160805 USA";
             // 
             // panel1
             // 
@@ -131,7 +130,7 @@
             // pickDirectoryToolStripMenuItem
             // 
             this.pickDirectoryToolStripMenuItem.Name = "pickDirectoryToolStripMenuItem";
-            this.pickDirectoryToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.pickDirectoryToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.pickDirectoryToolStripMenuItem.Text = "Pick Direct&ory";
             this.pickDirectoryToolStripMenuItem.Click += new System.EventHandler(this.pickDirectoryToolStripMenuItem_Click);
             // 

@@ -38,10 +38,15 @@ namespace PicturesSorter
         }
 
         void OpenFolder() {
+            var userPrefs = new PersistedUserPreferences();
+            var fileNameHandler = new FileNameHandler(userPrefs);
+            if (string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+            {
+                folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
+            }
             folderBrowserDialog.ShowDialog();
             Text = folderBrowserDialog.SelectedPath;
             _currentDirectory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
             _currentFiles = new LinkedList<ImageHost>(
                     _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
