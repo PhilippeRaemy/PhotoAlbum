@@ -23,7 +23,7 @@ namespace AlbumWordAddin
             _smallFileNameMaker = smallFileNameMaker;
             _largeFileNameMaker = largeFileNameMaker;
             _filePattern        = RegexFromPatternList(fileMaskList);
-            _excludePattern     = RegexFromPatternList(excludeMaskList);
+            _excludePattern     = string.IsNullOrWhiteSpace(excludeMaskList) ? null : RegexFromPatternList(excludeMaskList);
             _smallPattern       = new Regex(smallPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
@@ -41,7 +41,10 @@ namespace AlbumWordAddin
             => (FilePatternIsMatch(fileFullName)
                 || SmallPatternIsMatch(fileFullName)
                )
-               && !_excludePattern.Match(fileFullName).Success;
+               && 
+                (_excludePattern==null 
+                || !_excludePattern.Match(fileFullName).Success
+               );
 
         public bool SmallPatternIsMatch(string fileFullName) => _smallPattern.Match(fileFullName).Success;
         public bool FilePatternIsMatch (string fileFullName) => _filePattern .Match(fileFullName).Success;
