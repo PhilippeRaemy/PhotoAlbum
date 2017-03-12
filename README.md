@@ -1,3 +1,12 @@
+# PhotoAlbum
+This is a set of helper tools which allow taking ilf full power of MS word to create photo albums.
+
+## Basic functionnalities are:
+* create set of documents from directory tree (one document per folder). Use PicturesSorter to select the relevant photos first!
+* Automatically create low-resolution picture files to ease editing of document with a large number of pictures (up to ~100 photos per document is fine, with Word 2013/2016 64 bits and 16Gb of RAM)
+* easy align, fit images
+* Arrange on page with predefined patterns, fix margins and padding
+
 # PicturesSorter
 This is a bare winforms tool intending to visualize and compare two pictures at a time, and easily archive one of them (or both or none).
 I created that on return from a wonderful vacation of 3 weeks in the National Parks in Utah, bringing back thousands of exciting photographs...
