@@ -222,12 +222,15 @@ namespace PicturesSorter
 
         public void ArchivePicture()
         {
-            if (FileInfo == null) return;
-            if (FileInfo.Exists)
+            if (FileInfo == null || !FileInfo.Exists) return;
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
+            var smallFile = new FileInfo(fileNameHandler.SmallFileNameMaker(FileInfo.FullName));
+            var di = new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, "spare"));
+            di.Create();
+            File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
+            if (smallFile.Exists)
             {
-                var di = new DirectoryInfo(Path.Combine(Path.GetDirectoryName(FileInfo.FullName), "spare"));
-                di.Create();
-                File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
+                File.Move(smallFile.FullName, Path.Combine(di.FullName, smallFile.Name));
             }
         }
 
