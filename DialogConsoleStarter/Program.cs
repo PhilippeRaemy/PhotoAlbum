@@ -39,17 +39,17 @@
             folderWalker.Run();
         }
 
-        private static void FolderWalker_FoundAFile(object sender, FileEventArgs e)
+        static void FolderWalker_FoundAFile(object sender, FileEventArgs e)
         {
             Console.WriteLine($"**** Found file {e.FileInfo.FullName}.");
         }
 
-        private static void FolderWalker_EndingFolder(object sender, FolderEventArgs e)
+        static void FolderWalker_EndingFolder(object sender, FolderEventArgs e)
         {
             Console.WriteLine($"Ending Folder {e.DirectoryInfo.FullName}.");
         }
 
-        private static void FolderWalker_StartingFolder(object sender, FolderEventArgs e)
+        static void FolderWalker_StartingFolder(object sender, FolderEventArgs e)
         {
             Console.WriteLine($"Starting Folder {e.DirectoryInfo.FullName}.");
         }

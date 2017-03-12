@@ -1,11 +1,14 @@
 ﻿namespace PicturesSorter
 {
+    using System.ComponentModel;
+    using System.Windows.Forms;
+
     partial class PictureSorterForm
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -233,23 +236,23 @@
         }
 
         #endregion
-        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem pickDirectoryToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem previousToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem nextToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem leftPreviousToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rightNextToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem archiveLeftToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem archiveRightToolStripMenuItem;
+        private FolderBrowserDialog folderBrowserDialog;
+        private Panel panel1;
+        private Label label2;
+        private Label label1;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox1;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem pickDirectoryToolStripMenuItem;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem previousToolStripMenuItem;
+        private ToolStripMenuItem nextToolStripMenuItem;
+        private ToolStripMenuItem leftPreviousToolStripMenuItem;
+        private ToolStripMenuItem rightNextToolStripMenuItem;
+        private ToolStripMenuItem editToolStripMenuItem;
+        private ToolStripMenuItem archiveLeftToolStripMenuItem;
+        private ToolStripMenuItem archiveRightToolStripMenuItem;
     }
 }
 

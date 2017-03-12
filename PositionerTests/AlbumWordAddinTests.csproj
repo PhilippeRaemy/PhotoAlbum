@@ -66,6 +66,10 @@
       <Project>{bd7257cc-26ee-4ab5-9702-f493572324e6}</Project>
       <Name>AlbumWordAddin</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UserPreferences\UserPreferences.csproj">
+      <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>
+      <Name>UserPreferences</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace PicturesSorter
+﻿namespace PicturesSorter
 {
-    static class Program
+    using System;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    internal static class Program
     {
         /// <summary>
         /// The main entry point for the application.
@@ -20,7 +18,7 @@ namespace PicturesSorter
             Application.Run(new PictureSorterForm());
         }
 
-        private static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
             MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }

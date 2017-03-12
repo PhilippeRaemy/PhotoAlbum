@@ -210,12 +210,10 @@
     </Compile>
     <Compile Include="IAlbumWordAddinUtils.cs" />
     <Compile Include="IProgress.cs" />
-    <Compile Include="UserPreferences\PersistedUserPreferences.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="UserPreferences\UserPreferences.cs" />
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </EmbeddedResource>
@@ -271,6 +269,10 @@
     <ProjectReference Include="..\PicturesSorter\PicturesSorter.csproj">
       <Project>{7dd760cb-1e03-4dfb-8af6-2825bcdbf6f2}</Project>
       <Name>PicturesSorter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UserPreferences\UserPreferences.csproj">
+      <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>
+      <Name>UserPreferences</Name>
     </ProjectReference>
     <ProjectReference Include="..\VstoEx\VstoEx.csproj">
       <Project>{1cc0c8f7-fc7f-44cb-adc8-caa0b383b274}</Project>

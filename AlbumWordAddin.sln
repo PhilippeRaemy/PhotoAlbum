@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialogConsoleStarter", "Dia
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturesSorter", "PicturesSorter\PicturesSorter.csproj", "{7DD760CB-1E03-4DFB-8AF6-2825BCDBF6F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserPreferences", "UserPreferences\UserPreferences.csproj", "{73C2E5FF-E033-457F-9008-78739B616229}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{7DD760CB-1E03-4DFB-8AF6-2825BCDBF6F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DD760CB-1E03-4DFB-8AF6-2825BCDBF6F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DD760CB-1E03-4DFB-8AF6-2825BCDBF6F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73C2E5FF-E033-457F-9008-78739B616229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C2E5FF-E033-457F-9008-78739B616229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C2E5FF-E033-457F-9008-78739B616229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C2E5FF-E033-457F-9008-78739B616229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
