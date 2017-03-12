@@ -40,7 +40,7 @@ namespace PicturesSorter
             folderBrowserDialog.ShowDialog();
             Text = folderBrowserDialog.SelectedPath;
             _currentDirectory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-            var prefs=new PersistedUserPreferences();
+            // var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
             _currentFiles = new LinkedList<ImageHost>(
                     _currentDirectory
                     .EnumerateFiles("*.jpg")
