@@ -244,7 +244,7 @@
             var walker = new FolderWalker(
                 userPrefs.FolderImportStart, 
                 userPrefs.FolderImportEnd,
-                FileNameHandlerFromUserPrefs(userPrefs),
+                new FileNameHandler(userPrefs),
                 new FormProgress()
                 );
             walker.StartingFolder += Walker_StartingFolder;
@@ -254,17 +254,7 @@
         }
 
         static FileNameHandler FileNameHandlerFromUserPrefs(UserPreferences.UserPreferences userPrefs)
-        {
-            var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
-            var fileNameMaker = new FileNameHandler(
-                userPrefs.IncludeFiles,
-                userPrefs.ExcludeFiles,
-                @"\.small\.((jpeg)|(jpg))$",
-                s => smallFileNameMakerRe.Replace(s, ".small.$1"),
-                s => new Regex(@"(.*)\.small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2")
-            );
-            return fileNameMaker;
-        }
+         => new FileNameHandler(userPrefs);
 
         static void Walker_FoundAFile(object sender, FileEventArgs e)
         {
@@ -288,13 +278,13 @@
 
         void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
-            var fileNameHandler = FileNameHandlerFromUserPrefs(new PersistedUserPreferences()); 
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences()); 
             Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.FilePatternIsMatch, fileNameHandler.SmallFileNameMaker, fileNameHandler.SmallPatternIsMatch);
         }
 
         void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
         {
-            var fileNameHandler = FileNameHandlerFromUserPrefs(new PersistedUserPreferences());
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
             Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallPatternIsMatch, fileNameHandler.LargeFileNameMaker, fileNameHandler.FilePatternIsMatch);
         }
 

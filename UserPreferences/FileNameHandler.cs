@@ -12,6 +12,16 @@ namespace AlbumWordAddin
         readonly Func<string, string> _smallFileNameMaker;
         readonly Func<string, string> _largeFileNameMaker;
 
+        public FileNameHandler(UserPreferences.UserPreferences userPrefs)
+        {
+            var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
+            _filePattern = RegexFromPatternList(userPrefs.IncludeFiles);
+            _excludePattern = string.IsNullOrWhiteSpace(userPrefs.ExcludeFiles) ? null : RegexFromPatternList(userPrefs.ExcludeFiles);
+            _smallPattern = new Regex(@"\.small\.((jpeg)|(jpg))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            _smallFileNameMaker = s => smallFileNameMakerRe.Replace(s, ".small.$1");
+            _largeFileNameMaker = s => new Regex(@"(.*)\.small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2");
+        }
+
         public FileNameHandler(
             string fileMaskList, 
             string excludeMaskList, 

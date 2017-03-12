@@ -194,7 +194,6 @@
     <Compile Include="AlbumWordAddinUtils.cs" />
     <Compile Include="Alignment.cs" />
     <Compile Include="Arrangement.cs" />
-    <Compile Include="FileNameHandler.cs" />
     <Compile Include="FolderWalker.cs" />
     <Compile Include="FormProgress.cs">
       <SubType>Form</SubType>
