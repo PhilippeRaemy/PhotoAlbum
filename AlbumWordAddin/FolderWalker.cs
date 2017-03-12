@@ -28,7 +28,7 @@
             _diFolderFrom = new DirectoryInfo(folderFrom);
             _diFolderTo = new DirectoryInfo(folderTo);
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
-            if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
+            //if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
             if (string.Compare(folderFrom, folderTo, StringComparison.InvariantCultureIgnoreCase) > 0) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
         }
 

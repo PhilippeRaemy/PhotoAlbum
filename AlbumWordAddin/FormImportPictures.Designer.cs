@@ -59,6 +59,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonOpenTemplate = new System.Windows.Forms.Button();
             this.labelTemplate = new System.Windows.Forms.Label();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.panelStartFolder.SuspendLayout();
             this.panelEndFolder.SuspendLayout();
             this.panelButtons.SuspendLayout();
@@ -210,6 +211,7 @@
             // 
             // panelProgress
             // 
+            this.panelProgress.Controls.Add(this.buttonSave);
             this.panelProgress.Controls.Add(this.buttonGo);
             this.panelProgress.Controls.Add(this.progressBar);
             this.panelProgress.Controls.Add(this.labelProgress);
@@ -354,6 +356,18 @@
             this.labelTemplate.TabIndex = 0;
             this.labelTemplate.Text = "Template:";
             // 
+            // buttonSave
+            // 
+            this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.Ignore;
+            this.buttonSave.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonSave.Location = new System.Drawing.Point(396, 0);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(75, 30);
+            this.buttonSave.TabIndex = 13;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
             // FormImportPictures
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -417,5 +431,6 @@
         private System.Windows.Forms.TextBox textTemplate;
         private System.Windows.Forms.Button buttonOpenTemplate;
         private System.Windows.Forms.Label labelTemplate;
+        private System.Windows.Forms.Button buttonSave;
     }
 }

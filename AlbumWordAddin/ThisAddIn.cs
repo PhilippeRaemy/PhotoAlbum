@@ -38,7 +38,6 @@ namespace AlbumWordAddin
             Application.DocumentOpen += Application_DocumentOpen;
             ((Word.ApplicationEvents4_Event)Application).NewDocument += Application_DocumentOpen;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
