@@ -156,8 +156,6 @@ csx/
 # Windows Store app package directory
 AppPackages/
 
-*.cer
-
 # Visual Studio cache files
 # files ending in .cache can be ignored
 *.[Cc]ache
@@ -213,3 +211,4 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /AlbumWordAddin.zip
+
