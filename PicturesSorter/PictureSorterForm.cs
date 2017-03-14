@@ -4,6 +4,7 @@ namespace PicturesSorter
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Linq;
@@ -46,9 +47,7 @@ namespace PicturesSorter
                 folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
             }
             folderBrowserDialog.ShowDialog();
-            var selectedPath = folderBrowserDialog.SelectedPath;
-            Text = selectedPath;
-            OpenFolder(n => fileNameHandler.FileMatch(n, includeSmalls: false), new DirectoryInfo(selectedPath));
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), new DirectoryInfo(folderBrowserDialog.SelectedPath));
         }
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
@@ -61,23 +60,23 @@ namespace PicturesSorter
                         ? new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderBy(d=>d.Name))
                         : new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderByDescending(d => d.Name))
                         ;
+            var userPrefs = new PersistedUserPreferences();
+            var fileNameHandler = new FileNameHandler(userPrefs);
             while (true)
             {
-                var userPrefs = new PersistedUserPreferences();
-                var fileNameHandler = new FileNameHandler(userPrefs);
                 if (currentDirectory == null) return;
                 if (!currentDirectory.Exists) return;
                 var name = currentDirectoryName;
                 foreach (var subDirectory in sorter(currentDirectory.EnumerateDirectories().Where(d => string.IsNullOrWhiteSpace(name) || strComp(d.Name, name))))
                 {
-                    OpenFolder(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
+                    OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
                     return;
                 }
                 if (currentDirectory.Parent == null) return;
                 var directory = currentDirectory;
                 foreach (var subDirectory in sorter(currentDirectory.Parent.EnumerateDirectories().Where(d => strComp(d.Name, directory.Name))))
                 {
-                    OpenFolder(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
+                    OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
                     return;
                 }
                 var currentDirectory1 = currentDirectory;
@@ -86,9 +85,10 @@ namespace PicturesSorter
             }
         }
 
-        void OpenFolder(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath)
+        void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath)
         {
             _currentDirectory = selectedPath;
+            Text = _currentDirectory.FullName;
             _currentFiles = new LinkedList<ImageHost>(
                     _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
@@ -252,7 +252,15 @@ namespace PicturesSorter
 
         void openInWindowsExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            var p = new Process
+            {
+                StartInfo =
+                {
+                    FileName = @"explorer.exe",
+                    Arguments = @"file:\\\" + _currentDirectory
+                }
+            };
+            p.Start();
         }
     }
 
