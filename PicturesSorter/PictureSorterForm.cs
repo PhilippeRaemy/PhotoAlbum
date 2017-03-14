@@ -37,7 +37,8 @@ namespace PicturesSorter
             OpenFolder();
         }
 
-        void OpenFolder() {
+        void OpenFolder()
+        {
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);
             if (string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
@@ -45,23 +46,64 @@ namespace PicturesSorter
                 folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
             }
             folderBrowserDialog.ShowDialog();
-            Text = folderBrowserDialog.SelectedPath;
-            _currentDirectory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
+            var selectedPath = folderBrowserDialog.SelectedPath;
+            Text = selectedPath;
+            OpenFolder(n => fileNameHandler.FileMatch(n, includeSmalls: false), new DirectoryInfo(selectedPath));
+        }
+
+        void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
+        {
+            var strComp = folderDirection == FolderDirection.Forward
+                        ? new Func<string, string, bool>((f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0)
+                        : new Func<string, string, bool>((b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0)
+                        ;
+            var sorter = folderDirection == FolderDirection.Forward
+                        ? new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderBy(d=>d.Name))
+                        : new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderByDescending(d => d.Name))
+                        ;
+            while (true)
+            {
+                var userPrefs = new PersistedUserPreferences();
+                var fileNameHandler = new FileNameHandler(userPrefs);
+                if (currentDirectory == null) return;
+                if (!currentDirectory.Exists) return;
+                var name = currentDirectoryName;
+                foreach (var subDirectory in sorter(currentDirectory.EnumerateDirectories().Where(d => string.IsNullOrWhiteSpace(name) || strComp(d.Name, name))))
+                {
+                    OpenFolder(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
+                    return;
+                }
+                if (currentDirectory.Parent == null) return;
+                var directory = currentDirectory;
+                foreach (var subDirectory in sorter(currentDirectory.Parent.EnumerateDirectories().Where(d => strComp(d.Name, directory.Name))))
+                {
+                    OpenFolder(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
+                    return;
+                }
+                var currentDirectory1 = currentDirectory;
+                currentDirectory = currentDirectory.Parent;
+                currentDirectoryName = currentDirectory1.Name;
+            }
+        }
+
+        void OpenFolder(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath)
+        {
+            _currentDirectory = selectedPath;
             _currentFiles = new LinkedList<ImageHost>(
                     _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-                    .Where  (fi=> fileNameHandler.FileMatch(fi.FullName, includeSmalls: false))
-                    .OrderBy(f => f.Name)
-                    .Select (f => new ImageHost { FileInfo = f })
+                    .Where         (f => fileNameMatcher(f.Name))
+                    .OrderBy       (f => f.Name)
+                    .Select        (f => new ImageHost { FileInfo = f })
                 );
             switch (_currentFiles.Count)
             {
                 case 0:
-                    MessageBox.Show($"There are no pictures to sort in folder {folderBrowserDialog.SelectedPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"There are no pictures to sort in folder {selectedPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     _fileIndex = new Nodes(null, null);
                     return;
                 case 1:
-                    _fileIndex = LoadPictures(new Nodes(_currentFiles.First, _currentFiles.First), 0, 0, noRelease:true);
+                    _fileIndex = LoadPictures(new Nodes(_currentFiles.First, _currentFiles.First), 0, 0, noRelease: true);
                     break;
                 default:
                     _fileIndex = LoadPictures(new Nodes(_currentFiles.First, _currentFiles.First.Next), 0, 0, noRelease: true);
@@ -107,8 +149,10 @@ namespace PicturesSorter
             {
                 case Keys.Left : _fileIndex = LoadPictures(_fileIndex, -1, -1); break;
                 case Keys.Right: _fileIndex = LoadPictures(_fileIndex, +1, +1); break;
-                case Keys.Control | Keys.Left : _fileIndex = LoadPictures(_fileIndex, -1, 0); break;
-                case Keys.Control | Keys.Right: _fileIndex = LoadPictures(_fileIndex, 0, +1); break;
+                case Keys.Control | Keys.Left: _fileIndex = LoadPictures(_fileIndex, -1, 0); break;
+                case Keys.Control | Keys.Shift | Keys.Left : _fileIndex = LoadPictures(_fileIndex, 0, -1); break;
+                case Keys.Control | Keys.Right: _fileIndex = LoadPictures(_fileIndex, 1, 0); break;
+                case Keys.Control | Keys.Shift | Keys.Right: _fileIndex = LoadPictures(_fileIndex, 0, 1); break;
                 case Keys.NumPad1:
                 case Keys.D1:
                     {
@@ -174,6 +218,41 @@ namespace PicturesSorter
         void pickDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFolder();
+        }
+
+        void RotateLeftClock_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void RotateLeftAnti_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void RotateRightClock_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void RotateRightAnti_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        void nextFolder_Click(object sender, EventArgs e)
+        {
+            OpenNextFolder(_currentDirectory, FolderDirection.Forward);
+        }
+
+        void previousFolder_Click(object sender, EventArgs e)
+        {
+            OpenNextFolder(_currentDirectory, FolderDirection.Backward);
+        }
+
+        void openInWindowsExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
@@ -256,4 +335,5 @@ namespace PicturesSorter
             _useCount++;
         }
     }
+    enum FolderDirection { Forward, Backward}
 }
