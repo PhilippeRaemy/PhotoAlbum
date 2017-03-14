@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormImportPictures));
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(FormImportPictures));
             this.label1 = new System.Windows.Forms.Label();
             this.buttonOpenStartFolder = new System.Windows.Forms.Button();
             this.panelStartFolder = new System.Windows.Forms.Panel();

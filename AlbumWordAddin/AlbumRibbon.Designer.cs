@@ -65,6 +65,7 @@ namespace AlbumWordAddin
             this.ButtonImport = this.Factory.CreateRibbonButton();
             this.ButtonLowRes = this.Factory.CreateRibbonButton();
             this.ButtonHiRes = this.Factory.CreateRibbonButton();
+            this.buttonPictureSorter = this.Factory.CreateRibbonButton();
             this.groupPage = this.Factory.CreateRibbonGroup();
             this.ButtonRemoveEmptyPages = this.Factory.CreateRibbonButton();
             this.ButtonSelectShapesOnPage = this.Factory.CreateRibbonButton();
@@ -119,7 +120,6 @@ namespace AlbumWordAddin
             this.vAlignBottom = this.Factory.CreateRibbonButton();
             this.vAlignRightUp = this.Factory.CreateRibbonButton();
             this.vAlignRightDown = this.Factory.CreateRibbonButton();
-            this.buttonPictureSorter = this.Factory.CreateRibbonButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
             this.groupPage.SuspendLayout();
@@ -174,6 +174,12 @@ namespace AlbumWordAddin
             this.ButtonHiRes.Label = "Hi Res Images";
             this.ButtonHiRes.Name = "ButtonHiRes";
             this.ButtonHiRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonHiRes_Click);
+            // 
+            // buttonPictureSorter
+            // 
+            this.buttonPictureSorter.Label = "Organize Photos";
+            this.buttonPictureSorter.Name = "buttonPictureSorter";
+            this.buttonPictureSorter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPictureSorter_Click);
             // 
             // groupPage
             // 
@@ -623,12 +629,6 @@ namespace AlbumWordAddin
             this.vAlignRightDown.Name = "vAlignRightDown";
             this.vAlignRightDown.ShowImage = true;
             this.vAlignRightDown.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemVAlign_Click);
-            // 
-            // buttonPictureSorter
-            // 
-            this.buttonPictureSorter.Label = "Open Picture Sorter";
-            this.buttonPictureSorter.Name = "buttonPictureSorter";
-            this.buttonPictureSorter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPictureSorter_Click);
             // 
             // AlbumRibbon
             // 

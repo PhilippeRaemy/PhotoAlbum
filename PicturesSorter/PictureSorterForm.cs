@@ -113,7 +113,7 @@ namespace PicturesSorter
 
         Nodes LoadPictures(Nodes idx, int step1, int step2, bool noRelease = false)
         {
-            Nodes rc = SelectIndexes(idx, step1, step2);
+            var rc = SelectIndexes(idx, step1, step2);
             rc.Item1.Value.Render(pictureBox1, label1);
             rc.Item2.Value.Render(pictureBox2, label2);
             if (!noRelease)
@@ -181,37 +181,37 @@ namespace PicturesSorter
 
         void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Message msg=new Message();
+            var msg=new Message();
             ProcessCmdKeyImpl(ref msg, Keys.Left);
         }
 
         void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Message msg = new Message();
+            var msg = new Message();
             ProcessCmdKeyImpl(ref msg, Keys.Right);
         }
 
         void leftPreviousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Message msg = new Message();
+            var msg = new Message();
             ProcessCmdKeyImpl(ref msg, Keys.Left);
         }
 
         void rightNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Message msg = new Message();
+            var msg = new Message();
             ProcessCmdKeyImpl(ref msg, Keys.Right);
         }
 
         void archiveLeftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Message msg = new Message();
+            var msg = new Message();
             ProcessCmdKeyImpl(ref msg, Keys.D1);
         }
 
         void archiveRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Message msg = new Message();
+            var msg = new Message();
             ProcessCmdKeyImpl(ref msg, Keys.D2);
         }
 
@@ -289,12 +289,10 @@ namespace PicturesSorter
         {
             get
             {
-                if (_image == null)
+                if (_image != null) return _image;
+                using (var stream = new FileStream(FileInfo.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    using (var stream = new FileStream(FileInfo.FullName, FileMode.Open, FileAccess.Read))
-                    {
-                        _image = Image.FromStream(stream);
-                    }
+                    _image = Image.FromStream(stream);
                 }
                 return _image;
             }
@@ -349,5 +347,6 @@ namespace PicturesSorter
             _useCount++;
         }
     }
-    enum FolderDirection { Forward, Backward}
+
+    internal enum FolderDirection { Forward, Backward}
 }

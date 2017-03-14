@@ -51,7 +51,7 @@ namespace PicturesSorter.Properties
             {
                 if ((resourceMan == null))
                 {
-                    ResourceManager temp = new ResourceManager("PicturesSorter.Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new ResourceManager("PicturesSorter.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

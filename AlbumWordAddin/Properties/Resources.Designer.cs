@@ -39,7 +39,7 @@ namespace AlbumWordAddin.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlbumWordAddin.Properties.Resources", typeof(Resources).Assembly);
+                    var temp = new global::System.Resources.ResourceManager("AlbumWordAddin.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -65,7 +65,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignBendLeft {
             get {
-                object obj = ResourceManager.GetObject("HAlignBendLeft", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignBendLeft", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -75,7 +75,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignBendRight {
             get {
-                object obj = ResourceManager.GetObject("HAlignBendRight", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignBendRight", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -85,7 +85,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignFlat {
             get {
-                object obj = ResourceManager.GetObject("HAlignFlat", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignFlat", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -95,7 +95,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignLeft {
             get {
-                object obj = ResourceManager.GetObject("HAlignLeft", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignLeft", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -105,7 +105,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignRight {
             get {
-                object obj = ResourceManager.GetObject("HAlignRight", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignRight", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -115,7 +115,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignRightDown {
             get {
-                object obj = ResourceManager.GetObject("HAlignRightDown", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignRightDown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -125,7 +125,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap HAlignRightUp {
             get {
-                object obj = ResourceManager.GetObject("HAlignRightUp", resourceCulture);
+                var obj = ResourceManager.GetObject("HAlignRightUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -135,7 +135,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Margins {
             get {
-                object obj = ResourceManager.GetObject("Margins", resourceCulture);
+                var obj = ResourceManager.GetObject("Margins", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -145,7 +145,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap MoveAnchorsToTop {
             get {
-                object obj = ResourceManager.GetObject("MoveAnchorsToTop", resourceCulture);
+                var obj = ResourceManager.GetObject("MoveAnchorsToTop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -155,7 +155,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap padding {
             get {
-                object obj = ResourceManager.GetObject("padding", resourceCulture);
+                var obj = ResourceManager.GetObject("padding", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +165,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x1 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +175,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x2 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x2", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,7 +185,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x3 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x3", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -195,7 +195,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_1x4 {
             get {
-                object obj = ResourceManager.GetObject("Pict_1x4", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_1x4", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -205,7 +205,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_2x2 {
             get {
-                object obj = ResourceManager.GetObject("Pict_2x2", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_2x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -215,7 +215,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_2x3 {
             get {
-                object obj = ResourceManager.GetObject("Pict_2x3", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_2x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -225,7 +225,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x1 {
             get {
-                object obj = ResourceManager.GetObject("Pict_3x1", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_3x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -235,7 +235,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x2 {
             get {
-                object obj = ResourceManager.GetObject("Pict_3x2", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_3x2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -245,7 +245,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Pict_3x3 {
             get {
-                object obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
+                var obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -255,7 +255,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap PositionRelativeToPage {
             get {
-                object obj = ResourceManager.GetObject("PositionRelativeToPage", resourceCulture);
+                var obj = ResourceManager.GetObject("PositionRelativeToPage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -265,7 +265,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap RemoveEmptyPages {
             get {
-                object obj = ResourceManager.GetObject("RemoveEmptyPages", resourceCulture);
+                var obj = ResourceManager.GetObject("RemoveEmptyPages", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -275,7 +275,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap SelectAllImagesOnPage {
             get {
-                object obj = ResourceManager.GetObject("SelectAllImagesOnPage", resourceCulture);
+                var obj = ResourceManager.GetObject("SelectAllImagesOnPage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -285,7 +285,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignBendDown {
             get {
-                object obj = ResourceManager.GetObject("VAlignBendDown", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignBendDown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -295,7 +295,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignBendUp {
             get {
-                object obj = ResourceManager.GetObject("VAlignBendUp", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignBendUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -305,7 +305,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignBottom {
             get {
-                object obj = ResourceManager.GetObject("VAlignBottom", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignBottom", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -315,7 +315,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignFlat {
             get {
-                object obj = ResourceManager.GetObject("VAlignFlat", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignFlat", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -325,7 +325,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignRightDown {
             get {
-                object obj = ResourceManager.GetObject("VAlignRightDown", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignRightDown", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -335,7 +335,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignRightUp {
             get {
-                object obj = ResourceManager.GetObject("VAlignRightUp", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignRightUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -345,7 +345,7 @@ namespace AlbumWordAddin.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap VAlignTop {
             get {
-                object obj = ResourceManager.GetObject("VAlignTop", resourceCulture);
+                var obj = ResourceManager.GetObject("VAlignTop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
