@@ -305,19 +305,25 @@ namespace PicturesSorter
         int _useCount;
         public void Release()
         {
-            if (--_useCount >= 0)
-            {
-                Dispose();
-                _useCount = 0;
-            }
+            if (--_useCount < 0) return;
+            Dispose();
+            _useCount = 0;
         }
 
         public void ArchivePicture()
         {
-            if (FileInfo == null || !FileInfo.Exists) return;
+            if (FileInfo               == null 
+             || !FileInfo.Exists
+             || FileInfo.Directory     == null 
+             || FileInfo.DirectoryName == null
+            ) return;
             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
             var smallFile = new FileInfo(fileNameHandler.SmallFileNameMaker(FileInfo.FullName));
-            var di = new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, "spare"));
+
+
+            var di = string.Equals(FileInfo.Directory.Name, "spare", StringComparison.InvariantCultureIgnoreCase)
+                    ? FileInfo.Directory
+                    : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, "spare"));
             di.Create();
             File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
             if (smallFile.Exists)
