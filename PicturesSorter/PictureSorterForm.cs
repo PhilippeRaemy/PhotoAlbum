@@ -143,35 +143,23 @@ namespace PicturesSorter
             return ProcessCmdKeyImpl(ref msg, keyData);
         }
 
-        protected bool ProcessCmdKeyImpl(ref Message msg, Keys keyData)
+        bool ProcessCmdKeyImpl(ref Message msg, Keys keyData)
         {
             switch (keyData)
             {
-                case Keys.Left : _fileIndex = LoadPictures(_fileIndex, -1, -1); break;
-                case Keys.Right: _fileIndex = LoadPictures(_fileIndex, +1, +1); break;
-                case Keys.Control | Keys.Left: _fileIndex = LoadPictures(_fileIndex, -1, 0); break;
-                case Keys.Control | Keys.Shift | Keys.Left : _fileIndex = LoadPictures(_fileIndex, 0, -1); break;
-                case Keys.Control | Keys.Right: _fileIndex = LoadPictures(_fileIndex, 1, 0); break;
-                case Keys.Control | Keys.Shift | Keys.Right: _fileIndex = LoadPictures(_fileIndex, 0, 1); break;
+                case Keys.Left                             : _fileIndex = LoadPictures(_fileIndex, -1, -1); break;
+                case Keys.Right                            : _fileIndex = LoadPictures(_fileIndex, +1, +1); break;
+                case Keys.Control | Keys.Left              : _fileIndex = LoadPictures(_fileIndex, -1,  0); break;
+                case Keys.Control | Keys.Shift | Keys.Left : _fileIndex = LoadPictures(_fileIndex,  0, -1); break;
+                case Keys.Control | Keys.Right             : _fileIndex = LoadPictures(_fileIndex,  1,  0); break;
+                case Keys.Control | Keys.Shift | Keys.Right: _fileIndex = LoadPictures(_fileIndex,  0,  1); break;
                 case Keys.NumPad1:
                 case Keys.D1:
-                    {
-                        var tbd = _fileIndex.Item1.Value;
-                        _fileIndex = LoadPictures(_fileIndex, -1, 0);
-                        tbd.ArchivePicture();
-                        tbd.Dispose();
-                        _currentFiles.Remove(tbd);
-                    }
+                    ArchiveLeftPicture();
                     break;
                 case Keys.NumPad2:
                 case Keys.D2:
-                    {
-                        var tbd = _fileIndex.Item2.Value;
-                        _fileIndex = LoadPictures(_fileIndex, 0, 1);
-                        tbd.ArchivePicture();
-                        tbd.Dispose();
-                        _currentFiles.Remove(tbd);
-                    }
+                    ArchiveRightPicture();
                     break;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
@@ -179,51 +167,61 @@ namespace PicturesSorter
             return true;
         }
 
+        void ArchiveRightPicture()
+        {
+            ArchivePicture(_fileIndex.Item2.Value, 0, 1);
+        }
+
+        void ArchiveLeftPicture()
+        {
+            ArchivePicture(_fileIndex.Item1.Value, -1, 0);
+        }
+
+        void ArchivePicture(ImageHost imageHost, int step1, int step2)
+        {
+            _fileIndex = LoadPictures(_fileIndex, step1, step2);
+            imageHost.ArchivePicture();
+            imageHost.Dispose();
+            _currentFiles.Remove(imageHost);
+        }
+
         void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg=new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Left);
+            _fileIndex = LoadPictures(_fileIndex, -1, -1);
         }
 
         void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Right);
+            _fileIndex = LoadPictures(_fileIndex, 1, 1);
         }
 
         void leftPreviousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Left | Keys.Control);
+            _fileIndex = LoadPictures(_fileIndex, -1, 0);
         }
         void leftNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Right | Keys.Control);
+            _fileIndex = LoadPictures(_fileIndex, 1, 0);
         }
 
         void rightNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Right | Keys.Control | Keys.Shift);
+            _fileIndex = LoadPictures(_fileIndex, 0, 1);
         }
 
         void rightPreviousToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Right | Keys.Control | Keys.Shift);
+            _fileIndex = LoadPictures(_fileIndex, 0, -1);
         }
 
         void archiveLeftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.D1);
+            ArchiveLeftPicture();
         }
 
         void archiveRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.D2);
+            ArchiveRightPicture();
         }
 
         void pickDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
