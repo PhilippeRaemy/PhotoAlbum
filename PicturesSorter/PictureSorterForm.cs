@@ -53,36 +53,40 @@ namespace PicturesSorter
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
         {
             var strComp = folderDirection == FolderDirection.Forward
-                        ? new Func<string, string, bool>((f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0)
-                        : new Func<string, string, bool>((b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0)
-                        ;
+                    ? new Func<string, string, bool>(
+                        (f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0)
+                    : new Func<string, string, bool>(
+                        (b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0)
+                ;
             var sorter = folderDirection == FolderDirection.Forward
-                        ? new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderBy(d=>d.Name))
-                        : new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderByDescending(d => d.Name))
-                        ;
+                    ? new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderBy(d => d.Name))
+                    : new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(
+                        e => e.OrderByDescending(d => d.Name))
+                ;
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);
-            while (true)
+            if (currentDirectory == null) return;
+            if (!currentDirectory.Exists) return;
+            var name = currentDirectoryName;
+            foreach (
+                var subDirectory in
+                sorter(
+                    currentDirectory.EnumerateDirectories()
+                        .Where(d => string.IsNullOrWhiteSpace(name) || strComp(d.Name, name))))
             {
-                if (currentDirectory == null) return;
-                if (!currentDirectory.Exists) return;
-                var name = currentDirectoryName;
-                foreach (var subDirectory in sorter(currentDirectory.EnumerateDirectories().Where(d => string.IsNullOrWhiteSpace(name) || strComp(d.Name, name))))
-                {
-                    OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
-                    return;
-                }
-                if (currentDirectory.Parent == null) return;
-                var directory = currentDirectory;
-                foreach (var subDirectory in sorter(currentDirectory.Parent.EnumerateDirectories().Where(d => strComp(d.Name, directory.Name))))
-                {
-                    OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
-                    return;
-                }
-                var currentDirectory1 = currentDirectory;
-                currentDirectory = currentDirectory.Parent;
-                currentDirectoryName = currentDirectory1.Name;
+                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
+                return;
             }
+            if (currentDirectory.Parent == null) return;
+            var directory = currentDirectory;
+            foreach (
+                var subDirectory in
+                sorter(currentDirectory.Parent.EnumerateDirectories().Where(d => strComp(d.Name, directory.Name))))
+            {
+                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
+                return;
+            }
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), currentDirectory.Parent);
         }
 
         void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath)
