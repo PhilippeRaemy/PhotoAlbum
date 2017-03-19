@@ -235,22 +235,26 @@ namespace PicturesSorter
 
         void RotateLeftClock_Click(object sender, EventArgs e)
         {
-
+            _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate90FlipNone);
+            _fileIndex.Item1.Value.Render(pictureBox1, label1);
         }
 
         void RotateLeftAnti_Click(object sender, EventArgs e)
         {
-
+            _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate270FlipNone);
+            _fileIndex.Item1.Value.Render(pictureBox1, label1);
         }
 
         void RotateRightClock_Click(object sender, EventArgs e)
         {
-
+            _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate90FlipNone);
+            _fileIndex.Item2.Value.Render(pictureBox2, label1);
         }
 
         void RotateRightAnti_Click(object sender, EventArgs e)
         {
-
+            _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate270FlipNone);
+            _fileIndex.Item2.Value.Render(pictureBox2, label1);
         }
 
         void nextFolder_Click(object sender, EventArgs e)
@@ -298,12 +302,24 @@ namespace PicturesSorter
 
     internal class ImageHost : IDisposable {
         Image _image;
-        public  Image Image
+        Image Image
         {
             get
             {
                 if (_image != null) return _image;
                 using (var stream = new FileStream(FileInfo.FullName, FileMode.Open, FileAccess.Read))
+                {
+                    _image = Image.FromStream(stream);
+                }
+                return _image;
+            }
+        }
+        Image SmallImage
+        {
+            get
+            {
+                if (_image != null) return _image;
+                using (var stream = new FileStream(GetSmallFile().FullName, FileMode.Open, FileAccess.Read))
                 {
                     _image = Image.FromStream(stream);
                 }
@@ -328,9 +344,7 @@ namespace PicturesSorter
              || FileInfo.Directory     == null 
              || FileInfo.DirectoryName == null
             ) return;
-            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
-            var smallFile = new FileInfo(fileNameHandler.SmallFileNameMaker(FileInfo.FullName));
-
+            var smallFile = GetSmallFile();
 
             var di = string.Equals(FileInfo.Directory.Name, "spare", StringComparison.InvariantCultureIgnoreCase)
                     ? FileInfo.Directory.Parent
@@ -342,6 +356,13 @@ namespace PicturesSorter
             {
                 File.Move(smallFile.FullName, Path.Combine(di.FullName, smallFile.Name));
             }
+        }
+
+        FileInfo GetSmallFile()
+        {
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
+            var smallFile = new FileInfo(fileNameHandler.SmallFileNameMaker(FileInfo.FullName));
+            return smallFile;
         }
 
         public void Dispose()
@@ -359,6 +380,16 @@ namespace PicturesSorter
                 pictureBox.Refresh();
             }
             _useCount++;
+        }
+
+        public void Rotate(RotateFlipType rotateFlipType)
+        {
+            foreach (var image in new [] {Image, SmallImage})
+            {
+                image.RotateFlip(rotateFlipType);
+                image.Save(FileInfo.FullName);
+            }
+
         }
     }
 
