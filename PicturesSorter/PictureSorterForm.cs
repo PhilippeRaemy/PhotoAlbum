@@ -333,8 +333,9 @@ namespace PicturesSorter
 
 
             var di = string.Equals(FileInfo.Directory.Name, "spare", StringComparison.InvariantCultureIgnoreCase)
-                    ? FileInfo.Directory
+                    ? FileInfo.Directory.Parent
                     : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, "spare"));
+            if (di == null) return;
             di.Create();
             File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
             if (smallFile.Exists)
