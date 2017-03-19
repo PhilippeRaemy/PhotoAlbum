@@ -213,6 +213,7 @@
             this.leftNextToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Right ->";
             this.leftNextToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.leftNextToolStripMenuItem.Text = "Left Next";
+            this.leftNextToolStripMenuItem.Click += new System.EventHandler(this.leftNextToolStripMenuItem_Click);
             // 
             // rightPreviousToolStripMenuItem
             // 
@@ -220,6 +221,7 @@
             this.rightPreviousToolStripMenuItem.ShortcutKeyDisplayString = "<- Ctrl+Shift+Left";
             this.rightPreviousToolStripMenuItem.Size = new System.Drawing.Size(252, 22);
             this.rightPreviousToolStripMenuItem.Text = "Right Previous";
+            this.rightPreviousToolStripMenuItem.Click += new System.EventHandler(this.rightPreviousToolStripMenuItem_Click);
             // 
             // rightNextToolStripMenuItem
             // 

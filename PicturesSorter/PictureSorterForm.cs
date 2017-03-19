@@ -194,13 +194,24 @@ namespace PicturesSorter
         void leftPreviousToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Left);
+            ProcessCmdKeyImpl(ref msg, Keys.Left | Keys.Control);
+        }
+        void leftNextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var msg = new Message();
+            ProcessCmdKeyImpl(ref msg, Keys.Right | Keys.Control);
         }
 
         void rightNextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var msg = new Message();
-            ProcessCmdKeyImpl(ref msg, Keys.Right);
+            ProcessCmdKeyImpl(ref msg, Keys.Right | Keys.Control | Keys.Shift);
+        }
+
+        void rightPreviousToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var msg = new Message();
+            ProcessCmdKeyImpl(ref msg, Keys.Right | Keys.Control | Keys.Shift);
         }
 
         void archiveLeftToolStripMenuItem_Click(object sender, EventArgs e)
