@@ -50,9 +50,9 @@ namespace PicturesSorter
             OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), new DirectoryInfo(folderBrowserDialog.SelectedPath));
         }
 
-        void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
+        void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
-            var folder = GetNextFolder(currentDirectory, folderDirection, currentDirectoryName);
+            var folder = GetNextFolder(currentDirectory, folderDirection);
             if (folder != null) { 
                 var userPrefs = new PersistedUserPreferences();
                 var fileNameHandler = new FileNameHandler(userPrefs);
@@ -60,39 +60,65 @@ namespace PicturesSorter
             }
         }
 
-        public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
+        public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
-            var strComp = folderDirection == FolderDirection.Forward
-                    ? new Func<string, string, bool>(
-                        (f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0)
-                    : new Func<string, string, bool>(
-                        (b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0)
-                ;
-            var sorter = folderDirection == FolderDirection.Forward
-                    ? new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(e => e.OrderBy(d => d.Name))
-                    : new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(
-                        e => e.OrderByDescending(d => d.Name))
-                ;
+            switch (folderDirection)
+            {
+                case FolderDirection.Forward: return GetNextFolder(currentDirectory);
+                case FolderDirection.Backward: return GetPreviousFolder(currentDirectory);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(folderDirection), folderDirection, null);
+            }
+        }
+
+        public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, bool ignoreSubFolders = false)
+        {
+            var comparer = new Func<string, string, bool>((f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0);
             if (currentDirectory == null) return null;
             if (!currentDirectory.Exists) return null;
-            var name = currentDirectoryName;
-            foreach (
-                var subDirectory in
-                sorter(
-                    currentDirectory.EnumerateDirectories()
-                        .Where(d => string.IsNullOrWhiteSpace(name) || strComp(d.Name, name))))
+            if (!ignoreSubFolders)
             {
-                return subDirectory;
+                foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderBy(d => d.Name))
+                {
+                    return subDirectory;
+                }
             }
             if (currentDirectory.Parent == null) return null;
             var directory = currentDirectory;
             foreach (
                 var subDirectory in
-                sorter(currentDirectory.Parent.EnumerateDirectories().Where(d => strComp(d.Name, directory.Name))))
+                currentDirectory.Parent.EnumerateDirectories().OrderBy(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
             {
                 return subDirectory;
             }
-            return  currentDirectory.Parent;
+            return GetNextFolder(currentDirectory.Parent, ignoreSubFolders=true);
+        }
+
+        public static DirectoryInfo GetPreviousFolder(DirectoryInfo currentDirectory, bool diveSubFolders = false)
+        {
+
+            var comparer = new Func<string, string, bool>((b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0);
+            if (currentDirectory == null) return null;
+            if (!currentDirectory.Exists) return null;
+            if (currentDirectory.Parent == null) return null;
+            var directory = currentDirectory;
+            if (diveSubFolders)
+            {
+                foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderByDescending(d => d.Name))
+                {
+                    return GetPreviousFolder(subDirectory, diveSubFolders = true);
+                }
+                return currentDirectory;
+            }
+
+            foreach (
+                var subDirectory in
+                currentDirectory.Parent.EnumerateDirectories().OrderByDescending(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
+            {
+                return GetPreviousFolder(subDirectory, diveSubFolders = true);
+            }
+
+            return currentDirectory.Parent;
         }
 
         void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath)
