@@ -52,6 +52,16 @@ namespace PicturesSorter
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
         {
+            var folder = GetNextFolder(currentDirectory, folderDirection, currentDirectoryName);
+            if (folder != null) { 
+                var userPrefs = new PersistedUserPreferences();
+                var fileNameHandler = new FileNameHandler(userPrefs);
+                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder);
+            }
+        }
+
+        public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, string currentDirectoryName = null)
+        {
             var strComp = folderDirection == FolderDirection.Forward
                     ? new Func<string, string, bool>(
                         (f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0)
@@ -63,10 +73,8 @@ namespace PicturesSorter
                     : new Func<IEnumerable<DirectoryInfo>, IEnumerable<DirectoryInfo>>(
                         e => e.OrderByDescending(d => d.Name))
                 ;
-            var userPrefs = new PersistedUserPreferences();
-            var fileNameHandler = new FileNameHandler(userPrefs);
-            if (currentDirectory == null) return;
-            if (!currentDirectory.Exists) return;
+            if (currentDirectory == null) return null;
+            if (!currentDirectory.Exists) return null;
             var name = currentDirectoryName;
             foreach (
                 var subDirectory in
@@ -74,19 +82,17 @@ namespace PicturesSorter
                     currentDirectory.EnumerateDirectories()
                         .Where(d => string.IsNullOrWhiteSpace(name) || strComp(d.Name, name))))
             {
-                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
-                return;
+                return subDirectory;
             }
-            if (currentDirectory.Parent == null) return;
+            if (currentDirectory.Parent == null) return null;
             var directory = currentDirectory;
             foreach (
                 var subDirectory in
                 sorter(currentDirectory.Parent.EnumerateDirectories().Where(d => strComp(d.Name, directory.Name))))
             {
-                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), subDirectory);
-                return;
+                return subDirectory;
             }
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), currentDirectory.Parent);
+            return  currentDirectory.Parent;
         }
 
         void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath)
@@ -393,5 +399,5 @@ namespace PicturesSorter
         }
     }
 
-    internal enum FolderDirection { Forward, Backward}
+    public enum FolderDirection { Forward, Backward}
 }
