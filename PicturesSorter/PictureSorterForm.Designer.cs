@@ -328,6 +328,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "PictureSorterForm";
             this.Text = "PictureSorterForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PictureSorterForm_FormClosing);
             this.Load += new System.EventHandler(this.PictureSorterForm_Load);
             this.Resize += new System.EventHandler(this.PictureSorterForm_Resize);
             this.panel1.ResumeLayout(false);

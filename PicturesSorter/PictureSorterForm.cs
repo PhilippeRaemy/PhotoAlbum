@@ -38,6 +38,12 @@ namespace PicturesSorter
             OpenFolder();
         }
 
+        void PictureSorterForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            var userPrefs = new PersistedUserPreferences();
+            userPrefs.FolderImportStart = _currentDirectory.FullName;
+        }
+
         void OpenFolder()
         {
             var userPrefs = new PersistedUserPreferences();
@@ -311,6 +317,7 @@ namespace PicturesSorter
             };
             p.Start();
         }
+
     }
 
     internal static class ArrayExtensions {
