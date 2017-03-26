@@ -135,7 +135,7 @@ namespace PicturesSorter
             switch (_currentFiles.Count)
             {
                 case 0:
-                    MessageBox.Show($"There are no pictures to sort in folder {selectedPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    // MessageBox.Show($"There are no pictures to sort in folder {selectedPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     _fileIndex = new Nodes(null, null);
                     return;
                 case 1:
@@ -150,18 +150,18 @@ namespace PicturesSorter
         Nodes LoadPictures(Nodes idx, int step1, int step2, bool noRelease = false)
         {
             var rc = SelectIndexes(idx, step1, step2);
-            rc.Item1.Value.Render(pictureBox1, label1);
-            rc.Item2.Value.Render(pictureBox2, label2);
+            rc.Item1?.Value?.Render(pictureBox1, label1);
+            rc.Item2?.Value?.Render(pictureBox2, label2);
             if (!noRelease)
             {
-                idx?.Item1.Value.Release();
-                idx?.Item2.Value.Release();
+                idx?.Item1?.Value?.Release();
+                idx?.Item2?.Value?.Release();
             }
             return rc;
         }
 
         Nodes SelectIndexes(Nodes idx, int step1, int step2)
-            => new Nodes(idx.Item1.SafeStep(step1), idx.Item2.SafeStep(step2));
+            => new Nodes(idx?.Item1.SafeStep(step1), idx?.Item2.SafeStep(step2));
 
         void LoadPicture(PictureBox pb, Label lbl, FileSystemInfo fi)
         {
@@ -306,7 +306,7 @@ namespace PicturesSorter
                 StartInfo =
                 {
                     FileName = @"explorer.exe",
-                    Arguments = @"file:\\\" + _currentDirectory
+                    Arguments = @"file:\\\" + _currentDirectory.FullName
                 }
             };
             p.Start();
@@ -324,11 +324,11 @@ namespace PicturesSorter
     }
 
     internal static class GenericExtentions {
-        public static LinkedListNode<T> SafeNext<T>(this LinkedListNode<T> lln) => lln.Next ?? lln.List.First;
-        public static LinkedListNode<T> SafePrev<T>(this LinkedListNode<T> lln) => lln.Previous ?? lln.List.Last;
+        public static LinkedListNode<T> SafeNext<T>(this LinkedListNode<T> lln) => lln?.Next ?? lln?.List?.First ;
+        public static LinkedListNode<T> SafePrev<T>(this LinkedListNode<T> lln) => lln?.Previous ?? lln?.List?.Last;
         public static LinkedListNode<T> SafeStep<T>(this LinkedListNode<T> lln, int step) 
-            => step < 0 ? lln.SafePrev()
-             : step > 0 ? lln.SafeNext()
+            => step < 0 ? lln?.SafePrev()
+             : step > 0 ? lln?.SafeNext()
              : lln;
     }
 
