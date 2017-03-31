@@ -155,6 +155,7 @@ namespace PicturesSorter
         Nodes LoadPictures(Nodes idx, int step1, int step2, bool noRelease = false)
         {
             var rc = SelectIndexes(idx, step1, step2);
+            if (rc.Item1 == null || rc.Item2 == null) return null;
             Trace.WriteLine($"LoadPictures({rc.Item1.Value.FileInfo.Name}, {rc.Item2.Value.FileInfo.Name}, {step1}, {step2}, {noRelease})");
             rc.Item1?.Value?.Render(pictureBox1, label1);
             rc.Item2?.Value?.Render(pictureBox2, label2);
