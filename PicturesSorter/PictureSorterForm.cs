@@ -155,7 +155,7 @@ namespace PicturesSorter
         Nodes LoadPictures(Nodes idx, int step1, int step2, bool noRelease = false)
         {
             var rc = SelectIndexes(idx, step1, step2);
-            // Debug.Trace
+            Trace.WriteLine($"LoadPictures({rc.Item1.Value.FileInfo.Name}, {rc.Item2.Value.FileInfo.Name}, {step1}, {step2}, {noRelease})");
             rc.Item1?.Value?.Render(pictureBox1, label1);
             rc.Item2?.Value?.Render(pictureBox2, label2);
             if (!noRelease)
@@ -163,6 +163,7 @@ namespace PicturesSorter
                 idx?.Item1?.Value?.Release();
                 idx?.Item2?.Value?.Release();
             }
+            Trace.WriteLine($"LoadPictures returns({rc.Item1.Value.FileInfo.Name}, {rc.Item2.Value.FileInfo.Name})");
             return rc;
         }
 
