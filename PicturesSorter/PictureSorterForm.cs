@@ -40,8 +40,7 @@ namespace PicturesSorter
 
         void PictureSorterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var userPrefs = new PersistedUserPreferences();
-            userPrefs.FolderImportStart = _currentDirectory.FullName;
+            using (new PersistedUserPreferences {FolderImportStart = _currentDirectory.FullName}){}
         }
 
         void OpenFolder()
@@ -156,6 +155,7 @@ namespace PicturesSorter
         Nodes LoadPictures(Nodes idx, int step1, int step2, bool noRelease = false)
         {
             var rc = SelectIndexes(idx, step1, step2);
+            // Debug.Trace
             rc.Item1?.Value?.Render(pictureBox1, label1);
             rc.Item2?.Value?.Render(pictureBox2, label2);
             if (!noRelease)
