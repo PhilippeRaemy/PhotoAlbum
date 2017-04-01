@@ -53,6 +53,7 @@
         void buttonGo_Click(object sender, EventArgs e)
         {
             buttonSave_Click(sender, e);
+            Globals.ThisAddIn.ImportPictures();
         }
 
         void buttonSave_Click(object sender, EventArgs e)
@@ -66,7 +67,7 @@
                 userprefs.NewDocumentTemplate = textTemplate.Text;
                 int maxPics;
                 userprefs.MaxPicturesPerFile =
-                    int.TryParse(comboMaxPicsPerFile.SelectedItem.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out maxPics)
+                    int.TryParse(comboMaxPicsPerFile.SelectedItem?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out maxPics)
                         ? maxPics : -1;
                 userprefs.ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState == CheckState.Checked;
             }

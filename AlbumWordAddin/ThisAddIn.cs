@@ -14,8 +14,8 @@ namespace AlbumWordAddin
 
     public partial class ThisAddIn
     {
-        Document       ActiveDocument => Globals.Factory.GetVstoObject(Application.ActiveDocument);
-        Word.Selection Selection      => ActiveDocument.Application.Selection;
+        Document ActiveDocument => Globals.Factory.GetVstoObject(Application.ActiveDocument);
+        Word.Selection Selection => ActiveDocument.Application.Selection;
         public static AlbumRibbon ThisRibbon { get; set; }
 
         AlbumWordAddinUtils _utilities;
@@ -36,7 +36,7 @@ namespace AlbumWordAddin
                 // ignored
             }
             Application.DocumentOpen += Application_DocumentOpen;
-            ((Word.ApplicationEvents4_Event)Application).NewDocument += Application_DocumentOpen;
+            ((Word.ApplicationEvents4_Event) Application).NewDocument += Application_DocumentOpen;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
@@ -53,13 +53,14 @@ namespace AlbumWordAddin
 
         void ThisAddIn_SelectionChange(object sender, SelectionEventArgs e)
         {
-            Func<float, float, float> sameOrDefect = (t, s) => t<=-2 ? t : t<=-1 ? s : Math.Abs(t - s) < .5 ? s : -2f;
+            Func<float, float, float> sameOrDefect =
+                (t, s) => t <= -2 ? t : t <= -1 ? s : Math.Abs(t - s) < .5 ? s : -2f;
             Func<float, string> sizeToText = t => t < 0 ? string.Empty : t.ToInvariantString();
 
-            var sizes= e.Selection.ShapeRange.Cast<Word.Shape>()
+            var sizes = e.Selection.ShapeRange.Cast<Word.Shape>()
                 .Aggregate(Tuple.Create(-1f, -1f),
                     (t, s) => Tuple.Create(sameOrDefect(t.Item1, s.Width), sameOrDefect(t.Item2, s.Height)));
-            ThisRibbon.editBoxSizeWidth.Text  = sizeToText(sizes.Item1);
+            ThisRibbon.editBoxSizeWidth.Text = sizeToText(sizes.Item1);
             ThisRibbon.editBoxSizeHeight.Text = sizeToText(sizes.Item2);
         }
 
@@ -76,12 +77,14 @@ namespace AlbumWordAddin
         {
             _utilities.RemoveEmptyPages();
         }
+
         public void SelectShapesOnPage()
         {
             _utilities.SelectShapesOnPage();
         }
 
-        public void FixAnchorOfSelectedImages() {
+        public void FixAnchorOfSelectedImages()
+        {
             _utilities.FixAnchorOfSelectedImages();
         }
 
@@ -99,7 +102,7 @@ namespace AlbumWordAddin
 
         #endregion
 
-        public void DoPositionSelectedImages(string hAlign=null, string vAlign = null)
+        public void DoPositionSelectedImages(string hAlign = null, string vAlign = null)
         {
             _utilities.DoPositionSelectedImages(hAlign, vAlign);
         }
@@ -108,6 +111,7 @@ namespace AlbumWordAddin
         {
             _utilities.DoPositionSelectedImages(arrangement);
         }
+
         internal void DoPositionSelectedImages(int padding, int margin)
         {
             _utilities.DoPositionSelectedImages(padding, margin);
@@ -122,7 +126,10 @@ namespace AlbumWordAddin
         {
             var userPrefs = new PersistedUserPreferences();
             var newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.docx"));
-            if(newDocFile.Exists) newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.{DateTime.Now:yyyyMMdd.HHmmss}.docx"));
+            if (newDocFile.Exists)
+                newDocFile =
+                    new FileInfo(Path.Combine(directoryInfo.FullName,
+                        $"{directoryInfo.Name}.{DateTime.Now:yyyyMMdd.HHmmss}.docx"));
             var newdoc = Application.Documents.Add(Template: userPrefs.NewDocumentTemplate, NewTemplate: false,
                 DocumentType: Word.WdNewDocumentType.wdNewBlankDocument);
             newdoc.SaveAs(newDocFile.FullName);
@@ -152,9 +159,42 @@ namespace AlbumWordAddin
             sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
         }
 
-        public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker, Func<string, bool> toPatternIsMatch)
+        public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker,
+            Func<string, bool> toPatternIsMatch)
         {
-            _utilities.ChangePicturesResolution(fromPatternIsMatch, fileNameMaker,  toPatternIsMatch);
+            _utilities.ChangePicturesResolution(fromPatternIsMatch, fileNameMaker, toPatternIsMatch);
+        }
+
+        public void ImportPictures()
+        {
+            using (var userprefs = new PersistedUserPreferences())
+            {
+                var fw = new FolderWalker(
+                    userprefs.FolderImportStart,
+                    userprefs.FolderImportEnd,
+                    new FileNameHandler(userprefs),
+                    new FormProgress()
+                );
+                fw.StartingFolder += Fw_StartingFolder;
+                fw.FoundAFile += Fw_FoundAFile;
+                fw.EndingFolder += Fw_EndingFolder;
+                fw.Run();
+            }
+        }
+
+        void Fw_EndingFolder(object sender, FolderEventArgs e)
+        {
+            CloseCurrentAlbumDocument(e.DirectoryInfo);
+        }
+
+        void Fw_FoundAFile(object sender, FileEventArgs e)
+        {
+            AddPictureToCurrentDocument(e.FileInfo);
+        }
+
+        void Fw_StartingFolder(object sender, FolderEventArgs e)
+        {
+            CreateNewAlbumDocument(e.DirectoryInfo);
         }
     }
 }
