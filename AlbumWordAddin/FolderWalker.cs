@@ -92,7 +92,7 @@
             if (_cancel) return;
             folderFrom
                 .EnumerateDirectories()
-                .TakeWhile(di=>string.Compare(di.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) < 0)
+                .TakeWhile(di=>string.Compare(di.FullName.Substring(0, _diFolderTo.FullName.Length), _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) <= 0)
                 .ForEach(Run);
         }
 
