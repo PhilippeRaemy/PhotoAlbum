@@ -53,7 +53,6 @@
         void buttonGo_Click(object sender, EventArgs e)
         {
             buttonSave_Click(sender, e);
-            Globals.ThisAddIn.ImportPictures();
         }
 
         void buttonSave_Click(object sender, EventArgs e)

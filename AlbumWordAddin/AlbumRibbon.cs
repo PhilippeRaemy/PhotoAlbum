@@ -238,19 +238,8 @@
 
         void ButtonImport_Click(object sender, RibbonControlEventArgs e)
         {
-            var frm = new FormImportPictures();
-            if (frm.ShowDialog() != DialogResult.OK) return;
-            var userPrefs = new PersistedUserPreferences();
-            var walker = new FolderWalker(
-                userPrefs.FolderImportStart, 
-                userPrefs.FolderImportEnd,
-                new FileNameHandler(userPrefs),
-                new FormProgress()
-                );
-            walker.StartingFolder += Walker_StartingFolder;
-            walker.EndingFolder += Walker_EndingFolder;
-            walker.FoundAFile += Walker_FoundAFile;
-            walker.Run();
+            var results = new FormImportPictures().ShowDialog();
+            if (results == DialogResult.OK) Globals.ThisAddIn.ImportPictures();
         }
 
         static FileNameHandler FileNameHandlerFromUserPrefs(UserPreferences.UserPreferences userPrefs)
