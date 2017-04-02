@@ -108,13 +108,13 @@ namespace AlbumWordAddin
                     case Alignment.Center:
                     {
                         var pos = shapes.Average(shp => shp.Left + shp.Width/2);
-                        shapes.ForEach(shp => shp.Top = pos - shp.Width/2);
+                        shapes.ForEach(shp => shp.Left = pos - shp.Width/2);
                     }
                         break;
                     case Alignment.Right:
                     {
                         var pos = shapes.Max(shp => shp.Left + shp.Width);
-                        shapes.ForEach(shp => shp.Top = pos - shp.Width);
+                        shapes.ForEach(shp => shp.Left = pos - shp.Width);
                     }
                         break;
                     case Alignment.Narrowest:
