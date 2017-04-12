@@ -7,6 +7,7 @@ namespace PictureHandler
 {
     using System.IO;
     using System.Windows.Media.Imaging;
+    using System.Drawing;
 
     public class JpegMetadataAdapter
     {
@@ -43,6 +44,7 @@ namespace PictureHandler
             {
                 decoder = new JpegBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
             }
+            //var img = (System.Drawing.Image) decoder.Frames[0];
             return decoder.Frames[0];
         }
     }
