@@ -22,6 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureSorterTests", "PictureSorterTests\PictureSorterTests.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandlerTest", "PictureHandlerTest\PictureHandlerTest.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandler", "PictureHandler\PictureHandler.csproj", "{559CDF0D-F38C-48BF-8ADE-AB32B2098134}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +60,14 @@ Global
 		{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82BAB931-BCA6-43F0-8B15-44E443B20033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82BAB931-BCA6-43F0-8B15-44E443B20033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82BAB931-BCA6-43F0-8B15-44E443B20033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82BAB931-BCA6-43F0-8B15-44E443B20033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
