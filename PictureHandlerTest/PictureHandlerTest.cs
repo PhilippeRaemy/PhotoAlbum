@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿
 namespace PictureHandlerTest
 
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Diagnostics;
     using System.Drawing;
     using System.Windows.Media.Imaging;
