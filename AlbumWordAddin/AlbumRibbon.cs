@@ -4,8 +4,8 @@
     using System.Globalization;
     using Microsoft.Office.Tools.Ribbon;
     using System.Linq;
-    using System.Text.RegularExpressions;
     using System.Windows.Forms;
+    using Microsoft.Office.Interop.Word;
     using UserPreferences;
 
     public partial class AlbumRibbon
@@ -280,6 +280,55 @@
         void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)
         {
             new PicturesSorter.PictureSorterForm().Show();
+        }
+
+        void buttonTextWrappingSquare_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapSquare);
+        }
+
+        void buttonTextWrappingInFrontOfText_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapFront);
+        }
+
+        void buttonTextWrappingThrough_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapThrough);
+        }
+
+        void buttonTextWrappingEditWrapPoints_Click(object sender, RibbonControlEventArgs e)
+        {
+        }
+
+        void buttonTextWrappingBehindTextv_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapBehind);
+        }
+
+        void buttonTextWrappingTopAndBottom_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapTopBottom);
+        }
+
+        void buttonTextWrappingTight_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapTight);
+        }
+
+        void buttonTextWrappingLeftOnly_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapLeft);
+        }
+
+        void buttonTextWrappingBothSides_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapBoth);
+        }
+
+        void buttonTextWrappingRightOnly_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapRight);
         }
     }
 }

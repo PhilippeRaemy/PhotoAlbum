@@ -196,5 +196,15 @@ namespace AlbumWordAddin
         {
             CreateNewAlbumDocument(e.DirectoryInfo);
         }
+
+        public void TextWrapping(Word.WdWrapType wdWrapType)
+        {
+            _utilities.TextWrapping(wdWrapType);
+        }
+
+        internal void TextWrapping(Word.WdWrapSideType wdWrapSide)
+        {
+            _utilities.TextWrapping(wdWrapSide);
+        }
     }
 }

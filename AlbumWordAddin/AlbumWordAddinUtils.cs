@@ -340,6 +340,26 @@ namespace AlbumWordAddin
                 if (newFileInfo.Exists) shape.LinkFormat.SourceFullName = newFileInfo.FullName;
             }
         }
+
+        public void TextWrapping(Word.WdWrapType wdWrapType)
+        {
+            var shapes = SelectedShapes().ToArray();
+            if (!shapes.Any()) return;
+            foreach (var shape in shapes)
+            {
+                shape.WrapFormat.Type = wdWrapType;
+            }
+        }
+
+        internal void TextWrapping(Word.WdWrapSideType wdWrapSide)
+        {
+            var shapes = SelectedShapes().ToArray();
+            if (!shapes.Any()) return;
+            foreach (var shape in shapes)
+            {
+                shape.WrapFormat.Side = wdWrapSide;
+            }
+        }
     }
 }
 

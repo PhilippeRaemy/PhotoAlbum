@@ -279,6 +279,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Icons\TextWrappingRightOnly.png" />
+    <None Include="Icons\TextWrappingLeftOnly.png" />
+    <None Include="Icons\TextWrappingBothSides.png" />
     <None Include="Icons\SelectAllImagesOnPage.png" />
     <None Include="Icons\PositionRelativeToPage.png" />
     <None Include="Icons\RemoveEmptyPages.png" />
