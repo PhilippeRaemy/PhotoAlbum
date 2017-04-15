@@ -318,16 +318,12 @@ namespace AlbumWordAddin
 
         public void DoRelativePositionSelectedImages()
         {
-            using (Application.StatePreserver().FreezeScreenUpdating())
-            {
-                var shapes = SelectedShapes().ToArray();
-                if (!shapes.Any()) return;
-                foreach (var shape in shapes)
+            SelectedShapeIterator(sh =>
                 {
-                    shape.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-                    shape.RelativeVerticalPosition   = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+                    sh.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+                    sh.RelativeVerticalPosition   = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
                 }
-            }
+            );
         }
 
         public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker, Func<string, bool> toPatternIsMatch)
@@ -341,24 +337,23 @@ namespace AlbumWordAddin
             }
         }
 
+        void SelectedShapeIterator(Action<Word.Shape> shapeAction)
+        {
+            using (Application.StatePreserver().FreezeScreenUpdating())
+            {
+                SelectedShapes().ToArray().ForEach(shapeAction);
+            }
+        }
+
+
         public void TextWrapping(Word.WdWrapType wdWrapType)
         {
-            var shapes = SelectedShapes().ToArray();
-            if (!shapes.Any()) return;
-            foreach (var shape in shapes)
-            {
-                shape.WrapFormat.Type = wdWrapType;
-            }
+            SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);
         }
 
         internal void TextWrapping(Word.WdWrapSideType wdWrapSide)
         {
-            var shapes = SelectedShapes().ToArray();
-            if (!shapes.Any()) return;
-            foreach (var shape in shapes)
-            {
-                shape.WrapFormat.Side = wdWrapSide;
-            }
+            SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);
         }
     }
 }
