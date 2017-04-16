@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Windows.Forms;
     using Microsoft.Office.Interop.Word;
+    using MoreLinq;
     using UserPreferences;
 
     public partial class AlbumRibbon
@@ -329,6 +330,14 @@
         void buttonTextWrappingRightOnly_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapRight);
+        }
+
+        void IniDropDownItems(RibbonDropDown dropdown, int min, int max, int selectedValue)
+        {
+            var items = GenIntDropdownItems(min, max - min + 1).ToArray();
+            items.ForEach(dropDownMargin.Items.Add);
+            dropdown.SelectedItem = items.FirstOrDefault(i => (int)i.Tag == selectedValue);
+            if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;
         }
     }
 }

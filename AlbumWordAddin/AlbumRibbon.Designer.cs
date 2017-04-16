@@ -16,12 +16,9 @@ namespace AlbumWordAddin
             : base(Globals.Factory.GetRibbonFactory())
         {
             InitializeComponent();
-
-            GenIntDropdownItems(  0, 10).ForEach(dropDownMargin.Items.Add);
-            dropDownMargin.SelectedItemIndex = 3;
-            GenIntDropdownItems(-10, 20).ForEach(dropDownPadding.Items.Add);
-            dropDownPadding.SelectedItemIndex = 13;
-
+            var prefs = new UserPreferences.PersistedUserPreferences();
+            IniDropDownItems(dropDownMargin, 0, 10, prefs.Margin);
+            IniDropDownItems(dropDownPadding, -10, 10, prefs.Padding );
             ThisAddIn.ThisRibbon = this;
         }
 
@@ -212,6 +209,7 @@ namespace AlbumWordAddin
             this.ButtonSelectShapesOnPage.ScreenTip = "Select All Images on Page";
             this.ButtonSelectShapesOnPage.ShowImage = true;
             this.ButtonSelectShapesOnPage.SuperTip = "Select All Images on Page";
+            this.ButtonSelectShapesOnPage.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSelectShapesOnPage_Click);
             // 
             // ButtonRemoveEmptyPages
             // 
@@ -221,6 +219,7 @@ namespace AlbumWordAddin
             this.ButtonRemoveEmptyPages.ScreenTip = "Remove empty pages";
             this.ButtonRemoveEmptyPages.ShowImage = true;
             this.ButtonRemoveEmptyPages.SuperTip = "Remove empty pages";
+            this.ButtonRemoveEmptyPages.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonRemoveEmptyPages_Click);
             // 
             // ButtonFixAnchors
             // 
@@ -230,6 +229,7 @@ namespace AlbumWordAddin
             this.ButtonFixAnchors.ScreenTip = "Move anchors to top";
             this.ButtonFixAnchors.ShowImage = true;
             this.ButtonFixAnchors.SuperTip = "Move anchors to top";
+            this.ButtonFixAnchors.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonFixAnchors_Click);
             // 
             // ButtonSetRelativePosition
             // 
@@ -239,6 +239,7 @@ namespace AlbumWordAddin
             this.ButtonSetRelativePosition.ScreenTip = "Set position relative to page";
             this.ButtonSetRelativePosition.ShowImage = true;
             this.ButtonSetRelativePosition.SuperTip = "Set position relative to page";
+            this.ButtonSetRelativePosition.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonSetRelativePosition_Click);
             // 
             // groupAlign
             // 
