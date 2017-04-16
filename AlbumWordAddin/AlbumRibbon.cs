@@ -31,7 +31,7 @@
         static void DropDownIntSetter(RibbonDropDown ribbonDropDown, int value)
         {
             ribbonDropDown.SelectedItem 
-                =  ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag < value)
+                =  ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag == value)
                 ?? ribbonDropDown.SelectedItem;
         }
 
@@ -335,7 +335,7 @@
         void IniDropDownItems(RibbonDropDown dropdown, int min, int max, int selectedValue)
         {
             var items = GenIntDropdownItems(min, max - min + 1).ToArray();
-            items.ForEach(dropDownMargin.Items.Add);
+            items.ForEach(dropdown.Items.Add);
             dropdown.SelectedItem = items.FirstOrDefault(i => (int)i.Tag == selectedValue);
             if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;
         }
