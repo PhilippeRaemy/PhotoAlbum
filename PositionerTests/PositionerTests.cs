@@ -156,7 +156,7 @@
                 .Select((r, i) => new {i, r.expected, r.results, success = r.expected.Equals(r.results)})
                 .ToArray();
 
-            Assert.IsTrue(results.All(r=>r.success), results.Select(r=> $"{Environment.NewLine}{r.expected} {(r.success ? "==" : "<>")} {r.results}").ToDelimitedString());
+            Assert.IsTrue(results.All(r=>r.success), results.Select(r=> $"{Environment.NewLine}{r.expected} {(r.success ? "==" : "<>")} {r.results}").ToDelimitedString(","));
         }
     }
 }
