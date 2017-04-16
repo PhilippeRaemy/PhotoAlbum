@@ -16,9 +16,8 @@ namespace AlbumWordAddin
             : base(Globals.Factory.GetRibbonFactory())
         {
             InitializeComponent();
-            var prefs = new UserPreferences.PersistedUserPreferences();
-            IniDropDownItems(dropDownMargin, 0, 10, prefs.Margin);
-            IniDropDownItems(dropDownPadding, -10, 10, prefs.Padding );
+            IniDropDownItems(dropDownMargin, 0, 10, 5);
+            IniDropDownItems(dropDownPadding, -10, 10, 0);
             ThisAddIn.ThisRibbon = this;
         }
 

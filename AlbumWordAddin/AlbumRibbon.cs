@@ -21,11 +21,10 @@
 
         void AlbumRibbon_Close(object sender, EventArgs e)
         {
-            using (var userPrefs = new PersistedUserPreferences())
-            {
-                userPrefs.Margin  = (int) dropDownMargin .SelectedItem.Tag;
-                userPrefs.Padding = (int) dropDownPadding.SelectedItem.Tag;
-            }
+            new PersistedUserPreferences {
+                Margin = (int) dropDownMargin.SelectedItem.Tag,
+                Padding = (int) dropDownPadding.SelectedItem.Tag
+            }.Save();
         }
 
         static void DropDownIntSetter(RibbonDropDown ribbonDropDown, int value)
@@ -241,24 +240,6 @@
         {
             var results = new FormImportPictures().ShowDialog();
             if (results == DialogResult.OK) Globals.ThisAddIn.ImportPictures();
-        }
-
-        static FileNameHandler FileNameHandlerFromUserPrefs(UserPreferences.UserPreferences userPrefs)
-         => new FileNameHandler(userPrefs);
-
-        static void Walker_FoundAFile(object sender, FileEventArgs e)
-        {
-            Globals.ThisAddIn.AddPictureToCurrentDocument(e.FileInfo);
-        }
-
-        static void Walker_EndingFolder(object sender, FolderEventArgs e)
-        {
-            Globals.ThisAddIn.CloseCurrentAlbumDocument(e.DirectoryInfo);
-        }
-
-        static void Walker_StartingFolder(object sender, FolderEventArgs e)
-        {
-            Globals.ThisAddIn.CreateNewAlbumDocument(e.DirectoryInfo);
         }
 
         void ButtonSetRelativePosition_Click(object sender, RibbonControlEventArgs e)

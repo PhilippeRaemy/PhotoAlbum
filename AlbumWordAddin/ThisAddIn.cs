@@ -167,19 +167,17 @@ namespace AlbumWordAddin
 
         public void ImportPictures()
         {
-            using (var userprefs = new PersistedUserPreferences())
-            {
-                var fw = new FolderWalker(
-                    userprefs.FolderImportStart,
-                    userprefs.FolderImportEnd,
-                    new FileNameHandler(userprefs),
-                    new FormProgress()
-                );
-                fw.StartingFolder += Fw_StartingFolder;
-                fw.FoundAFile += Fw_FoundAFile;
-                fw.EndingFolder += Fw_EndingFolder;
-                fw.Run();
-            }
+            var userprefs = new PersistedUserPreferences();
+            var fw = new FolderWalker(
+                userprefs.FolderImportStart,
+                userprefs.FolderImportEnd,
+                new FileNameHandler(userprefs),
+                new FormProgress()
+            );
+            fw.StartingFolder += Fw_StartingFolder;
+            fw.FoundAFile += Fw_FoundAFile;
+            fw.EndingFolder += Fw_EndingFolder;
+            fw.Run();
         }
 
         void Fw_EndingFolder(object sender, FolderEventArgs e)

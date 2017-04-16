@@ -3,27 +3,34 @@ namespace AlbumWordAddin.UserPreferences
     using System;
     using System.IO;
 
-    public class PersistedUserPreferences: UserPreferences, IDisposable
+    public class PersistedUserPreferences: UserPreferences
     {
-        readonly string _prefFileName = Path.Combine(
+        static UserPreferences _userPreferences;
+
+        static readonly string PrefFileName = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "AlbumWordAddin",
             "UserPreferences.xml"
         );
 
-        public PersistedUserPreferences()
+        public PersistedUserPreferences(): this(false){}
+
+        public PersistedUserPreferences(bool forceRead)
         {
-            var file=new FileInfo(_prefFileName);
-            // ReSharper disable once AssignNullToNotNullAttribute
-            new DirectoryInfo(file.DirectoryName).Create();
-            if (!file.Exists) return;
-            var reader = new StreamReader(_prefFileName);
-            var prefs = reader.ReadToEnd().Deserialize<UserPreferences>();
-            reader.Close();
-            CopyUserPreferences(prefs, this);
+            if (forceRead || _userPreferences == null)
+            {
+                var file = new FileInfo(PrefFileName);
+                // ReSharper disable once AssignNullToNotNullAttribute
+                new DirectoryInfo(file.DirectoryName).Create();
+                if (!file.Exists) return;
+                var reader = new StreamReader(PrefFileName);
+                _userPreferences = reader.ReadToEnd().Deserialize<UserPreferences>();
+                reader.Close();
+            }
+            CopyUserPreferences(_userPreferences, this);
         }
 
-        public static UserPreferences CopyUserPreferences(UserPreferences source, UserPreferences target)
+        static UserPreferences CopyUserPreferences(UserPreferences source, UserPreferences target)
         {
             foreach (var prop in typeof(UserPreferences).GetProperties())
             {
@@ -32,12 +39,13 @@ namespace AlbumWordAddin.UserPreferences
             return target;
         }
 
-        public void Dispose()
+        public void Save()
         {
             if (!Modified) return;
-            var writer = new StreamWriter(_prefFileName);
-            writer.Write(CopyUserPreferences(this, new UserPreferences()).Serialize());
+            var writer = new StreamWriter(PrefFileName);
+            writer.Write(CopyUserPreferences(this, _userPreferences).Serialize());
             writer.Close();
+            Modified = false;
         }
     }
 }

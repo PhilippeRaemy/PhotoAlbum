@@ -17,19 +17,21 @@ namespace PositionerTests
         public void TestReadSaveRereadUserPreferences()
         {
             int margin;
-            using (var prefs = new PersistedUserPreferences())
             {
+                var prefs = new PersistedUserPreferences();
                 margin = prefs.Margin;
                 prefs.Margin = margin + 1;
                 Assert.AreEqual(margin + 1, prefs.Margin, "Set Value");
+                prefs.Save();
             }
-            using (var prefs = new PersistedUserPreferences())
             {
+                var prefs = new PersistedUserPreferences(true);
                 Assert.AreEqual(margin + 1, prefs.Margin, "Reread Value");
                 prefs.Margin = margin;
+                prefs.Save();
             }
-            using (var prefs = new PersistedUserPreferences())
             {
+                var prefs = new PersistedUserPreferences(true);
                 Assert.AreEqual(margin, prefs.Margin, "Reset Value");
             }
         }

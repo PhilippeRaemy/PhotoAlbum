@@ -40,7 +40,7 @@ namespace PicturesSorter
 
         void PictureSorterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            using (new PersistedUserPreferences {FolderImportStart = _currentDirectory.FullName}){}
+            (new PersistedUserPreferences {FolderImportStart = _currentDirectory.FullName}).Save();
         }
 
         void OpenFolder()
@@ -52,16 +52,20 @@ namespace PicturesSorter
                 folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
             }
             folderBrowserDialog.ShowDialog();
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), new DirectoryInfo(folderBrowserDialog.SelectedPath));
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false),
+                new DirectoryInfo(folderBrowserDialog.SelectedPath));
+            userPrefs.Save();
         }
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
             var folder = GetNextFolder(currentDirectory, folderDirection);
-            if (folder != null) { 
+            if (folder != null)
+            {
                 var userPrefs = new PersistedUserPreferences();
                 var fileNameHandler = new FileNameHandler(userPrefs);
                 OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder);
+                userPrefs.Save();
             }
         }
 

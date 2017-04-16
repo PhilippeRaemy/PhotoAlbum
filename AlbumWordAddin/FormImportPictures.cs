@@ -57,22 +57,22 @@
 
         void buttonSave_Click(object sender, EventArgs e)
         {
-            using (var userprefs = new PersistedUserPreferences())
-            {
-                userprefs.FolderImportStart = textStartFolder.Text;
-                userprefs.FolderImportEnd = textEndFolder.Text;
-                userprefs.IncludeFiles = textIncludeFiles.Text;
-                userprefs.ExcludeFiles = textExcludeFiles.Text;
-                userprefs.NewDocumentTemplate = textTemplate.Text;
-                int maxPics;
-                userprefs.MaxPicturesPerFile =
-                    int.TryParse(comboMaxPicsPerFile.SelectedItem?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out maxPics)
-                        ? maxPics : -1;
-                userprefs.ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState == CheckState.Checked;
-            }
+            var userprefs = new PersistedUserPreferences();
+            userprefs.FolderImportStart = textStartFolder.Text;
+            userprefs.FolderImportEnd = textEndFolder.Text;
+            userprefs.IncludeFiles = textIncludeFiles.Text;
+            userprefs.ExcludeFiles = textExcludeFiles.Text;
+            userprefs.NewDocumentTemplate = textTemplate.Text;
+            int maxPics;
+            userprefs.MaxPicturesPerFile =
+                int.TryParse(comboMaxPicsPerFile.SelectedItem?.ToString(), NumberStyles.Integer,
+                    CultureInfo.InvariantCulture, out maxPics)
+                    ? maxPics
+                    : -1;
+            userprefs.ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState == CheckState.Checked;
+            userprefs.Save();
             Close();
         }
-
 
         void buttonOpenTemplate_Click(object sender, EventArgs e)
         {
