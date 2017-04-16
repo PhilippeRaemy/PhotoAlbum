@@ -133,6 +133,26 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap HiResPictures {
+            get {
+                object obj = ResourceManager.GetObject("HiResPictures", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LowResPictures {
+            get {
+                object obj = ResourceManager.GetObject("LowResPictures", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Margins {
             get {
                 object obj = ResourceManager.GetObject("Margins", resourceCulture);
@@ -246,6 +266,26 @@ namespace AlbumWordAddin.Properties {
         internal static System.Drawing.Bitmap Pict_3x3 {
             get {
                 object obj = ResourceManager.GetObject("Pict_3x3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PicturesSorter {
+            get {
+                object obj = ResourceManager.GetObject("PicturesSorter", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PicturesSorterIcon {
+            get {
+                object obj = ResourceManager.GetObject("PicturesSorterIcon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

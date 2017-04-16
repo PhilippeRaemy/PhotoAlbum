@@ -302,6 +302,10 @@
     <None Include="Icons\Margins.png" />
     <None Include="Icons\padding.png" />
     <None Include="Icons\MoveAnchorsToTop.png" />
+    <None Include="Icons\LowResPictures.png" />
+    <None Include="Icons\HiResPictures.png" />
+    <None Include="Icons\PicturesSorter.png" />
+    <None Include="Icons\PicturesSorterIcon.png" />
     <Content Include="Icons\Pict_1x1.PNG" />
     <Content Include="Icons\Pict_1x2.PNG" />
     <Content Include="Icons\Pict_1x3.PNG" />
