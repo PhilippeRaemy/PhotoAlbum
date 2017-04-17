@@ -416,15 +416,33 @@ namespace PicturesSorter
             _image = null;
         }
 
-        public void Render(PictureBox pictureBox, Label label)
+        public bool Render(PictureBox pictureBox, Label label)
         {
             if (label.Text != FileInfo.Name)
             {
-                pictureBox.Image = Image;
-                label.Text = FileInfo.Name;
-                pictureBox.Refresh();
+                try
+                {
+                    pictureBox.Image = Image;
+                    label.Text = FileInfo.Name;
+                    pictureBox.Refresh();
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e);
+                    var host = pictureBox.Parent;
+                    var bogusPic = pictureBox;
+                    host.Controls.Remove(bogusPic);
+                    pictureBox = new PictureBox();
+                    foreach (var prop in typeof(PictureBox).GetProperties())
+                    {
+                        prop.SetValue(pictureBox, prop.GetValue(bogusPic));
+                    }
+                    host.Controls.Add(pictureBox);
+                    return false;
+                }
             }
             _useCount++;
+            return true;
         }
 
         public void Rotate(RotateFlipType rotateFlipType)
