@@ -442,7 +442,6 @@ namespace PicturesSorter
                     pictureBox.Image = Image;
                     label.Tag = FileInfo.FullName;
                     pictureBox.Refresh();
-                    label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
                 }
                 catch (Exception e)
                 {
@@ -459,6 +458,8 @@ namespace PicturesSorter
                     return false;
                 }
             }
+            // ReSharper disable once LocalizableElement
+            label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
             _useCount++;
             return true;
         }
