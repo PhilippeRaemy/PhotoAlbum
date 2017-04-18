@@ -96,7 +96,6 @@ namespace AlbumWordAddin
             this.buttonTextWrappingTopAndBottom = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingThrough = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingTight = this.Factory.CreateRibbonButton();
-            this.buttonTextWrappingEditWrapPoints = this.Factory.CreateRibbonButton();
             this.buttonPictureSorter = this.Factory.CreateRibbonButton();
             this.ButtonLowRes = this.Factory.CreateRibbonButton();
             this.ButtonHiRes = this.Factory.CreateRibbonButton();
@@ -306,7 +305,6 @@ namespace AlbumWordAddin
             this.group1.Items.Add(this.buttonTextWrappingThrough);
             this.group1.Items.Add(this.buttonTextWrappingTight);
             this.group1.Items.Add(this.buttonTextWrappingRightOnly);
-            this.group1.Items.Add(this.buttonTextWrappingEditWrapPoints);
             this.group1.Label = "Wrapping";
             this.group1.Name = "group1";
             // 
@@ -489,16 +487,6 @@ namespace AlbumWordAddin
             this.buttonTextWrappingTight.ShowLabel = false;
             this.buttonTextWrappingTight.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonTextWrappingTight_Click);
             // 
-            // buttonTextWrappingEditWrapPoints
-            // 
-            this.buttonTextWrappingEditWrapPoints.Label = " ";
-            this.buttonTextWrappingEditWrapPoints.Name = "buttonTextWrappingEditWrapPoints";
-            this.buttonTextWrappingEditWrapPoints.OfficeImageId = "TextWrappingEditWrapPoints";
-            this.buttonTextWrappingEditWrapPoints.ScreenTip = "Text Wrapping Edit Wrap Points";
-            this.buttonTextWrappingEditWrapPoints.ShowImage = true;
-            this.buttonTextWrappingEditWrapPoints.ShowLabel = false;
-            this.buttonTextWrappingEditWrapPoints.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonTextWrappingEditWrapPoints_Click);
-            // 
             // buttonPictureSorter
             // 
             this.buttonPictureSorter.Image = global::AlbumWordAddin.Properties.Resources.PicturesSorterIcon;
@@ -572,7 +560,7 @@ namespace AlbumWordAddin
             // 
             // dropDownMargin
             // 
-            this.dropDownMargin.Image = ((System.Drawing.Image)(resources.GetObject("dropDownMargin.Image")));
+            this.dropDownMargin.Image = global::AlbumWordAddin.Properties.Resources.Margins;
             this.dropDownMargin.Label = "";
             this.dropDownMargin.Name = "dropDownMargin";
             this.dropDownMargin.ScreenTip = "Margins";
@@ -898,7 +886,6 @@ namespace AlbumWordAddin
         internal RibbonButton buttonTextWrappingBothSides;
         internal RibbonButton buttonTextWrappingThrough;
         internal RibbonButton buttonTextWrappingRightOnly;
-        internal RibbonButton buttonTextWrappingEditWrapPoints;
     }
 
     partial class ThisRibbonCollection

@@ -71,7 +71,7 @@
         void editBoxSizedHeight_TextChanged(object sender, RibbonControlEventArgs e)
         {
             float f;
-            if (float.TryParse(editBoxSizeWidth.Text, NumberStyles.Float, CultureInfo.CurrentUICulture, out f))
+            if (float.TryParse(editBoxSizeHeight.Text, NumberStyles.Float, CultureInfo.CurrentUICulture, out f))
             {
                 Globals.ThisAddIn.AlignSelectedImages(Alignment.ForceHeight, f);
             }
