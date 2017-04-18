@@ -130,7 +130,7 @@
             // nextFolder
             // 
             this.nextFolder.Name = "nextFolder";
-            this.nextFolder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Next)));
+            this.nextFolder.ShortcutKeyDisplayString = "PgDn";
             this.nextFolder.Size = new System.Drawing.Size(253, 22);
             this.nextFolder.Text = "Next";
             this.nextFolder.Click += new System.EventHandler(this.nextFolder_Click);
@@ -138,7 +138,7 @@
             // previousFolder
             // 
             this.previousFolder.Name = "previousFolder";
-            this.previousFolder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.PageUp)));
+            this.previousFolder.ShortcutKeyDisplayString = "PgUp";
             this.previousFolder.Size = new System.Drawing.Size(253, 22);
             this.previousFolder.Text = "Previous";
             this.previousFolder.Click += new System.EventHandler(this.previousFolder_Click);
@@ -227,7 +227,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -257,7 +257,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock

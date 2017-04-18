@@ -25,6 +25,12 @@ namespace PicturesSorter
         public PictureSorterForm()
         {
             InitializeComponent();
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         void PictureSorterForm_Resize(object sender, EventArgs e)
@@ -201,6 +207,8 @@ namespace PicturesSorter
                 case Keys.Control | Keys.Shift | Keys.Left : _fileIndex = LoadPictures(_fileIndex,  0, -1); break;
                 case Keys.Control | Keys.Right             : _fileIndex = LoadPictures(_fileIndex,  1,  0); break;
                 case Keys.Control | Keys.Shift | Keys.Right: _fileIndex = LoadPictures(_fileIndex,  0,  1); break;
+                case Keys.PageDown: OpenNextFolder(_currentDirectory, FolderDirection.Forward ); break;
+                case Keys.PageUp  : OpenNextFolder(_currentDirectory, FolderDirection.Backward); break;
                 case Keys.NumPad1:
                 case Keys.D1:
                     ArchiveLeftPicture();
@@ -433,7 +441,7 @@ namespace PicturesSorter
                     var bogusPic = pictureBox;
                     host.Controls.Remove(bogusPic);
                     pictureBox = new PictureBox();
-                    foreach (var prop in typeof(PictureBox).GetProperties())
+                    foreach (var prop in typeof(PictureBox).GetProperties().Where(p=>p.CanRead && p.CanWrite))
                     {
                         prop.SetValue(pictureBox, prop.GetValue(bogusPic));
                     }
