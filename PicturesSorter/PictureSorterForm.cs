@@ -11,6 +11,7 @@ namespace PicturesSorter
     using System.Windows.Forms;
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
+    using MoreLinq;
 
     public partial class PictureSorterForm : Form
     {
@@ -147,6 +148,7 @@ namespace PicturesSorter
                     .OrderBy       (f => f.Name)
                     .Select        (f => new ImageHost { FileInfo = f })
                 );
+            _currentFiles.ForEach(ih=>ih.Parent= _currentFiles);
             switch (_currentFiles.Count)
             {
                 case 0:
@@ -351,6 +353,12 @@ namespace PicturesSorter
             => step < 0 ? lln?.SafePrev()
              : step > 0 ? lln?.SafeNext()
              : lln;
+
+        public static int IndexOf<T>(this LinkedList<T> ll, T lln) where T:class
+        {
+            var theOne = ll.Index().FirstOrDefault(n => n.Value.Equals(lln));
+            return theOne.Value==null ? -1 : theOne.Key;
+        }
     }
 
     internal class ImageHost : IDisposable {
@@ -381,6 +389,7 @@ namespace PicturesSorter
         }
         public FileInfo FileInfo { get; set; }
         public string FullName => FileInfo.FullName;
+        public LinkedList<ImageHost> Parent { get; set; }
 
         int _useCount;
         public void Release()
@@ -426,13 +435,14 @@ namespace PicturesSorter
 
         public bool Render(PictureBox pictureBox, Label label)
         {
-            if (label.Text != FileInfo.Name)
+            if ((string)label.Tag != FileInfo.FullName)
             {
                 try
                 {
                     pictureBox.Image = Image;
-                    label.Text = FileInfo.Name;
+                    label.Tag = FileInfo.FullName;
                     pictureBox.Refresh();
+                    label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
                 }
                 catch (Exception e)
                 {
