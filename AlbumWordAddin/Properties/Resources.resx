@@ -226,4 +226,25 @@
   <data name="LowResPictures" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\lowrespictures.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="SpacingDecreaseHorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacingdecreasehorizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpacingDecreaseVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacingdecreasevertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpacingEqualHorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacingequalhorizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpacingEqualVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacingequalvertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpacingIncreaseHorizontal" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacingincreasehorizontal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpacingIncreaseVertical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacingincreasevertical.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SpacingInterpolate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\spacinginterpolate.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

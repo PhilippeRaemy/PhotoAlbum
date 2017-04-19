@@ -323,6 +323,76 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SpacingDecreaseHorizontal {
+            get {
+                object obj = ResourceManager.GetObject("SpacingDecreaseHorizontal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingDecreaseVertical {
+            get {
+                object obj = ResourceManager.GetObject("SpacingDecreaseVertical", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingEqualHorizontal {
+            get {
+                object obj = ResourceManager.GetObject("SpacingEqualHorizontal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingEqualVertical {
+            get {
+                object obj = ResourceManager.GetObject("SpacingEqualVertical", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingIncreaseHorizontal {
+            get {
+                object obj = ResourceManager.GetObject("SpacingIncreaseHorizontal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingIncreaseVertical {
+            get {
+                object obj = ResourceManager.GetObject("SpacingIncreaseVertical", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingInterpolate {
+            get {
+                object obj = ResourceManager.GetObject("SpacingInterpolate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap TextWrappingBothSides {
             get {
                 object obj = ResourceManager.GetObject("TextWrappingBothSides", resourceCulture);
