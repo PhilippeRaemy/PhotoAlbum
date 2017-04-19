@@ -76,13 +76,13 @@
                 {
                     if (fi.smallMatch)
                     {
-                        _progressIndicator?.Progress(fi.fileInfo.FullName);
+                        _progressIndicator?.Progress(fi.fileInfo.Name);
                         OnFoundAFile(fi.fileInfo);
                         if (_cancel) return;
                         continue;
                     }
                     if (!fi.fileMatch) continue;
-                    _progressIndicator?.Progress(fi.fileInfo.FullName);
+                    _progressIndicator?.Progress(fi.fileInfo.Name);
                     OnFoundAFile(MakeSmallImage(fi.fileInfo, fi.smallName));
                     if (_cancel) return;
                 }

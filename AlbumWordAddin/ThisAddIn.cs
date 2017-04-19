@@ -172,7 +172,8 @@ namespace AlbumWordAddin
                 userprefs.FolderImportStart,
                 userprefs.FolderImportEnd,
                 new FileNameHandler(userprefs),
-                new FormProgress()
+                new StatusBarProgressIndicator(Application)
+                // new FormProgress()
             );
             fw.StartingFolder += Fw_StartingFolder;
             fw.FoundAFile += Fw_FoundAFile;
