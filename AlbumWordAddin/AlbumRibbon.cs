@@ -320,5 +320,40 @@
             dropdown.SelectedItem = items.FirstOrDefault(i => (int)i.Tag == selectedValue);
             if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;
         }
+
+        void buttonSpacing_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonSpacingDecreaseHorizontal_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonSpacingIncreaseHorizontal_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonSpacingEqualVertical_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonSpacingDecreaseVertical_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonSpacingIncreaseVertical_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+
+        void buttonSpacingInterpolate_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }
