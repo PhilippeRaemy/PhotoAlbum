@@ -321,7 +321,7 @@
             if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;
         }
 
-        void buttonSpacing_Click(object sender, RibbonControlEventArgs e)
+        void buttonSpacingEqualHorizontal_Click(object sender, RibbonControlEventArgs e)
         {
 
         }

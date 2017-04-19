@@ -831,7 +831,7 @@ namespace AlbumWordAddin
             this.buttonSpacing.ScreenTip = "Equal Horizontal Spacing";
             this.buttonSpacing.ShowImage = true;
             this.buttonSpacing.ShowLabel = false;
-            this.buttonSpacing.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacing_Click);
+            this.buttonSpacing.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingEqualHorizontal_Click);
             // 
             // buttonSpacingDecreaseHorizontal
             // 
