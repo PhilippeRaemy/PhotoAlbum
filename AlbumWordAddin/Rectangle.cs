@@ -3,8 +3,8 @@ using System.Linq;
 
 namespace AlbumWordAddin
 {
-    using System.Collections;
     using System.Collections.Generic;
+    using Microsoft.Office.Interop.Word;
 
     public class Rectangle
     {
@@ -23,6 +23,8 @@ namespace AlbumWordAddin
             Width = width;
             Height = height;
         }
+
+        public Rectangle(Shape s) : this(s.Left, s.Top, s.Width, s.Height){}
 
         public Rectangle MoveBy(float x, float y)
             => new Rectangle(Left + x, Top + y, Width, Height);

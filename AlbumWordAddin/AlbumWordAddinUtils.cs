@@ -261,12 +261,18 @@ namespace AlbumWordAddin
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
-            var rectangles = shapes.Select(s => new Rectangle(s.Left, s.Top, s.Width, s.Height));
+            var rectangles = shapes.Select(s => new Rectangle(s));
             var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
 
+            ApplyPositions(shapes, positions);
+
+        }
+
+        void ApplyPositions(IEnumerable<Word.Shape> shapes, IEnumerable<Rectangle> positions)
+        {
             using (Application.StatePreserver().FreezeScreenUpdating())
                 foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
-                        .Where(r => r.re != null && r.sh != null)
+                    .Where(r => r.re != null && r.sh != null)
                 )
                 {
                     pos.sh.Left = pos.re.Left;
@@ -274,7 +280,6 @@ namespace AlbumWordAddin
                     pos.sh.Width = pos.re.Width;
                     pos.sh.Height = pos.re.Height;
                 }
-
         }
 
 
