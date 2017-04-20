@@ -1,14 +1,11 @@
 ﻿namespace PositionerTests
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using AlbumWordAddin;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MoreLinq;
-    using Mannex;
-    using Mannex.Collections.Generic;
 
     class Validation
     {
@@ -66,8 +63,32 @@
             SpacerTestImpl(new[]
                 {
                     R1X1, R1X1.MoveBy(2, 0), R1X1.MoveBy(3, 0), R1X1.MoveBy(5, 0)
-                }, 
-                Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(i + i * 2f / 3, 0)), 
+                },
+                Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(i + i * 2f / 3, 0)),
+                Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation
+            );
+        }
+
+        [TestMethod]
+        public void TestSimpleHorizontalEqualSpacingTrupleWithOverlap()
+        {
+            SpacerTestImpl(
+                new[]
+                {
+                    R1X1, R1X1, R1X1.MoveBy(3, 0)
+                },
+                Enumerable.Range(0, 3).Select(i => R1X1.MoveBy(i + i * 1f / 2, 0)),
+                Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation
+            );
+        }
+        [TestMethod]
+        public void TestSimpleHorizontalEqualSpacingQuadrupleWithOverlap()
+        {
+            SpacerTestImpl(new[]
+                {
+                    R1X1, R1X1, R1X1, R1X1.MoveBy(5, 0)
+                },
+                Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(i + i * 2f / 3, 0)),
                 Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation
             );
         }
