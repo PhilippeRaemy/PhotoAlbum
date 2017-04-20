@@ -265,7 +265,6 @@ namespace AlbumWordAddin
             var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
 
             ApplyPositions(shapes, positions);
-
         }
 
         void ApplyPositions(IEnumerable<Word.Shape> shapes, IEnumerable<Rectangle> positions)
@@ -281,7 +280,6 @@ namespace AlbumWordAddin
                     pos.sh.Height = pos.re.Height;
                 }
         }
-
 
         IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
         {
@@ -361,40 +359,22 @@ namespace AlbumWordAddin
             SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);
         }
 
-        public void SpacingEqualHorizontal()
+        void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
         {
-            throw new NotImplementedException();
+            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection().ToArray();
+            if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
+            var rectangles = shapes.Select(s => new Rectangle(s));
+            var positions = spacerFunc(rectangles);
+            ApplyPositions(shapes, positions);
         }
 
-        public void SpacingDecreaseHorizontal()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SpacingIncreaseHorizontal()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SpacingEqualVertical()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SpacingDecreaseVertical()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SpacingIncreaseVertical()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SpacingInterpolate()
-        {
-            throw new NotImplementedException();
-        }
+        public void SpacingEqualHorizontal   () { SpacingImpl(Spacer.HorizontalEqualSpacing); }
+        public void SpacingDecreaseHorizontal() { SpacingImpl(Spacer.DecreaseHorizontal    ); }
+        public void SpacingIncreaseHorizontal() { SpacingImpl(Spacer.IncreaseHorizontal    ); }
+        public void SpacingEqualVertical     () { SpacingImpl(Spacer.VerticalEqualSpacing  ); }
+        public void SpacingDecreaseVertical  () { SpacingImpl(Spacer.DecreaseVertical      ); }
+        public void SpacingIncreaseVertical  () { SpacingImpl(Spacer.IncreaseVertical      ); }
+        public void SpacingInterpolate       () { SpacingImpl(Spacer.SpacingInterpolate    ); }
     }
 }
 
