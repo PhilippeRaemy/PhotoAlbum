@@ -46,7 +46,7 @@
             SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 0) }, new[] { R1X1, R1X1.MoveBy(2, 0) }, Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation);
         }
         [TestMethod]
-        public void TestSimpleHorizontalEqualSpacingTruple()
+        public void TestHorizontalEqualSpacingTruple()
         {
             SpacerTestImpl(
                 new[]
@@ -58,7 +58,7 @@
             );
         }
         [TestMethod]
-        public void TestSimpleHorizontalEqualSpacingQuadruple()
+        public void TestHorizontalEqualSpacingQuadruple()
         {
             SpacerTestImpl(new[]
                 {
@@ -70,7 +70,7 @@
         }
 
         [TestMethod]
-        public void TestSimpleHorizontalEqualSpacingTrupleWithOverlap()
+        public void TestHorizontalEqualSpacingTrupleWithOverlap()
         {
             SpacerTestImpl(
                 new[]
@@ -82,7 +82,7 @@
             );
         }
         [TestMethod]
-        public void TestSimpleHorizontalEqualSpacingQuadrupleWithOverlap()
+        public void TestHorizontalEqualSpacingQuadrupleWithOverlap()
         {
             SpacerTestImpl(new[]
                 {
@@ -90,6 +90,70 @@
                 },
                 Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(i + i * 2f / 3, 0)),
                 Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation
+            );
+        }
+
+        [TestMethod]
+        public void TestIncreaseHorizontalSpacingDoesNothingToSingleton()
+        {
+            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.IncreaseHorizontal, EqualSpacingAdditionalValidation);
+        }
+
+        [TestMethod]
+        public void TestVerticalEqualSpacingDoesNothingToSingleton()
+        {
+            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation);
+        }
+        [TestMethod]
+        public void TestVerticalEqualSpacingDoesNothingToPair()
+        {
+            SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(0, 2) }, new[] { R1X1, R1X1.MoveBy(0, 2) }, Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation);
+        }
+        [TestMethod]
+        public void TestVerticalEqualSpacingTruple()
+        {
+            SpacerTestImpl(
+                new[]
+                {
+                    R1X1, R1X1.MoveBy(0, 2), R1X1.MoveBy(0, 3)
+                },
+                Enumerable.Range(0, 3).Select(i => R1X1.MoveBy(0, i + i * 1f / 2)),
+                Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation
+            );
+        }
+        [TestMethod]
+        public void TestVerticalEqualSpacingQuadruple()
+        {
+            SpacerTestImpl(new[]
+                {
+                    R1X1, R1X1.MoveBy(0, 2), R1X1.MoveBy(0, 3), R1X1.MoveBy(0, 5)
+                },
+                Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(0, i + i * 2f / 3)),
+                Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation
+            );
+        }
+
+        [TestMethod]
+        public void TestVerticalEqualSpacingTrupleWithOverlap()
+        {
+            SpacerTestImpl(
+                new[]
+                {
+                    R1X1, R1X1, R1X1.MoveBy(0, 3)
+                },
+                Enumerable.Range(0, 3).Select(i => R1X1.MoveBy(0, i + i * 1f / 2)),
+                Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation
+            );
+        }
+        [TestMethod]
+        public void TestVerticalEqualSpacingQuadrupleWithOverlap()
+        {
+            SpacerTestImpl(new[]
+                {
+                    R1X1, R1X1, R1X1, R1X1.MoveBy(0, 5)
+                },
+                Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(0, i + i * 2f / 3)),
+                Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation
             );
         }
 
@@ -106,5 +170,6 @@
             validations.ForEach(v => Assert.IsTrue(v.Test(sourceA, results), v.Message));
         }
     }
+
 
 }
