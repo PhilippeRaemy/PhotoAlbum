@@ -274,9 +274,9 @@ namespace AlbumWordAddin
                     .Where(r => r.re != null && r.sh != null)
                 )
                 {
-                    pos.sh.Left = pos.re.Left;
-                    pos.sh.Top = pos.re.Top;
-                    pos.sh.Width = pos.re.Width;
+                    pos.sh.Left   = pos.re.Left  ;
+                    pos.sh.Top    = pos.re.Top   ;
+                    pos.sh.Width  = pos.re.Width ;
                     pos.sh.Height = pos.re.Height;
                 }
         }
@@ -348,16 +348,8 @@ namespace AlbumWordAddin
             }
         }
 
-
-        public void TextWrapping(Word.WdWrapType wdWrapType)
-        {
-            SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);
-        }
-
-        internal void TextWrapping(Word.WdWrapSideType wdWrapSide)
-        {
-            SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);
-        }
+        internal void TextWrapping(Word.WdWrapType     wdWrapType){SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);}
+        internal void TextWrapping(Word.WdWrapSideType wdWrapSide){SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);}
 
         void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
         {
