@@ -178,6 +178,4 @@
             validations.ForEach(v => Assert.IsTrue(v.Test(sourceA, results), v.Message));
         }
     }
-
-
 }

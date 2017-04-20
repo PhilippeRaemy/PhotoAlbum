@@ -25,6 +25,9 @@
                 (r, p) => r.MoveTo(r.Left, p)
             );
 
+        public static IEnumerable<Rectangle> SpacingInterpolate(IEnumerable<Rectangle> rectangles)
+            => HorizontalEqualSpacing(VerticalEqualSpacing(rectangles));
+
         static IEnumerable<Rectangle> EqualSpacingImpl(IEnumerable<Rectangle> rectangles,
             Func<Rectangle, float> positionFunc,
             Func<Rectangle, float> sizeFunc,
