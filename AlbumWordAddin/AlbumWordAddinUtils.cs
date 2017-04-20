@@ -355,6 +355,41 @@ namespace AlbumWordAddin
         {
             SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);
         }
+
+        public void SpacingEqualHorizontal()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SpacingDecreaseHorizontal()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SpacingIncreaseHorizontal()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SpacingEqualVertical()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SpacingDecreaseVertical()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SpacingIncreaseVertical()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SpacingInterpolate()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

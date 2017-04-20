@@ -323,37 +323,37 @@
 
         void buttonSpacingEqualHorizontal_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingEqualHorizontal();
         }
 
         void buttonSpacingDecreaseHorizontal_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingDecreaseHorizontal();
         }
 
         void buttonSpacingIncreaseHorizontal_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingIncreaseHorizontal();
         }
 
         void buttonSpacingEqualVertical_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingEqualVertical();
         }
 
         void buttonSpacingDecreaseVertical_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingDecreaseVertical();
         }
 
         void buttonSpacingIncreaseVertical_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingIncreaseVertical();
         }
 
         void buttonSpacingInterpolate_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingInterpolate();
         }
     }
 }

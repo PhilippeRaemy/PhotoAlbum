@@ -205,5 +205,40 @@ namespace AlbumWordAddin
         {
             _utilities.TextWrapping(wdWrapSide);
         }
+
+        public void SpacingEqualHorizontal()
+        {
+            _utilities.SpacingEqualHorizontal();
+        }
+
+        public void SpacingDecreaseHorizontal()
+        {
+            _utilities.SpacingDecreaseHorizontal();
+        }
+
+        public void SpacingIncreaseHorizontal()
+        {
+            _utilities.SpacingIncreaseHorizontal();
+        }
+
+        public void SpacingEqualVertical()
+        {
+            _utilities.SpacingEqualVertical();
+        }
+
+        public void SpacingDecreaseVertical()
+        {
+            _utilities.SpacingDecreaseVertical();
+        }
+
+        public void SpacingIncreaseVertical()
+        {
+            _utilities.SpacingIncreaseVertical();
+        }
+
+        public void SpacingInterpolate()
+        {
+            _utilities.SpacingInterpolate();
+        }
     }
 }
