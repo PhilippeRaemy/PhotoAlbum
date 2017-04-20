@@ -24,6 +24,9 @@ namespace AlbumWordAddin
         public Rectangle Move(float x, float y)
             => new Rectangle(Left + x, Top + y, Width, Height);
 
+        public Rectangle MoveTo(float x, float y)
+            => new Rectangle(x, y, Width, Height);
+
         public Rectangle Grow(float g)
             => Grow(g, g);
 
