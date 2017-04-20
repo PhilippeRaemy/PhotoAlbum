@@ -39,7 +39,7 @@ namespace PositionerTests
         [TestMethod]
         public void TestRectangleMove()
         {
-            var r = new Rectangle(0, 0, 1, 1).Move(.3f, .6f);
+            var r = new Rectangle(0, 0, 1, 1).MoveBy(.3f, .6f);
             Assert.AreEqual(.3f, r.Left, float.Epsilon);
             Assert.AreEqual(.6f, r.Top, float.Epsilon);
         }

@@ -22,7 +22,6 @@
 
     }
 
-
     [TestClass]
     public class SpacerTests
     {
@@ -47,7 +46,7 @@
         [TestMethod]
         public void TestHorizontalEqualSpacingDoesNothingToPair()
         {
-            SpacerTestImpl(new[] { R1X1, R1X1.Move(2, 0) }, new[] { R1X1, R1X1.Move(2, 0) }, Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation);
+            SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 0) }, new[] { R1X1, R1X1.MoveBy(2, 0) }, Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation);
         }
         [TestMethod]
         public void TestSimpleHorizontalEqualSpacingTruple()
@@ -55,9 +54,9 @@
             SpacerTestImpl(
                 new[]
                 {
-                    R1X1, R1X1.Move(2, 0), R1X1.Move(3, 0)
+                    R1X1, R1X1.MoveBy(2, 0), R1X1.MoveBy(3, 0)
                 },
-                Enumerable.Range(0, 3).Select(i => R1X1.Move(i + i * 1f / 2, 0)),
+                Enumerable.Range(0, 3).Select(i => R1X1.MoveBy(i + i * 1f / 2, 0)),
                 Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation
             );
         }
@@ -66,9 +65,9 @@
         {
             SpacerTestImpl(new[]
                 {
-                    R1X1, R1X1.Move(2, 0), R1X1.Move(3, 0), R1X1.Move(5, 0)
+                    R1X1, R1X1.MoveBy(2, 0), R1X1.MoveBy(3, 0), R1X1.MoveBy(5, 0)
                 }, 
-                Enumerable.Range(0, 4).Select(i => R1X1.Move(i + i * 2f / 3, 0)), 
+                Enumerable.Range(0, 4).Select(i => R1X1.MoveBy(i + i * 2f / 3, 0)), 
                 Spacer.HorizontalEqualSpacing, EqualSpacingAdditionalValidation
             );
         }

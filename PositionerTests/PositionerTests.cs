@@ -11,7 +11,7 @@
     {
         public static IEnumerable<Rectangle> Range(this Rectangle first, int count, float offsetX, float offsetY)
         {
-            return Enumerable.Range(0, count).Select(i => first.Move(i * offsetX, i * offsetY));
+            return Enumerable.Range(0, count).Select(i => first.MoveBy(i * offsetX, i * offsetY));
         }
 
         public static IEnumerable<Rectangle> Range(this Rectangle first, int count)
@@ -73,7 +73,7 @@
             Assert.AreEqual(2, rc.Length);
             var expected = new Rectangle(0, .25f, .5f, .5f).Scale(factor, factor);
             Assert.AreEqual(expected, rc.First());
-            expected = expected.Move(.5f * factor, 0);
+            expected = expected.MoveBy(.5f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(1).First());
         }
         [TestMethod]
@@ -88,9 +88,9 @@
             Assert.AreEqual(3, rc.Length);
             var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f).Scale(factor, factor);
             Assert.AreEqual(expected, rc.First());
-            expected = expected.Move(1 / 3f * factor, 0);
+            expected = expected.MoveBy(1 / 3f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(1).First());
-            expected = expected.Move(1 / 3f * factor, 0);
+            expected = expected.MoveBy(1 / 3f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(2).First());
         }
 
@@ -98,19 +98,19 @@
         public void TestPositioner_FourInaRowFlatNoPadding()
         {
             Run(R4X1, R1X1.Range(4), HFlatPos, R1X1.Range(4, 1, 0), nameof(R1X1));
-            Run(R4X1, R4X2.Range(4), HFlatPos, R4X2.Move(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
-            Run(R4X1, R2X4.Range(4), HFlatPos, R2X4.Move(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
+            Run(R4X1, R4X2.Range(4), HFlatPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
+            Run(R4X1, R2X4.Range(4), HFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
         [TestMethod]
         public void TestPositioner_FourInaRowFlatPadding()
         {
-            Run(R4X1, R1X1.Range(4), HFlatPosPad, R1X1.Move(HFlatPosPad.Padding, HFlatPosPad.Padding).Grow(1 - 2 * HFlatPosPad.Padding).Range(4, 1, 0), nameof(R1X1));
+            Run(R4X1, R1X1.Range(4), HFlatPosPad, R1X1.MoveBy(HFlatPosPad.Padding, HFlatPosPad.Padding).Grow(1 - 2 * HFlatPosPad.Padding).Range(4, 1, 0), nameof(R1X1));
         }
         [TestMethod]
         public void TestPositioner_FourInaRowLeftNoPadding()
         {
             Run(R4X1, R1X1.Range(4), HFlatLeftPos, R1X1.Range(4, 1, 0), nameof(R1X1));
-            Run(R4X1, R4X2.Range(4), HFlatLeftPos, R4X2.Move(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
+            Run(R4X1, R4X2.Range(4), HFlatLeftPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
             Run(R4X1, R2X4.Range(4), HFlatLeftPos, R2X4.Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
         [TestMethod]
@@ -118,25 +118,25 @@
         {
             Run(R4X1, R1X1.Range(4), HFlatTopPos, R1X1.Range(4, 1, 0), nameof(R1X1));
             Run(R4X1, R4X2.Range(4), HFlatTopPos, R4X2.Grow(.25f).Range(4, 1, 0), nameof(R4X2));
-            Run(R4X1, R2X4.Range(4), HFlatTopPos, R2X4.Move(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
+            Run(R4X1, R2X4.Range(4), HFlatTopPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
         [TestMethod]
         public void TestPositioner_FourInaColFlatNoPadding()
         {
             Run(R1X4, R1X1.Range(4), VFlatPos, R1X1.Range(4, 0, 1), nameof(R1X1));
-            Run(R1X4, R4X2.Range(4), VFlatPos, R4X2.Move(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
-            Run(R1X4, R2X4.Range(4), VFlatPos, R2X4.Move(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
+            Run(R1X4, R4X2.Range(4), VFlatPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
+            Run(R1X4, R2X4.Range(4), VFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
         [TestMethod]
         public void TestPositioner_FourInaColFlatPadding()
         {
-            Run(R1X4, R1X1.Range(4), VFlatPosPad, R1X1.Move(VFlatPosPad.Padding, VFlatPosPad.Padding).Grow(1 - 2 * VFlatPosPad.Padding).Range(4, 0, 1), nameof(R1X1));
+            Run(R1X4, R1X1.Range(4), VFlatPosPad, R1X1.MoveBy(VFlatPosPad.Padding, VFlatPosPad.Padding).Grow(1 - 2 * VFlatPosPad.Padding).Range(4, 0, 1), nameof(R1X1));
         }
         [TestMethod]
         public void TestPositioner_FourInaColLeftNoPadding()
         {
             Run(R1X4, R1X1.Range(4), VFlatLeftPos, R1X1.Range(4, 0, 1), nameof(R1X1));
-            Run(R1X4, R4X2.Range(4), VFlatLeftPos, R4X2.Move(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
+            Run(R1X4, R4X2.Range(4), VFlatLeftPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
             Run(R1X4, R2X4.Range(4), VFlatLeftPos, R2X4.Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
         [TestMethod]
@@ -144,7 +144,7 @@
         {
             Run(R1X4, R1X1.Range(4), VFlatTopPos, R1X1.Range(4, 0, 1), nameof(R1X1));
             Run(R1X4, R4X2.Range(4), VFlatTopPos, R4X2.Grow(.25f).Range(4, 0, 1), nameof(R4X2));
-            Run(R1X4, R2X4.Range(4), VFlatTopPos, R2X4.Move(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
+            Run(R1X4, R2X4.Range(4), VFlatTopPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
 
         internal static void Run(Rectangle clientArea, IEnumerable<Rectangle> rectangles, Positioner.Parms pos, IEnumerable<Rectangle> expected, string label)

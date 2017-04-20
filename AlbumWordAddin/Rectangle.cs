@@ -21,7 +21,7 @@ namespace AlbumWordAddin
             Height = height;
         }
 
-        public Rectangle Move(float x, float y)
+        public Rectangle MoveBy(float x, float y)
             => new Rectangle(Left + x, Top + y, Width, Height);
 
         public Rectangle MoveTo(float x, float y)
