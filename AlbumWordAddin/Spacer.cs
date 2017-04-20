@@ -52,8 +52,15 @@
         }
 
         public static IEnumerable<Rectangle> IncreaseHorizontal(IEnumerable<Rectangle> rectangles)
+            => IncreaseHorizontalImpl(rectangles, HorizontalGridUnit);
+
+        public static IEnumerable<Rectangle> DecreaseHorizontal(IEnumerable<Rectangle> rectangles)
+            => IncreaseHorizontalImpl(rectangles, -HorizontalGridUnit);
+
+        static IEnumerable<Rectangle> IncreaseHorizontalImpl(IEnumerable<Rectangle> rectangles, float gridUnit)
         {
-            return rectangles;
+            var space = -gridUnit;
+            return rectangles.Select(r => r.MoveBy(space += gridUnit, 0));
         }
 
     }
