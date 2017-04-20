@@ -52,15 +52,22 @@
         }
 
         public static IEnumerable<Rectangle> IncreaseHorizontal(IEnumerable<Rectangle> rectangles)
-            => IncreaseHorizontalImpl(rectangles, HorizontalGridUnit);
+            => IncreaseSpaceImpl(rectangles, HorizontalGridUnit, (r, p) => r.MoveBy(p, 0));
 
         public static IEnumerable<Rectangle> DecreaseHorizontal(IEnumerable<Rectangle> rectangles)
-            => IncreaseHorizontalImpl(rectangles, -HorizontalGridUnit);
+            => IncreaseSpaceImpl(rectangles, -HorizontalGridUnit, (r, p) => r.MoveBy(p, 0));
 
-        static IEnumerable<Rectangle> IncreaseHorizontalImpl(IEnumerable<Rectangle> rectangles, float gridUnit)
+        public static IEnumerable<Rectangle> IncreaseVertical(IEnumerable<Rectangle> rectangles)
+            => IncreaseSpaceImpl(rectangles, VerticalGridUnit, (r, p) => r.MoveBy(0, p));
+
+        public static IEnumerable<Rectangle> DecreaseVertical(IEnumerable<Rectangle> rectangles)
+            => IncreaseSpaceImpl(rectangles, -VerticalGridUnit, (r, p) => r.MoveBy(0, p));
+
+        static IEnumerable<Rectangle> IncreaseSpaceImpl(IEnumerable<Rectangle> rectangles, float gridUnit,
+            Func<Rectangle, float, Rectangle> positionerFunc)
         {
             var space = -gridUnit;
-            return rectangles.Select(r => r.MoveBy(space += gridUnit, 0));
+            return rectangles.Select(r => positionerFunc(r, space += gridUnit));
         }
 
     }

@@ -23,11 +23,6 @@
     public class SpacerTests
     {
         static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
-        static readonly Rectangle R4X1 = new Rectangle(0, 0, 4, 1);
-        static readonly Rectangle R1X4 = new Rectangle(0, 0, 1, 4);
-        static readonly Rectangle R4X4 = new Rectangle(0, 0, 4, 4);
-        static readonly Rectangle R4X2 = new Rectangle(0, 0, 4, 2);
-        static readonly Rectangle R2X4 = new Rectangle(0, 0, 2, 4);
 
         static readonly Validation[] EqualSpacingAdditionalValidation =
             {
@@ -94,12 +89,6 @@
         }
 
         [TestMethod]
-        public void TestIncreaseHorizontalSpacingDoesNothingToSingleton()
-        {
-            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.IncreaseHorizontal, EqualSpacingAdditionalValidation);
-        }
-
-        [TestMethod]
         public void TestVerticalEqualSpacingDoesNothingToSingleton()
         {
             SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation);
@@ -156,6 +145,25 @@
                 Spacer.VerticalEqualSpacing, EqualSpacingAdditionalValidation
             );
         }
+
+        [TestMethod]
+        public void TestChangeSpacingDoesNothingToSingleton()
+        {
+            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.IncreaseHorizontal, EqualSpacingAdditionalValidation);
+            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.DecreaseHorizontal, EqualSpacingAdditionalValidation);
+            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.IncreaseVertical, EqualSpacingAdditionalValidation);
+            SpacerTestImpl(new[] { R1X1 }, new[] { R1X1 }, Spacer.DecreaseVertical, EqualSpacingAdditionalValidation);
+        }
+
+        [TestMethod] public void TestIncreaseHorizontalPair(){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2 + Spacer.HorizontalGridUnit, 2) }, Spacer.IncreaseHorizontal);}
+        [TestMethod] public void TestDecreaseHorizontalPair(){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2 - Spacer.HorizontalGridUnit, 2) }, Spacer.DecreaseHorizontal);}
+        [TestMethod] public void TestIncreaseVerticalPair  (){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2, 2 + Spacer.VerticalGridUnit  ) }, Spacer.IncreaseVertical  );}
+        [TestMethod] public void TestDecreaseVerticalPair  (){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2, 2 - Spacer.VerticalGridUnit  ) }, Spacer.DecreaseVertical  );}
+
+        [TestMethod] public void TestIncreaseHorizontalTruple(){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2), R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2 + Spacer.HorizontalGridUnit, 2), R1X1.MoveBy(2 + 2 * Spacer.HorizontalGridUnit, 2) }, Spacer.IncreaseHorizontal);}
+        [TestMethod] public void TestDecreaseHorizontalTruple(){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2), R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2 - Spacer.HorizontalGridUnit, 2), R1X1.MoveBy(2 - 2 * Spacer.HorizontalGridUnit, 2) }, Spacer.DecreaseHorizontal);}
+        [TestMethod] public void TestIncreaseVerticalTruple  (){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2), R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2, 2 + Spacer.VerticalGridUnit  ), R1X1.MoveBy(2, 2 + 2 * Spacer.VerticalGridUnit  ) }, Spacer.IncreaseVertical  );}
+        [TestMethod] public void TestDecreaseVerticalTruple  (){SpacerTestImpl(new[] { R1X1, R1X1.MoveBy(2, 2), R1X1.MoveBy(2, 2) }, new[] { R1X1, R1X1.MoveBy(2, 2 - Spacer.VerticalGridUnit  ), R1X1.MoveBy(2, 2 - 2 * Spacer.VerticalGridUnit  ) }, Spacer.DecreaseVertical  );}
 
         static void SpacerTestImpl(IEnumerable<Rectangle> source, IEnumerable<Rectangle> expected,
             Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation,
