@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using MoreLinq;
-
-namespace AlbumWordAddin
+﻿namespace AlbumWordAddin
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using MoreLinq;
+
     public enum VShape
     {
         Flat, Top, Bottom, Rightdown, Rightup, Bendup, Benddown
