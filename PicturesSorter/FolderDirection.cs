@@ -1,4 +1,4 @@
 namespace PicturesSorter
 {
-    internal enum FolderDirection { Forward, Backward}
+    public enum FolderDirection { Forward, Backward}
 }

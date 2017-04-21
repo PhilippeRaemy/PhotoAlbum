@@ -7,6 +7,8 @@ namespace PicturesSorter
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
@@ -18,11 +20,24 @@ namespace PicturesSorter
         {
             get
             {
-                if (_image != null) return _image;
-                using (var stream = new FileStream(FullName, FileMode.Open, FileAccess.Read))
+                lock (this)
                 {
-                    return _image = Image.FromStream(stream);
+                    ScheduleReset();
+                    if (_image != null) return _image;
+                    using (var stream = new FileStream(FullName, FileMode.Open, FileAccess.Read))
+                    {
+                        return _image = Image.FromStream(stream);
+                    }
                 }
+            }
+        }
+
+        void ScheduleReset()
+        {
+            _loadNumber++;
+            if (_delayedResetTask == null || _delayedResetTask.IsCompleted)
+            {
+                _delayedResetTask = Task.Factory.StartNew(DelayedReset);
             }
         }
 
@@ -30,27 +45,52 @@ namespace PicturesSorter
         {
             get
             {
-                if (_smallImage != null) return _smallImage;
-                using (var stream = new FileStream(GetSmallFile().FullName, FileMode.Open, FileAccess.Read))
+                lock (this)
                 {
-                    return _smallImage = Image.FromStream(stream);
+                    ScheduleReset();
+                    if (_smallImage != null) return _smallImage;
+                    using (var stream = new FileStream(GetSmallFile().FullName, FileMode.Open, FileAccess.Read))
+                    {
+                        return _smallImage = Image.FromStream(stream);
+                    }
                 }
             }
+        }
+
+        void DelayedReset()
+        {
+            var loadNumber = _loadNumber;
+            var wait = 0;
+            while (++wait < 60) { 
+                Thread.Sleep(1000);
+                if (loadNumber != _loadNumber)
+                {
+                    loadNumber = _loadNumber;
+                    wait = 0;
+                }
+            }
+            Reset();
         }
 
         /// <summary>
         /// Reset cached image and small image binaries, so that they are re-read from file on next access.
         /// </summary>
-        public void Reset()
+        void Reset()
         {
-            _image = _smallImage = null;
+            lock (this)
+            {
+                _image = _smallImage = null;
+            }
         }
 
         public FileInfo FileInfo { get; set; }
-        public string FullName => FileInfo.FullName;
-        public LinkedList<ImageHost> Parent { get; set; }
+        string FullName => FileInfo.FullName;
+        public LinkedList<ImageHost> Parent { private get; set; }
 
         int _useCount;
+        Task _delayedResetTask;
+        int _loadNumber;
+
         public void Release()
         {
             if (--_useCount < 0) return;
