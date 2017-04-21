@@ -6,6 +6,7 @@ namespace PicturesSorter
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
+    using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
@@ -290,25 +291,25 @@ namespace PicturesSorter
         void RotateLeftClock_Click(object sender, EventArgs e)
         {
             _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Item1.Value.Render(pictureBox1, label1);
+            _fileIndex.Item1.Value.Render(pictureBox1, label1, force: true);
         }
 
         void RotateLeftAnti_Click(object sender, EventArgs e)
         {
             _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Item1.Value.Render(pictureBox1, label1);
+            _fileIndex.Item1.Value.Render(pictureBox1, label1, force: true);
         }
 
         void RotateRightClock_Click(object sender, EventArgs e)
         {
             _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Item2.Value.Render(pictureBox2, label1);
+            _fileIndex.Item2.Value.Render(pictureBox2, label2, force: true);
         }
 
         void RotateRightAnti_Click(object sender, EventArgs e)
         {
             _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Item2.Value.Render(pictureBox2, label1);
+            _fileIndex.Item2.Value.Render(pictureBox2, label2, force: true);
         }
 
         void nextFolder_Click(object sender, EventArgs e)
@@ -363,30 +364,39 @@ namespace PicturesSorter
 
     internal class ImageHost : IDisposable {
         Image _image;
+        Image _smallImage;
         Image Image
         {
             get
             {
                 if (_image != null) return _image;
-                using (var stream = new FileStream(FileInfo.FullName, FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream(FullName, FileMode.Open, FileAccess.Read))
                 {
-                    _image = Image.FromStream(stream);
+                    return _image = Image.FromStream(stream);
                 }
-                return _image;
             }
         }
+
         Image SmallImage
         {
             get
             {
-                if (_image != null) return _image;
+                if (_smallImage != null) return _smallImage;
                 using (var stream = new FileStream(GetSmallFile().FullName, FileMode.Open, FileAccess.Read))
                 {
-                    _image = Image.FromStream(stream);
+                    return _smallImage = Image.FromStream(stream);
                 }
-                return _image;
             }
         }
+
+        /// <summary>
+        /// Reset cached image and small image binaries, so that they are re-read from file on next access.
+        /// </summary>
+        public void Reset()
+        {
+            _image = _smallImage = null;
+        }
+
         public FileInfo FileInfo { get; set; }
         public string FullName => FileInfo.FullName;
         public LinkedList<ImageHost> Parent { get; set; }
@@ -433,9 +443,9 @@ namespace PicturesSorter
             _image = null;
         }
 
-        public bool Render(PictureBox pictureBox, Label label)
+        public bool Render(PictureBox pictureBox, Label label, bool force = false)
         {
-            if ((string)label.Tag != FileInfo.FullName)
+            if (force || (string)label.Tag != FileInfo.FullName)
             {
                 try
                 {
@@ -466,12 +476,15 @@ namespace PicturesSorter
 
         public void Rotate(RotateFlipType rotateFlipType)
         {
-            foreach (var image in new [] {Image, SmallImage})
+            Image.RotateFlip(rotateFlipType);
+            Image.Save(FullName, ImageFormat.Jpeg);
+            var smallImg = GetSmallFile();
+            if (smallImg.Exists)
             {
-                image.RotateFlip(rotateFlipType);
-                image.Save(FileInfo.FullName);
+                SmallImage.RotateFlip(rotateFlipType);
+                SmallImage.Save(smallImg.FullName, ImageFormat.Jpeg);
             }
-
+            Reset();
         }
     }
 
