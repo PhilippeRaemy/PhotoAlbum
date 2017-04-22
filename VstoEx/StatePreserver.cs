@@ -22,6 +22,7 @@ namespace VstoEx
             
             _screenUpdatingSet = true;
             _previousScreenUpdating = _application.ScreenUpdating;
+            _application.ScreenUpdating = false;
             return this;
         }
     }
