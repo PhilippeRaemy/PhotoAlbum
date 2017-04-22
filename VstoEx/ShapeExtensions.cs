@@ -14,7 +14,7 @@
         public static IEnumerable<Shape> ReplaceSelection(this IEnumerable<Shape> shapes)
         {
             var replace = true;
-            var ashapes = shapes as Shape[] ?? shapes.ToArray();
+            var ashapes = shapes.ToArray();
             foreach (var shape in ashapes)
             {
                 shape.Select(replace);
