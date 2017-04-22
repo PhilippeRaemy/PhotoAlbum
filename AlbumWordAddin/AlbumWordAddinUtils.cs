@@ -257,7 +257,7 @@ namespace AlbumWordAddin
 
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
-            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection().ToArray();
+            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
@@ -281,7 +281,10 @@ namespace AlbumWordAddin
                 }
         }
 
-        IEnumerable<Word.Shape> MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
+        Word.Shape[] MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
+            => MoveAllToSamePageImpl(selectedShapes).ToArray();
+
+        IEnumerable<Word.Shape> MoveAllToSamePageImpl(IEnumerable<Word.Shape> selectedShapes)
         {
             Word.Range anchor = null;
             var pageNumber = -1;
@@ -353,7 +356,7 @@ namespace AlbumWordAddin
 
         void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
         {
-            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection().ToArray();
+            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var rectangles = shapes.Select(s => new Rectangle(s));
             var positions = spacerFunc(rectangles);

@@ -11,11 +11,13 @@
             return shape.Anchor.GetPageNumber();
         }
 
-        public static IEnumerable<Shape> ReplaceSelection(this IEnumerable<Shape> shapes)
+        public static Shape[] ReplaceSelection(this IEnumerable<Shape> shapes)
+            => ReplaceSelectionImpl(shapes).ToArray();
+
+        static IEnumerable<Shape> ReplaceSelectionImpl(this IEnumerable<Shape> shapes)
         {
             var replace = true;
-            var ashapes = shapes.ToArray();
-            foreach (var shape in ashapes)
+            foreach (var shape in shapes)
             {
                 shape.Select(replace);
                 replace = false;
