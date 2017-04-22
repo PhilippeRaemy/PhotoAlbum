@@ -212,7 +212,6 @@
     <Compile Include="FormImportPictures.Designer.cs">
       <DependentUpon>FormImportPictures.cs</DependentUpon>
     </Compile>
-    <Compile Include="IAlbumWordAddinUtils.cs" />
     <Compile Include="IProgress.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

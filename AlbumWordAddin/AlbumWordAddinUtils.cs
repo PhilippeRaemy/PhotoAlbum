@@ -17,7 +17,7 @@ namespace AlbumWordAddin
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
-    public class AlbumWordAddinUtils : IAlbumWordAddinUtils, IDispatch
+    public class AlbumWordAddinUtils : IDispatch
     {
         readonly Positioner.Parms _positionerParms = new Positioner.Parms();
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
