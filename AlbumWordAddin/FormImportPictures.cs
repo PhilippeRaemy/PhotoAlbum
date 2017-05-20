@@ -16,7 +16,7 @@
             textStartFolder.Text = userprefs.FolderImportStart;
             textEndFolder.Text = userprefs.FolderImportEnd;
             textIncludeFiles.Text = userprefs.IncludeFiles;
-            textExcludeFiles.Text = userprefs.ExcludeFiles;
+            textExcludeFolders.Text = userprefs.ExcludeFolders;
             comboMaxPicsPerFile.Text = userprefs.MaxPicturesPerFile.ToString();
             ChkConfirmOverwrite.CheckState = userprefs.ConfirmFileOverwrite ? CheckState.Checked : CheckState.Unchecked;
             textTemplate.Text = userprefs.NewDocumentTemplate;
@@ -57,12 +57,14 @@
 
         void buttonSave_Click(object sender, EventArgs e)
         {
-            var userprefs = new PersistedUserPreferences();
-            userprefs.FolderImportStart = textStartFolder.Text;
-            userprefs.FolderImportEnd = textEndFolder.Text;
-            userprefs.IncludeFiles = textIncludeFiles.Text;
-            userprefs.ExcludeFiles = textExcludeFiles.Text;
-            userprefs.NewDocumentTemplate = textTemplate.Text;
+            var userprefs = new PersistedUserPreferences
+            {
+                FolderImportStart   = textStartFolder   .Text,
+                FolderImportEnd     = textEndFolder     .Text,
+                IncludeFiles        = textIncludeFiles  .Text,
+                ExcludeFolders      = textExcludeFolders.Text,
+                NewDocumentTemplate = textTemplate      .Text
+            };
             int maxPics;
             userprefs.MaxPicturesPerFile =
                 int.TryParse(comboMaxPicsPerFile.SelectedItem?.ToString(), NumberStyles.Integer,

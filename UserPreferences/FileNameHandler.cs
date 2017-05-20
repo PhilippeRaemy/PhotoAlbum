@@ -16,7 +16,7 @@ namespace AlbumWordAddin
         {
             var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
             _filePattern = RegexFromPatternList(userPrefs.IncludeFiles);
-            _excludePattern = string.IsNullOrWhiteSpace(userPrefs.ExcludeFiles) ? null : RegexFromPatternList(userPrefs.ExcludeFiles);
+            _excludePattern = string.IsNullOrWhiteSpace(userPrefs.ExcludeFolders) ? null : RegexFromPatternList(userPrefs.ExcludeFolders);
             _smallPattern = new Regex(@"\.small\.((jpeg)|(jpg))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             _smallFileNameMaker = s => smallFileNameMakerRe.Replace(s, ".small.$1");
             _largeFileNameMaker = s => new Regex(@"(.*)\.small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2");
@@ -49,7 +49,6 @@ namespace AlbumWordAddin
 
         public bool FileMatch(string fileFullName, bool includeSmalls)
             => (FilePatternIsMatch(fileFullName) || SmallPatternIsMatch(fileFullName))
-            && (_excludePattern==null            || !_excludePattern.Match(fileFullName).Success)
             && (includeSmalls                    || !SmallPatternIsMatch(fileFullName));
 
         public bool SmallPatternIsMatch(string fileFullName) => _smallPattern.Match(fileFullName).Success;
@@ -68,5 +67,8 @@ namespace AlbumWordAddin
                 RegexOptions.Compiled | RegexOptions.IgnoreCase
             );
         }
+
+        public bool FolderExcludeMatch(string folderFromName) 
+            => _excludePattern?.Match(folderFromName).Success ?? false;
     }
 }

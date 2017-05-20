@@ -50,8 +50,8 @@
             this.labelProgress = new System.Windows.Forms.Label();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.panelExcludeFiles = new System.Windows.Forms.Panel();
-            this.textExcludeFiles = new System.Windows.Forms.TextBox();
-            this.labelExcludeFiles = new System.Windows.Forms.Label();
+            this.textExcludeFolders = new System.Windows.Forms.TextBox();
+            this.labelExcludeFolders = new System.Windows.Forms.Label();
             this.panelIncludeFiles = new System.Windows.Forms.Panel();
             this.textIncludeFiles = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -268,32 +268,32 @@
             // 
             // panelExcludeFiles
             // 
-            this.panelExcludeFiles.Controls.Add(this.textExcludeFiles);
-            this.panelExcludeFiles.Controls.Add(this.labelExcludeFiles);
+            this.panelExcludeFiles.Controls.Add(this.textExcludeFolders);
+            this.panelExcludeFiles.Controls.Add(this.labelExcludeFolders);
             this.panelExcludeFiles.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelExcludeFiles.Location = new System.Drawing.Point(0, 63);
             this.panelExcludeFiles.Name = "panelExcludeFiles";
             this.panelExcludeFiles.Size = new System.Drawing.Size(546, 21);
             this.panelExcludeFiles.TabIndex = 2;
             // 
-            // textExcludeFiles
+            // textExcludeFolders
             // 
-            this.textExcludeFiles.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textExcludeFiles.Location = new System.Drawing.Point(91, 0);
-            this.textExcludeFiles.Name = "textExcludeFiles";
-            this.textExcludeFiles.Size = new System.Drawing.Size(455, 20);
-            this.textExcludeFiles.TabIndex = 6;
-            this.toolTip.SetToolTip(this.textExcludeFiles, "A semi-colon delimited list of file masks, to indicate which picture files \r\nwill" +
+            this.textExcludeFolders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textExcludeFolders.Location = new System.Drawing.Point(91, 0);
+            this.textExcludeFolders.Name = "textExcludeFolders";
+            this.textExcludeFolders.Size = new System.Drawing.Size(455, 20);
+            this.textExcludeFolders.TabIndex = 6;
+            this.toolTip.SetToolTip(this.textExcludeFolders, "A semi-colon delimited list of file masks, to indicate which picture files \r\nwill" +
         " be not imported.\r\nFor example *small*");
             // 
-            // labelExcludeFiles
+            // labelExcludeFolders
             // 
-            this.labelExcludeFiles.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelExcludeFiles.Location = new System.Drawing.Point(0, 0);
-            this.labelExcludeFiles.Name = "labelExcludeFiles";
-            this.labelExcludeFiles.Size = new System.Drawing.Size(91, 21);
-            this.labelExcludeFiles.TabIndex = 15;
-            this.labelExcludeFiles.Text = "Exclude Files:";
+            this.labelExcludeFolders.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelExcludeFolders.Location = new System.Drawing.Point(0, 0);
+            this.labelExcludeFolders.Name = "labelExcludeFolders";
+            this.labelExcludeFolders.Size = new System.Drawing.Size(91, 21);
+            this.labelExcludeFolders.TabIndex = 15;
+            this.labelExcludeFolders.Text = "Exclude Folders:";
             // 
             // panelIncludeFiles
             // 
@@ -421,12 +421,12 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Panel panelExcludeFiles;
         private System.Windows.Forms.Panel panelIncludeFiles;
-        private System.Windows.Forms.Label labelExcludeFiles;
+        private System.Windows.Forms.Label labelExcludeFolders;
         private System.Windows.Forms.TextBox textIncludeFiles;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Button buttonGo;
-        private System.Windows.Forms.TextBox textExcludeFiles;
+        private System.Windows.Forms.TextBox textExcludeFolders;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox textTemplate;
         private System.Windows.Forms.Button buttonOpenTemplate;

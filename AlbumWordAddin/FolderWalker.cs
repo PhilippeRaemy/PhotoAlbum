@@ -10,9 +10,9 @@
     public class FolderWalker
     {
         readonly FileNameHandler _fileNameHandler;
-        readonly IProgress _progressIndicator;
-        readonly DirectoryInfo _diFolderFrom;
-        readonly DirectoryInfo _diFolderTo;
+        readonly IProgress       _progressIndicator;
+        readonly DirectoryInfo   _diFolderFrom;
+        readonly DirectoryInfo   _diFolderTo;
 
         public FolderWalker(
             string folderFrom, 
@@ -20,13 +20,13 @@
             FileNameHandler fileNameHandler,
             IProgress progressIndicator)
         {
-            _fileNameHandler = fileNameHandler;
-            _progressIndicator = progressIndicator;
+            _fileNameHandler    = fileNameHandler;
+            _progressIndicator  = progressIndicator;
             progressIndicator.CancelEvent += ProgressIndicator_CancelEvent;
             if (folderFrom == null) throw new ArgumentNullException(nameof(folderFrom));
-            if (folderTo == null) throw new ArgumentNullException(nameof(folderTo));
-            _diFolderFrom = new DirectoryInfo(folderFrom);
-            _diFolderTo = new DirectoryInfo(folderTo);
+            if (folderTo   == null) throw new ArgumentNullException(nameof(folderTo));
+            _diFolderFrom   = new DirectoryInfo(folderFrom);
+            _diFolderTo     = new DirectoryInfo(folderTo);
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
             //if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
             if (string.Compare(folderFrom, folderTo, StringComparison.InvariantCultureIgnoreCase) > 0) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
@@ -44,6 +44,7 @@
 
         void Run(DirectoryInfo folderFrom)
         {
+            if (_fileNameHandler.FolderExcludeMatch(folderFrom.Name)) return;
             var matchingFiles1 = folderFrom
                 .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
                 .Where(fi => _fileNameHandler.FileMatch(fi.Name, includeSmalls:true))
