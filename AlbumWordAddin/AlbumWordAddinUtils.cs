@@ -24,7 +24,9 @@ namespace AlbumWordAddin
         Word.Application Application => ActiveDocument.Application;
         Word.Selection Selection => Application.Selection;
 
-        IEnumerable<Word.Shape> SelectedShapes() => Selection.ShapeRange.Cast<Word.Shape>();
+        Word.Shape[] SelectedShapes()
+            // ToArray() required to freeze the pointers
+            => Selection.ShapeRange.Cast<Word.Shape>().ToArray();
 
         public void RemoveEmptyPages()
         {
