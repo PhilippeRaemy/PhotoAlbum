@@ -13,6 +13,7 @@ using stdole;
 
 namespace AlbumWordAddin
 {
+    using System.Diagnostics;
     using System.IO;
 
     [ComVisible(true)]
@@ -25,8 +26,12 @@ namespace AlbumWordAddin
         Word.Selection Selection => Application.Selection;
 
         Word.Shape[] SelectedShapes()
+        {
             // ToArray() required to freeze the pointers
-            => Selection.ShapeRange.Cast<Word.Shape>().ToArray();
+            var selectedShapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();
+            Debug.Assert(selectedShapes.All(s => s != null));
+            return selectedShapes;
+        }
 
         public void RemoveEmptyPages()
         {
