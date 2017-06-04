@@ -24,5 +24,10 @@
                 yield return shape;
             }
         }
+
+        public static string GetLocationString(this Shape shape) 
+            => shape == null
+                ? "Shape is null"
+                : $"Shape on page {shape.GetPageNumber()}, ({shape.Left},{shape.Top})-({shape.Left + shape.Width},{shape.Top + shape.Height})";
     }
 }

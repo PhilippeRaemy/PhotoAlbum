@@ -264,8 +264,24 @@ namespace AlbumWordAddin
 
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
-            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
-            if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
+            var selectedShapes = SelectedShapes();
+            if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
+            if (selectedShapes.Any(s => s == null))
+            {
+                selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
+                throw new InvalidOperationException("Some selected shapes are null");
+            }
+            var shapes = MoveAllToSamePage(selectedShapes).ReplaceSelection();
+            if (selectedShapes.Length != shapes.Length)
+            {
+                Trace.WriteLine($"We had {selectedShapes.Length} selected shapes, {shapes} after MoveallToSamePage.");
+                throw new InvalidOperationException("MoveallToSamePage altered shaped count");
+            }
+            if (shapes.Any(s => s == null))
+            {
+                selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
+                throw new InvalidOperationException("Some moved shapes are null");
+            }
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
             var rectangles = shapes.Select(s => new Rectangle(s));
@@ -315,7 +331,7 @@ namespace AlbumWordAddin
                         Selection.Cut();
                         anchor.Select();
                         Selection.Paste();
-                        yield return SelectedShapes().FirstOrDefault();
+                        yield return SelectedShapes().First();
                     }
                 }
             }
