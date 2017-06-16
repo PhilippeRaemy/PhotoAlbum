@@ -16,18 +16,20 @@
             Close();
         }
 
-        public void InitProgress(int max, string caption)
+        public IProgress InitProgress(int max, string caption)
         {
             progressBar.Maximum = max;
             progressBar.Minimum = 0;
             progressBar.Value = 0;
             progressBar.Visible = true;
             Show();
+            return this;
         }
 
-        public void Progress(string text)
+        public IProgress Progress(string text)
         {
             progressBar.Value++;
+            return this;
         }
 
         public void CloseProgress()

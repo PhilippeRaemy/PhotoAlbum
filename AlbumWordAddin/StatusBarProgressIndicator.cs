@@ -16,24 +16,37 @@ namespace AlbumWordAddin
             _application = application;
         }
 
-        public void InitProgress(int max, string caption)
+        public IProgress InitProgress(int max, string caption)
         {
             _max = max;
             _progress = 0;
             _caption = caption;
             _application.StatusBar = _caption;
+            return this;
         }
 
-        public void Progress(string text)
+        public IProgress Progress(string text)
+            => SetCaption(text, ++_progress);
+
+        public IProgress SetCaption(string text)
+            => SetCaption(text, _progress);
+
+        StatusBarProgressIndicator SetCaption(string text, int progress)
         {
-            _application.StatusBar = $"{_caption} - ({++_progress}/{_max}) - {text}";
+            _application.StatusBar = $"{_caption} - ({progress}/{_max}) - {text}";
+            return this;
         }
 
         public void CloseProgress()
         {
-            _application.StatusBar = null;
+            Dispose();
         }
 
         public event EventHandler<EventArgs> CancelEvent;
+
+        public void Dispose()
+        {
+            _application.StatusBar = null;
+        }
     }
 }

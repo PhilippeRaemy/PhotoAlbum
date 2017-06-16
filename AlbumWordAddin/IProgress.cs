@@ -1,10 +1,10 @@
 ﻿namespace AlbumWordAddin
 {
     using System;
-    public interface IProgress
+    public interface IProgress : IDisposable
     {
-        void InitProgress(int max, string caption);
-        void Progress(string text);
+        IProgress InitProgress(int max, string caption);
+        IProgress Progress(string text);
         void CloseProgress();
         event EventHandler<EventArgs> CancelEvent;
     }
