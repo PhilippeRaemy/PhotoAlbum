@@ -153,7 +153,10 @@ namespace AlbumWordAddin
             shp.LockAspectRatio = MsoTriState.msoCTrue;
             var hRatio = pageWidth / shp.Width;
             var vRatio = pageHeight / shp.Height;
-            shp.Width = shp.Width * 0.90f * (vRatio < hRatio ? vRatio : hRatio);
+            var maxShpWidth = shp.Width * 0.75f * (vRatio < hRatio ? vRatio : hRatio);
+            var maxShpHeight = shp.Height * 0.75f * (vRatio < hRatio ? vRatio : hRatio);
+            if (shp.Width  > maxShpWidth ) shp.Width  = maxShpWidth;
+            if (shp.Height > maxShpHeight) shp.Height = maxShpHeight;
             shp.WrapFormat.Type = Word.WdWrapType.wdWrapTight;
             sel.EndKey(Word.WdUnits.wdStory, Word.WdMovementType.wdMove);
             sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
