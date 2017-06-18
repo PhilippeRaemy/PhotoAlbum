@@ -53,15 +53,7 @@ namespace AlbumWordAddin
 
         void ThisAddIn_SelectionChange(object sender, SelectionEventArgs e)
         {
-            Func<float, float, float> sameOrDefect =
-                (t, s) => t <= -2 ? t : t <= -1 ? s : Math.Abs(t - s) < .5 ? s : -2f;
-            Func<float, string> sizeToText = t => t < 0 ? string.Empty : t.ToInvariantString();
-
-            var sizes = e.Selection.ShapeRange.Cast<Word.Shape>()
-                .Aggregate(Tuple.Create(-1f, -1f),
-                    (t, s) => Tuple.Create(sameOrDefect(t.Item1, s.Width), sameOrDefect(t.Item2, s.Height)));
-            ThisRibbon.editBoxSizeWidth.Text = sizeToText(sizes.Item1);
-            ThisRibbon.editBoxSizeHeight.Text = sizeToText(sizes.Item2);
+            /* TODO build here doc-to-ribbon feedback */
         }
 
         internal void AlignSelectedImages(Alignment alignment, float forced = float.NaN)

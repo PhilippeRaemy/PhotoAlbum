@@ -61,24 +61,6 @@
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Tallest);
         }
 
-        void editBoxSizeWidth_TextChanged(object sender, RibbonControlEventArgs e)
-        {
-            float f;
-            if (float.TryParse(editBoxSizeWidth.Text, NumberStyles.Float, CultureInfo.CurrentUICulture, out f))
-            {
-                Globals.ThisAddIn.AlignSelectedImages(Alignment.ForceWidth, f);
-            }
-        }
-
-        void editBoxSizedHeight_TextChanged(object sender, RibbonControlEventArgs e)
-        {
-            float f;
-            if (float.TryParse(editBoxSizeHeight.Text, NumberStyles.Float, CultureInfo.CurrentUICulture, out f))
-            {
-                Globals.ThisAddIn.AlignSelectedImages(Alignment.ForceHeight, f);
-            }
-        }
-
         void buttonAlignTop_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Top);
