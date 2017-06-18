@@ -370,8 +370,13 @@
 
         public RibbonToggleButton SelectedButton
         {
-            get { return _buttons.FirstOrDefault(b => b.Checked); } 
-            set { _buttons.ForEach(b => b.Checked = b == value);}
+            get { return _buttons.FirstOrDefault(b => b.Checked); }
+            set { _buttons.ForEach(b => b.Checked = b == value); }
+        }
+
+        public bool Enabled
+        {
+            set { _buttons.ForEach(b => b.Enabled = value); }
         }
     }
 }
