@@ -335,7 +335,7 @@ namespace AlbumWordAddin
             this.group1.Items.Add(this.buttonTextWrappingThrough);
             this.group1.Items.Add(this.buttonTextWrappingTight);
             this.group1.Items.Add(this.buttonTextWrappingRightOnly);
-            this.group1.Label = "Wrapping";
+            this.group1.Label = "Text Wrapping";
             this.group1.Name = "group1";
             // 
             // ButtonImport
