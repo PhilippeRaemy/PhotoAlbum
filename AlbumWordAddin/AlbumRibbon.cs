@@ -1,6 +1,7 @@
 ﻿namespace AlbumWordAddin
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using Microsoft.Office.Tools.Ribbon;
     using System.Linq;
@@ -17,6 +18,7 @@
             var userPrefs = new PersistedUserPreferences();
             DropDownIntSetter(dropDownMargin, userPrefs.Margin);
             DropDownIntSetter(dropDownPadding, userPrefs.Padding);
+            Trace.WriteLine($"dropDownMargin.SelectedItem.Tag was set to {dropDownMargin.SelectedItem.Tag} from userPrefs.Margin {userPrefs.Margin}.");
         }
 
         void AlbumRibbon_Close(object sender, EventArgs e)
@@ -119,27 +121,27 @@
 
         void buttonArrangeLV_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical);
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Padding(), Margin());
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical);
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Padding(), Margin());
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square);
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Padding(), Margin());
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal);
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Padding(), Margin());
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal);
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Padding(), Margin());
         }
 
         void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
@@ -194,9 +196,12 @@
             DoPositionSelectedImages();
         }
 
+        int Padding() => 5 * (int)dropDownPadding.SelectedItem.Tag;
+        int Margin () => 5 * (int)dropDownMargin .SelectedItem.Tag;
+
         void DoPositionSelectedImages()
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(padding: 5 * (int) dropDownPadding.SelectedItem.Tag, margin: 5 * (int) dropDownMargin.SelectedItem.Tag);
+            Globals.ThisAddIn.DoPositionSelectedImages(Padding(), Margin());
         }
 
         void dropDownPadding_SelectionChanged(object sender, RibbonControlEventArgs e)

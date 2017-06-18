@@ -203,9 +203,11 @@ namespace AlbumWordAddin
             }
         }
 
-        internal void DoPositionSelectedImages(Arrangement arrangement)
+        internal void DoPositionSelectedImages(Arrangement arrangement, int padding, int margin)
         {
-            var shapesCount = SelectedShapes().Count();
+            _positionerParms.Padding = padding;
+            _positionerParms.Margin = margin;
+            var shapesCount = SelectedShapes().Length;
             switch (arrangement)
             {
                 case Arrangement.LineVertical:
