@@ -1,24 +1,34 @@
 ﻿namespace AlbumWordAddin
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using Microsoft.Office.Tools.Ribbon;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Forms;
+    using Microsoft.Office.Core;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
     using UserPreferences;
 
     public partial class AlbumRibbon
     {
+        RibbonToggleButtonGroup _arrangeButtonGroup;
+
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
             PerformLayout();
             var userPrefs = new PersistedUserPreferences();
             DropDownIntSetter(dropDownMargin, userPrefs.Margin);
             DropDownIntSetter(dropDownPadding, userPrefs.Padding);
-            Trace.WriteLine($"dropDownMargin.SelectedItem.Tag was set to {dropDownMargin.SelectedItem.Tag} from userPrefs.Margin {userPrefs.Margin}.");
+
+            _arrangeButtonGroup = new RibbonToggleButtonGroup(
+                GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                         .Where (p => p.Name.StartsWith("buttonArrange"))
+                         .Select(p => (RibbonToggleButton)p.GetValue(this))
+                         );
         }
 
         void AlbumRibbon_Close(object sender, EventArgs e)
@@ -103,26 +113,31 @@
 
         void buttonArrangeLV_Click(object sender, RibbonControlEventArgs e)
         {
+            _arrangeButtonGroup.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Padding(), Margin());
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
         {
+            _arrangeButtonGroup.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Padding(), Margin());
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
         {
+            _arrangeButtonGroup.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Padding(), Margin());
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
         {
+            _arrangeButtonGroup.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Padding(), Margin());
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
         {
+            _arrangeButtonGroup.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Padding(), Margin());
         }
 
@@ -341,6 +356,22 @@
         void buttonSpacingInterpolate_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.SpacingInterpolate();
+        }
+    }
+
+    internal class RibbonToggleButtonGroup
+    {
+        readonly RibbonToggleButton[] _buttons;
+
+        public RibbonToggleButtonGroup(IEnumerable<RibbonToggleButton> buttons)
+        {
+            _buttons = buttons.ToArray();
+        }
+
+        public RibbonToggleButton SelectedButton
+        {
+            get { return _buttons.FirstOrDefault(b => b.Checked); } 
+            set { _buttons.ForEach(b => b.Checked = b == value);}
         }
     }
 }
