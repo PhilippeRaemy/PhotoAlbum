@@ -16,3 +16,15 @@ I created that on return from a wonderful vacation of 3 weeks in the National Pa
 * display 2 pictures (jpg) from that directory
 * navigate 1 picture forward or backward (using left / right keys)
 * Move either of the pictures to Archive subfolder (using numpad 1 or 2 keys)
+
+#TODO
+* Remove size group (redundant with alignments)
+* Arrange group on the left of the ribbon
+* Hi/Low res: "prepare doc for print" or "restore pictures resolution for print"
+* Arrange: make margin padding subordinate!
+* Arrange aligments: disable useless buttons (horiz diagonal when arranged on horiz line, for instance)
+* Arrange: need a button for one image centering full page
+* Arrange: keep last used button highlighted
+* Arrange: discover selected images arrangement and highlight the right button
+* globally: doc-to-ribbon feedback
+* globally: tool tips and tool descriptions
