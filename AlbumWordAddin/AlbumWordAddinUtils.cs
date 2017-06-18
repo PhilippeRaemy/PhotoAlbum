@@ -15,6 +15,7 @@ namespace AlbumWordAddin
 {
     using System.Diagnostics;
     using System.IO;
+    using System.Threading;
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
@@ -304,37 +305,35 @@ namespace AlbumWordAddin
                 }
         }
 
-        Word.Shape[] MoveAllToSamePage(IEnumerable<Word.Shape> selectedShapes)
-            => MoveAllToSamePageImpl(selectedShapes).ToArray();
-
-        IEnumerable<Word.Shape> MoveAllToSamePageImpl(IEnumerable<Word.Shape> selectedShapes)
+        // ReSharper disable once ParameterTypeCanBeEnumerable.Local
+        IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
         {
+            if (selectedShapes
+                .Select(s => s.GetPageNumber())
+                .Distinct()
+                .Count() <= 1
+            )
+            {
+                return selectedShapes;
+            }
             Word.Range anchor = null;
-            var pageNumber = -1;
             foreach (var shape in selectedShapes)
             {
                 if (anchor == null)
                 {
                     anchor = shape.Anchor;
-                    pageNumber = anchor.GetPageNumber();
-                    yield return shape;
+                    shape.Select(Replace: true);
                 }
                 else
                 {
-                    if (shape.Anchor.GetPageNumber() == pageNumber)
-                    {
-                        yield return shape;
-                    }
-                    else
-                    {
-                        shape.Select(Replace: true);
-                        Selection.Cut();
-                        anchor.Select();
-                        Selection.Paste();
-                        yield return SelectedShapes().First();
-                    }
+                    shape.Select(Replace: false);
                 }
             }
+            if (anchor == null) return Enumerable.Empty<Word.Shape>();
+            Selection.Cut();
+            anchor.Select();
+            Selection.Paste();
+            return selectedShapes;
         }
 
         static Tuple<int, int> EuristicArrangeRectangle(int shapeCount)
