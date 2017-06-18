@@ -69,7 +69,7 @@ namespace AlbumWordAddin
             this.ButtonSetRelativePosition = this.Factory.CreateRibbonButton();
             this.groupArrange = this.Factory.CreateRibbonGroup();
             this.box4 = this.Factory.CreateRibbonBox();
-            this.buttonArrangeLV = this.Factory.CreateRibbonToggleButton();
+            this.buttonArrangeV = this.Factory.CreateRibbonToggleButton();
             this.buttonArrangeRV = this.Factory.CreateRibbonToggleButton();
             this.buttonArrangeSq = this.Factory.CreateRibbonToggleButton();
             this.buttonArrangeRH = this.Factory.CreateRibbonToggleButton();
@@ -277,22 +277,22 @@ namespace AlbumWordAddin
             // 
             // box4
             // 
-            this.box4.Items.Add(this.buttonArrangeLV);
+            this.box4.Items.Add(this.buttonArrangeV);
             this.box4.Items.Add(this.buttonArrangeRV);
             this.box4.Items.Add(this.buttonArrangeSq);
             this.box4.Items.Add(this.buttonArrangeRH);
             this.box4.Items.Add(this.buttonArrangeH);
             this.box4.Name = "box4";
             // 
-            // buttonArrangeLV
+            // buttonArrangeV
             // 
-            this.buttonArrangeLV.Image = global::AlbumWordAddin.Properties.Resources.Pict_3x1;
-            this.buttonArrangeLV.Label = "";
-            this.buttonArrangeLV.Name = "buttonArrangeLV";
-            this.buttonArrangeLV.ScreenTip = "Position selected images in a single column";
-            this.buttonArrangeLV.ShowImage = true;
-            this.buttonArrangeLV.ShowLabel = false;
-            this.buttonArrangeLV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeLV_Click);
+            this.buttonArrangeV.Image = global::AlbumWordAddin.Properties.Resources.Pict_3x1;
+            this.buttonArrangeV.Label = "";
+            this.buttonArrangeV.Name = "buttonArrangeV";
+            this.buttonArrangeV.ScreenTip = "Position selected images in a single column";
+            this.buttonArrangeV.ShowImage = true;
+            this.buttonArrangeV.ShowLabel = false;
+            this.buttonArrangeV.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonArrangeV_Click);
             // 
             // buttonArrangeRV
             // 
@@ -347,6 +347,7 @@ namespace AlbumWordAddin
             // 
             // hAlignLeft
             // 
+            this.hAlignLeft.Enabled = false;
             this.hAlignLeft.Image = global::AlbumWordAddin.Properties.Resources.HAlignLeft;
             this.hAlignLeft.Label = "";
             this.hAlignLeft.Name = "hAlignLeft";
@@ -355,6 +356,7 @@ namespace AlbumWordAddin
             // 
             // hAlignBendLeft
             // 
+            this.hAlignBendLeft.Enabled = false;
             this.hAlignBendLeft.Image = global::AlbumWordAddin.Properties.Resources.HAlignBendLeft;
             this.hAlignBendLeft.Label = "";
             this.hAlignBendLeft.Name = "hAlignBendLeft";
@@ -363,6 +365,7 @@ namespace AlbumWordAddin
             // 
             // hAlignFlat
             // 
+            this.hAlignFlat.Enabled = false;
             this.hAlignFlat.Image = global::AlbumWordAddin.Properties.Resources.HAlignFlat;
             this.hAlignFlat.Label = "";
             this.hAlignFlat.Name = "hAlignFlat";
@@ -371,6 +374,7 @@ namespace AlbumWordAddin
             // 
             // hAlignBendRight
             // 
+            this.hAlignBendRight.Enabled = false;
             this.hAlignBendRight.Image = global::AlbumWordAddin.Properties.Resources.HAlignBendRight;
             this.hAlignBendRight.Label = "";
             this.hAlignBendRight.Name = "hAlignBendRight";
@@ -379,6 +383,7 @@ namespace AlbumWordAddin
             // 
             // hAlignRight
             // 
+            this.hAlignRight.Enabled = false;
             this.hAlignRight.Image = global::AlbumWordAddin.Properties.Resources.HAlignRight;
             this.hAlignRight.Label = "";
             this.hAlignRight.Name = "hAlignRight";
@@ -387,6 +392,7 @@ namespace AlbumWordAddin
             // 
             // hAlignRightUp
             // 
+            this.hAlignRightUp.Enabled = false;
             this.hAlignRightUp.Image = global::AlbumWordAddin.Properties.Resources.HAlignRightUp;
             this.hAlignRightUp.Label = "";
             this.hAlignRightUp.Name = "hAlignRightUp";
@@ -395,6 +401,7 @@ namespace AlbumWordAddin
             // 
             // hAlignRightDown
             // 
+            this.hAlignRightDown.Enabled = false;
             this.hAlignRightDown.Image = global::AlbumWordAddin.Properties.Resources.HAlignRightDown;
             this.hAlignRightDown.Label = "";
             this.hAlignRightDown.Name = "hAlignRightDown";
@@ -414,6 +421,7 @@ namespace AlbumWordAddin
             // 
             // vAlignTop
             // 
+            this.vAlignTop.Enabled = false;
             this.vAlignTop.Image = global::AlbumWordAddin.Properties.Resources.VAlignTop;
             this.vAlignTop.Label = "";
             this.vAlignTop.Name = "vAlignTop";
@@ -422,6 +430,7 @@ namespace AlbumWordAddin
             // 
             // vAlignBendDown
             // 
+            this.vAlignBendDown.Enabled = false;
             this.vAlignBendDown.Image = global::AlbumWordAddin.Properties.Resources.VAlignBendDown;
             this.vAlignBendDown.Label = "";
             this.vAlignBendDown.Name = "vAlignBendDown";
@@ -430,6 +439,7 @@ namespace AlbumWordAddin
             // 
             // vAlignFlat
             // 
+            this.vAlignFlat.Enabled = false;
             this.vAlignFlat.Image = global::AlbumWordAddin.Properties.Resources.VAlignFlat;
             this.vAlignFlat.Label = "";
             this.vAlignFlat.Name = "vAlignFlat";
@@ -438,6 +448,7 @@ namespace AlbumWordAddin
             // 
             // vAlignBendUp
             // 
+            this.vAlignBendUp.Enabled = false;
             this.vAlignBendUp.Image = global::AlbumWordAddin.Properties.Resources.VAlignBendUp;
             this.vAlignBendUp.Label = "";
             this.vAlignBendUp.Name = "vAlignBendUp";
@@ -446,6 +457,7 @@ namespace AlbumWordAddin
             // 
             // vAlignBottom
             // 
+            this.vAlignBottom.Enabled = false;
             this.vAlignBottom.Image = global::AlbumWordAddin.Properties.Resources.VAlignBottom;
             this.vAlignBottom.Label = "";
             this.vAlignBottom.Name = "vAlignBottom";
@@ -454,6 +466,7 @@ namespace AlbumWordAddin
             // 
             // vAlignRightUp
             // 
+            this.vAlignRightUp.Enabled = false;
             this.vAlignRightUp.Image = global::AlbumWordAddin.Properties.Resources.VAlignRightUp;
             this.vAlignRightUp.Label = "";
             this.vAlignRightUp.Name = "vAlignRightUp";
@@ -462,6 +475,7 @@ namespace AlbumWordAddin
             // 
             // vAlignRightDown
             // 
+            this.vAlignRightDown.Enabled = false;
             this.vAlignRightDown.Image = global::AlbumWordAddin.Properties.Resources.VAlignRightDown;
             this.vAlignRightDown.Label = "";
             this.vAlignRightDown.Name = "vAlignRightDown";
@@ -912,7 +926,7 @@ namespace AlbumWordAddin
         internal Microsoft.Office.Tools.Ribbon.RibbonBox buttonGroupAlignHorizontal;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupArrange;
         internal Microsoft.Office.Tools.Ribbon.RibbonBox box4;
-        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton buttonArrangeLV;
+        internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton buttonArrangeV;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton buttonArrangeRV;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton buttonArrangeSq;
         internal Microsoft.Office.Tools.Ribbon.RibbonToggleButton buttonArrangeRH;

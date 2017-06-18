@@ -16,6 +16,8 @@
     public partial class AlbumRibbon
     {
         RibbonToggleButtonSet _arrangeButtonSet;
+        RibbonToggleButtonSet _hAlignButtonSet;
+        RibbonToggleButtonSet _vAlignButtonSet;
 
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
@@ -25,6 +27,8 @@
             DropDownIntSetter(dropDownPadding, userPrefs.Padding);
 
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("buttonArrange"));
+            _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("hAlign"));
+            _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("vAlign"));
         }
 
         IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart)
@@ -114,32 +118,39 @@
             Globals.ThisAddIn.AlignSelectedImages(Alignment.Shortest);
         }
 
-        void buttonArrangeLV_Click(object sender, RibbonControlEventArgs e)
+        void buttonArrangeV_Click(object sender, RibbonControlEventArgs e)
         {
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
+            _hAlignButtonSet.Enabled = true;
+            _vAlignButtonSet.Enabled = false;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Padding(), Margin());
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
         {
+            _hAlignButtonSet.Enabled = _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Padding(), Margin());
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
         {
+            _hAlignButtonSet.Enabled = _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Padding(), Margin());
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
         {
+            _hAlignButtonSet.Enabled = _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Padding(), Margin());
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
         {
+            _hAlignButtonSet.Enabled = false;
+            _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Padding(), Margin());
         }
@@ -154,17 +165,19 @@
             mnuVAlign_Click(sender, e);
         }
 
-        static void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
+        void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
         {
-            var ribbonButton = sender as RibbonButton;
+            var ribbonButton = sender as RibbonToggleButton;
             if (ribbonButton == null) throw new InvalidOperationException();
+            _hAlignButtonSet.SelectedButton = ribbonButton;
             Globals.ThisAddIn.DoPositionSelectedImages(hAlign: ribbonButton.Id);
         }
 
-        static void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
+        void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
         {
-            var ribbonButton = sender as RibbonButton;
+            var ribbonButton = sender as RibbonToggleButton;
             if (ribbonButton == null) throw new InvalidOperationException();
+            _vAlignButtonSet.SelectedButton = ribbonButton;
             Globals.ThisAddIn.DoPositionSelectedImages(vAlign: ribbonButton.Id);
         }
 
@@ -360,5 +373,6 @@
         {
             Globals.ThisAddIn.SpacingInterpolate();
         }
+
     }
 }
