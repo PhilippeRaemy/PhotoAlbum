@@ -1,6 +1,7 @@
 ﻿namespace AlbumWordAddin
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Globalization;
     using Microsoft.Office.Tools.Ribbon;
@@ -23,11 +24,14 @@
             DropDownIntSetter(dropDownMargin, userPrefs.Margin);
             DropDownIntSetter(dropDownPadding, userPrefs.Padding);
 
-            _arrangeButtonSet = new RibbonToggleButtonSet(
-                GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                         .Where (p => p.Name.StartsWith("buttonArrange"))
-                         .Select(p => (RibbonToggleButton)p.GetValue(this))
-                         );
+            _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("buttonArrange"));
+        }
+
+        IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart)
+        {
+            return GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where (p => p.Name.StartsWith(buttonNameStart))
+                .Select(p => (RibbonToggleButton)p.GetValue(this));
         }
 
         void AlbumRibbon_Close(object sender, EventArgs e)
