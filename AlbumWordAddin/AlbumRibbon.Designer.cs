@@ -21,18 +21,6 @@ namespace AlbumWordAddin
             ThisAddIn.ThisRibbon = this;
         }
 
-        IEnumerable<RibbonDropDownItem> GenIntDropdownItems(int start, int count)
-        {
-             return Enumerable.Range(start, count)
-                .Select(i =>
-                {
-                    var di = Factory.CreateRibbonDropDownItem();
-                    di.Label = i.ToString();
-                    di.Tag = i;
-                    return di;
-                });
-        }
-
         /// <summary> 
         /// Clean up any resources being used.
         /// </summary>

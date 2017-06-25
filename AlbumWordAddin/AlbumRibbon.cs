@@ -10,6 +10,7 @@ namespace AlbumWordAddin
     using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
+    using Mannex.Text.RegularExpressions;
     using Microsoft.Office.Core;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
@@ -20,6 +21,7 @@ namespace AlbumWordAddin
         RibbonToggleButtonSet _arrangeButtonSet;
         RibbonToggleButtonSet _hAlignButtonSet;
         RibbonToggleButtonSet _vAlignButtonSet;
+        RibbonControlSet _buttonsActingOnOneOrMoreShapes;
 
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
@@ -31,13 +33,27 @@ namespace AlbumWordAddin
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("buttonArrange"));
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("hAlign"));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("vAlign"));
+            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(ShapeToolRequiredCount.OneOrMore));
         }
 
         IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart)
         {
-            return GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where (p => p.Name.StartsWith(buttonNameStart))
-                .Select(p => (RibbonToggleButton)p.GetValue(this));
+            return
+                from gr in TabAddIns.Groups
+                from item in gr.Items
+                where item is RibbonToggleButton
+                where item.Name.IsMatch(buttonNameStart)
+                select (RibbonToggleButton) item;
+        }
+
+        IEnumerable<RibbonControl> EnumerateControlsWithTag(ShapeToolRequiredCount shapeToolRequiredCount)
+        {
+            return 
+                from gr in TabAddIns.Groups
+                from item in gr.Items
+                where item.Tag is ShapeToolRequiredCount
+                where ((ShapeToolRequiredCount)item.Tag & shapeToolRequiredCount) != ShapeToolRequiredCount.None
+                select item;
         }
 
         void AlbumRibbon_Close(object sender, EventArgs e)
@@ -123,36 +139,39 @@ namespace AlbumWordAddin
         void buttonArrangeV_Click(object sender, RibbonControlEventArgs e)
         {
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
-            _hAlignButtonSet.Enabled = true;
-            _vAlignButtonSet.Enabled = false;
+            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true );
+            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Padding(), Margin());
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.Enabled = _vAlignButtonSet.Enabled = true;
+            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Padding(), Margin());
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.Enabled = _vAlignButtonSet.Enabled = true;
+            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Padding(), Margin());
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.Enabled = _vAlignButtonSet.Enabled = true;
+            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Padding(), Margin());
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.Enabled = false;
-            _vAlignButtonSet.Enabled = true;
+            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
+            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Padding(), Margin());
         }
@@ -387,5 +406,18 @@ namespace AlbumWordAddin
              : countOfSelectedShapes == 1 ? ShapeToolRequiredCount.OneOrMore
              : countOfSelectedShapes == 2 ? ShapeToolRequiredCount.TwoOrMore
              : ShapeToolRequiredCount.ThreeOrMore;
+
+        IEnumerable<RibbonDropDownItem> GenIntDropdownItems(int start, int count)
+        {
+            return Enumerable.Range(start, count)
+               .Select(i =>
+               {
+                   var di = Factory.CreateRibbonDropDownItem();
+                   di.Label = i.ToString();
+                   di.Tag = i;
+                   return di;
+               });
+        }
+
     }
 }
