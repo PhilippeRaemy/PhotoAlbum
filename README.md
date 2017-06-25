@@ -27,4 +27,5 @@ I created that on return from a wonderful vacation of 3 weeks in the National Pa
 * Arrange: keep last used button highlighted
 * Arrange: discover selected images arrangement and highlight the right button
 * globally: doc-to-ribbon feedback
+** *done* Ribbon buttons tagging principle: the tag property, of type ShapeToolRequiredCount, indicates how many shapes should be selected in order for the button to be usable / enabled.
 * globally: tool tips and tool descriptions

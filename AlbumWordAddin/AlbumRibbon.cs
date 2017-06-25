@@ -1,4 +1,6 @@
-﻿namespace AlbumWordAddin
+﻿using System;
+
+namespace AlbumWordAddin
 {
     using System;
     using System.Collections.Generic;
@@ -374,5 +376,16 @@
             Globals.ThisAddIn.SpacingInterpolate();
         }
 
+        public void EnablePictureTools(int countOfSelectedShapes)
+        {
+            var shapeToolRequiredCount = GetShapeToolsRequiredCount(countOfSelectedShapes);
+
+        }
+
+        static ShapeToolRequiredCount GetShapeToolsRequiredCount(int countOfSelectedShapes) 
+            => countOfSelectedShapes == 0 ? ShapeToolRequiredCount.None
+             : countOfSelectedShapes == 1 ? ShapeToolRequiredCount.OneOrMore
+             : countOfSelectedShapes == 2 ? ShapeToolRequiredCount.TwoOrMore
+             : ShapeToolRequiredCount.ThreeOrMore;
     }
 }

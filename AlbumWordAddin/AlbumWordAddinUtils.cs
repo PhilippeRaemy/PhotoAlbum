@@ -26,7 +26,7 @@ namespace AlbumWordAddin
         Word.Application Application => ActiveDocument.Application;
         Word.Selection Selection => Application.Selection;
 
-        Word.Shape[] SelectedShapes()
+        public Word.Shape[] SelectedShapes()
         {
             // ToArray() required to freeze the pointers
             var selectedShapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();

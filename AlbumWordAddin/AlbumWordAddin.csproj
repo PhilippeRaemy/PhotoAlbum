@@ -255,6 +255,7 @@
       <XmlRibbon>true</XmlRibbon>
     </Compile>
     <Compile Include="RibbonToggleButtonSet.cs" />
+    <Compile Include="ShapeToolRequiredCount.cs" />
     <Compile Include="Spacer.cs" />
     <Compile Include="StatusBarProgressIndicator.cs" />
     <Compile Include="ThisAddIn.cs">

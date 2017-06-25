@@ -53,7 +53,8 @@ namespace AlbumWordAddin
 
         void ThisAddIn_SelectionChange(object sender, SelectionEventArgs e)
         {
-            /* TODO build here doc-to-ribbon feedback */
+            var s = _utilities.SelectedShapes();
+            ThisRibbon.EnablePictureTools(s.Length);
         }
 
         internal void AlignSelectedImages(Alignment alignment, float forced = float.NaN)
