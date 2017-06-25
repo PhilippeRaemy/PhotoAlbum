@@ -2,27 +2,43 @@ namespace AlbumWordAddin
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Microsoft.Office.Interop.Word;
     using Microsoft.Office.Tools.Ribbon;
     using MoreLinq;
 
-    internal class RibbonToggleButtonSet
-    {
-        readonly RibbonToggleButton[] _buttons;
 
-        public RibbonToggleButtonSet(IEnumerable<RibbonToggleButton> buttons)
+    internal enum RibbonControlEnablereasonEnum { Functional, Selection}
+
+    internal class RibbonControlSet
+    {
+        protected readonly RibbonControl[] Buttons;
+        readonly Dictionary<RibbonControlEnablereasonEnum, bool> _enableReasons = new Dictionary<RibbonControlEnablereasonEnum, bool>();
+
+        public RibbonControlSet(IEnumerable<RibbonControl> buttons)
         {
-            _buttons = buttons.ToArray();
+            Buttons = buttons.ToArray();
+        }
+
+        public void SetEnabled(RibbonControlEnablereasonEnum reason, bool enabled)
+        {
+            _enableReasons[reason] = enabled;
+            var allEnabled = _enableReasons.All(e => e.Value);
+            Buttons.ForEach(b => b.Enabled = allEnabled);
+        }
+    }
+
+    internal class RibbonToggleButtonSet : RibbonControlSet
+    {
+
+        public RibbonToggleButtonSet(IEnumerable<RibbonToggleButton> buttons) : base(buttons)
+        {
         }
 
         public RibbonToggleButton SelectedButton
         {
-            get { return _buttons.FirstOrDefault(b => b.Checked); }
-            set { _buttons.ForEach(b => b.Checked = b == value); }
+            get { return (RibbonToggleButton)Buttons.FirstOrDefault(b => ((RibbonToggleButton)b).Checked); }
+            set { Buttons.ForEach(b => ((RibbonToggleButton)b).Checked = b == value); }
         }
 
-        public bool Enabled
-        {
-            set { _buttons.ForEach(b => b.Enabled = value); }
-        }
     }
 }
