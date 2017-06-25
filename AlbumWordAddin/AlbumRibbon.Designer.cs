@@ -76,11 +76,10 @@ namespace AlbumWordAddin
             this.box9 = this.Factory.CreateRibbonBox();
             this.box7 = this.Factory.CreateRibbonBox();
             this.box8 = this.Factory.CreateRibbonBox();
-            this.group1 = this.Factory.CreateRibbonGroup();
+            this.groupWrapping = this.Factory.CreateRibbonGroup();
+            this.groupPrepare = this.Factory.CreateRibbonGroup();
             this.ButtonImport = this.Factory.CreateRibbonButton();
             this.buttonPictureSorter = this.Factory.CreateRibbonButton();
-            this.ButtonLowRes = this.Factory.CreateRibbonButton();
-            this.ButtonHiRes = this.Factory.CreateRibbonButton();
             this.ButtonSelectShapesOnPage = this.Factory.CreateRibbonButton();
             this.ButtonRemoveEmptyPages = this.Factory.CreateRibbonButton();
             this.ButtonFixAnchors = this.Factory.CreateRibbonButton();
@@ -134,6 +133,8 @@ namespace AlbumWordAddin
             this.buttonTextWrappingThrough = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingTight = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingRightOnly = this.Factory.CreateRibbonButton();
+            this.ButtonLowRes = this.Factory.CreateRibbonButton();
+            this.ButtonHiRes = this.Factory.CreateRibbonButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
             this.groupPage.SuspendLayout();
@@ -151,7 +152,8 @@ namespace AlbumWordAddin
             this.box9.SuspendLayout();
             this.box7.SuspendLayout();
             this.box8.SuspendLayout();
-            this.group1.SuspendLayout();
+            this.groupWrapping.SuspendLayout();
+            this.groupPrepare.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabAddIns
@@ -162,16 +164,15 @@ namespace AlbumWordAddin
             this.TabAddIns.Groups.Add(this.groupArrange);
             this.TabAddIns.Groups.Add(this.groupAlign);
             this.TabAddIns.Groups.Add(this.groupSpacing);
-            this.TabAddIns.Groups.Add(this.group1);
+            this.TabAddIns.Groups.Add(this.groupWrapping);
+            this.TabAddIns.Groups.Add(this.groupPrepare);
             this.TabAddIns.Label = "Photo Album";
             this.TabAddIns.Name = "TabAddIns";
             // 
             // groupFile
             // 
-            this.groupFile.Items.Add(this.ButtonImport);
             this.groupFile.Items.Add(this.buttonPictureSorter);
-            this.groupFile.Items.Add(this.ButtonLowRes);
-            this.groupFile.Items.Add(this.ButtonHiRes);
+            this.groupFile.Items.Add(this.ButtonImport);
             this.groupFile.Label = "File";
             this.groupFile.Name = "groupFile";
             // 
@@ -324,19 +325,26 @@ namespace AlbumWordAddin
             this.box8.Items.Add(this.buttonSpacingInterpolate);
             this.box8.Name = "box8";
             // 
-            // group1
+            // groupWrapping
             // 
-            this.group1.Items.Add(this.buttonTextWrappingSquare);
-            this.group1.Items.Add(this.buttonTextWrappingBehindTextv);
-            this.group1.Items.Add(this.buttonTextWrappingLeftOnly);
-            this.group1.Items.Add(this.buttonTextWrappingInFrontOfText);
-            this.group1.Items.Add(this.buttonTextWrappingTopAndBottom);
-            this.group1.Items.Add(this.buttonTextWrappingBothSides);
-            this.group1.Items.Add(this.buttonTextWrappingThrough);
-            this.group1.Items.Add(this.buttonTextWrappingTight);
-            this.group1.Items.Add(this.buttonTextWrappingRightOnly);
-            this.group1.Label = "Text Wrapping";
-            this.group1.Name = "group1";
+            this.groupWrapping.Items.Add(this.buttonTextWrappingSquare);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingBehindTextv);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingLeftOnly);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingInFrontOfText);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingTopAndBottom);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingBothSides);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingThrough);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingTight);
+            this.groupWrapping.Items.Add(this.buttonTextWrappingRightOnly);
+            this.groupWrapping.Label = "Text Wrapping";
+            this.groupWrapping.Name = "groupWrapping";
+            // 
+            // groupPrepare
+            // 
+            this.groupPrepare.Items.Add(this.ButtonLowRes);
+            this.groupPrepare.Items.Add(this.ButtonHiRes);
+            this.groupPrepare.Label = "Prepare document for print";
+            this.groupPrepare.Name = "groupPrepare";
             // 
             // ButtonImport
             // 
@@ -359,26 +367,6 @@ namespace AlbumWordAddin
             this.buttonPictureSorter.ShowLabel = false;
             this.buttonPictureSorter.SuperTip = "Compare and Choose photos";
             this.buttonPictureSorter.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPictureSorter_Click);
-            // 
-            // ButtonLowRes
-            // 
-            this.ButtonLowRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.ButtonLowRes.Image = ((System.Drawing.Image)(resources.GetObject("ButtonLowRes.Image")));
-            this.ButtonLowRes.Label = "Low Res Images";
-            this.ButtonLowRes.Name = "ButtonLowRes";
-            this.ButtonLowRes.ScreenTip = "Low Resolution Images";
-            this.ButtonLowRes.ShowImage = true;
-            this.ButtonLowRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonLowRes_Click);
-            // 
-            // ButtonHiRes
-            // 
-            this.ButtonHiRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.ButtonHiRes.Image = ((System.Drawing.Image)(resources.GetObject("ButtonHiRes.Image")));
-            this.ButtonHiRes.Label = "Hi Res Images";
-            this.ButtonHiRes.Name = "ButtonHiRes";
-            this.ButtonHiRes.ScreenTip = "High Resolution Images";
-            this.ButtonHiRes.ShowImage = true;
-            this.ButtonHiRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonHiRes_Click);
             // 
             // ButtonSelectShapesOnPage
             // 
@@ -478,10 +466,9 @@ namespace AlbumWordAddin
             this.hAlignLeft.Image = global::AlbumWordAddin.Properties.Resources.HAlignLeft;
             this.hAlignLeft.Label = "";
             this.hAlignLeft.Name = "hAlignLeft";
-            this.hAlignLeft.ShowImage = true;
             this.hAlignLeft.ScreenTip = "Left align";
-            this.hAlignLeft.SuperTip = "Align the images to the left of the column" +
-                                       ", when arranged by column";
+            this.hAlignLeft.ShowImage = true;
+            this.hAlignLeft.SuperTip = "Align the images to the left of the column, when arranged by column";
             this.hAlignLeft.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // hAlignBendLeft
@@ -490,11 +477,10 @@ namespace AlbumWordAddin
             this.hAlignBendLeft.Image = global::AlbumWordAddin.Properties.Resources.HAlignBendLeft;
             this.hAlignBendLeft.Label = "";
             this.hAlignBendLeft.Name = "hAlignBendLeft";
-            this.hAlignBendLeft.ShowImage = true;
             this.hAlignBendLeft.ScreenTip = "Indent middle images to the right";
-            this.hAlignBendLeft.SuperTip = "Left align the top and bottom images, " +
-                                           "and indent the middle images to the right or the column" +
-                                           ", when arranged by column";
+            this.hAlignBendLeft.ShowImage = true;
+            this.hAlignBendLeft.SuperTip = "Left align the top and bottom images, and indent the middle images to the right o" +
+    "r the column, when arranged by column";
             this.hAlignBendLeft.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // hAlignFlat
@@ -503,10 +489,9 @@ namespace AlbumWordAddin
             this.hAlignFlat.Image = global::AlbumWordAddin.Properties.Resources.HAlignFlat;
             this.hAlignFlat.Label = "";
             this.hAlignFlat.Name = "hAlignFlat";
-            this.hAlignFlat.ShowImage = true;
             this.hAlignFlat.ScreenTip = "Center";
-            this.hAlignFlat.SuperTip = "Align the images to the center of each column" +
-                                           ", when arranged by column";
+            this.hAlignFlat.ShowImage = true;
+            this.hAlignFlat.SuperTip = "Align the images to the center of each column, when arranged by column";
             this.hAlignFlat.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // hAlignBendRight
@@ -515,11 +500,10 @@ namespace AlbumWordAddin
             this.hAlignBendRight.Image = global::AlbumWordAddin.Properties.Resources.HAlignBendRight;
             this.hAlignBendRight.Label = "";
             this.hAlignBendRight.Name = "hAlignBendRight";
-            this.hAlignBendRight.ShowImage = true;
             this.hAlignBendRight.ScreenTip = "Indent middle images to the left";
-            this.hAlignBendRight.SuperTip = "Right align the top and bottom images, " +
-                                           "and indent the middle images to the left or the column" +
-                                            ", when arranged by column";
+            this.hAlignBendRight.ShowImage = true;
+            this.hAlignBendRight.SuperTip = "Right align the top and bottom images, and indent the middle images to the left o" +
+    "r the column, when arranged by column";
             this.hAlignBendRight.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // hAlignRight
@@ -528,10 +512,9 @@ namespace AlbumWordAddin
             this.hAlignRight.Image = global::AlbumWordAddin.Properties.Resources.HAlignRight;
             this.hAlignRight.Label = "";
             this.hAlignRight.Name = "hAlignRight";
-            this.hAlignRight.ShowImage = true;
             this.hAlignRight.ScreenTip = "Right align";
-            this.hAlignRight.SuperTip = "Align the images to the right of the column" +
-                                       ", when arranged by column";
+            this.hAlignRight.ShowImage = true;
+            this.hAlignRight.SuperTip = "Align the images to the right of the column, when arranged by column";
             this.hAlignRight.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // hAlignRightUp
@@ -540,11 +523,10 @@ namespace AlbumWordAddin
             this.hAlignRightUp.Image = global::AlbumWordAddin.Properties.Resources.HAlignRightUp;
             this.hAlignRightUp.Label = "";
             this.hAlignRightUp.Name = "hAlignRightUp";
-            this.hAlignRightUp.ShowImage = true;
             this.hAlignRightUp.ScreenTip = "Align Ascending";
-            this.hAlignRightUp.SuperTip = "Align the images from the left to the right of the column" +
-                                       ", in an ascending manner" +
-                                       ", when arranged by column";
+            this.hAlignRightUp.ShowImage = true;
+            this.hAlignRightUp.SuperTip = "Align the images from the left to the right of the column, in an ascending manner" +
+    ", when arranged by column";
             this.hAlignRightUp.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // hAlignRightDown
@@ -553,11 +535,10 @@ namespace AlbumWordAddin
             this.hAlignRightDown.Image = global::AlbumWordAddin.Properties.Resources.HAlignRightDown;
             this.hAlignRightDown.Label = "";
             this.hAlignRightDown.Name = "hAlignRightDown";
-            this.hAlignRightDown.ShowImage = true;
             this.hAlignRightDown.ScreenTip = "Align Descending";
-            this.hAlignRightDown.SuperTip = "Align the images from the left to the right of the column" +
-                                       ", in an descending manner" +
-                                       ", when arranged by column";
+            this.hAlignRightDown.ShowImage = true;
+            this.hAlignRightDown.SuperTip = "Align the images from the left to the right of the column, in an descending manne" +
+    "r, when arranged by column";
             this.hAlignRightDown.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.MenuItemHAlign_Click);
             // 
             // vAlignTop
@@ -891,6 +872,29 @@ namespace AlbumWordAddin
             this.buttonTextWrappingRightOnly.ShowLabel = false;
             this.buttonTextWrappingRightOnly.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonTextWrappingRightOnly_Click);
             // 
+            // ButtonLowRes
+            // 
+            this.ButtonLowRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ButtonLowRes.Image = ((System.Drawing.Image)(resources.GetObject("ButtonLowRes.Image")));
+            this.ButtonLowRes.Label = "Low Res Images";
+            this.ButtonLowRes.Name = "ButtonLowRes";
+            this.ButtonLowRes.ScreenTip = "Low Resolution Images";
+            this.ButtonLowRes.ShowImage = true;
+            this.ButtonLowRes.SuperTip = resources.GetString("ButtonLowRes.SuperTip");
+            this.ButtonLowRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonLowRes_Click);
+            // 
+            // ButtonHiRes
+            // 
+            this.ButtonHiRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ButtonHiRes.Image = ((System.Drawing.Image)(resources.GetObject("ButtonHiRes.Image")));
+            this.ButtonHiRes.Label = "Hi Res Images";
+            this.ButtonHiRes.Name = "ButtonHiRes";
+            this.ButtonHiRes.ScreenTip = "High Resolution Images";
+            this.ButtonHiRes.ShowImage = true;
+            this.ButtonHiRes.SuperTip = "Change all the pictures to higher resolution, to optimize the print quality when " +
+    "the editing work is complete.";
+            this.ButtonHiRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonHiRes_Click);
+            // 
             // AlbumRibbon
             // 
             this.Name = "AlbumRibbon";
@@ -932,8 +936,10 @@ namespace AlbumWordAddin
             this.box7.PerformLayout();
             this.box8.ResumeLayout(false);
             this.box8.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
+            this.groupWrapping.ResumeLayout(false);
+            this.groupWrapping.PerformLayout();
+            this.groupPrepare.ResumeLayout(false);
+            this.groupPrepare.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -997,7 +1003,7 @@ namespace AlbumWordAddin
         internal RibbonButton ButtonRemoveEmptyPages;
         internal RibbonButton ButtonSelectShapesOnPage;
         internal RibbonSeparator separator1;
-        internal RibbonGroup group1;
+        internal RibbonGroup groupWrapping;
         internal RibbonButton buttonTextWrappingTight;
         internal RibbonButton buttonTextWrappingSquare;
         internal RibbonButton buttonTextWrappingBehindTextv;
@@ -1018,6 +1024,7 @@ namespace AlbumWordAddin
         internal RibbonButton buttonSpacingIncreaseVertical;
         internal RibbonBox box8;
         internal RibbonButton buttonSpacingInterpolate;
+        internal RibbonGroup groupPrepare;
     }
 
     partial class ThisRibbonCollection

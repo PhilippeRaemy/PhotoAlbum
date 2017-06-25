@@ -18,9 +18,9 @@ I created that on return from a wonderful vacation of 3 weeks in the National Pa
 * Move either of the pictures to Archive subfolder (using numpad 1 or 2 keys)
 
 #TODO
-* Remove size group (redundant with alignments)
-* Arrange group on the left of the ribbon
-* Hi/Low res: "prepare doc for print" or "restore pictures resolution for print"
+* *done* Remove size group (redundant with alignments)
+* *done* Arrange group on the left of the ribbon
+* *done* Hi/Low res: "prepare doc for print" or "restore pictures resolution for print"
 * Arrange: make margin padding subordinate!
 * Arrange aligments: disable useless buttons (horiz diagonal when arranged on horiz line, for instance)
 * Arrange: need a button for one image centering full page

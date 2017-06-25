@@ -135,6 +135,9 @@
         O/fSde7j58cdfn/d4XDo/evQNmcuk3P/HOj3mldxiRYAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="ButtonLowRes.SuperTip" xml:space="preserve">
+    <value>Change all the pictures to lower resolution, to facilitate work on the document. This is  particularly useful for a photo album with many pictures or if your computer shows poor performance while editing the document.</value>
+  </data>
   <data name="ButtonHiRes.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAS
