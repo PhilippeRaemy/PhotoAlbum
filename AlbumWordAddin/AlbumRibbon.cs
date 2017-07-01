@@ -22,6 +22,8 @@ namespace AlbumWordAddin
         RibbonToggleButtonSet _hAlignButtonSet;
         RibbonToggleButtonSet _vAlignButtonSet;
         RibbonControlSet _buttonsActingOnOneOrMoreShapes;
+        RibbonControlSet _buttonsActingOnTwoOrMoreShapes;
+        RibbonControlSet _buttonsActingOnThreeOrMoreShapes;
 
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
@@ -33,11 +35,13 @@ namespace AlbumWordAddin
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("buttonArrange"));
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("hAlign"));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("vAlign"));
-            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(
-                EnumerateControlsWithTag<ShapeToolRequiredCount>(tag => (tag & ShapeToolRequiredCount.OneOrMore) != ShapeToolRequiredCount.None
-                )
-            );
+            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(FilterFunc(ShapeToolRequiredCount.OneOrMore)));
+            _buttonsActingOnTwoOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(FilterFunc(ShapeToolRequiredCount.TwoOrMore)));
+            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(FilterFunc(ShapeToolRequiredCount.ThreeOrMore)));
         }
+
+        static Func<ShapeToolRequiredCount, bool> FilterFunc(ShapeToolRequiredCount shapeToolRequiredCount) 
+            => tag => (tag & shapeToolRequiredCount) != ShapeToolRequiredCount.None;
 
         IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart) 
          => from  gr    in TabAddIns.Groups
@@ -393,8 +397,10 @@ namespace AlbumWordAddin
 
         public void EnablePictureTools(int countOfSelectedShapes)
         {
-            var shapeToolRequiredCount = GetShapeToolsRequiredCount(countOfSelectedShapes);
-
+            var shapeToolsRequiredCount = GetShapeToolsRequiredCount(countOfSelectedShapes);
+            _buttonsActingOnOneOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, shapeToolsRequiredCount == ShapeToolRequiredCount.OneOrMore  );
+            _buttonsActingOnTwoOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, shapeToolsRequiredCount == ShapeToolRequiredCount.TwoOrMore  );
+            _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, shapeToolsRequiredCount == ShapeToolRequiredCount.ThreeOrMore);
         }
 
         static ShapeToolRequiredCount GetShapeToolsRequiredCount(int countOfSelectedShapes) 
