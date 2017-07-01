@@ -33,28 +33,24 @@ namespace AlbumWordAddin
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("buttonArrange"));
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("hAlign"));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("vAlign"));
-            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(ShapeToolRequiredCount.OneOrMore));
+            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(
+                EnumerateControlsWithTag<ShapeToolRequiredCount>(tag => (tag & ShapeToolRequiredCount.OneOrMore) != ShapeToolRequiredCount.None
+                )
+            );
         }
 
-        IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart)
-        {
-            return
-                from gr in TabAddIns.Groups
-                from item in gr.Items
-                where item is RibbonToggleButton
-                where item.Name.IsMatch(buttonNameStart)
-                select (RibbonToggleButton) item;
-        }
+        IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart) 
+         => from  gr    in TabAddIns.Groups
+            from  item  in gr.Items
+            where item  is RibbonToggleButton
+               && item.Name.IsMatch(buttonNameStart)
+            select (RibbonToggleButton) item;
 
-        IEnumerable<RibbonControl> EnumerateControlsWithTag(ShapeToolRequiredCount shapeToolRequiredCount)
-        {
-            return 
-                from gr in TabAddIns.Groups
-                from item in gr.Items
-                where item.Tag is ShapeToolRequiredCount
-                where ((ShapeToolRequiredCount)item.Tag & shapeToolRequiredCount) != ShapeToolRequiredCount.None
-                select item;
-        }
+        IEnumerable<RibbonControl> EnumerateControlsWithTag<TTag>(Func<TTag,bool> filterFunc) 
+         => from  gr   in TabAddIns.Groups
+            from  item in gr.Items
+            where item.Tag is TTag && filterFunc((TTag)item.Tag)
+            select item;
 
         void AlbumRibbon_Close(object sender, EventArgs e)
         {
