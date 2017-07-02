@@ -3,8 +3,8 @@
     enum ShapeToolRequiredCount
     {
         None ,
-        One  ,
-        Two  ,
-        Three
+        OneOrMore  ,
+        TwoOrMore  ,
+        ThreeOrMore
     }
 }

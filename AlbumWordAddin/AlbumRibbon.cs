@@ -35,20 +35,24 @@ namespace AlbumWordAddin
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")));
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
-            _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.One  )));
-            _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two  )));
-            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Three)));
+            _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
+            _buttonsActingOnTwoOrMoreShapes   = _buttonsActingOnOneOrMoreShapes + EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  ));
+            _buttonsActingOnThreeOrMoreShapes = _buttonsActingOnTwoOrMoreShapes + EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore));
         }
 
         static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
             => ctrl => ctrl.Tag is ShapeToolRequiredCount 
                     && (ShapeToolRequiredCount)ctrl.Tag == shapeToolRequiredCount;
 
-        IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T: RibbonControl
-         => from  gr   in TabAddIns.Groups
-            from  item in gr.Items
-            where item is T && filterFunc((T)item)
-            select (T)item;
+        IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T: RibbonControl 
+            => from gr in TabAddIns.Groups
+               from item in gr.Items
+               from subItem in ((item as RibbonBox)?.Items
+                                ?? (item as RibbonButtonGroup)?.Items
+                                ?? Enumerable.Empty<RibbonControl>()
+                               ).Prepend(item)
+               where subItem is T && filterFunc((T)subItem)
+               select (T)subItem;
 
         void AlbumRibbon_Close(object sender, EventArgs e)
         {

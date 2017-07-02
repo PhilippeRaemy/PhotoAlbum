@@ -2,7 +2,6 @@ namespace AlbumWordAddin
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.Office.Interop.Word;
     using Microsoft.Office.Tools.Ribbon;
     using MoreLinq;
 
@@ -25,6 +24,9 @@ namespace AlbumWordAddin
             var allEnabled = _enableReasons.All(e => e.Value);
             foreach(var button in Buttons) button.Enabled = allEnabled;
         }
+        public static RibbonControlSet operator +(RibbonControlSet c1, IEnumerable<RibbonControl> buttons)
+            => new RibbonControlSet(c1.Buttons.Concat(buttons));
+
     }
 
     internal class RibbonToggleButtonSet : RibbonControlSet
@@ -39,6 +41,5 @@ namespace AlbumWordAddin
             get { return (RibbonToggleButton)Buttons.FirstOrDefault(b => ((RibbonToggleButton)b).Checked); }
             set { Buttons.ForEach(b => ((RibbonToggleButton)b).Checked = b == value); }
         }
-
     }
 }
