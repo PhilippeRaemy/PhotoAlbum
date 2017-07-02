@@ -33,16 +33,16 @@ namespace AlbumWordAddin
             DropDownIntSetter(dropDownPadding, userPrefs.Padding);
 
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")));
-            _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign"       )));
-            _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign"       )));
-            _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
-            _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
-            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
+            _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
+            _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
+            _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.One  )));
+            _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two  )));
+            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Three)));
         }
 
         static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
             => ctrl => ctrl.Tag is ShapeToolRequiredCount 
-                       && ((ShapeToolRequiredCount)ctrl.Tag & shapeToolRequiredCount) != ShapeToolRequiredCount.None;
+                    && (ShapeToolRequiredCount)ctrl.Tag == shapeToolRequiredCount;
 
         IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T: RibbonControl
          => from  gr   in TabAddIns.Groups
@@ -391,17 +391,10 @@ namespace AlbumWordAddin
 
         public void EnablePictureTools(int countOfSelectedShapes)
         {
-            var shapeToolsRequiredCount = GetShapeToolsRequiredCount(countOfSelectedShapes);
-            _buttonsActingOnOneOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, shapeToolsRequiredCount == ShapeToolRequiredCount.OneOrMore  );
-            _buttonsActingOnTwoOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, shapeToolsRequiredCount == ShapeToolRequiredCount.TwoOrMore  );
-            _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, shapeToolsRequiredCount == ShapeToolRequiredCount.ThreeOrMore);
+            _buttonsActingOnOneOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 1);
+            _buttonsActingOnTwoOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 2);
+            _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 3);
         }
-
-        static ShapeToolRequiredCount GetShapeToolsRequiredCount(int countOfSelectedShapes) 
-            => countOfSelectedShapes == 0 ? ShapeToolRequiredCount.None
-             : countOfSelectedShapes == 1 ? ShapeToolRequiredCount.OneOrMore
-             : countOfSelectedShapes == 2 ? ShapeToolRequiredCount.TwoOrMore
-             : ShapeToolRequiredCount.ThreeOrMore;
 
         IEnumerable<RibbonDropDownItem> GenIntDropdownItems(int start, int count)
         {
