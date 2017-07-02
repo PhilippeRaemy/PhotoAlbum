@@ -23,7 +23,7 @@ namespace AlbumWordAddin
         {
             _enableReasons[reason] = enabled;
             var allEnabled = _enableReasons.All(e => e.Value);
-            Buttons.ForEach(b => b.Enabled = allEnabled);
+            foreach(var button in Buttons) button.Enabled = allEnabled;
         }
     }
 
