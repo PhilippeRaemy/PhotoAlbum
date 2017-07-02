@@ -32,29 +32,23 @@ namespace AlbumWordAddin
             DropDownIntSetter(dropDownMargin, userPrefs.Margin);
             DropDownIntSetter(dropDownPadding, userPrefs.Padding);
 
-            _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("buttonArrange"));
-            _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("hAlign"));
-            _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateToggleButtonsLike("vAlign"));
-            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(FilterFunc(ShapeToolRequiredCount.OneOrMore)));
-            _buttonsActingOnTwoOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(FilterFunc(ShapeToolRequiredCount.TwoOrMore)));
-            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControlsWithTag(FilterFunc(ShapeToolRequiredCount.ThreeOrMore)));
+            _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")));
+            _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign"       )));
+            _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign"       )));
+            _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
+            _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
+            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
         }
 
-        static Func<ShapeToolRequiredCount, bool> FilterFunc(ShapeToolRequiredCount shapeToolRequiredCount) 
-            => tag => (tag & shapeToolRequiredCount) != ShapeToolRequiredCount.None;
+        static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
+            => ctrl => ctrl.Tag is ShapeToolRequiredCount 
+                       && ((ShapeToolRequiredCount)ctrl.Tag & shapeToolRequiredCount) != ShapeToolRequiredCount.None;
 
-        IEnumerable<RibbonToggleButton> EnumerateToggleButtonsLike(string buttonNameStart) 
-         => from  gr    in TabAddIns.Groups
-            from  item  in gr.Items
-            where item  is RibbonToggleButton
-               && item.Name.IsMatch(buttonNameStart)
-            select (RibbonToggleButton) item;
-
-        IEnumerable<RibbonControl> EnumerateControlsWithTag<TTag>(Func<TTag,bool> filterFunc) 
+        IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T: RibbonControl
          => from  gr   in TabAddIns.Groups
             from  item in gr.Items
-            where item.Tag is TTag && filterFunc((TTag)item.Tag)
-            select item;
+            where item is T && filterFunc((T)item)
+            select (T)item;
 
         void AlbumRibbon_Close(object sender, EventArgs e)
         {
