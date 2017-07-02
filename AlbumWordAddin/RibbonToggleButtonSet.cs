@@ -24,9 +24,6 @@ namespace AlbumWordAddin
             var allEnabled = _enableReasons.All(e => e.Value);
             foreach(var button in Buttons) button.Enabled = allEnabled;
         }
-        public static RibbonControlSet operator +(RibbonControlSet c1, IEnumerable<RibbonControl> buttons)
-            => new RibbonControlSet(c1.Buttons.Concat(buttons));
-
     }
 
     internal class RibbonToggleButtonSet : RibbonControlSet

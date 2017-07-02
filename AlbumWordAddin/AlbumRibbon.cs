@@ -36,8 +36,8 @@ namespace AlbumWordAddin
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
             _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
-            _buttonsActingOnTwoOrMoreShapes   = _buttonsActingOnOneOrMoreShapes + EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  ));
-            _buttonsActingOnThreeOrMoreShapes = _buttonsActingOnTwoOrMoreShapes + EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore));
+            _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
+            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
         }
 
         static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
