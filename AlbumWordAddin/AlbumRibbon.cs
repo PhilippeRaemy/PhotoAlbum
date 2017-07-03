@@ -1,17 +1,11 @@
-﻿using System;
-
-namespace AlbumWordAddin
+﻿namespace AlbumWordAddin
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
     using Microsoft.Office.Tools.Ribbon;
     using System.Linq;
-    using System.Reflection;
     using System.Windows.Forms;
     using Mannex.Text.RegularExpressions;
-    using Microsoft.Office.Core;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
     using UserPreferences;
@@ -318,10 +312,6 @@ namespace AlbumWordAddin
         void buttonTextWrappingThrough_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapThrough);
-        }
-
-        void buttonTextWrappingEditWrapPoints_Click(object sender, RibbonControlEventArgs e)
-        {
         }
 
         void buttonTextWrappingBehindTextv_Click(object sender, RibbonControlEventArgs e)
