@@ -38,6 +38,10 @@ namespace AlbumWordAddin
             _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
             _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
             _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
+            _buttonsActingOnOneOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, false);
+            _buttonsActingOnTwoOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, false);
+            _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, false);
+
         }
 
         static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
