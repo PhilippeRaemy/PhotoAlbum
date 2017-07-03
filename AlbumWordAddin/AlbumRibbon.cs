@@ -399,6 +399,11 @@ namespace AlbumWordAddin
 
         public void EnablePictureTools(int countOfSelectedShapes)
         {
+            // if (countOfSelectedShapes == 0) { 
+            //     _arrangeButtonSet.SelectedButton = null;
+            //     _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
+            //     _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
+            // }
             _buttonsActingOnOneOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 1);
             _buttonsActingOnTwoOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 2);
             _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 3);
