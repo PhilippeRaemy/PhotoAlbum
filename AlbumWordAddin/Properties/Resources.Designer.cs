@@ -153,9 +153,19 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Margins {
+        internal static System.Drawing.Bitmap MarginsGrow {
             get {
-                object obj = ResourceManager.GetObject("Margins", resourceCulture);
+                object obj = ResourceManager.GetObject("MarginsGrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MarginsShrink {
+            get {
+                object obj = ResourceManager.GetObject("MarginsShrink", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +183,19 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap padding {
+        internal static System.Drawing.Bitmap paddingGrow {
             get {
-                object obj = ResourceManager.GetObject("padding", resourceCulture);
+                object obj = ResourceManager.GetObject("paddingGrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap paddingShrink {
+            get {
+                object obj = ResourceManager.GetObject("paddingShrink", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

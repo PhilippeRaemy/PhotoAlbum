@@ -219,6 +219,7 @@
     </Compile>
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="FormProgress.resx">
       <DependentUpon>FormProgress.cs</DependentUpon>
@@ -287,6 +288,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icons\MarginsGrow.png" />
+    <None Include="Icons\paddingShrink.png" />
     <Content Include="Icons\SpacingDecreaseHorizontal.png" />
     <Content Include="Icons\SpacingDecreaseVertical.png" />
     <Content Include="Icons\SpacingEqualHorizontal.png" />
@@ -314,8 +317,8 @@
     <None Include="Icons\HAlignRight.png" />
     <None Include="Icons\HAlignRightDown.png" />
     <None Include="Icons\HAlignRightUp.png" />
-    <None Include="Icons\Margins.png" />
-    <None Include="Icons\padding.png" />
+    <Content Include="Icons\MarginsShrink.png" />
+    <None Include="Icons\paddingGrow.png" />
     <None Include="Icons\MoveAnchorsToTop.png" />
     <None Include="Icons\LowResPictures.png" />
     <None Include="Icons\HiResPictures.png" />
