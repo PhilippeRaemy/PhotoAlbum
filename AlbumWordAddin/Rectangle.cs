@@ -87,6 +87,15 @@ namespace AlbumWordAddin
         public static Rectangle TopMost   (this IEnumerable<Rectangle> r) => r.WhatMost(rr => rr.Top);
         public static Rectangle BottomMost(this IEnumerable<Rectangle> r) => r.WhatMost(rr => rr.Top + rr.Height);
 
+        public static float PaddingV(this IEnumerable<Rectangle> r) => 0;
+        public static float PaddingH(this IEnumerable<Rectangle> r) => 0;
+        public static float Padding (this IEnumerable<Rectangle> r)
+        {
+            var a = r as Rectangle[] ?? r.ToArray();
+            var paddings = new[] {a.PaddingH(), a.PaddingV()}.Where(p => p >= 0).ToArray();
+            return paddings.Any() ? paddings.Average() : -1;
+        }
+
         static Rectangle WhatMost(this IEnumerable<Rectangle> r, Func<Rectangle,float> selector )
         {
             var ra = r as Rectangle[] ?? r.ToArray();
