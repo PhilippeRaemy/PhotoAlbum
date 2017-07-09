@@ -1,12 +1,12 @@
-﻿namespace PositionerTests
+﻿namespace AlbumWordAddinTests.PositionerTests
 {
     using System;
     using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AlbumWordAddin;
     using System.Linq;
-    using AlbumWordAddinTests;
     using MoreLinq;
+    using TestHelpers;
 
     [TestClass]
     public class PositionerTests
@@ -51,7 +51,7 @@
             new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_1x2);
         }
 
-        public void TestPositioner_1x2(float factor)
+        static void TestPositioner_1x2(float factor)
         {
             var pos = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Padding = 0 };
             var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).ToArray();
@@ -67,7 +67,8 @@
         {
             new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_1x3);
         }
-        void TestPositioner_1x3(float factor)
+
+        static void TestPositioner_1x3(float factor)
         {
             var pos = new Positioner.Parms { Cols = 3, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Padding = 0 };
             var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).ToArray();

@@ -1,11 +1,13 @@
-﻿namespace PositionerTests
+﻿namespace AlbumWordAddinTests.SpacerTests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using AlbumWordAddin;
+    using AlbumWordAddinTests;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MoreLinq;
+    using TestHelpers;
 
     [TestClass]
     public class SpacerTests

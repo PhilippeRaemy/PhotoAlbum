@@ -1,9 +1,8 @@
-﻿
-
-namespace PositionerTests
+﻿namespace AlbumWordAddinTests.UserPreferencesTests
 {
     using AlbumWordAddin.UserPreferences;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public  class UserPreferencesTests
     {

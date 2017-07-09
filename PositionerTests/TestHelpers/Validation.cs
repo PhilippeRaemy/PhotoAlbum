@@ -1,4 +1,4 @@
-namespace PositionerTests
+namespace AlbumWordAddinTests.TestHelpers
 {
     using System;
     using AlbumWordAddin;

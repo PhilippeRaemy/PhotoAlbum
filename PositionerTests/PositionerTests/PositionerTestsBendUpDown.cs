@@ -1,8 +1,8 @@
-﻿namespace PositionerTests
+﻿namespace AlbumWordAddinTests.PositionerTests
 {
     using AlbumWordAddin;
-    using AlbumWordAddinTests;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using TestHelpers;
 
     [TestClass]
     public class PositionerTestsBendUpDown

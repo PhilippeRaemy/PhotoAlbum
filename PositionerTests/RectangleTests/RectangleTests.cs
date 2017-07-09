@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AlbumWordAddin;
-
-namespace PositionerTests
+﻿namespace AlbumWordAddinTests.RectangleTests
 {
+    using System;
+    using AlbumWordAddin;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class RectangleTests
     {
