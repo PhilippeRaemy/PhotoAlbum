@@ -164,7 +164,7 @@
             var expectedA = expected as Rectangle[] ?? expected.ToArray();
             Assert.AreEqual(expectedA.Length, results.Length, "Series length");
             expectedA.EquiZip(results, Tuple.Create).Index().ForEach(r=>Assert.AreEqual(r.Value.Item1, r.Value.Item2, $"Rectangle #{r.Key}"));
-            validations.ForEach(v => Assert.IsTrue(v.Test(sourceA, results), v.Message));
+            validations.ForEach(v => v.Test(sourceA, results));
         }
     }
 }
