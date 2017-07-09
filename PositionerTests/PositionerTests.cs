@@ -5,26 +5,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AlbumWordAddin;
     using System.Linq;
+    using AlbumWordAddinTests;
     using MoreLinq;
-
-    public static class RectangleExtensions
-    {
-        public static IEnumerable<Rectangle> Range(this Rectangle first, int count, float offsetX, float offsetY)
-        {
-            return Enumerable.Range(0, count).Select(i => first.MoveBy(i * offsetX, i * offsetY));
-        }
-
-        public static IEnumerable<Rectangle> Range(this Rectangle first, int count)
-            => first.Range(count, 0, 0);
-    }
-
-    public static class PositionerExtensions
-    {
-        public static Positioner.Parms WithRowsCols(this Positioner.Parms model, int rows, int cols)
-        {
-            return new Positioner.Parms {Cols=cols, Rows=rows,HShape = model.HShape, VShape = model.VShape, Padding = model.Padding, Margin = model.Margin};
-        }
-    }
 
     [TestClass]
     public class PositionerTests
@@ -52,6 +34,7 @@
             Assert.AreEqual(1, rc.Length);
             Assert.AreEqual(R1X1, rc.First());
         }
+
         [TestMethod]
         public void TestPositioner_2x1()
         {
@@ -61,11 +44,13 @@
             Assert.AreEqual(new Rectangle(.25f, 0, .5f, .5f), rc.First());
             Assert.AreEqual(new Rectangle(.25f, .5f, .5f, .5f), rc.Skip(1).First());
         }
+
         [TestMethod]
         public void TestPositioner_1x2()
         {
             new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_1x2);
         }
+
         public void TestPositioner_1x2(float factor)
         {
             var pos = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Padding = 0 };
@@ -76,6 +61,7 @@
             expected = expected.MoveBy(.5f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(1).First());
         }
+
         [TestMethod]
         public void TestPositioner_1x3()
         {
@@ -101,11 +87,13 @@
             Run(R4X1, R4X2.Range(4), HFlatPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
             Run(R4X1, R2X4.Range(4), HFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaRowFlatPadding()
         {
             Run(R4X1, R1X1.Range(4), HFlatPosPad, R1X1.MoveBy(HFlatPosPad.Padding, HFlatPosPad.Padding).Grow(1 - 2 * HFlatPosPad.Padding).Range(4, 1, 0), nameof(R1X1));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaRowLeftNoPadding()
         {
@@ -113,6 +101,7 @@
             Run(R4X1, R4X2.Range(4), HFlatLeftPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
             Run(R4X1, R2X4.Range(4), HFlatLeftPos, R2X4.Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaRowTopNoPadding()
         {
@@ -120,6 +109,7 @@
             Run(R4X1, R4X2.Range(4), HFlatTopPos, R4X2.Grow(.25f).Range(4, 1, 0), nameof(R4X2));
             Run(R4X1, R2X4.Range(4), HFlatTopPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaColFlatNoPadding()
         {
@@ -127,11 +117,13 @@
             Run(R1X4, R4X2.Range(4), VFlatPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
             Run(R1X4, R2X4.Range(4), VFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaColFlatPadding()
         {
             Run(R1X4, R1X1.Range(4), VFlatPosPad, R1X1.MoveBy(VFlatPosPad.Padding, VFlatPosPad.Padding).Grow(1 - 2 * VFlatPosPad.Padding).Range(4, 0, 1), nameof(R1X1));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaColLeftNoPadding()
         {
@@ -139,6 +131,7 @@
             Run(R1X4, R4X2.Range(4), VFlatLeftPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
             Run(R1X4, R2X4.Range(4), VFlatLeftPos, R2X4.Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
+
         [TestMethod]
         public void TestPositioner_FourInaColTopNoPadding()
         {

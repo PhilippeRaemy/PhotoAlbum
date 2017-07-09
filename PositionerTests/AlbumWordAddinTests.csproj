@@ -62,12 +62,14 @@
   </Choose>
   <ItemGroup>
     <Compile Include="PositionerTestsBendLeftRight.cs" />
+    <Compile Include="ExtensionsForTests.cs" />
     <Compile Include="RectangleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PositionerTests.cs" />
     <Compile Include="PositionerTestsBendUpDown.cs" />
     <Compile Include="SpacerTests.cs" />
     <Compile Include="UserPreferencesTests.cs" />
+    <Compile Include="Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlbumWordAddin\AlbumWordAddin.csproj">
