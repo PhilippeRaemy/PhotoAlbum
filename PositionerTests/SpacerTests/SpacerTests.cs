@@ -15,7 +15,7 @@
 
         static readonly Validation<Rectangle>[] EqualSpacingAdditionalValidation =
             {
-                new Validation<Rectangle>("First rectangle is fixed", (r,s)=>r[0].Equals(s[0])),
+                new Validation<Rectangle>("First rectangle is fixed", (r,s)=>r.First().Equals(s.First())),
                 new Validation<Rectangle>("Last rectangle is fixed", (r,s)=>r.Last().Equals(s.Last())),
             };
 
