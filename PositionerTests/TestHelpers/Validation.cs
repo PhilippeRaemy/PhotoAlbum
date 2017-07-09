@@ -1,25 +1,26 @@
 namespace AlbumWordAddinTests.TestHelpers
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     internal class Validation<T>
     {
         readonly string _message;
-        readonly Func<T[], T[], bool> _test;
+        readonly Func<IEnumerable<T>, IEnumerable<T>, bool> _test;
 
         /// <summary>
         /// Wraps a tester function and a test message for an array of objects to be tested
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="test">A function accepting an array of expected results, and an array of actual results, and returning a bool</param>
-        public Validation(string message, Func<T[], T[], bool> test)
+        /// <param name="test">A function accepting an enumeration of expected results, and an enumeration of actual results, and returning a bool</param>
+        public Validation(string message, Func<IEnumerable<T>, IEnumerable<T>, bool> test)
         {
             _message = message;
             _test = test;
         }
 
-        public void Test(T[] expected, T[] actual)
+        public void Test(IEnumerable<T> expected, IEnumerable<T> actual)
         {
             Assert.IsTrue(_test(expected, actual), _message);
         }
