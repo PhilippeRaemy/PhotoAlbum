@@ -26,6 +26,10 @@
         static readonly Positioner.Parms VFlatLeftPos = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Left, VShape = VShape.Flat, Margin = 0, Padding = 0    };
         static readonly Positioner.Parms VFlatTopPos  = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Flat, VShape = VShape.Top , Margin = 0, Padding = 0};
 
+        static readonly Validation<Rectangle> ValidateAllAreEqual = new Validation<Rectangle>("All rectangles are equal",
+            (expected, actual) => expected.Zip(actual, (e, a) => e.Equals(a)).All(b => b)
+        );
+
         [TestMethod]
         public void TestPositioner_1x1()
         {
@@ -41,8 +45,10 @@
             var pos = new Positioner.Parms { Cols = 1, Rows = 2, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Padding = 0 };
             var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1, R1X1 }).ToArray();
             Assert.AreEqual(2, rc.Length);
-            Assert.AreEqual(new Rectangle(.25f, 0, .5f, .5f), rc.First());
-            Assert.AreEqual(new Rectangle(.25f, .5f, .5f, .5f), rc.Skip(1).First());
+            ValidateAllAreEqual.Test(
+                new[] { new Rectangle(.25f, 0, .5f, .5f), new Rectangle(.25f, .5f, .5f, .5f) },
+                rc.Take(2)
+            );
         }
 
         [TestMethod]
