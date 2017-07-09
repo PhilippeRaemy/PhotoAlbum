@@ -14,10 +14,10 @@
     {
         static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
 
-        static readonly Validation[] EqualSpacingAdditionalValidation =
+        static readonly Validation<Rectangle>[] EqualSpacingAdditionalValidation =
             {
-                new Validation( "First rectangle is fixed", (r,s)=>r[0].Equals(s[0])),
-                new Validation( "Last rectangle is fixed", (r,s)=>r.Last().Equals(s.Last())),
+                new Validation<Rectangle>("First rectangle is fixed", (r,s)=>r[0].Equals(s[0])),
+                new Validation<Rectangle>("Last rectangle is fixed", (r,s)=>r.Last().Equals(s.Last())),
             };
 
         [TestMethod]
@@ -157,7 +157,7 @@
 
         static void SpacerTestImpl(IEnumerable<Rectangle> source, IEnumerable<Rectangle> expected,
             Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation,
-            params Validation[] validations
+            params Validation<Rectangle>[] validations
             )
         {
             var sourceA = source as Rectangle[] ?? source.ToArray();
