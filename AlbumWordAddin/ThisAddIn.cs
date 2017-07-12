@@ -236,5 +236,10 @@ namespace AlbumWordAddin
         {
             _utilities.SpacingInterpolate();
         }
+
+        public void MarginAdjust(int marginDelta)
+        {
+            _utilities.MarginAdjust(marginDelta);
+        }
     }
 }

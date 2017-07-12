@@ -16,6 +16,7 @@ namespace AlbumWordAddin
     using System.Diagnostics;
     using System.IO;
     using System.Threading;
+    using Mannex;
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
@@ -403,6 +404,13 @@ namespace AlbumWordAddin
         public void SpacingDecreaseVertical  () { SpacingImpl(Spacer.DecreaseVertical      ); }
         public void SpacingIncreaseVertical  () { SpacingImpl(Spacer.IncreaseVertical      ); }
         public void SpacingInterpolate       () { SpacingImpl(Spacer.SpacingInterpolate    ); }
+
+        public void MarginAdjust(int marginDelta)
+        {
+            throw new NotImplementedException();
+
+//            var overall = SelectedShapes().Aggregate((s1, s2) => s1.Overall(s2));
+        }
     }
 }
 

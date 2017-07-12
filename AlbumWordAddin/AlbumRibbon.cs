@@ -12,6 +12,8 @@
 
     public partial class AlbumRibbon
     {
+        const int PaddingFactor = 5;
+        const int MarginFactor = 5;
         RibbonToggleButtonSet _arrangeButtonSet;
         RibbonToggleButtonSet _hAlignButtonSet;
         RibbonToggleButtonSet _vAlignButtonSet;
@@ -226,8 +228,8 @@
             DoPositionSelectedImages();
         }
 
-        int Padding() => 5 * (int)dropDownPadding.SelectedItem.Tag;
-        int Margin () => 5 * (int)dropDownMargin .SelectedItem.Tag;
+        int Padding() => PaddingFactor * (int)dropDownPadding.SelectedItem.Tag;
+        int Margin () => MarginFactor  * (int)dropDownMargin .SelectedItem.Tag;
 
         void DoPositionSelectedImages()
         {
@@ -252,18 +254,19 @@
         void buttonMarginLess_Click(object sender, RibbonControlEventArgs e)
         {
             dropDownMargin_Change(sender, e, -1);
+            Globals.ThisAddIn.MarginAdjust(-MarginFactor);
         }
 
         void buttonMarginMore_Click(object sender, RibbonControlEventArgs e)
         {
             dropDownMargin_Change(sender, e, +1);
+            Globals.ThisAddIn.MarginAdjust(+MarginFactor);
         }
         void dropDownMargin_Change(object sender, RibbonControlEventArgs e, int i)
         {
             try
             {
                 dropDownMargin.SelectedItemIndex += i;
-                dropDownMargin_ButtonClick(sender, e);
             }
             catch
             {
