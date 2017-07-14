@@ -194,12 +194,12 @@ namespace AlbumWordAddin
 
         static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
         {
-            rectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
-            var oldContainer = rectangles.Aggregate((r1, r2) => r1.Absorb(r2));
+            var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
 
             var largestDim = new[] {oldContainer.Width, oldContainer.Height}.Max();
             var newContainer = oldContainer.ScaleInPlace((largestDim + increment)/largestDim);
-            return rectangles.Select(r => r.ReFit(oldContainer, newContainer));
+            return aRectangles.Select(r => r.ReFit(oldContainer, newContainer));
         }
 
         static IEnumerable<Rectangle> IncreasePadding(this IEnumerable<Rectangle> rectangles, float scale)
