@@ -93,6 +93,12 @@ namespace AlbumWordAddin
         public Rectangle Scale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
+        public Rectangle ScaleInPlace(float scale)
+         => new Rectangle(Left + (1 - scale) * Width  / 2,
+                          Top  + (1 - scale) * Height / 2,
+                          (1 - scale) * Width ,
+                          (1 - scale) * Height);
+
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float padding) {
             if (Math.Abs(padding) > Epsilon)
             {
@@ -184,6 +190,25 @@ namespace AlbumWordAddin
             var left = ra.Min(selector);
             // ReSharper disable once CompareOfFloatsByEqualityOperator : the value came from one of the rectangles: we'll find an exact match
             return ra.First(rr => selector(rr) == left);
+        }
+
+        static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
+        {
+            rectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var oldContainer = rectangles.Aggregate((r1, r2) => r1.Absorb(r2));
+
+            var largestDim = new[] {oldContainer.Width, oldContainer.Height}.Max();
+            var newContainer = oldContainer.ScaleInPlace((largestDim + increment)/largestDim);
+            return rectangles.Select(r => r.ReFit(oldContainer, newContainer));
+        }
+
+        static IEnumerable<Rectangle> IncreasePadding(this IEnumerable<Rectangle> rectangles, float scale)
+        {
+            var aRectangles  = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
+            var scaled       = aRectangles.Select(r => r.ScaleInPlace(scale)).ToArray();
+            var newContainer = scaled.Aggregate((r1, r2) => r1.Absorb(r2));
+            return scaled.Select(r => r.ReFit(newContainer, oldContainer));
         }
     }
 }
