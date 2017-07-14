@@ -124,6 +124,20 @@ namespace AlbumWordAddin
             );
         }
 
+        public Rectangle ReFit(Rectangle originalFit, Rectangle newFit)
+        {
+            if (originalFit == null) throw new ArgumentNullException(nameof(originalFit));
+            if (originalFit.Width  < float.Epsilon) throw new ArgumentOutOfRangeException(nameof(originalFit), "Rectangle has zero width" );
+            if (originalFit.Height < float.Epsilon) throw new ArgumentOutOfRangeException(nameof(originalFit), "Rectangle has zero height");
+            if (newFit == null) throw new ArgumentNullException(nameof(newFit));
+            return new Rectangle(
+                newFit.Left + (Left - originalFit.Left)/originalFit.Width,
+                newFit.Top + (Top - originalFit.Top)/originalFit.Height,
+                Width/originalFit.Width*newFit.Width,
+                Height/originalFit.Height*newFit.Height
+            );
+        }
+
         public bool Contains(Rectangle other)
             => Left <= other.Left && Right  >= other.Right
             && Top  <= other.Top  && Bottom >= other.Bottom;
