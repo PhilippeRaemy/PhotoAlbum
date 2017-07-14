@@ -4,7 +4,38 @@ using System.Linq;
 namespace AlbumWordAddin
 {
     using System.Collections.Generic;
+    using System.Security.Cryptography.X509Certificates;
     using Microsoft.Office.Interop.Word;
+
+    public class Point
+    {
+        public float Y { get; set; }
+        public float X { get; set; }
+
+        public Point(float x, float y)
+        {
+            X = x;
+            Y = y;
+        }
+    }
+
+    public class Segment
+    {
+        public float Start { get; }
+        public float End { get; }
+
+        public Segment(float start, float end)
+        {
+            if (end < start + float.Epsilon) throw new InvalidOperationException("Segment cannot have negative or zero length.");
+            Start = start;
+            End = end;
+        }
+        
+        public float DistanceTo(Segment other)
+            => other.Start >= End ? other.Start - End
+             : End >= other.Start ? End - other.Start
+             : -1;
+    }
 
     public class Rectangle
     {
@@ -12,6 +43,18 @@ namespace AlbumWordAddin
         public float Top    { get; }
         public float Width  { get; }
         public float Height { get; }
+
+        public float Right => Left + Width;
+        public float Bottom => Top + Height;
+
+        public Point TopLeft     => new Point(Left , Top);
+        public Point TopRight    => new Point(Right, Top);
+        public Point BottomLeft  => new Point(Left , Bottom);
+        public Point BottomRight => new Point(Right, Bottom);
+
+        public Segment HorizontalSegment => new Segment(Left, Right );
+        public Segment VerticalSegment   => new Segment(Top , Bottom);
+
         const float Epsilon = .000001f;
 
         public Rectangle(float left, float top, float width, float height)
@@ -23,6 +66,12 @@ namespace AlbumWordAddin
             Width = width;
             Height = height;
         }
+
+        public Rectangle(Point topLeft, Point bottomRight)
+            : this(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y)
+        {
+        }
+
 
         public Rectangle(Shape s) : this(s.Left, s.Top, s.Width, s.Height){}
 
@@ -59,6 +108,34 @@ namespace AlbumWordAddin
                 newHeight
             );
         }
+
+        public Rectangle Absorb(Rectangle other)
+        {
+
+            return new Rectangle(
+                new Point(
+                    new[] { Left  , other.Left   }.Min(),
+                    new[] { Top   , other.Top    }.Min()
+                ),
+                new Point(
+                    new[] { Right , other.Right  }.Max(),
+                    new[] { Bottom, other.Bottom }.Max()
+                )
+            );
+        }
+
+        public bool Contains(Rectangle other)
+            => Left <= other.Left && Right  >= other.Right
+            && Top  <= other.Top  && Bottom >= other.Bottom;
+
+        public bool IsContainedIn(Rectangle other)
+            => other.Contains(this);
+
+        public float HorizontalDistanceTo(Rectangle other)
+            => HorizontalSegment.DistanceTo(other.HorizontalSegment);
+
+        public float VerticalDistanceTo(Rectangle other)
+            => VerticalSegment.DistanceTo(other.VerticalSegment);
 
         public override string ToString()
             => $"[{Left},{Top}]..[{Left + Width},{Top + Height}] ({Width}x{Height})";
