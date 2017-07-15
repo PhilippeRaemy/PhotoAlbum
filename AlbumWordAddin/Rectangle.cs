@@ -4,7 +4,6 @@ using System.Linq;
 namespace AlbumWordAddin
 {
     using System.Collections.Generic;
-    using System.Security.Cryptography.X509Certificates;
     using Microsoft.Office.Interop.Word;
 
     public class Point

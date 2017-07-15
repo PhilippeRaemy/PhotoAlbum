@@ -7,7 +7,6 @@ namespace PictureHandler
 {
     using System.IO;
     using System.Windows.Media.Imaging;
-    using System.Drawing;
 
     public class JpegMetadataAdapter
     {

@@ -15,8 +15,6 @@ namespace AlbumWordAddin
 {
     using System.Diagnostics;
     using System.IO;
-    using System.Threading;
-    using Mannex;
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
