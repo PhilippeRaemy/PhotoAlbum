@@ -15,6 +15,10 @@
             Assert.AreEqual(0f, r.Left);
             Assert.AreEqual(1f, r.Width);
             Assert.AreEqual(1f, r.Height);
+            Assert.AreEqual(1f, r.Right);
+            Assert.AreEqual(1f, r.Bottom);
+            Assert.AreEqual(new Point(0, 0), r.TopLeft);
+            Assert.AreEqual(new Point(1, 1), r.BottomRight);
         }
         [TestMethod]
         public void TestRectangleCannotBeFlat()
