@@ -8,14 +8,19 @@ namespace AlbumWordAddin
 
     public class Point
     {
-        public float Y { get; set; }
-        public float X { get; set; }
+        public float Y { get;}
+        public float X { get;}
 
         public Point(float x, float y)
         {
             X = x;
             Y = y;
         }
+
+        public override bool Equals(object obj) => Equals(obj as Point);
+        public override int GetHashCode() => X.GetHashCode() + Y.GetHashCode();
+        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        bool Equals(Point other) => other != null && other.X == X && other.Y == Y;
     }
 
     public class Segment
