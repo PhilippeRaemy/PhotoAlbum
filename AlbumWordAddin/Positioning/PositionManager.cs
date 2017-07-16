@@ -92,8 +92,7 @@
             }
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
-            var rectangles = shapes.Select(s => new Rectangle(s));
-            var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
+            var positions = Positioner.DoPosition(positionerParms, clientArea, shapes.ToRectangles());
 
             using (Application.StatePreserver().FreezeScreenUpdating())
                 shapes.ApplyPositions(positions);

@@ -405,8 +405,7 @@
         {
             var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
-            var rectangles = shapes.Select(s => new Rectangle(s));
-            var positions = spacerFunc(rectangles);
+            var positions = spacerFunc(shapes.ToRectangles());
 
             using (Application.StatePreserver().FreezeScreenUpdating())
                 shapes.ApplyPositions(positions);
