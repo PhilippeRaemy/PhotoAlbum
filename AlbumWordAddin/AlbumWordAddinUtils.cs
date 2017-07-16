@@ -111,21 +111,7 @@ namespace AlbumWordAddin
             var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
 
             using (Application.StatePreserver().FreezeScreenUpdating())
-                shapes.ApplyPositions(Application.StatePreserver(), positions);
-        }
-
-        public void ApplyPositions(IEnumerable<Word.Shape> shapes, IEnumerable<Rectangle> positions)
-        {
-            using (Application.StatePreserver().FreezeScreenUpdating())
-                foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
-                    .Where(r => r.re != null && r.sh != null)
-                )
-                {
-                    pos.sh.Left   = pos.re.Left  ;
-                    pos.sh.Top    = pos.re.Top   ;
-                    pos.sh.Width  = pos.re.Width ;
-                    pos.sh.Height = pos.re.Height;
-                }
+                shapes.ApplyPositions(positions);
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local

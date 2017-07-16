@@ -415,7 +415,7 @@ namespace AlbumWordAddin
             var positions = spacerFunc(rectangles);
 
             using (Application.StatePreserver().FreezeScreenUpdating())
-                _utilities.ApplyPositions(shapes, positions);
+                shapes.ApplyPositions(positions);
         }
 
 
