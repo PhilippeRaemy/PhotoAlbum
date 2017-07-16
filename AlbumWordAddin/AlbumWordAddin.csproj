@@ -191,9 +191,10 @@
     <Compile Include="AlbumRibbon.Designer.cs">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </Compile>
-    <Compile Include="PositionManager.cs" />
+    <Compile Include="Positioning\HShape.cs" />
+    <Compile Include="Positioning\PositionManager.cs" />
     <Compile Include="Alignment.cs" />
-    <Compile Include="Arrangement.cs" />
+    <Compile Include="Positioning\Arrangement.cs" />
     <Compile Include="FolderWalker.cs" />
     <Compile Include="FormImportPictures.cs">
       <SubType>Form</SubType>
@@ -201,7 +202,8 @@
     <Compile Include="FormImportPictures.Designer.cs">
       <DependentUpon>FormImportPictures.cs</DependentUpon>
     </Compile>
-    <Compile Include="Positionner.cs" />
+    <Compile Include="Positioning\Positionner.cs" />
+    <Compile Include="Positioning\VShape.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -13,6 +13,7 @@
     using Mannex.Collections.Generic;
     using Microsoft.Office.Core;
     using MoreLinq;
+    using Positioning;
     using UserPreferences;
     using VstoEx;
     using VstoEx.Extensions;

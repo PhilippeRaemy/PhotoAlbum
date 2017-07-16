@@ -1,4 +1,4 @@
-﻿namespace AlbumWordAddin
+﻿namespace AlbumWordAddin.Positioning
 {
     public enum Arrangement
     {

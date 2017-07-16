@@ -5,6 +5,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AlbumWordAddin;
     using System.Linq;
+    using AlbumWordAddin.Positioning;
     using MoreLinq;
     using TestHelpers;
     using VstoEx.Geometry;

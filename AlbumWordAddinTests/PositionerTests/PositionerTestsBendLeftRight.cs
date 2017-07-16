@@ -1,6 +1,7 @@
 ﻿namespace AlbumWordAddinTests.PositionerTests
 {
     using AlbumWordAddin;
+    using AlbumWordAddin.Positioning;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using TestHelpers;
 

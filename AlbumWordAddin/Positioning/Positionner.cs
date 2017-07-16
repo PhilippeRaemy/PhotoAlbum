@@ -1,4 +1,4 @@
-﻿namespace AlbumWordAddin
+﻿namespace AlbumWordAddin.Positioning
 {
     using System;
     using System.Collections.Generic;
@@ -7,14 +7,6 @@
     using MoreLinq;
     using VstoEx.Geometry;
 
-    public enum VShape
-    {
-        Flat, Top, Bottom, Rightdown, Rightup, Bendup, Benddown
-    }
-    public enum HShape
-    {
-        Flat, Left, Right, Rightdown, Rightup, BendRight, BendLeft
-    }
     public static class Positioner
     {
         public class Parms
@@ -38,7 +30,7 @@
                 parms.Padding,
                 clientArea,
                 rectangles
-                );
+            );
         }
 
         public static IEnumerable<Rectangle> DoPosition(
@@ -67,10 +59,10 @@
                     )
                 );
             return grid
-                .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
-                .Where(x => x.rectangle != null && x.area != null)
-                .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, padding))
-            ;
+                    .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
+                    .Where(x => x.rectangle != null && x.area != null)
+                    .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, padding))
+                ;
         }
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
         [SuppressMessage("ReSharper", "RedundantCaseLabel")]

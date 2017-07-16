@@ -8,6 +8,7 @@
     using Mannex.Text.RegularExpressions;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
+    using Positioning;
     using UserPreferences;
 
     public partial class AlbumRibbon

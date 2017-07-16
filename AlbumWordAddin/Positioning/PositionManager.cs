@@ -1,20 +1,18 @@
-﻿namespace AlbumWordAddin
+﻿namespace AlbumWordAddin.Positioning
 {
     using System;
+    using System.Diagnostics;
     using System.Linq;
     using Microsoft.Office.Tools.Word;
-    using Word = Microsoft.Office.Interop.Word;
-    using VstoEx.Extensions;
     using MoreLinq;
-
-    using System.Diagnostics;
+    using VstoEx.Extensions;
     using VstoEx.Geometry;
 
     public class PositionManager
     {
         readonly Positioner.Parms _positionerParms = new Positioner.Parms();
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
-        Word.Application Application => ActiveDocument.Application;
+        Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int padding, int margin)
         {
@@ -78,7 +76,7 @@
             if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             if (selectedShapes.Any(s => s == null))
             {
-                selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
+                selectedShapes.ForEach(sh => Trace.WriteLine(ShapeExtensions.GetLocationString(sh)));
                 throw new InvalidOperationException("Some selected shapes are null");
             }
             var shapes = Globals.ThisAddIn.MoveAllToSamePage(selectedShapes).ReplaceSelection();
@@ -115,8 +113,8 @@
         {
             Globals.ThisAddIn.SelectedShapeIterator(sh =>
                 {
-                    sh.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-                    sh.RelativeVerticalPosition   = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+                    sh.RelativeHorizontalPosition = Microsoft.Office.Interop.Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+                    sh.RelativeVerticalPosition   = Microsoft.Office.Interop.Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
                 }
             );
         }
