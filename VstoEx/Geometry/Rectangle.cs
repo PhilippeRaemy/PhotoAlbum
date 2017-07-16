@@ -68,11 +68,13 @@ namespace VstoEx.Geometry
         public Rectangle Scale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
+        /// <summary>
+        /// Scale a rectangle by a given scaling factor, preserving the location of its center.
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
         public Rectangle ScaleInPlace(float scale)
-            => new Rectangle(Left + (1 - scale) * Width  / 2,
-                Top  + (1 - scale) * Height / 2,
-                (1 - scale) * Width ,
-                (1 - scale) * Height);
+            => new Rectangle(Center, scale * Width, scale * Height);
 
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float padding) {
             if (Math.Abs(padding) > Epsilon)
