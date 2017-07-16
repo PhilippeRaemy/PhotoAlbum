@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoreLinq;
 
-namespace PictureSorterTests
+namespace PicturesSorterTests
 {
     using System.Diagnostics;
     using System.IO;

@@ -20,7 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureSorterTests", "PictureSorterTests\PictureSorterTests.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturesSorterTests", "PictureSorterTests\PicturesSorterTests.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandlerTest", "PictureHandlerTest\PictureHandlerTest.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
 EndProject
