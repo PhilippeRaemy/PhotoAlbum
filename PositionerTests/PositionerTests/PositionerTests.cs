@@ -7,6 +7,7 @@
     using System.Linq;
     using MoreLinq;
     using TestHelpers;
+    using VstoEx.Geometry;
 
     [TestClass]
     public class PositionerTests

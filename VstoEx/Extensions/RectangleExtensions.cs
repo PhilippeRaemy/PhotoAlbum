@@ -1,8 +1,9 @@
-namespace AlbumWordAddin.Extensions
+namespace VstoEx.Extensions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Geometry;
 
     public static class RectangleExtensions
     {

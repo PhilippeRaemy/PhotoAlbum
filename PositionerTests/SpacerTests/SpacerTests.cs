@@ -7,6 +7,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MoreLinq;
     using TestHelpers;
+    using VstoEx.Geometry;
 
     [TestClass]
     public class SpacerTests

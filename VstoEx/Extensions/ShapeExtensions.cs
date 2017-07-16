@@ -1,4 +1,4 @@
-﻿namespace VstoEx
+﻿namespace VstoEx.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;

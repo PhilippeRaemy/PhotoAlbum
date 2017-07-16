@@ -3,6 +3,7 @@
     using System;
     using AlbumWordAddin;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using VstoEx.Geometry;
 
     [TestClass]
     public class RectangleConstructor

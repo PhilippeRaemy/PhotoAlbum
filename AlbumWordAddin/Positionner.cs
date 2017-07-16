@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using MoreLinq;
+    using VstoEx.Geometry;
 
     public enum VShape
     {

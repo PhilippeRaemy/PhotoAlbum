@@ -1,4 +1,4 @@
-namespace VstoEx
+namespace VstoEx.Extensions
 {
     public static class RangeExtensions
     {

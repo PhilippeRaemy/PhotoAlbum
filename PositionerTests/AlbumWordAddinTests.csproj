@@ -81,6 +81,10 @@
       <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>
       <Name>UserPreferences</Name>
     </ProjectReference>
+    <ProjectReference Include="..\VstoEx\VstoEx.csproj">
+      <Project>{1cc0c8f7-fc7f-44cb-adc8-caa0b383b274}</Project>
+      <Name>VstoEx</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -4,14 +4,15 @@ namespace AlbumWordAddin.Extensions
     using System.Linq;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
-    using Rectangle = AlbumWordAddin.Rectangle;
+    using VstoEx;
+    using Rectangle = VstoEx.Geometry.Rectangle;
 
-    public static class ShapesExtentions
+    public static class ShapesExtensions
     {
         public static IEnumerable<Rectangle> ToRectangles(this IEnumerable<Shape> shapes)
             => shapes.Select(s => new Rectangle(s));
 
-        public static void ApplyPositions(IEnumerable<Shape> shapes, IEnumerable<Rectangle> positions)
+        public static void ApplyPositions(this IEnumerable<Shape> shapes, StatePreserver statePreserver, IEnumerable<Rectangle> positions)
         {
             foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new { sh, re })
                 .Where(r => r.re != null && r.sh != null)

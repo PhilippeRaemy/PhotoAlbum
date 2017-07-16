@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Mannex, Version=2.16.19821.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mannex.2.16.0\lib\net45\Mannex.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -38,6 +42,10 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Office.Tools.Word.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MoreLinq, Version=2.0.20029.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.2.0\lib\net35\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,11 +57,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="Extensions\RectangleExtensions.cs" />
+    <Compile Include="Extensions\RectanglesExtensions.cs" />
+    <Compile Include="Extensions\ShapesExtensions.cs" />
+    <Compile Include="Geometry\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RangeExtensions.cs" />
-    <Compile Include="SelectionExtensions.cs" />
-    <Compile Include="ShapeExtensions.cs" />
+    <Compile Include="Extensions\RangeExtensions.cs" />
+    <Compile Include="Geometry\Rectangle.cs" />
+    <Compile Include="Geometry\Segment.cs" />
+    <Compile Include="Extensions\SelectionExtensions.cs" />
+    <Compile Include="Extensions\ShapeExtensions.cs" />
     <Compile Include="StatePreserver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

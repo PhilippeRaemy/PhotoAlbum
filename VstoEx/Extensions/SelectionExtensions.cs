@@ -1,4 +1,4 @@
-namespace VstoEx
+namespace VstoEx.Extensions
 {
     using Microsoft.Office.Interop.Word;
 

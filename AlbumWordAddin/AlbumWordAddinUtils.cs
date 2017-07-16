@@ -6,6 +6,8 @@ using Microsoft.Office.Tools.Word;
 using Word = Microsoft.Office.Interop.Word;
 using Office = Microsoft.Office.Core;
 using VstoEx;
+using VstoEx.Geometry;
+using VstoEx.Extensions;
 using System.Text.RegularExpressions;
 using Mannex.Collections.Generic;
 using MoreLinq;
@@ -15,6 +17,8 @@ namespace AlbumWordAddin
 {
     using System.Diagnostics;
     using System.IO;
+    using Extensions;
+    using VstoEx.Geometry;
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]
@@ -289,7 +293,8 @@ namespace AlbumWordAddin
             var rectangles = shapes.Select(s => new Rectangle(s));
             var positions = Positioner.DoPosition(positionerParms, clientArea, rectangles);
 
-            ApplyPositions(shapes, positions);
+            using (Application.StatePreserver().FreezeScreenUpdating())
+                shapes.ApplyPositions(Application.StatePreserver(), positions);
         }
 
         void ApplyPositions(IEnumerable<Word.Shape> shapes, IEnumerable<Rectangle> positions)

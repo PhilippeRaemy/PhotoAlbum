@@ -1,46 +1,10 @@
-﻿using System;
-using System.Linq;
-// ReSharper disable LocalizableElement
+﻿// ReSharper disable LocalizableElement
 
-namespace AlbumWordAddin
+namespace VstoEx.Geometry
 {
+    using System;
+    using System.Linq;
     using Microsoft.Office.Interop.Word;
-
-    public class Point
-    {
-        public float Y { get;}
-        public float X { get;}
-
-        public Point(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public override bool Equals(object obj) => Equals(obj as Point);
-        public override int GetHashCode() => X.GetHashCode() + Y.GetHashCode();
-        // ReSharper disable CompareOfFloatsByEqualityOperator
-        bool Equals(Point other) => other != null && other.X == X && other.Y == Y;
-        // ReSharper enable CompareOfFloatsByEqualityOperator
-    }
-
-    public class Segment
-    {
-        public float Start { get; }
-        public float End { get; }
-
-        public Segment(float start, float end)
-        {
-            if (end < start + float.Epsilon) throw new InvalidOperationException("Segment cannot have negative or zero length.");
-            Start = start;
-            End = end;
-        }
-        
-        public float DistanceTo(Segment other)
-            => other.Start >= End ? other.Start - End
-             : End >= other.Start ? End - other.Start
-             : -1;
-    }
 
     public class Rectangle
     {
@@ -105,10 +69,10 @@ namespace AlbumWordAddin
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
         public Rectangle ScaleInPlace(float scale)
-         => new Rectangle(Left + (1 - scale) * Width  / 2,
-                          Top  + (1 - scale) * Height / 2,
-                          (1 - scale) * Width ,
-                          (1 - scale) * Height);
+            => new Rectangle(Left + (1 - scale) * Width  / 2,
+                Top  + (1 - scale) * Height / 2,
+                (1 - scale) * Width ,
+                (1 - scale) * Height);
 
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float padding) {
             if (Math.Abs(padding) > Epsilon)
@@ -155,13 +119,13 @@ namespace AlbumWordAddin
             if (newFit == null) throw new ArgumentNullException(nameof(newFit));
             var factor = (newFit.Width / originalFit.Width + newFit.Height / originalFit.Height) / 2;
             var center = new Point(newFit.Left + (Center.X - originalFit.Left) / originalFit.Width * newFit.Width,
-                                   newFit.Top  + (Center.Y - originalFit.Top ) / originalFit.Height * newFit.Height);
+                newFit.Top  + (Center.Y - originalFit.Top ) / originalFit.Height * newFit.Height);
             return new Rectangle(center, Width * factor, Height * factor);
         }
 
         public bool Contains(Rectangle other)
             => Left <= other.Left && Right  >= other.Right
-            && Top  <= other.Top  && Bottom >= other.Bottom;
+               && Top  <= other.Top  && Bottom >= other.Bottom;
 
         public bool IsContainedIn(Rectangle other)
             => other.Contains(this);
