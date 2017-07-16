@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Office.Tools.Word;
-using Word = Microsoft.Office.Interop.Word;
-using VstoEx.Extensions;
-using MoreLinq;
-
-namespace AlbumWordAddin
+﻿namespace AlbumWordAddin
 {
+    using System;
+    using System.Linq;
+    using Microsoft.Office.Tools.Word;
+    using Word = Microsoft.Office.Interop.Word;
+    using VstoEx.Extensions;
+    using MoreLinq;
+
     using System.Diagnostics;
     using VstoEx.Geometry;
 

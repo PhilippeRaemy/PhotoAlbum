@@ -1,11 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using Word = Microsoft.Office.Interop.Word;
-
-using Microsoft.Office.Tools.Word;
-
-namespace AlbumWordAddin
+﻿namespace AlbumWordAddin
 {
+    using System;
+    using System.Windows.Forms;
+    using Word = Microsoft.Office.Interop.Word;
+    using Microsoft.Office.Tools.Word;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
