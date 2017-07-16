@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddin", "AlbumWord
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoEx", "VstoEx\VstoEx.csproj", "{1CC0C8F7-FC7F-44CB-ADC8-CAA0B383B274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "PositionerTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DialogConsoleStarter", "DialogConsoleStarter\DialogConsoleStarter.csproj", "{2B2B63BD-6823-416C-B32D-914DFBC8EEAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturesSorter", "PicturesSorter\PicturesSorter.csproj", "{7DD760CB-1E03-4DFB-8AF6-2825BCDBF6F2}"
@@ -26,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandlerTest", "Pictu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandler", "PictureHandler\PictureHandler.csproj", "{559CDF0D-F38C-48BF-8ADE-AB32B2098134}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "AlbumWordAddinTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,10 +40,6 @@ Global
 		{1CC0C8F7-FC7F-44CB-ADC8-CAA0B383B274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CC0C8F7-FC7F-44CB-ADC8-CAA0B383B274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CC0C8F7-FC7F-44CB-ADC8-CAA0B383B274}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B2B63BD-6823-416C-B32D-914DFBC8EEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B2B63BD-6823-416C-B32D-914DFBC8EEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B2B63BD-6823-416C-B32D-914DFBC8EEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -68,6 +64,10 @@ Global
 		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{559CDF0D-F38C-48BF-8ADE-AB32B2098134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
