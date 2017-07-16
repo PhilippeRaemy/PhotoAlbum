@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="RectangleTests\RectangleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelpers\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VstoEx\VstoEx.csproj">
