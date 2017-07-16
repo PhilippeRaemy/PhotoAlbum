@@ -191,7 +191,7 @@
     <Compile Include="AlbumRibbon.Designer.cs">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </Compile>
-    <Compile Include="AlbumWordAddinUtils.cs" />
+    <Compile Include="PositionManager.cs" />
     <Compile Include="Alignment.cs" />
     <Compile Include="Arrangement.cs" />
     <Compile Include="FolderWalker.cs" />

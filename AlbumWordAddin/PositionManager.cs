@@ -10,12 +10,11 @@ namespace AlbumWordAddin
     using System.Diagnostics;
     using VstoEx.Geometry;
 
-    public class AlbumWordAddinUtils
+    public class PositionManager
     {
         readonly Positioner.Parms _positionerParms = new Positioner.Parms();
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         Word.Application Application => ActiveDocument.Application;
-        Word.Selection Selection => Application.Selection;
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int padding, int margin)
         {

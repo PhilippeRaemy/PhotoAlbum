@@ -29,7 +29,7 @@ namespace AlbumWordAddin
         Word.Selection Selection => ActiveDocument.Application.Selection;
         public static AlbumRibbon ThisRibbon { get; set; }
 
-        readonly AlbumWordAddinUtils _utilities = new AlbumWordAddinUtils();
+        readonly PositionManager _utilities = new PositionManager();
 
         void ThisAddIn_Startup(object sender, EventArgs e)
         {
