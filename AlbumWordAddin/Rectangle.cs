@@ -55,6 +55,7 @@ namespace AlbumWordAddin
         public Point TopRight    => new Point(Right, Top);
         public Point BottomLeft  => new Point(Left , Bottom);
         public Point BottomRight => new Point(Right, Bottom);
+        public Point Center      => new Point(Left + Width / 2, Top + Height / 2);
 
         public Segment HorizontalSegment => new Segment(Left, Right );
         public Segment VerticalSegment   => new Segment(Top , Bottom);
@@ -73,6 +74,11 @@ namespace AlbumWordAddin
 
         public Rectangle(Point topLeft, Point bottomRight)
             : this(topLeft.X, topLeft.Y, bottomRight.X - topLeft.X, bottomRight.Y - topLeft.Y)
+        {
+        }
+
+        public Rectangle(Point center, float width, float height)
+            : this(center.X - width / 2, center.Y - height / 2, width, height)
         {
         }
 
@@ -134,18 +140,22 @@ namespace AlbumWordAddin
             );
         }
 
+        /// <summary>
+        /// Refits the Rectangle from an original container into a new one, preserving aspect ratio
+        /// </summary>
+        /// <param name="originalFit"></param>
+        /// <param name="newFit"></param>
+        /// <returns></returns>
         public Rectangle ReFit(Rectangle originalFit, Rectangle newFit)
         {
             if (originalFit == null) throw new ArgumentNullException(nameof(originalFit));
             if (originalFit.Width  < float.Epsilon) throw new ArgumentOutOfRangeException(nameof(originalFit), "Rectangle has zero width" );
             if (originalFit.Height < float.Epsilon) throw new ArgumentOutOfRangeException(nameof(originalFit), "Rectangle has zero height");
             if (newFit == null) throw new ArgumentNullException(nameof(newFit));
-            return new Rectangle(
-                newFit.Left + (Left - originalFit.Left)/originalFit.Width,
-                newFit.Top + (Top - originalFit.Top)/originalFit.Height,
-                Width/originalFit.Width*newFit.Width,
-                Height/originalFit.Height*newFit.Height
-            );
+            var factor = (newFit.Width / originalFit.Width + newFit.Height / originalFit.Height) / 2;
+            var center = new Point(newFit.Left + (Center.X - originalFit.Left) / originalFit.Width * newFit.Width,
+                                   newFit.Top  + (Center.Y - originalFit.Top ) / originalFit.Height * newFit.Height);
+            return new Rectangle(center, Width * factor, Height * factor);
         }
 
         public bool Contains(Rectangle other)
