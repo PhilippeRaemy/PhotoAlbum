@@ -29,14 +29,6 @@ namespace AlbumWordAddin
         Word.Application Application => ActiveDocument.Application;
         Word.Selection Selection => Application.Selection;
 
-        public Word.Shape[] SelectedShapes()
-        {
-            // ToArray() required to freeze the pointers
-            var selectedShapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();
-            Debug.Assert(selectedShapes.All(s => s != null));
-            return selectedShapes;
-        }
-
         public void RemoveEmptyPages()
         {
             using (Application.StatePreserver().FreezeScreenUpdating())
@@ -88,7 +80,7 @@ namespace AlbumWordAddin
         {
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
-                var shapes = SelectedShapes().ToArray();
+                var shapes = Globals.ThisAddIn.SelectedShapes().ToArray();
                 if (shapes.Length < 2) return;
                 switch (alignment)
                 {
@@ -175,7 +167,7 @@ namespace AlbumWordAddin
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
-                var shapes = SelectedShapes().ToArray();
+                var shapes = Globals.ThisAddIn.SelectedShapes().ToArray();
                 if (!shapes.Any()) return;
                 var paragraphsByPage =
                     doc.Paragraphs.Cast<Word.Paragraph>()
@@ -194,7 +186,7 @@ namespace AlbumWordAddin
                         Selection.Cut();
                         kvp.Value.Range.Select();
                         Selection.Paste();
-                        var sh = SelectedShapes().FirstOrDefault();
+                        var sh = Globals.ThisAddIn.SelectedShapes().FirstOrDefault();
                         if (sh != null)
                         {
                             newShapes.Add(sh);
@@ -210,7 +202,7 @@ namespace AlbumWordAddin
         {
             _positionerParms.Padding = padding;
             _positionerParms.Margin = margin;
-            var shapesCount = SelectedShapes().Length;
+            var shapesCount = Globals.ThisAddIn.SelectedShapes().Length;
             switch (arrangement)
             {
                 case Arrangement.LineVertical:
@@ -264,7 +256,7 @@ namespace AlbumWordAddin
 
         void DoPositionSelectedImages(Positioner.Parms positionerParms)
         {
-            var selectedShapes = SelectedShapes();
+            var selectedShapes = Globals.ThisAddIn.SelectedShapes();
             if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             if (selectedShapes.Any(s => s == null))
             {
@@ -349,7 +341,7 @@ namespace AlbumWordAddin
         {
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
-                SelectedShapes().ToArray().ForEach(shapeAction);
+                Globals.ThisAddIn.SelectedShapes().ToArray().ForEach(shapeAction);
             }
         }
 

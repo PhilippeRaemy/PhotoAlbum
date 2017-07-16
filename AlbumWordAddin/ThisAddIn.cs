@@ -7,6 +7,7 @@ using Microsoft.Office.Tools.Word;
 namespace AlbumWordAddin
 {
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using Microsoft.Office.Core;
@@ -56,7 +57,7 @@ namespace AlbumWordAddin
 
         void ThisAddIn_SelectionChange(object sender, SelectionEventArgs e)
         {
-            var s = _utilities.SelectedShapes();
+            var s = SelectedShapes();
             ThisRibbon.EnablePictureTools(s.Length);
         }
 
@@ -242,7 +243,7 @@ namespace AlbumWordAddin
 
         void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
         {
-            var shapes = MoveAllToSamePage(_utilities.SelectedShapes()).ReplaceSelection();
+            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var rectangles = shapes.Select(s => new Rectangle(s));
             var positions = spacerFunc(rectangles);
@@ -282,6 +283,14 @@ namespace AlbumWordAddin
             Selection.Cut();
             anchor.Select();
             Selection.Paste();
+            return selectedShapes;
+        }
+
+        public Word.Shape[] SelectedShapes()
+        {
+            // ToArray() required to freeze the pointers
+            var selectedShapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();
+            Debug.Assert(selectedShapes.All(s => s != null));
             return selectedShapes;
         }
     }
