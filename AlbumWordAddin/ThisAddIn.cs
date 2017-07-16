@@ -9,6 +9,8 @@ namespace AlbumWordAddin
     using System.IO;
     using Microsoft.Office.Core;
     using UserPreferences;
+    using VstoEx;
+    using VstoEx.Progress;
 
     public partial class ThisAddIn
     {

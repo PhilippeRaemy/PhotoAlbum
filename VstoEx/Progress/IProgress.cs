@@ -1,6 +1,7 @@
-﻿namespace AlbumWordAddin
+﻿namespace VstoEx.Progress
 {
     using System;
+
     public interface IProgress : IDisposable
     {
         IProgress InitProgress(int max, string caption);

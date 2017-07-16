@@ -1,4 +1,4 @@
-﻿namespace AlbumWordAddin
+﻿namespace VstoEx.Progress
 {
     using System;
     using System.Windows.Forms;

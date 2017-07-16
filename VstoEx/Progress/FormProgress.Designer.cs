@@ -1,6 +1,5 @@
-﻿namespace AlbumWordAddin
+﻿namespace VstoEx.Progress
 {
-    using System;
     partial class FormProgress
     {
         /// <summary>

@@ -195,19 +195,12 @@
     <Compile Include="Alignment.cs" />
     <Compile Include="Arrangement.cs" />
     <Compile Include="FolderWalker.cs" />
-    <Compile Include="FormProgress.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormProgress.Designer.cs">
-      <DependentUpon>FormProgress.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormImportPictures.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormImportPictures.Designer.cs">
       <DependentUpon>FormImportPictures.cs</DependentUpon>
     </Compile>
-    <Compile Include="IProgress.cs" />
     <Compile Include="Positionner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -215,9 +208,6 @@
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormProgress.resx">
-      <DependentUpon>FormProgress.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormImportPictures.resx">
       <DependentUpon>FormImportPictures.cs</DependentUpon>
@@ -252,7 +242,6 @@
     <Compile Include="RibbonToggleButtonSet.cs" />
     <Compile Include="ShapeToolRequiredCount.cs" />
     <Compile Include="Spacer.cs" />
-    <Compile Include="StatusBarProgressIndicator.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>

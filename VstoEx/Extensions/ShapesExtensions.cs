@@ -1,11 +1,11 @@
-namespace AlbumWordAddin.Extensions
+namespace VstoEx.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
     using VstoEx;
-    using Rectangle = VstoEx.Geometry.Rectangle;
+    using Rectangle = Geometry.Rectangle;
 
     public static class ShapesExtensions
     {

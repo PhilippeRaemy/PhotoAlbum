@@ -17,8 +17,8 @@ namespace AlbumWordAddin
 {
     using System.Diagnostics;
     using System.IO;
-    using Extensions;
     using VstoEx.Geometry;
+    using VstoEx.Progress;
 
     [ComVisible(true)]
     [ClassInterface(ClassInterfaceType.None)]

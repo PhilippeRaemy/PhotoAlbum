@@ -1,10 +1,10 @@
 ﻿
-namespace AlbumWordAddin
+namespace VstoEx.Progress
 {
     using System;
     using Microsoft.Office.Interop.Word;
 
-    internal class StatusBarProgressIndicator : IProgress
+    public class StatusBarProgressIndicator : IProgress
     {
         readonly Application _application;
         int _max;
