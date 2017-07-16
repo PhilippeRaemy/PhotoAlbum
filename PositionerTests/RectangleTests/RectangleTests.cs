@@ -11,35 +11,30 @@
         public void TestRectangle()
         {
             var r = new Rectangle(0, 0, 1, 1);
-            Assert.AreEqual(0f, r.Top);
-            Assert.AreEqual(0f, r.Left);
-            Assert.AreEqual(1f, r.Width);
-            Assert.AreEqual(1f, r.Height);
-            Assert.AreEqual(1f, r.Right);
-            Assert.AreEqual(1f, r.Bottom);
-            Assert.AreEqual(new Point(0, 0), r.TopLeft);
-            Assert.AreEqual(new Point(1, 1), r.BottomRight);
+            Assert.AreEqual(0f             , r.Top        , "Top"        );
+            Assert.AreEqual(0f             , r.Left       , "Left"       );
+            Assert.AreEqual(1f             , r.Width      , "Width"      );
+            Assert.AreEqual(1f             , r.Height     , "Height"     );
+            Assert.AreEqual(1f             , r.Right      , "Right"      );
+            Assert.AreEqual(1f             , r.Bottom     , "Bottom"     );
+            Assert.AreEqual(new Point(0, 0), r.TopLeft    , "TopLeft"    );
+            Assert.AreEqual(new Point(1, 1), r.BottomRight, "BottomRight");
         }
+
+        [ExpectedException(typeof(InvalidOperationException), "Rectangle should not accept zero or negative height")]
         [TestMethod]
         public void TestRectangleCannotBeFlat()
         {
-            try
-            {
                 var r = new Rectangle(0, 0, 1, 0);
-                Assert.Fail("Rectangle should not accept zero or negative height");
-            }
-            catch (InvalidOperationException) { }
         }
+
+        [ExpectedException(typeof(InvalidOperationException), "Rectangle should not accept zero or negative width")]
         [TestMethod]
         public void TestRectangleCannotBeThin()
         {
-            try
-            {
-                var r = new Rectangle(0, 0, 0, 1);
-                Assert.Fail("Rectangle should not accept zero or negative width");
-            }
-            catch (InvalidOperationException) { }
+            var r = new Rectangle(0, 0, 0, 1);
         }
+
         [TestMethod]
         public void TestRectangleMove()
         {
@@ -47,6 +42,7 @@
             Assert.AreEqual(.3f, r.Left, float.Epsilon);
             Assert.AreEqual(.6f, r.Top, float.Epsilon);
         }
+
         [TestMethod]
         public void TestRectangleScale()
         {
@@ -54,6 +50,7 @@
             Assert.AreEqual(.3f, r.Width, float.Epsilon);
             Assert.AreEqual(.6f, r.Height, float.Epsilon);
         }
+
         [TestMethod]
         public void TestRectangleFitInWidth()
         {
@@ -64,6 +61,7 @@
             Assert.IsTrue(r.Left + r.Width <= container.Left + container.Width, "Overlap right border");
             Assert.AreEqual(new Rectangle(3, 1, 4, 4), r );
         }
+
         [TestMethod]
         public void TestRectangleFitInHeight()
         {
@@ -74,6 +72,7 @@
             Assert.IsTrue(r.Top + r.Height <= container.Top + container.Height, "Overlap bottom border");
             Assert.AreEqual(new Rectangle(3, 1, 4, 4), r);
         }
+
         [TestMethod]
         public void TestRectangleFitInWithPadding()
         {
