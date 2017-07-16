@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandler", "PictureHa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "AlbumWordAddinTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoExTests", "VstoExTests\VstoExTests.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14EDE71B-6E54-4791-81C4-8985FBF0AA87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

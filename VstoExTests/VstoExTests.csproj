@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{14EDE71B-6E54-4791-81C4-8985FBF0AA87}</ProjectGuid>
+    <ProjectGuid>{99F4B6F3-B319-4A27-868D-2B21C36786EE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlbumWordAddinTests</RootNamespace>
-    <AssemblyName>AlbumWordAddinTests</AssemblyName>
+    <RootNamespace>VstoExTests</RootNamespace>
+    <AssemblyName>VstoExTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -61,25 +61,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PositionerTests\PositionerTestsBendLeftRight.cs" />
-    <Compile Include="TestHelpers\PositionerExtensionsForTests.cs" />
+    <Compile Include="RectangleTests\RectangleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PositionerTests\PositionerTests.cs" />
-    <Compile Include="PositionerTests\PositionerTestsBendUpDown.cs" />
-    <Compile Include="SpacerTests\SpacerTests.cs" />
-    <Compile Include="TestHelpers\RectangleExtensionsForTests.cs" />
-    <Compile Include="UserPreferencesTests\UserPreferencesTests.cs" />
     <Compile Include="TestHelpers\Validation.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlbumWordAddin\AlbumWordAddin.csproj">
-      <Project>{bd7257cc-26ee-4ab5-9702-f493572324e6}</Project>
-      <Name>AlbumWordAddin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UserPreferences\UserPreferences.csproj">
-      <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>
-      <Name>UserPreferences</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VstoEx\VstoEx.csproj">
       <Project>{1cc0c8f7-fc7f-44cb-adc8-caa0b383b274}</Project>
       <Name>VstoEx</Name>
