@@ -4,7 +4,6 @@ namespace VstoEx.Extensions
     using System.Linq;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
-    using VstoEx;
     using Rectangle = Geometry.Rectangle;
 
     public static class ShapesExtensions

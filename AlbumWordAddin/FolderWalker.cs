@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
     using MoreLinq;
-    using VstoEx;
     using VstoEx.Progress;
 
     public class FolderWalker

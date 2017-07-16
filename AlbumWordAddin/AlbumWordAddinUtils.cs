@@ -1,24 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Microsoft.Office.Tools.Word;
 using Word = Microsoft.Office.Interop.Word;
-using Office = Microsoft.Office.Core;
-using VstoEx;
-using VstoEx.Geometry;
 using VstoEx.Extensions;
-using System.Text.RegularExpressions;
-using Mannex.Collections.Generic;
 using MoreLinq;
-using stdole;
 
 namespace AlbumWordAddin
 {
     using System.Diagnostics;
-    using System.IO;
     using VstoEx.Geometry;
-    using VstoEx.Progress;
 
     public class AlbumWordAddinUtils
     {

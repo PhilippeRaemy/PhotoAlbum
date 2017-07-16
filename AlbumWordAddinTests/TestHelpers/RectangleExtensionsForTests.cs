@@ -2,7 +2,6 @@ namespace AlbumWordAddinTests.TestHelpers
 {
     using System.Collections.Generic;
     using System.Linq;
-    using AlbumWordAddin;
     using VstoEx.Geometry;
 
     public static class RectangleExtensionsForTests
