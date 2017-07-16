@@ -29,12 +29,7 @@ namespace AlbumWordAddin
         Word.Selection Selection => ActiveDocument.Application.Selection;
         public static AlbumRibbon ThisRibbon { get; set; }
 
-        AlbumWordAddinUtils _utilities;
-
-        protected override object RequestComAddInAutomationService()
-        {
-            return _utilities ?? (_utilities = new AlbumWordAddinUtils());
-        }
+        readonly AlbumWordAddinUtils _utilities = new AlbumWordAddinUtils();
 
         void ThisAddIn_Startup(object sender, EventArgs e)
         {

@@ -20,9 +20,7 @@ namespace AlbumWordAddin
     using VstoEx.Geometry;
     using VstoEx.Progress;
 
-    [ComVisible(true)]
-    [ClassInterface(ClassInterfaceType.None)]
-    public class AlbumWordAddinUtils : IDispatch
+    public class AlbumWordAddinUtils
     {
         readonly Positioner.Parms _positionerParms = new Positioner.Parms();
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
