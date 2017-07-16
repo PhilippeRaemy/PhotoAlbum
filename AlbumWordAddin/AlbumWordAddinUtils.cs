@@ -309,7 +309,7 @@ namespace AlbumWordAddin
 
         public void DoRelativePositionSelectedImages()
         {
-            SelectedShapeIterator(sh =>
+            Globals.ThisAddIn.SelectedShapeIterator(sh =>
                 {
                     sh.RelativeHorizontalPosition = Word.WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
                     sh.RelativeVerticalPosition   = Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
@@ -337,16 +337,10 @@ namespace AlbumWordAddin
             }
         }
 
-        void SelectedShapeIterator(Action<Word.Shape> shapeAction)
-        {
-            using (Application.StatePreserver().FreezeScreenUpdating())
-            {
-                Globals.ThisAddIn.SelectedShapes().ToArray().ForEach(shapeAction);
-            }
-        }
-
-        internal void TextWrapping(Word.WdWrapType     wdWrapType){SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);}
-        internal void TextWrapping(Word.WdWrapSideType wdWrapSide){SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);}
+        internal void TextWrapping(Word.WdWrapType     wdWrapType){
+            Globals.ThisAddIn.SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);}
+        internal void TextWrapping(Word.WdWrapSideType wdWrapSide){
+            Globals.ThisAddIn.SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);}
 
         public void MarginAdjust(int marginDelta)
         {

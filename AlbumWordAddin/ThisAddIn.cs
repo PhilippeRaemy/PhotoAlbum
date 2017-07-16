@@ -11,6 +11,7 @@ namespace AlbumWordAddin
     using System.IO;
     using System.Linq;
     using Microsoft.Office.Core;
+    using MoreLinq;
     using UserPreferences;
     using VstoEx.Extensions;
     using VstoEx.Geometry;
@@ -292,6 +293,14 @@ namespace AlbumWordAddin
             var selectedShapes = Selection.ShapeRange.Cast<Word.Shape>().ToArray();
             Debug.Assert(selectedShapes.All(s => s != null));
             return selectedShapes;
+        }
+
+        public void SelectedShapeIterator(Action<Word.Shape> shapeAction)
+        {
+            using (Application.StatePreserver().FreezeScreenUpdating())
+            {
+                Globals.ThisAddIn.SelectedShapes().ToArray().ForEach(shapeAction);
+            }
         }
     }
 }
