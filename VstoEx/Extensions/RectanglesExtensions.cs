@@ -6,7 +6,7 @@ namespace VstoEx.Extensions
 
     public static class RectanglesExtensions
     {
-        static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
+        public static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
         {
             var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
             var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
@@ -16,7 +16,7 @@ namespace VstoEx.Extensions
             return aRectangles.Select(r => r.ReFit(oldContainer, newContainer));
         }
 
-        static IEnumerable<Rectangle> IncreasePadding(this IEnumerable<Rectangle> rectangles, float scale)
+        public static IEnumerable<Rectangle> IncreasePadding(this IEnumerable<Rectangle> rectangles, float scale)
         {
             var aRectangles  = rectangles as Rectangle[] ?? rectangles.ToArray();
             var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
