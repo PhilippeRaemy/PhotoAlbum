@@ -1,7 +1,6 @@
-﻿namespace AlbumWordAddinTests.RectangleTests
+﻿namespace VstoExTests.RectangleTests
 {
     using System;
-    using AlbumWordAddin;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using VstoEx.Geometry;
 

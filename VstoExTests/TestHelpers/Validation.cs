@@ -1,4 +1,4 @@
-namespace AlbumWordAddinTests.TestHelpers
+namespace VstoExTests.TestHelpers
 {
     using System;
     using System.Collections.Generic;
