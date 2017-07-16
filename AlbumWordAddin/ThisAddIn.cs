@@ -13,6 +13,7 @@ namespace AlbumWordAddin
     using Microsoft.Office.Core;
     using MoreLinq;
     using UserPreferences;
+    using VstoEx;
     using VstoEx.Extensions;
     using VstoEx.Geometry;
     using VstoEx.Progress;
@@ -163,7 +164,22 @@ namespace AlbumWordAddin
         public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker,
             Func<string, bool> toPatternIsMatch)
         {
-            _utilities.ChangePicturesResolution(fromPatternIsMatch, fileNameMaker, toPatternIsMatch);
+            using (new StatePreserver(Application).FreezeScreenUpdating())
+            using(var progress = (StatusBarProgressIndicator)new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count, "Change picture resolution"))
+            {
+                foreach (var shape in ActiveDocument.Shapes
+                    .Cast<Word.Shape>()
+                    // ReSharper disable once AccessToDisposedClosure
+                    .Pipe(sh => progress.Progress(string.Empty))
+                    .Where(sh => sh.LinkFormat.Type == Word.WdLinkType.wdLinkTypePicture))
+                {
+                    progress.SetCaption(shape.LinkFormat.SourceFullName);
+                    var fileInfo = new FileInfo(shape.LinkFormat.SourceFullName);
+                    if (fileInfo.DirectoryName == null) break;
+                    var newFileInfo = new FileInfo(Path.Combine(fileInfo.DirectoryName, fileNameMaker(fileInfo.Name)));
+                    if (newFileInfo.Exists) shape.LinkFormat.SourceFullName = newFileInfo.FullName;
+                }
+            }
         }
 
         public void ImportPictures()
