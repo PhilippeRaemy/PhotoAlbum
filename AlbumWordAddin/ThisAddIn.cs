@@ -60,7 +60,7 @@ namespace AlbumWordAddin
             ThisRibbon.EnablePictureTools(s.Length);
         }
 
-        internal void AlignSelectedImages(Alignment alignment, float forced = float.NaN)
+        internal void AlignSelectedImages(Alignment alignment, float forced = Single.NaN)
         {
             _utilities.AlignSelectedImages(alignment, forced);
         }
@@ -242,7 +242,7 @@ namespace AlbumWordAddin
 
         void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
         {
-            var shapes = _utilities.MoveAllToSamePage(_utilities.SelectedShapes()).ReplaceSelection();
+            var shapes = MoveAllToSamePage(_utilities.SelectedShapes()).ReplaceSelection();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var rectangles = shapes.Select(s => new Rectangle(s));
             var positions = spacerFunc(rectangles);
@@ -253,6 +253,36 @@ namespace AlbumWordAddin
         public void MarginAdjust(int marginDelta)
         {
             _utilities.MarginAdjust(marginDelta);
+        }
+
+        public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
+        {
+            if (selectedShapes
+                    .Select(s => s.GetPageNumber())
+                    .Distinct()
+                    .Count() <= 1
+            )
+            {
+                return selectedShapes;
+            }
+            Word.Range anchor = null;
+            foreach (var shape in selectedShapes)
+            {
+                if (anchor == null)
+                {
+                    anchor = shape.Anchor;
+                    shape.Select(Replace: true);
+                }
+                else
+                {
+                    shape.Select(Replace: false);
+                }
+            }
+            if (anchor == null) return Enumerable.Empty<Word.Shape>();
+            Selection.Cut();
+            anchor.Select();
+            Selection.Paste();
+            return selectedShapes;
         }
     }
 }

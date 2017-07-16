@@ -277,7 +277,7 @@ namespace AlbumWordAddin
                 selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
                 throw new InvalidOperationException("Some selected shapes are null");
             }
-            var shapes = MoveAllToSamePage(selectedShapes).ReplaceSelection();
+            var shapes = ThisAddIn.MoveAllToSamePage(selectedShapes).ReplaceSelection();
             if (selectedShapes.Length != shapes.Length)
             {
                 Trace.WriteLine($"We had {selectedShapes.Length} selected shapes, {shapes} after MoveallToSamePage.");
@@ -312,35 +312,6 @@ namespace AlbumWordAddin
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
-        public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
-        {
-            if (selectedShapes
-                .Select(s => s.GetPageNumber())
-                .Distinct()
-                .Count() <= 1
-            )
-            {
-                return selectedShapes;
-            }
-            Word.Range anchor = null;
-            foreach (var shape in selectedShapes)
-            {
-                if (anchor == null)
-                {
-                    anchor = shape.Anchor;
-                    shape.Select(Replace: true);
-                }
-                else
-                {
-                    shape.Select(Replace: false);
-                }
-            }
-            if (anchor == null) return Enumerable.Empty<Word.Shape>();
-            Selection.Cut();
-            anchor.Select();
-            Selection.Paste();
-            return selectedShapes;
-        }
 
         static Tuple<int, int> EuristicArrangeRectangle(int shapeCount)
         {

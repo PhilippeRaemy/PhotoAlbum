@@ -10,38 +10,47 @@
 
 #pragma warning disable 414
 namespace AlbumWordAddin {
-    
-    
+    using System;
+    using System.CodeDom.Compiler;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Security.Permissions;
+    using Microsoft.Office.Interop.Word;
+    using Microsoft.Office.Tools;
+    using Microsoft.Office.Tools.Word;
+    using Microsoft.VisualStudio.Tools.Applications.Runtime;
+
+
     /// 
-    [Microsoft.VisualStudio.Tools.Applications.Runtime.StartupObjectAttribute(0)]
-    [global::System.Security.Permissions.PermissionSetAttribute(global::System.Security.Permissions.SecurityAction.Demand, Name="FullTrust")]
-    public sealed partial class ThisAddIn : Microsoft.Office.Tools.AddInBase {
+    [StartupObject(0)]
+    [PermissionSet(SecurityAction.Demand, Name="FullTrust")]
+    public sealed partial class ThisAddIn : AddInBase {
         
-        internal Microsoft.Office.Tools.CustomTaskPaneCollection CustomTaskPanes;
+        internal CustomTaskPaneCollection CustomTaskPanes;
         
-        internal Microsoft.Office.Tools.SmartTagCollection VstoSmartTags;
+        internal SmartTagCollection VstoSmartTags;
         
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        private global::System.Object missing = global::System.Type.Missing;
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        private Object missing = Type.Missing;
         
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        internal Microsoft.Office.Interop.Word.Application Application;
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        internal Application Application;
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
-        public ThisAddIn(global::Microsoft.Office.Tools.Word.ApplicationFactory factory, global::System.IServiceProvider serviceProvider) : 
+        [DebuggerNonUserCode()]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ThisAddIn(ApplicationFactory factory, IServiceProvider serviceProvider) : 
                 base(factory, serviceProvider, "AddIn", "ThisAddIn") {
             Globals.Factory = factory;
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void Initialize() {
             base.Initialize();
-            this.Application = this.GetHostItem<Microsoft.Office.Interop.Word.Application>(typeof(Microsoft.Office.Interop.Word.Application), "Application");
+            this.Application = this.GetHostItem<Application>(typeof(Application), "Application");
             Globals.ThisAddIn = this;
             global::System.Windows.Forms.Application.EnableVisualStyles();
             this.InitializeCachedData();
@@ -51,18 +60,18 @@ namespace AlbumWordAddin {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void FinishInitialization() {
             this.InternalStartup();
             this.OnStartup();
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void InitializeDataBindings() {
             this.BeginInitialization();
             this.BindToData();
@@ -70,9 +79,9 @@ namespace AlbumWordAddin {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void InitializeCachedData() {
             if ((this.DataHost == null)) {
                 return;
@@ -83,44 +92,44 @@ namespace AlbumWordAddin {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void InitializeData() {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void BindToData() {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        [DebuggerNonUserCode()]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         private void StartCaching(string MemberName) {
             this.DataHost.StartCaching(this, MemberName);
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        [DebuggerNonUserCode()]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         private void StopCaching(string MemberName) {
             this.DataHost.StopCaching(this, MemberName);
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        [DebuggerNonUserCode()]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         private bool IsCached(string MemberName) {
             return this.DataHost.IsCached(this, MemberName);
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void BeginInitialization() {
             this.BeginInit();
             this.CustomTaskPanes.BeginInit();
@@ -128,9 +137,9 @@ namespace AlbumWordAddin {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void EndInitialization() {
             this.VstoSmartTags.EndInit();
             this.CustomTaskPanes.EndInit();
@@ -138,32 +147,32 @@ namespace AlbumWordAddin {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void InitializeControls() {
             this.CustomTaskPanes = Globals.Factory.CreateCustomTaskPaneCollection(null, null, "CustomTaskPanes", "CustomTaskPanes", this);
             this.VstoSmartTags = Globals.Factory.CreateSmartTagCollection(null, null, "VstoSmartTags", "VstoSmartTags", this);
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         private void InitializeComponents() {
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
+        [DebuggerNonUserCode()]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         private bool NeedsFill(string MemberName) {
             return this.DataHost.NeedsFill(this, MemberName);
         }
         
         /// 
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
-        [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Never)]
+        [DebuggerNonUserCode()]
+        [GeneratedCode("Microsoft.VisualStudio.Tools.Office.ProgrammingModel.dll", "14.0.0.0")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void OnShutdown() {
             this.VstoSmartTags.Dispose();
             this.CustomTaskPanes.Dispose();
@@ -195,7 +204,7 @@ namespace AlbumWordAddin {
                     _ThisAddIn = value;
                 }
                 else {
-                    throw new System.NotSupportedException();
+                    throw new global::System.NotSupportedException();
                 }
             }
         }
@@ -209,7 +218,7 @@ namespace AlbumWordAddin {
                     _factory = value;
                 }
                 else {
-                    throw new System.NotSupportedException();
+                    throw new global::System.NotSupportedException();
                 }
             }
         }
