@@ -95,5 +95,12 @@
             var r = contained.FitIn(container, .5f, .5f, .1f);
             Assert.AreEqual(new Rectangle(3.1f, 1.1f, 3.8f, 3.8f), r);
         }
+
+        [TestMethod]
+        public void TestRectangleScaleInPlace()
+        {
+            var r = new Rectangle(1, 1, 8, 4);
+            Assert.AreEqual(new Rectangle(3, 2, 4, 2), r.ScaleInPlace(.5f) );
+        }
     }
 }
