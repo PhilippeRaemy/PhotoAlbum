@@ -102,5 +102,12 @@
             var r = new Rectangle(1, 1, 8, 4);
             Assert.AreEqual(new Rectangle(3, 2, 4, 2), r.ScaleInPlace(.5f) );
         }
+
+        [TestMethod]
+        public void TestRectangleAbsorb()
+        {
+            var r = new Rectangle(1, 1, 1, 1).Absorb(new Rectangle(3, 4, 1, 1));
+            Assert.AreEqual(new Rectangle(1, 1, 3, 4), r);
+        }
     }
 }
