@@ -297,7 +297,7 @@ namespace AlbumWordAddin
                 shapes.ApplyPositions(Application.StatePreserver(), positions);
         }
 
-        void ApplyPositions(IEnumerable<Word.Shape> shapes, IEnumerable<Rectangle> positions)
+        public void ApplyPositions(IEnumerable<Word.Shape> shapes, IEnumerable<Rectangle> positions)
         {
             using (Application.StatePreserver().FreezeScreenUpdating())
                 foreach (var pos in shapes.ZipLongest(positions, (sh, re) => new {sh, re})
@@ -312,7 +312,7 @@ namespace AlbumWordAddin
         }
 
         // ReSharper disable once ParameterTypeCanBeEnumerable.Local
-        IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
+        public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
         {
             if (selectedShapes
                 .Select(s => s.GetPageNumber())
@@ -390,15 +390,6 @@ namespace AlbumWordAddin
 
         internal void TextWrapping(Word.WdWrapType     wdWrapType){SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);}
         internal void TextWrapping(Word.WdWrapSideType wdWrapSide){SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);}
-
-        public void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
-        {
-            var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
-            if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
-            var rectangles = shapes.Select(s => new Rectangle(s));
-            var positions = spacerFunc(rectangles);
-            ApplyPositions(shapes, positions);
-        }
 
         public void MarginAdjust(int marginDelta)
         {

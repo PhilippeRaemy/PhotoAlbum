@@ -6,9 +6,13 @@ using Microsoft.Office.Tools.Word;
 
 namespace AlbumWordAddin
 {
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Microsoft.Office.Core;
     using UserPreferences;
+    using VstoEx.Extensions;
+    using VstoEx.Geometry;
     using VstoEx.Progress;
 
     public partial class ThisAddIn
@@ -203,38 +207,48 @@ namespace AlbumWordAddin
 
         public void SpacingEqualHorizontal()
         {
-            _utilities.SpacingImpl(Spacer.HorizontalEqualSpacing);
+            SpacingImpl(Spacer.HorizontalEqualSpacing);
         }
 
         public void SpacingDecreaseHorizontal()
         {
-            _utilities.SpacingImpl(Spacer.DecreaseHorizontal    );
+            SpacingImpl(Spacer.DecreaseHorizontal    );
         }
 
         public void SpacingIncreaseHorizontal()
         {
-            _utilities.SpacingImpl(Spacer.IncreaseHorizontal    );
+            SpacingImpl(Spacer.IncreaseHorizontal    );
         }
 
         public void SpacingEqualVertical()
         {
-            _utilities.SpacingImpl(Spacer.VerticalEqualSpacing  );
+            SpacingImpl(Spacer.VerticalEqualSpacing  );
         }
 
         public void SpacingDecreaseVertical()
         {
-            _utilities.SpacingImpl(Spacer.DecreaseVertical      );
+            SpacingImpl(Spacer.DecreaseVertical      );
         }
 
         public void SpacingIncreaseVertical()
         {
-            _utilities.SpacingImpl(Spacer.IncreaseVertical      );
+            SpacingImpl(Spacer.IncreaseVertical      );
         }
 
         public void SpacingInterpolate()
         {
-            _utilities.SpacingImpl(Spacer.SpacingInterpolate    );
+            SpacingImpl(Spacer.SpacingInterpolate    );
         }
+
+        void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
+        {
+            var shapes = _utilities.MoveAllToSamePage(_utilities.SelectedShapes()).ReplaceSelection();
+            if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
+            var rectangles = shapes.Select(s => new Rectangle(s));
+            var positions = spacerFunc(rectangles);
+            _utilities.ApplyPositions(shapes, positions);
+        }
+
 
         public void MarginAdjust(int marginDelta)
         {
