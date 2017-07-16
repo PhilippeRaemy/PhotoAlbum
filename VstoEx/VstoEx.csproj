@@ -58,7 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationExtensions.cs" />
+    <Compile Include="Extensions\ApplicationExtensions.cs" />
     <Compile Include="Extensions\RectangleExtensions.cs" />
     <Compile Include="Extensions\RectanglesExtensions.cs" />
     <Compile Include="Extensions\ShapesExtensions.cs" />
