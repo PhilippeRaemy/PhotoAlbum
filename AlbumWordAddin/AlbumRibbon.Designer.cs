@@ -336,6 +336,7 @@ namespace AlbumWordAddin
             this.dropDownMargin.ShowLabel = false;
             this.dropDownMargin.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownMargin_ButtonClick);
             this.dropDownMargin.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownMargin_SelectionChanged);
+            this.dropDownMargin.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // box5
             // 
@@ -353,6 +354,7 @@ namespace AlbumWordAddin
             this.dropDownPadding.ShowLabel = false;
             this.dropDownPadding.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownPadding_ButtonClick);
             this.dropDownPadding.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownPadding_SelectionChanged);
+            this.dropDownPadding.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonGroup2
             // 
@@ -815,6 +817,7 @@ namespace AlbumWordAddin
             this.buttonMarginLess.ShowImage = true;
             this.buttonMarginLess.ShowLabel = false;
             this.buttonMarginLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginLess_Click);
+            this.buttonMarginLess.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonMarginMore
             // 
@@ -825,6 +828,7 @@ namespace AlbumWordAddin
             this.buttonMarginMore.ShowImage = true;
             this.buttonMarginMore.ShowLabel = false;
             this.buttonMarginMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginMore_Click);
+            this.buttonMarginMore.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonPaddingLess
             // 
@@ -835,6 +839,7 @@ namespace AlbumWordAddin
             this.buttonPaddingLess.ShowImage = true;
             this.buttonPaddingLess.ShowLabel = false;
             this.buttonPaddingLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPaddingLess_Click);
+            this.buttonPaddingLess.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonPaddingMore
             // 
@@ -845,6 +850,7 @@ namespace AlbumWordAddin
             this.buttonPaddingMore.ShowImage = true;
             this.buttonPaddingMore.ShowLabel = false;
             this.buttonPaddingMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPaddingMore_Click);
+            this.buttonPaddingMore.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonSpacing
             // 
