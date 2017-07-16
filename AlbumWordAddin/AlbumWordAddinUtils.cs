@@ -391,7 +391,7 @@ namespace AlbumWordAddin
         internal void TextWrapping(Word.WdWrapType     wdWrapType){SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);}
         internal void TextWrapping(Word.WdWrapSideType wdWrapSide){SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);}
 
-        void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
+        public void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
         {
             var shapes = MoveAllToSamePage(SelectedShapes()).ReplaceSelection();
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
@@ -399,14 +399,6 @@ namespace AlbumWordAddin
             var positions = spacerFunc(rectangles);
             ApplyPositions(shapes, positions);
         }
-
-        public void SpacingEqualHorizontal   () { SpacingImpl(Spacer.HorizontalEqualSpacing); }
-        public void SpacingDecreaseHorizontal() { SpacingImpl(Spacer.DecreaseHorizontal    ); }
-        public void SpacingIncreaseHorizontal() { SpacingImpl(Spacer.IncreaseHorizontal    ); }
-        public void SpacingEqualVertical     () { SpacingImpl(Spacer.VerticalEqualSpacing  ); }
-        public void SpacingDecreaseVertical  () { SpacingImpl(Spacer.DecreaseVertical      ); }
-        public void SpacingIncreaseVertical  () { SpacingImpl(Spacer.IncreaseVertical      ); }
-        public void SpacingInterpolate       () { SpacingImpl(Spacer.SpacingInterpolate    ); }
 
         public void MarginAdjust(int marginDelta)
         {

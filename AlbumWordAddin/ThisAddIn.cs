@@ -9,7 +9,6 @@ namespace AlbumWordAddin
     using System.IO;
     using Microsoft.Office.Core;
     using UserPreferences;
-    using VstoEx;
     using VstoEx.Progress;
 
     public partial class ThisAddIn
@@ -204,37 +203,37 @@ namespace AlbumWordAddin
 
         public void SpacingEqualHorizontal()
         {
-            _utilities.SpacingEqualHorizontal();
+            _utilities.SpacingImpl(Spacer.HorizontalEqualSpacing);
         }
 
         public void SpacingDecreaseHorizontal()
         {
-            _utilities.SpacingDecreaseHorizontal();
+            _utilities.SpacingImpl(Spacer.DecreaseHorizontal    );
         }
 
         public void SpacingIncreaseHorizontal()
         {
-            _utilities.SpacingIncreaseHorizontal();
+            _utilities.SpacingImpl(Spacer.IncreaseHorizontal    );
         }
 
         public void SpacingEqualVertical()
         {
-            _utilities.SpacingEqualVertical();
+            _utilities.SpacingImpl(Spacer.VerticalEqualSpacing  );
         }
 
         public void SpacingDecreaseVertical()
         {
-            _utilities.SpacingDecreaseVertical();
+            _utilities.SpacingImpl(Spacer.DecreaseVertical      );
         }
 
         public void SpacingIncreaseVertical()
         {
-            _utilities.SpacingIncreaseVertical();
+            _utilities.SpacingImpl(Spacer.IncreaseVertical      );
         }
 
         public void SpacingInterpolate()
         {
-            _utilities.SpacingInterpolate();
+            _utilities.SpacingImpl(Spacer.SpacingInterpolate    );
         }
 
         public void MarginAdjust(int marginDelta)
