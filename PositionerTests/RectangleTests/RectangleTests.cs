@@ -5,10 +5,10 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class RectangleTests
+    public class RectangleConstructor
     {
         [TestMethod]
-        public void TestRectangleCtorTopLeftWidthHeight()
+        public void TopLeftWidthHeight()
         {
             var r = new Rectangle(1, 1, 1, 1);
             Assert.AreEqual(1f, r.Top, "Top");
@@ -22,7 +22,7 @@
         }
 
         [TestMethod]
-        public void TestRectangleCtorPoints()
+        public void Points()
         {
             var r = new Rectangle(new Point(1, 1), new Point(2, 2));
             Assert.AreEqual(1f, r.Top, "Top");
@@ -37,18 +37,22 @@
 
         [ExpectedException(typeof(InvalidOperationException), "Rectangle should not accept zero or negative height")]
         [TestMethod]
-        public void TestRectangleCannotBeFlat()
+        public void CannotBeFlat()
         {
-                var r = new Rectangle(0, 0, 1, 0);
+            var r = new Rectangle(0, 0, 1, 0);
         }
 
         [ExpectedException(typeof(InvalidOperationException), "Rectangle should not accept zero or negative width")]
         [TestMethod]
-        public void TestRectangleCannotBeThin()
+        public void CannotBeThin()
         {
             var r = new Rectangle(0, 0, 0, 1);
         }
+    }
 
+    [TestClass]
+    public class RectangleTransformations
+    {
         [TestMethod]
         public void TestRectangleMove()
         {
