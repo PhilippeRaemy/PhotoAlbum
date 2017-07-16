@@ -412,9 +412,26 @@
         }
 
 
-        public void MarginAdjust(int marginDelta)
+        public void MarginAdjust(float increment)
         {
-            // var container = SelectedShapes().;
+            SelectedShapesAdjustImpl(r => r.IncreaseMargin(increment));
+        }
+
+        public void PaddingAdjust(float scale)
+        {
+            SelectedShapesAdjustImpl(r => r.IncreasePadding(scale));
+        }
+
+        void SelectedShapesAdjustImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation)
+        {
+            if (SelectedShapes().Select(sh => sh.GetPageNumber()).Distinct().Count() > 1)
+            {
+                throw new InvalidOperationException("Please make sure that all the selected shapes are on the same page");
+            }
+            var rectangles = transformation(SelectedShapes().ToRectangles())
+                                .ToArray();
+            using (Application.StatePreserver().FreezeScreenUpdating())
+                SelectedShapes().ApplyPositions(rectangles);
         }
 
         public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
