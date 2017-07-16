@@ -225,7 +225,7 @@ namespace AlbumWordAddin
                 }
                     break;
                 case Arrangement.Square:
-                    _positionerParms.Rows = _positionerParms.Cols = BestSquare(shapesCount);
+                    _positionerParms.Rows = _positionerParms.Cols = ThisAddIn.BestSquare(shapesCount);
                     break;
                 case Arrangement.RectangleHorizontal:
                 {
@@ -242,12 +242,6 @@ namespace AlbumWordAddin
                     throw new ArgumentOutOfRangeException(nameof(arrangement), arrangement, null);
             }
             DoPositionSelectedImages(_positionerParms);
-        }
-
-        static int BestSquare(int shapesCount)
-        {
-            var edge = (int) Math.Floor(Math.Sqrt(shapesCount));
-            return edge*edge < shapesCount ? edge + 1 : edge;
         }
 
         internal void DoPositionSelectedImages(string hAlign, string vAlign)
@@ -277,7 +271,7 @@ namespace AlbumWordAddin
                 selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
                 throw new InvalidOperationException("Some selected shapes are null");
             }
-            var shapes = ThisAddIn.MoveAllToSamePage(selectedShapes).ReplaceSelection();
+            var shapes = Globals.ThisAddIn.MoveAllToSamePage(selectedShapes).ReplaceSelection();
             if (selectedShapes.Length != shapes.Length)
             {
                 Trace.WriteLine($"We had {selectedShapes.Length} selected shapes, {shapes} after MoveallToSamePage.");

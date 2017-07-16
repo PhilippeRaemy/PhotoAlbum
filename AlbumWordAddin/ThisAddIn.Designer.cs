@@ -178,6 +178,12 @@ namespace AlbumWordAddin {
             this.CustomTaskPanes.Dispose();
             base.OnShutdown();
         }
+
+        public static int BestSquare(int shapesCount)
+        {
+            var edge = (int) Math.Floor(Math.Sqrt(shapesCount));
+            return edge*edge < shapesCount ? edge + 1 : edge;
+        }
     }
     
     /// 
