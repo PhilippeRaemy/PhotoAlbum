@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+// ReSharper disable LocalizableElement
 
 namespace AlbumWordAddin
 {
@@ -19,8 +20,9 @@ namespace AlbumWordAddin
 
         public override bool Equals(object obj) => Equals(obj as Point);
         public override int GetHashCode() => X.GetHashCode() + Y.GetHashCode();
-        // ReSharper disable once CompareOfFloatsByEqualityOperator
+        // ReSharper disable CompareOfFloatsByEqualityOperator
         bool Equals(Point other) => other != null && other.X == X && other.Y == Y;
+        // ReSharper enable CompareOfFloatsByEqualityOperator
     }
 
     public class Segment
@@ -112,7 +114,7 @@ namespace AlbumWordAddin
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float padding) {
             if (Math.Abs(padding) > Epsilon)
             {
-                other=new Rectangle(other.Left + padding, other.Top + padding, other.Width - 2 * padding, other.Height - 2 * padding); ;   
+                other=new Rectangle(other.Left + padding, other.Top + padding, other.Width - 2 * padding, other.Height - 2 * padding);   
             }
             var scale = new[] { other.Width / Width, other.Height / Height }.Min();
             var newWidth  = Width * scale;
