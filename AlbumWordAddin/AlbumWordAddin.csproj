@@ -252,10 +252,13 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Rectangle.cs" />
+    <Compile Include="Extensions\RectangleExtensions.cs" />
+    <Compile Include="Extensions\RectanglesExtensions.cs" />
     <Compile Include="Ribbon.cs">
       <XmlRibbon>true</XmlRibbon>
     </Compile>
     <Compile Include="RibbonToggleButtonSet.cs" />
+    <Compile Include="Extensions\ShapesExtentions.cs" />
     <Compile Include="ShapeToolRequiredCount.cs" />
     <Compile Include="Spacer.cs" />
     <Compile Include="StatusBarProgressIndicator.cs" />

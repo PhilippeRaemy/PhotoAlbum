@@ -405,9 +405,7 @@ namespace AlbumWordAddin
 
         public void MarginAdjust(int marginDelta)
         {
-            throw new NotImplementedException();
-
-//            var overall = SelectedShapes().Aggregate((s1, s2) => s1.Overall(s2));
+            // var container = SelectedShapes().;
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace AlbumWordAddin
 {
-    using System.Collections.Generic;
     using Microsoft.Office.Interop.Word;
 
     public class Point
@@ -190,41 +189,6 @@ namespace AlbumWordAddin
         {
             // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
             return base.GetHashCode();
-        }
-    }
-
-    public static class RectangleExtensions
-    {
-        public static Rectangle LeftMost  (this IEnumerable<Rectangle> r) => r.WhatMost(rr => rr.Left);
-        public static Rectangle RightMost (this IEnumerable<Rectangle> r) => r.WhatMost(rr => rr.Left + rr.Width);
-        public static Rectangle TopMost   (this IEnumerable<Rectangle> r) => r.WhatMost(rr => rr.Top);
-        public static Rectangle BottomMost(this IEnumerable<Rectangle> r) => r.WhatMost(rr => rr.Top + rr.Height);
-
-        static Rectangle WhatMost(this IEnumerable<Rectangle> r, Func<Rectangle,float> selector )
-        {
-            var ra = r as Rectangle[] ?? r.ToArray();
-            var left = ra.Min(selector);
-            // ReSharper disable once CompareOfFloatsByEqualityOperator : the value came from one of the rectangles: we'll find an exact match
-            return ra.First(rr => selector(rr) == left);
-        }
-
-        static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
-        {
-            var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
-            var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
-
-            var largestDim = new[] {oldContainer.Width, oldContainer.Height}.Max();
-            var newContainer = oldContainer.ScaleInPlace((largestDim + increment)/largestDim);
-            return aRectangles.Select(r => r.ReFit(oldContainer, newContainer));
-        }
-
-        static IEnumerable<Rectangle> IncreasePadding(this IEnumerable<Rectangle> rectangles, float scale)
-        {
-            var aRectangles  = rectangles as Rectangle[] ?? rectangles.ToArray();
-            var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
-            var scaled       = aRectangles.Select(r => r.ScaleInPlace(scale)).ToArray();
-            var newContainer = scaled.Aggregate((r1, r2) => r1.Absorb(r2));
-            return scaled.Select(r => r.ReFit(newContainer, oldContainer));
         }
     }
 }
