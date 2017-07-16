@@ -8,8 +8,11 @@ namespace AlbumWordAddin
 {
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
+    using Mannex.Collections.Generic;
     using Microsoft.Office.Core;
     using MoreLinq;
     using UserPreferences;
@@ -18,6 +21,8 @@ namespace AlbumWordAddin
     using VstoEx.Geometry;
     using VstoEx.Progress;
 
+    // ReSharper disable once ClassNeverInstantiated.Global
+    [SuppressMessage("ReSharper", "LocalizableElement")]
     public partial class ThisAddIn
     {
         Document ActiveDocument => Globals.Factory.GetVstoObject(Application.ActiveDocument);
@@ -65,7 +70,89 @@ namespace AlbumWordAddin
 
         internal void AlignSelectedImages(Alignment alignment, float forced = Single.NaN)
         {
-            _utilities.AlignSelectedImages(alignment, forced);
+            Alignment alignment1 = alignment;
+            using (Application.StatePreserver().FreezeScreenUpdating())
+            {
+                var shapes = Globals.ThisAddIn.SelectedShapes().ToArray();
+                if (shapes.Length < 2) return;
+                switch (alignment1)
+                {
+                    case Alignment.Top:
+                    {
+                        var pos = shapes.Min(shp => shp.Top);
+                        shapes.ForEach(shp => shp.Top = pos);
+                    }
+                        break;
+                    case Alignment.Middle:
+                    {
+                        var pos = shapes.Average(shp => shp.Top + shp.Height/2);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Height/2);
+                    }
+                        break;
+                    case Alignment.Bottom:
+                    {
+                        var pos = shapes.Max(shp => shp.Top + shp.Height);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Height);
+                    }
+                        break;
+                    case Alignment.Left:
+                    {
+                        var pos = shapes.Min(shp => shp.Left);
+                        shapes.ForEach(shp => shp.Left = pos);
+                    }
+                        break;
+                    case Alignment.Center:
+                    {
+                        var pos = shapes.Average(shp => shp.Left + shp.Width/2);
+                        shapes.ForEach(shp => shp.Left = pos - shp.Width/2);
+                    }
+                        break;
+                    case Alignment.Right:
+                    {
+                        var pos = shapes.Max(shp => shp.Left + shp.Width);
+                        shapes.ForEach(shp => shp.Left = pos - shp.Width);
+                    }
+                        break;
+                    case Alignment.Narrowest:
+                    {
+                        var pos = shapes.Min(shp => shp.Width);
+                        shapes.ForEach(shp => shp.Width = pos);
+                    }
+                        break;
+                    case Alignment.Shortest:
+                    {
+                        var pos = shapes.Min(shp => shp.Height);
+                        shapes.ForEach(shp => shp.Height = pos);
+                    }
+                        break;
+                    case Alignment.Tallest:
+                    {
+                        var pos = shapes.Max(shp => shp.Height);
+                        shapes.ForEach(shp => shp.Height = pos);
+                    }
+                        break;
+                    case Alignment.Widest:
+                    {
+                        var pos = shapes.Max(shp => shp.Width);
+                        shapes.ForEach(shp => shp.Width = pos);
+                    }
+                        break;
+                    case Alignment.ForceWidth:
+                        if (!float.IsNaN(forced) && forced > 0)
+                        {
+                            shapes.ForEach(shp => shp.Width = forced);
+                        }
+                        break;
+                    case Alignment.ForceHeight:
+                        if (!float.IsNaN(forced) && forced > 0)
+                        {
+                            shapes.ForEach(shp => shp.Height = forced);
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(alignment1), alignment1, null);
+                }
+            }
         }
 
         void ThisAddIn_Shutdown(object sender, EventArgs e)
@@ -74,17 +161,79 @@ namespace AlbumWordAddin
 
         public void RemoveEmptyPages()
         {
-            _utilities.RemoveEmptyPages();
+            using (Application.StatePreserver().FreezeScreenUpdating())
+            {
+
+                var paragraphsToBeDeleted = ActiveDocument.Paragraphs.Cast<Word.Paragraph>()
+                        .Select(p => new
+                            {
+                                Paragraph = p,
+                                PageNumber = p.Range.GetPageNumber(),
+                                IsEmpty = p.Range.ShapeRange.Count == 0
+                                          &&
+                                          string.IsNullOrWhiteSpace(Regex.Replace(p.Range.Text, @"\x12\x09",
+                                              string.Empty))
+                            }
+                        )
+                        .GroupBy(p => p.PageNumber)
+                        .Where(g => g.All(p => p.IsEmpty))
+                        .OrderByDescending(g => g.Key)
+                        .SelectMany(g => g.Select(gg => gg.Paragraph))
+                        .ToList()
+                    ;
+                foreach (var paragraph in paragraphsToBeDeleted)
+                {
+                    paragraph.Range.Delete();
+                }
+            }
         }
 
         public void SelectShapesOnPage()
         {
-            _utilities.SelectShapesOnPage();
+            var pageNumber = Selection.GetPageNumber();
+            var shapesOnPage = ActiveDocument.Shapes.Cast<Word.Shape>()
+                .Where(s => (s.Type == MsoShapeType.msoLinkedPicture
+                          || s.Type == MsoShapeType.msoPicture
+                            ) && s.Anchor.GetPageNumber() == pageNumber
+                );
+            using (Application.StatePreserver().FreezeScreenUpdating())
+                shapesOnPage.ForEach(s => s.Select(Replace: false));
         }
 
         public void FixAnchorOfSelectedImages()
         {
-            _utilities.FixAnchorOfSelectedImages();
+            using (Application.StatePreserver().FreezeScreenUpdating())
+            {
+                var doc = ActiveDocument;
+                var shapes = Globals.ThisAddIn.SelectedShapes().ToArray();
+                if (!shapes.Any()) return;
+                var paragraphsByPage =
+                    doc.Paragraphs.Cast<Word.Paragraph>()
+                        .GroupBy(p => p.Range.GetPageNumber())
+                        .ToArray();
+                var bestAnchors =
+                    shapes
+                        .Select(sh => sh.AsKeyTo(paragraphsByPage.First(p => p.Key == sh.GetPageNumber()).First()));
+                var newShapes = new List<Word.Shape>();
+                foreach (var kvp in bestAnchors)
+                {
+                    if (kvp.Key.Anchor == kvp.Value.Range) newShapes.Add(kvp.Key);
+                    else
+                    {
+                        kvp.Key.Select(Replace: true);
+                        Selection.Cut();
+                        kvp.Value.Range.Select();
+                        Selection.Paste();
+                        var sh = Globals.ThisAddIn.SelectedShapes().FirstOrDefault();
+                        if (sh != null)
+                        {
+                            newShapes.Add(sh);
+                        }
+                    }
+                }
+                newShapes.FirstOrDefault()?.Select(Replace: true);
+                newShapes.Skip(1).ForEach(sh => sh.Select(Replace: false));
+            }
         }
 
         #region VSTO generated code
@@ -215,12 +364,12 @@ namespace AlbumWordAddin
 
         public void TextWrapping(Word.WdWrapType wdWrapType)
         {
-            _utilities.TextWrapping(wdWrapType);
+            SelectedShapeIterator(sh => sh.WrapFormat.Type = wdWrapType);
         }
 
         internal void TextWrapping(Word.WdWrapSideType wdWrapSide)
         {
-            _utilities.TextWrapping(wdWrapSide);
+            SelectedShapeIterator(sh => sh.WrapFormat.Side = wdWrapSide);
         }
 
         public void SpacingEqualHorizontal()
@@ -264,13 +413,15 @@ namespace AlbumWordAddin
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var rectangles = shapes.Select(s => new Rectangle(s));
             var positions = spacerFunc(rectangles);
-            _utilities.ApplyPositions(shapes, positions);
+
+            using (Application.StatePreserver().FreezeScreenUpdating())
+                _utilities.ApplyPositions(shapes, positions);
         }
 
 
         public void MarginAdjust(int marginDelta)
         {
-            _utilities.MarginAdjust(marginDelta);
+            // var container = SelectedShapes().;
         }
 
         public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
