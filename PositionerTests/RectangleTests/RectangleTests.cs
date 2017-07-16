@@ -8,7 +8,7 @@
     public class RectangleTests
     {
         [TestMethod]
-        public void TestRectangleTopLeftWidthHeightCtor()
+        public void TestRectangleCtorTopLeftWidthHeight()
         {
             var r = new Rectangle(1, 1, 1, 1);
             Assert.AreEqual(1f, r.Top, "Top");
@@ -22,7 +22,7 @@
         }
 
         [TestMethod]
-        public void TestRectanglePointsCtor()
+        public void TestRectangleCtorPoints()
         {
             var r = new Rectangle(new Point(1, 1), new Point(2, 2));
             Assert.AreEqual(1f, r.Top, "Top");
