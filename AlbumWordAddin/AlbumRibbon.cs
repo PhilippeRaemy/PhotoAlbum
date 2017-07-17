@@ -255,13 +255,15 @@
         void buttonMarginLess_Click(object sender, RibbonControlEventArgs e)
         {
             dropDownMargin_Change(sender, e, -1);
-            Globals.ThisAddIn.MarginAdjust(-MarginFactor);
+            DropDownIntSetter(dropDownMargin, 
+                (int)Math.Round(Globals.ThisAddIn.MarginAdjust(-MarginFactor)));
         }
 
         void buttonMarginMore_Click(object sender, RibbonControlEventArgs e)
         {
             dropDownMargin_Change(sender, e, +1);
-            Globals.ThisAddIn.MarginAdjust(+MarginFactor);
+            DropDownIntSetter(dropDownMargin,
+                (int)Math.Round(Globals.ThisAddIn.MarginAdjust(+MarginFactor)));
         }
         void dropDownMargin_Change(object sender, RibbonControlEventArgs e, int i)
         {
