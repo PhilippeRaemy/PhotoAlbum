@@ -33,7 +33,7 @@ namespace VstoEx.Geometry
              : other.Contains(this) ? Size - other.Size // Contained
              : Start <= other.Start ? - (End - other.Start) // Righter overlaping
              : other.Start <= Start ? - (other.End - Start) // Lefter overlaping
-             : float.PositiveInfinity;
+             : float.NaN;
 
         public bool Overlaps(Segment other)
             => DistanceTo(other) <= 0;

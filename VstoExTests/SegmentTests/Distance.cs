@@ -53,7 +53,7 @@ namespace VstoExTests.SegmentTests
                 var s1 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
                 var s2 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
                 Assert.AreEqual(s1.DistanceTo(s2), s2.DistanceTo(s1), $"{s1} - {s2}");
-                Assert.IsFalse(float.IsPositiveInfinity(s1.DistanceTo(s2)));
+                Assert.IsFalse(float.IsNaN(s1.DistanceTo(s2)));
             }
         }
 
