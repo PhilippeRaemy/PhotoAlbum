@@ -23,13 +23,16 @@ namespace VstoEx.Geometry
             }
         }
 
+        public bool Contains(Segment other)
+            => Start <= other.Start && End >= other.End;
+
         public float DistanceTo(Segment other)
-            => other.Start >= End                       ? other.Start - End // Righter disjoint
-             : Start >= other.End                       ? Start - other.End // Lefter disjoint
-             : Start <= other.Start && End >= other.End ? other.Size - Size // Containing
-             : other.Start <= Start && other.End >= End ? Size - other.Size // Contained
-             : Start <= other.Start                     ? - (End - other.Start) // Righter overlaping
-             : other.Start <= Start                     ? - (other.End - Start) // Lefter overlaping
+            => other.Start >= End   ? other.Start - End // Righter disjoint
+             : Start >= other.End   ? Start - other.End // Lefter disjoint
+             : Contains(other)      ? other.Size - Size // Containing
+             : other.Contains(this) ? Size - other.Size // Contained
+             : Start <= other.Start ? - (End - other.Start) // Righter overlaping
+             : other.Start <= Start ? - (other.End - Start) // Lefter overlaping
              : float.PositiveInfinity;
 
         public bool Overlaps(Segment other)
