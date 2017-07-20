@@ -35,13 +35,13 @@ namespace VstoExTests.SegmentTests
         [TestMethod]
         public void IncludedSegment()
         {
-            Assert.AreEqual(-6f, new Segment(0, 5).DistanceTo(new Segment(1, 2)));
+            Assert.AreEqual(-4f, new Segment(0, 5).DistanceTo(new Segment(1, 2)));
         }
 
         [TestMethod]
         public void ContainingSegment()
         {
-            Assert.AreEqual(-6f, new Segment(1, 2).DistanceTo(new Segment(0, 5)));
+            Assert.AreEqual(-4f, new Segment(1, 2).DistanceTo(new Segment(0, 5)));
         }
 
         [TestMethod]

@@ -26,8 +26,8 @@ namespace VstoEx.Geometry
         public float DistanceTo(Segment other)
             => other.Start >= End                       ? other.Start - End // Righter disjoint
              : Start >= other.End                       ? Start - other.End // Lefter disjoint
-             : Start <= other.Start && End >= other.End ? - (other.Size + Size) // Containing
-             : other.Start <= Start && other.End >= End ? - (other.Size + Size) // Contained
+             : Start <= other.Start && End >= other.End ? other.Size - Size // Containing
+             : other.Start <= Start && other.End >= End ? Size - other.Size // Contained
              : Start <= other.Start                     ? - (End - other.Start) // Righter overlaping
              : other.Start <= Start                     ? - (other.End - Start) // Lefter overlaping
              : float.PositiveInfinity;
