@@ -66,7 +66,7 @@
         static void DropDownIntSetter(RibbonDropDown ribbonDropDown, int value)
         {
             ribbonDropDown.SelectedItem 
-                =  ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag == value)
+                =  ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag >= value)
                 ?? ribbonDropDown.SelectedItem;
         }
 
@@ -265,6 +265,7 @@
             DropDownIntSetter(dropDownMargin,
                 (int)Math.Round(Globals.ThisAddIn.MarginAdjust(+MarginFactor)));
         }
+
         void dropDownMargin_Change(object sender, RibbonControlEventArgs e, int i)
         {
             try
@@ -398,22 +399,6 @@
             _buttonsActingOnOneOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 1);
             _buttonsActingOnTwoOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 2);
             _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 3);
-        }
-
-        static void SetDropdownValue(RibbonDropDown ribbonDropDown, int value)
-        {
-            ribbonDropDown.SelectedItem = ribbonDropDown.Items.FirstOrDefault(i => (int)i.Tag >= value)
-                                       ?? ribbonDropDown.Items.Last();
-        }
-
-        public void SetMarginDropdownValue(int value)
-        {
-            SetDropdownValue(dropDownMargin, value);
-        }
-
-        public void SetPaddingDropdownValue(int value)
-        {
-            SetDropdownValue(dropDownPadding, value);
         }
 
         IEnumerable<RibbonDropDownItem> GenIntDropdownItems(int start, int count)
