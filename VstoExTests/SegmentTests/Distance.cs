@@ -56,5 +56,21 @@ namespace VstoExTests.SegmentTests
                 Assert.IsFalse(float.IsPositiveInfinity(s1.DistanceTo(s2)));
             }
         }
+
+        /*
+        [TestMethod]
+        public void TriangleInequality()
+        {
+            var rnd = new Random((int)(DateTime.Now - DateTime.Today).TotalSeconds);
+            for (var i = 0; i < 100; i++)
+            {
+                var s1 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
+                var s2 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
+                var s3 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
+                Assert.IsTrue(s1.DistanceTo(s3) <= s1.DistanceTo(s2) + s2.DistanceTo(s3)
+                    , $"{s1}.DistanceTo({s3}){{={s1.DistanceTo(s3)}}} <= {s1}.DistanceTo({s2}){{={s1.DistanceTo(s2)}}} + {s2}.DistanceTo({s2}){{{s1.DistanceTo(s3)}}}");
+            }
+        }
+        */
     }
 }
