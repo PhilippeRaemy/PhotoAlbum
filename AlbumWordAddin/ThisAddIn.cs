@@ -412,17 +412,22 @@
         }
 
 
-        public void MarginAdjust(float increment)
+        public float MarginAdjust(float increment)
         {
-            SelectedShapesAdjustImpl(r => r.IncreaseMargin(increment));
+            return SelectedShapesAdjustImpl(rr => rr.IncreaseMargin(increment),
+                r => r.Aggregate((r1,r2) => r1.Absorb(r2)).AverageDistance(new Rectangle(0, 0, ActiveDocument.PageSetup.PageWidth, ActiveDocument.PageSetup.PageHeight))
+                );
         }
 
-        public void PaddingAdjust(float scale)
+        public float PaddingAdjust(float scale)
         {
-            SelectedShapesAdjustImpl(r => r.IncreasePadding(scale));
+            return SelectedShapesAdjustImpl(r => r.IncreasePadding(scale), _ => 0f);
         }
 
-        void SelectedShapesAdjustImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation)
+        T SelectedShapesAdjustImpl<T>(
+            Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation,
+            Func<IEnumerable<Rectangle>, T> feedbackFunc
+            )
         {
             if (SelectedShapes().Select(sh => sh.GetPageNumber()).Distinct().Count() > 1)
             {
@@ -432,6 +437,7 @@
                                 .ToArray();
             using (Application.StatePreserver().FreezeScreenUpdating())
                 SelectedShapes().ApplyPositions(rectangles);
+            return feedbackFunc(rectangles);
         }
 
         public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)

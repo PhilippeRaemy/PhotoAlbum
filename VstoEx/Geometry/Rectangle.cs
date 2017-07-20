@@ -156,5 +156,16 @@ namespace VstoEx.Geometry
             // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
             return base.GetHashCode();
         }
+
+        public float AverageDistance(Rectangle other)
+        {
+            return new[]
+            {
+                Top - other.Top,
+                other.Right - Right,
+                other.Bottom - Bottom,
+                Left - other.Left
+            }.Average();
+        }
     }
 }
