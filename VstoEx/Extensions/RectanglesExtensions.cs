@@ -44,7 +44,7 @@ namespace VstoEx.Extensions
                 .Average();
             }
             ;
-            return float.MinValue;
+            return float.NaN;
         }
     }
 }
