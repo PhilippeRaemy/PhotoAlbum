@@ -33,7 +33,7 @@ namespace VstoEx.Geometry
              : float.PositiveInfinity;
 
         public bool Overlaps(Segment other)
-            => DistanceTo(other) < 0;
+            => DistanceTo(other) <= 0;
 
         public override string ToString() => $"[{Start}, {End}]";
     }
