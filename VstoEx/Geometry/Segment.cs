@@ -16,7 +16,12 @@ namespace VstoEx.Geometry
         
         public float DistanceTo(Segment other)
             => other.Start >= End ? other.Start - End
-                : End >= other.Start ? End - other.Start
-                    : -1;
+             : Start >= other.End ? Start - other.End
+             : -1;
+
+        public bool Overlaps(Segment other)
+            => DistanceTo(other) < 0;
+
+        public override string ToString() => $"[{Start}, {End}]";
     }
 }
