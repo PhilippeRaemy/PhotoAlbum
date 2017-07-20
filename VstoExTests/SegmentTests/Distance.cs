@@ -17,7 +17,7 @@ namespace VstoExTests.SegmentTests
         [TestMethod]
         public void NonOverlapingLefterSegment()
         {
-            Assert.AreEqual(1f, new Segment(2, 3).DistanceTo(new Segment(1, 2)));
+            Assert.AreEqual(1f, new Segment(2, 3).DistanceTo(new Segment(0, 1)));
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace VstoExTests.SegmentTests
         [TestMethod]
         public void OverlapingLefterSegment()
         {
-            Assert.AreEqual(-1f, new Segment(2, 4).DistanceTo(new Segment(1, 4)));
+            Assert.AreEqual(-1f, new Segment(2, 4).DistanceTo(new Segment(0, 3)));
         }
 
         [TestMethod]
@@ -53,6 +53,7 @@ namespace VstoExTests.SegmentTests
                 var s1 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
                 var s2 = new Segment(rnd.Next(0, 100), rnd.Next(0, 100));
                 Assert.AreEqual(s1.DistanceTo(s2), s2.DistanceTo(s1), $"{s1} - {s2}");
+                Assert.IsFalse(float.IsPositiveInfinity(s1.DistanceTo(s2)));
             }
         }
     }
