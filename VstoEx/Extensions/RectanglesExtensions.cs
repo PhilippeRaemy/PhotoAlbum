@@ -2,6 +2,7 @@ namespace VstoEx.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Forms;
     using Geometry;
 
     public static class RectanglesExtensions
@@ -27,7 +28,9 @@ namespace VstoEx.Extensions
 
         public static float GetAveragePadding(this IEnumerable<Rectangle> rectangles)
         {
-            return 0;
+            var rr = rectangles as Rectangle[] ?? rectangles.ToArray();
+            if(rr.Length <=1) return 0;
+            return float.MinValue;
         }
     }
 }
