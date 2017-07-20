@@ -90,15 +90,15 @@
         }
 
         [TestMethod]
-        public void TwoOverlappingdRectanglesHaveNegativePaddingAsTheirDistance_H()
+        public void TwoOverlappingdRectanglesHaveNegativePaddingAsTheirAverageDistance_H()
         {
-            Assert.AreEqual(-1f, new[] {new Rectangle(1, 1, 2, 1), new Rectangle(2, 1, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(-0.5, new[] {new Rectangle(1, 1, 2, 1), new Rectangle(2, 1, 1, 1)}.GetAveragePadding());
         }
 
         [TestMethod]
-        public void TwoOverlappingdRectanglesHaveNegativePaddingAsTheirDistance_V()
+        public void TwoOverlappingdRectanglesHaveNegativePaddingAsTheirAverageDistance_V()
         {
-            Assert.AreEqual(-1f, new[] {new Rectangle(1, 1, 1, 2), new Rectangle(1, 2, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(-0.5, new[] {new Rectangle(1, 1, 1, 2), new Rectangle(1, 2, 1, 1)}.GetAveragePadding());
         }
 
         [TestMethod]
