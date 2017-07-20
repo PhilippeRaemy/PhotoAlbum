@@ -31,8 +31,8 @@ namespace VstoEx.Geometry
              : Start >= other.End   ? Start - other.End // Lefter disjoint
              : Contains(other)      ? other.Size - Size // Containing
              : other.Contains(this) ? Size - other.Size // Contained
-             : Start <= other.Start ? - (End - other.Start) // Righter overlaping
-             : other.Start <= Start ? - (other.End - Start) // Lefter overlaping
+             : Start <= other.Start ? other.Start - End // Righter overlaping
+             : other.Start <= Start ? Start - other.End // Lefter overlaping
              : float.NaN;
 
         public bool Overlaps(Segment other)
