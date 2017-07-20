@@ -1,5 +1,6 @@
 namespace VstoEx.Extensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -43,8 +44,7 @@ namespace VstoEx.Extensions
                 }
                 .Average();
             }
-            ;
-            return float.NaN;
+            throw new NotImplementedException();
         }
     }
 }
