@@ -24,5 +24,10 @@ namespace VstoEx.Extensions
             var newContainer = scaled.Aggregate((r1, r2) => r1.Absorb(r2));
             return scaled.Select(r => r.ReFit(newContainer, oldContainer));
         }
+
+        public static float GetAveragePadding(this IEnumerable<Rectangle> rectangles)
+        {
+            return 0;
+        }
     }
 }
