@@ -8,8 +8,8 @@
     [TestClass]
     public class PositionerTestsBendLeftRight
     {
-        static readonly Positioner.Parms BendLeftPos  = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.BendLeft, VShape = VShape.Flat, Margin = 0, Padding = 0};
-        static readonly Positioner.Parms BendRightPos = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.BendRight, VShape = VShape.Flat, Margin = 0, Padding = 0};
+        static readonly Positioner.Parms BendLeftPos  = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.BendLeft, VShape = VShape.Flat, Margin = 0, Spacing = 0};
+        static readonly Positioner.Parms BendRightPos = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.BendRight, VShape = VShape.Flat, Margin = 0, Spacing = 0};
 
         [TestMethod]
         public void TestPositioner_BendLeft2Shapes()

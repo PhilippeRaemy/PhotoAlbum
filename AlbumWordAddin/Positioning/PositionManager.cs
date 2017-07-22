@@ -14,9 +14,9 @@
         Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
 
-        internal void DoPositionSelectedImages(Arrangement arrangement, int padding, int margin)
+        internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
-            _positionerParms.Padding = padding;
+            _positionerParms.Spacing = spacing;
             _positionerParms.Margin = margin;
             var shapesCount = Globals.ThisAddIn.SelectedShapes().Length;
             switch (arrangement)
@@ -63,9 +63,9 @@
             DoPositionSelectedImages(_positionerParms);
         }
 
-        internal void DoPositionSelectedImages(int padding, int margin)
+        internal void DoPositionSelectedImages(int spacing, int margin)
         {
-            _positionerParms.Padding = padding;
+            _positionerParms.Spacing = spacing;
             _positionerParms.Margin = margin;
             DoPositionSelectedImages(_positionerParms);
         }

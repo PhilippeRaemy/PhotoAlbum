@@ -92,7 +92,7 @@
         }
 
         [TestMethod]
-        public void TestRectangleFitInWithPadding()
+        public void TestRectangleFitInWithSpacing()
         {
             var container = new Rectangle(1, 1, 8, 4);
             var contained = new Rectangle(4, 3, 2, 2);

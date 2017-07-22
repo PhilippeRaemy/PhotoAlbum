@@ -274,7 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icons\MarginsGrow.png" />
-    <None Include="Icons\paddingShrink.png" />
+    <None Include="Icons\spacingShrink.png" />
     <Content Include="Icons\SpacingDecreaseHorizontal.png" />
     <Content Include="Icons\SpacingDecreaseVertical.png" />
     <Content Include="Icons\SpacingEqualHorizontal.png" />
@@ -303,7 +303,7 @@
     <None Include="Icons\HAlignRightDown.png" />
     <None Include="Icons\HAlignRightUp.png" />
     <Content Include="Icons\MarginsShrink.png" />
-    <None Include="Icons\paddingGrow.png" />
+    <None Include="Icons\spacingGrow.png" />
     <None Include="Icons\MoveAnchorsToTop.png" />
     <None Include="Icons\LowResPictures.png" />
     <None Include="Icons\HiResPictures.png" />

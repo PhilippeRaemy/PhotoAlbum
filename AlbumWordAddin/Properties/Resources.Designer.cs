@@ -183,26 +183,6 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap paddingGrow {
-            get {
-                object obj = ResourceManager.GetObject("paddingGrow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap paddingShrink {
-            get {
-                object obj = ResourceManager.GetObject("paddingShrink", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Pict_1x1 {
             get {
                 object obj = ResourceManager.GetObject("Pict_1x1", resourceCulture);
@@ -383,6 +363,16 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap spacingGrow {
+            get {
+                object obj = ResourceManager.GetObject("spacingGrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SpacingIncreaseHorizontal {
             get {
                 object obj = ResourceManager.GetObject("SpacingIncreaseHorizontal", resourceCulture);
@@ -406,6 +396,16 @@ namespace AlbumWordAddin.Properties {
         internal static System.Drawing.Bitmap SpacingInterpolate {
             get {
                 object obj = ResourceManager.GetObject("SpacingInterpolate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap spacingShrink {
+            get {
+                object obj = ResourceManager.GetObject("spacingShrink", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

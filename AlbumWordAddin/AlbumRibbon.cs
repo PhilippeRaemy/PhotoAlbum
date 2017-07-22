@@ -13,7 +13,7 @@
 
     public partial class AlbumRibbon
     {
-        const int PaddingFactor = 5;
+        const int SpacingFactor = 5;
         const int MarginFactor = 5;
         RibbonToggleButtonSet _arrangeButtonSet;
         RibbonToggleButtonSet _hAlignButtonSet;
@@ -27,7 +27,7 @@
             PerformLayout();
             var userPrefs = new PersistedUserPreferences();
             DropDownIntSetter(dropDownMargin, userPrefs.Margin);
-            DropDownIntSetter(dropDownPadding, userPrefs.Padding);
+            DropDownIntSetter(dropDownSpacing, userPrefs.Spacing);
 
             _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")));
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
@@ -59,7 +59,7 @@
         {
             new PersistedUserPreferences {
                 Margin = (int) dropDownMargin.SelectedItem.Tag,
-                Padding = (int) dropDownPadding.SelectedItem.Tag
+                Spacing = (int) dropDownSpacing.SelectedItem.Tag
             }.Save();
         }
 
@@ -140,7 +140,7 @@
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true );
             _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Padding(), Margin());
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Spacing(), Margin());
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
@@ -148,7 +148,7 @@
             _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Padding(), Margin());
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Spacing(), Margin());
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
@@ -156,7 +156,7 @@
             _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Padding(), Margin());
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Spacing(), Margin());
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
@@ -164,7 +164,7 @@
             _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Padding(), Margin());
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Spacing(), Margin());
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
@@ -172,7 +172,7 @@
             _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
             _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
-            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Padding(), Margin());
+            Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Spacing(), Margin());
         }
 
         void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
@@ -201,22 +201,22 @@
             Globals.ThisAddIn.DoPositionSelectedImages(vAlign: ribbonButton.Id);
         }
 
-        void buttonPaddingLess_Click(object sender, RibbonControlEventArgs e)
+        void buttonSpacingLess_Click(object sender, RibbonControlEventArgs e)
         {
-            dropDownPadding_Change(sender, e, -1);
+            dropDownSpacing_Change(sender, e, -1);
         }
 
-        void buttonPaddingMore_Click(object sender, RibbonControlEventArgs e)
+        void buttonSpacingMore_Click(object sender, RibbonControlEventArgs e)
         {
-            dropDownPadding_Change(sender, e, +1);
+            dropDownSpacing_Change(sender, e, +1);
         }
 
-        void dropDownPadding_Change(object sender, RibbonControlEventArgs e, int i)
+        void dropDownSpacing_Change(object sender, RibbonControlEventArgs e, int i)
         {
             try
             {
-                dropDownPadding.SelectedItemIndex += i;
-                dropDownPadding_ButtonClick(sender, e);
+                dropDownSpacing.SelectedItemIndex += i;
+                dropDownSpacing_ButtonClick(sender, e);
             }
             catch
             {
@@ -224,22 +224,22 @@
             }
         }
 
-        void dropDownPadding_ButtonClick(object sender, RibbonControlEventArgs e)
+        void dropDownSpacing_ButtonClick(object sender, RibbonControlEventArgs e)
         {
             DoPositionSelectedImages();
         }
 
-        int Padding() => PaddingFactor * (int)dropDownPadding.SelectedItem.Tag;
+        int Spacing() => SpacingFactor * (int)dropDownSpacing.SelectedItem.Tag;
         int Margin () => MarginFactor  * (int)dropDownMargin .SelectedItem.Tag;
 
         void DoPositionSelectedImages()
         {
-            Globals.ThisAddIn.DoPositionSelectedImages(Padding(), Margin());
+            Globals.ThisAddIn.DoPositionSelectedImages(Spacing(), Margin());
         }
 
-        void dropDownPadding_SelectionChanged(object sender, RibbonControlEventArgs e)
+        void dropDownSpacing_SelectionChanged(object sender, RibbonControlEventArgs e)
         {
-            dropDownPadding_ButtonClick(sender, e);
+            dropDownSpacing_ButtonClick(sender, e);
         }
 
         void dropDownMargin_ButtonClick(object sender, RibbonControlEventArgs e)

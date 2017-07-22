@@ -249,14 +249,14 @@
             _utilities.DoPositionSelectedImages(hAlign, vAlign);
         }
 
-        public void ArrangeSelectedImages(Arrangement arrangement, int padding, int margin)
+        public void ArrangeSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
-            _utilities.DoPositionSelectedImages(arrangement, padding, margin);
+            _utilities.DoPositionSelectedImages(arrangement, spacing, margin);
         }
 
-        internal void DoPositionSelectedImages(int padding, int margin)
+        internal void DoPositionSelectedImages(int spacing, int margin)
         {
-            _utilities.DoPositionSelectedImages(padding, margin);
+            _utilities.DoPositionSelectedImages(spacing, margin);
         }
 
         public void DoRelativePositionSelectedImages()
@@ -419,9 +419,9 @@
                 );
         }
 
-        public float PaddingAdjust(float scale)
+        public float SpacingAdjust(float scale)
         {
-            return SelectedShapesAdjustImpl(r => r.IncreasePadding(scale), _ => 0f);
+            return SelectedShapesAdjustImpl(r => r.IncreaseSpacing(scale), _ => 0f);
         }
 
         T SelectedShapesAdjustImpl<T>(

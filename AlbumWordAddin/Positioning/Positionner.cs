@@ -16,7 +16,7 @@
             public HShape HShape    { get; set; }
             public VShape VShape    { get; set; }
             public float Margin     { get; set; }
-            public float Padding    { get; set; }
+            public float Spacing    { get; set; }
         }
 
         public static IEnumerable<Rectangle> DoPosition(Parms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
@@ -27,7 +27,7 @@
                 parms.HShape,
                 parms.VShape,
                 parms.Margin,
-                parms.Padding,
+                parms.Spacing,
                 clientArea,
                 rectangles
             );
@@ -39,7 +39,7 @@
             HShape hShape,
             VShape vShape,
             float margin,
-            float padding,
+            float spacing,
             Rectangle clientArea, 
             IEnumerable<Rectangle> rectangles
         )
@@ -61,7 +61,7 @@
             return grid
                     .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                     .Where(x => x.rectangle != null && x.area != null)
-                    .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, padding))
+                    .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
                 ;
         }
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage

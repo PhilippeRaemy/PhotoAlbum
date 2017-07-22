@@ -12,7 +12,7 @@
         string _folderImportEnd;
         int _maxPicturesPerFile;
         int _margin;
-        int _padding;
+        int _spacing;
         protected bool Modified;
         bool _confirmFileOverwrite;
         string _includeFiles;
@@ -47,11 +47,11 @@
             set { Modified = true; _margin = value; }
         }
 
-        [XmlElement("Padding")]
-        public int Padding
+        [XmlElement("Spacing")]
+        public int Spacing
         {
-            get { return _padding; }
-            set { Modified = true; _padding = value; }
+            get { return _spacing; }
+            set { Modified = true; _spacing = value; }
         }
 
         [XmlElement("ConfirmFileOverwrite")]

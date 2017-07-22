@@ -18,7 +18,7 @@ namespace VstoEx.Extensions
             return aRectangles.Select(r => r.ReFit(oldContainer, newContainer));
         }
 
-        public static IEnumerable<Rectangle> IncreasePadding(this IEnumerable<Rectangle> rectangles, float scale)
+        public static IEnumerable<Rectangle> IncreaseSpacing(this IEnumerable<Rectangle> rectangles, float scale)
         {
             var aRectangles  = rectangles as Rectangle[] ?? rectangles.ToArray();
             var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
@@ -27,7 +27,7 @@ namespace VstoEx.Extensions
             return scaled.Select(r => r.ReFit(newContainer, oldContainer));
         }
 
-        public static float GetAveragePadding(this IEnumerable<Rectangle> rectangles)
+        public static float GetAverageSpacing(this IEnumerable<Rectangle> rectangles)
         {
             var rr = rectangles as Rectangle[] ?? rectangles.ToArray();
             if (rr.Length <= 1 ) return 0;

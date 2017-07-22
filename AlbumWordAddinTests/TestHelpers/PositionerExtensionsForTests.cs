@@ -8,7 +8,7 @@ namespace AlbumWordAddinTests.TestHelpers
     {
         public static Positioner.Parms WithRowsCols(this Positioner.Parms model, int rows, int cols)
         {
-            return new Positioner.Parms { Cols = cols, Rows = rows, HShape = model.HShape, VShape = model.VShape, Padding = model.Padding, Margin = model.Margin };
+            return new Positioner.Parms { Cols = cols, Rows = rows, HShape = model.HShape, VShape = model.VShape, Spacing = model.Spacing, Margin = model.Margin };
         }
     }
 

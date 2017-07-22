@@ -17,7 +17,7 @@ namespace AlbumWordAddin
         {
             InitializeComponent();
             IniDropDownItems(dropDownMargin, 0, 10, 5);
-            IniDropDownItems(dropDownPadding, -10, 10, 0);
+            IniDropDownItems(dropDownSpacing, -10, 10, 0);
             ThisAddIn.ThisRibbon = this;
         }
 
@@ -66,7 +66,7 @@ namespace AlbumWordAddin
             this.box3 = this.Factory.CreateRibbonBox();
             this.dropDownMargin = this.Factory.CreateRibbonDropDown();
             this.box5 = this.Factory.CreateRibbonBox();
-            this.dropDownPadding = this.Factory.CreateRibbonDropDown();
+            this.dropDownSpacing = this.Factory.CreateRibbonDropDown();
             this.buttonGroup2 = this.Factory.CreateRibbonButtonGroup();
             this.buttonSizeToWidest = this.Factory.CreateRibbonButton();
             this.buttonSizeToNarrowest = this.Factory.CreateRibbonButton();
@@ -109,8 +109,8 @@ namespace AlbumWordAddin
             this.vAlignRightDown = this.Factory.CreateRibbonToggleButton();
             this.buttonMarginLess = this.Factory.CreateRibbonButton();
             this.buttonMarginMore = this.Factory.CreateRibbonButton();
-            this.buttonPaddingLess = this.Factory.CreateRibbonButton();
-            this.buttonPaddingMore = this.Factory.CreateRibbonButton();
+            this.buttonSpacingLess = this.Factory.CreateRibbonButton();
+            this.buttonSpacingMore = this.Factory.CreateRibbonButton();
             this.buttonSpacing = this.Factory.CreateRibbonButton();
             this.buttonSpacingDecreaseHorizontal = this.Factory.CreateRibbonButton();
             this.buttonSpacingIncreaseHorizontal = this.Factory.CreateRibbonButton();
@@ -340,21 +340,21 @@ namespace AlbumWordAddin
             // 
             // box5
             // 
-            this.box5.Items.Add(this.buttonPaddingLess);
-            this.box5.Items.Add(this.dropDownPadding);
-            this.box5.Items.Add(this.buttonPaddingMore);
+            this.box5.Items.Add(this.buttonSpacingLess);
+            this.box5.Items.Add(this.dropDownSpacing);
+            this.box5.Items.Add(this.buttonSpacingMore);
             this.box5.Name = "box5";
             // 
-            // dropDownPadding
+            // dropDownSpacing
             // 
-            this.dropDownPadding.Label = "";
-            this.dropDownPadding.Name = "dropDownPadding";
-            this.dropDownPadding.ScreenTip = "Padding";
-            this.dropDownPadding.ShowItemImage = false;
-            this.dropDownPadding.ShowLabel = false;
-            this.dropDownPadding.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownPadding_ButtonClick);
-            this.dropDownPadding.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownPadding_SelectionChanged);
-            this.dropDownPadding.Tag = ShapeToolRequiredCount.OneOrMore;
+            this.dropDownSpacing.Label = "";
+            this.dropDownSpacing.Name = "dropDownSpacing";
+            this.dropDownSpacing.ScreenTip = "Spacing";
+            this.dropDownSpacing.ShowItemImage = false;
+            this.dropDownSpacing.ShowLabel = false;
+            this.dropDownSpacing.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownSpacing_ButtonClick);
+            this.dropDownSpacing.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownSpacing_SelectionChanged);
+            this.dropDownSpacing.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonGroup2
             // 
@@ -830,27 +830,27 @@ namespace AlbumWordAddin
             this.buttonMarginMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginMore_Click);
             this.buttonMarginMore.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
-            // buttonPaddingLess
+            // buttonSpacingLess
             // 
-            this.buttonPaddingLess.Image = global::AlbumWordAddin.Properties.Resources.paddingShrink;
-            this.buttonPaddingLess.Label = "<";
-            this.buttonPaddingLess.Name = "buttonPaddingLess";
-            this.buttonPaddingLess.ScreenTip = "Shrink Padding between images";
-            this.buttonPaddingLess.ShowImage = true;
-            this.buttonPaddingLess.ShowLabel = false;
-            this.buttonPaddingLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPaddingLess_Click);
-            this.buttonPaddingLess.Tag = ShapeToolRequiredCount.OneOrMore;
+            this.buttonSpacingLess.Image = global::AlbumWordAddin.Properties.Resources.spacingShrink;
+            this.buttonSpacingLess.Label = "<";
+            this.buttonSpacingLess.Name = "buttonSpacingLess";
+            this.buttonSpacingLess.ScreenTip = "Shrink Spacing between images";
+            this.buttonSpacingLess.ShowImage = true;
+            this.buttonSpacingLess.ShowLabel = false;
+            this.buttonSpacingLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingLess_Click);
+            this.buttonSpacingLess.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
-            // buttonPaddingMore
+            // buttonSpacingMore
             // 
-            this.buttonPaddingMore.Image = global::AlbumWordAddin.Properties.Resources.paddingGrow;
-            this.buttonPaddingMore.Label = ">";
-            this.buttonPaddingMore.Name = "buttonPaddingMore";
-            this.buttonPaddingMore.ScreenTip = "Grow Padding between images";
-            this.buttonPaddingMore.ShowImage = true;
-            this.buttonPaddingMore.ShowLabel = false;
-            this.buttonPaddingMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonPaddingMore_Click);
-            this.buttonPaddingMore.Tag = ShapeToolRequiredCount.OneOrMore;
+            this.buttonSpacingMore.Image = global::AlbumWordAddin.Properties.Resources.spacingGrow;
+            this.buttonSpacingMore.Label = ">";
+            this.buttonSpacingMore.Name = "buttonSpacingMore";
+            this.buttonSpacingMore.ScreenTip = "Grow Spacing between images";
+            this.buttonSpacingMore.ShowImage = true;
+            this.buttonSpacingMore.ShowLabel = false;
+            this.buttonSpacingMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingMore_Click);
+            this.buttonSpacingMore.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonSpacing
             // 
@@ -1088,9 +1088,9 @@ namespace AlbumWordAddin
         internal RibbonDropDown dropDownMargin;
         internal RibbonButton buttonMarginMore;
         internal RibbonBox box5;
-        internal RibbonButton buttonPaddingLess;
-        internal RibbonDropDown dropDownPadding;
-        internal RibbonButton buttonPaddingMore;
+        internal RibbonButton buttonSpacingLess;
+        internal RibbonDropDown dropDownSpacing;
+        internal RibbonButton buttonSpacingMore;
         internal RibbonButton buttonPictureSorter;
         internal RibbonButtonGroup buttonGroup2;
         internal RibbonButton buttonSizeToWidest;

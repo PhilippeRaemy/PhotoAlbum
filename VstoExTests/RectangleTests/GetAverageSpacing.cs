@@ -8,101 +8,101 @@
     /// Summary description for RectanglessTest
     /// </summary>
     [TestClass]
-    public class GetAveragePadding
+    public class GetAverageSpacing
         {
 
         [TestMethod]
-        public void OneRectangleAloneHasPaddingZero()
+        public void OneRectangleAloneHasSpacingZero()
         {
-            Assert.AreEqual(0f, new[] { new Rectangle(1, 1, 1, 1) }.GetAveragePadding());
+            Assert.AreEqual(0f, new[] { new Rectangle(1, 1, 1, 1) }.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void TwoAdjacentRectanglesHavePaddingZero_H()
+        public void TwoAdjacentRectanglesHaveSpacingZero_H()
         {
-            Assert.AreEqual(0f, new[] { new Rectangle(1, 1, 1, 1), new Rectangle(2, 1, 1, 1) }.GetAveragePadding());
+            Assert.AreEqual(0f, new[] { new Rectangle(1, 1, 1, 1), new Rectangle(2, 1, 1, 1) }.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void TwoAdjacentRectanglesHavePaddingZero_V()
+        public void TwoAdjacentRectanglesHaveSpacingZero_V()
         {
-            Assert.AreEqual(0f, new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 2, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(0f, new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 2, 1, 1)}.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void TwoAlignedNonAdjacentRectanglesHavePaddingAsTheirDistance_H()
+        public void TwoAlignedNonAdjacentRectanglesHaveSpacingAsTheirDistance_H()
         {
-            Assert.AreEqual(1f, new[] {new Rectangle(1, 1, 1, 1), new Rectangle(3, 1, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(1f, new[] {new Rectangle(1, 1, 1, 1), new Rectangle(3, 1, 1, 1)}.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void TwoAlignedNonAdjacentRectanglesHavePaddingAsTheirDistance_V()
+        public void TwoAlignedNonAdjacentRectanglesHaveSpacingAsTheirDistance_V()
         {
-            Assert.AreEqual(1f, new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 3, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(1f, new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 3, 1, 1)}.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void ThreeAdjacentRectanglesHavePaddingZero_H()
+        public void ThreeAdjacentRectanglesHaveSpacingZero_H()
         {
             Assert.AreEqual(0f,
                 new[] {new Rectangle(1, 1, 1, 1), new Rectangle(2, 1, 1, 1), new Rectangle(3, 1, 1, 1)}
-                    .GetAveragePadding());
+                    .GetAverageSpacing());
         }
 
         [TestMethod]
-        public void ThreeAdjacentRectanglesHavePaddingZero_V()
+        public void ThreeAdjacentRectanglesHaveSpacingZero_V()
         {
             Assert.AreEqual(0f,
                 new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 2, 1, 1), new Rectangle(1, 3, 1, 1)}
-                    .GetAveragePadding());
+                    .GetAverageSpacing());
         }
 
         [TestMethod]
-        public void ThreeAlignedNonAdjacentRectanglesHavePaddingAsTheirDistance_H()
+        public void ThreeAlignedNonAdjacentRectanglesHaveSpacingAsTheirDistance_H()
         {
             Assert.AreEqual(1f,
                 new[] {new Rectangle(1, 1, 1, 1), new Rectangle(3, 1, 1, 1), new Rectangle(5, 1, 1, 1)}
-                    .GetAveragePadding());
+                    .GetAverageSpacing());
         }
 
         [TestMethod]
-        public void ThreeAlignedNonAdjacentRectanglesHavePaddingAsTheirDistance_V()
+        public void ThreeAlignedNonAdjacentRectanglesHaveSpacingAsTheirDistance_V()
         {
             Assert.AreEqual(1f,
                 new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 3, 1, 1), new Rectangle(1, 5, 1, 1)}
-                    .GetAveragePadding());
+                    .GetAverageSpacing());
         }
 
         [TestMethod]
-        public void ThreeAlignedNonAdjacentRectanglesHavePaddingAsTheirAverageDistance_H()
+        public void ThreeAlignedNonAdjacentRectanglesHaveSpacingAsTheirAverageDistance_H()
         {
             Assert.AreEqual(1.5f,
                 new[] {new Rectangle(1, 1, 1, 1), new Rectangle(3, 1, 1, 1), new Rectangle(6, 1, 1, 1)}
-                    .GetAveragePadding());
+                    .GetAverageSpacing());
         }
 
         [TestMethod]
-        public void ThreeAlignedNonAdjacentRectanglesHavePaddingAsTheirAverageDistance_V()
+        public void ThreeAlignedNonAdjacentRectanglesHaveSpacingAsTheirAverageDistance_V()
         {
             Assert.AreEqual(1.5f,
                 new[] {new Rectangle(1, 1, 1, 1), new Rectangle(1, 3, 1, 1), new Rectangle(6, 5, 1, 1)}
-                    .GetAveragePadding());
+                    .GetAverageSpacing());
         }
 
         [TestMethod]
-        public void TwoOverlappingdRectanglesHaveNegativePaddingAsTheirAverageDistance_H()
+        public void TwoOverlappingdRectanglesHaveNegativeSpacingAsTheirAverageDistance_H()
         {
-            Assert.AreEqual(-0.5, new[] {new Rectangle(1, 1, 2, 1), new Rectangle(2, 1, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(-0.5, new[] {new Rectangle(1, 1, 2, 1), new Rectangle(2, 1, 1, 1)}.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void TwoOverlappingdRectanglesHaveNegativePaddingAsTheirAverageDistance_V()
+        public void TwoOverlappingdRectanglesHaveNegativeSpacingAsTheirAverageDistance_V()
         {
-            Assert.AreEqual(-0.5, new[] {new Rectangle(1, 1, 1, 2), new Rectangle(1, 2, 1, 1)}.GetAveragePadding());
+            Assert.AreEqual(-0.5, new[] {new Rectangle(1, 1, 1, 2), new Rectangle(1, 2, 1, 1)}.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void FourRectanglesInSquareHavePaddingAsTheirDistance()
+        public void FourRectanglesInSquareHaveSpacingAsTheirDistance()
         {
             Assert.AreEqual(1f, new[]
             {
@@ -110,11 +110,11 @@
                 new Rectangle(3, 1, 1, 1),
                 new Rectangle(1, 3, 1, 1),
                 new Rectangle(3, 3, 1, 1)
-            }.GetAveragePadding());
+            }.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void FourRectanglesInParallelogramHavePaddingAsTheirDistance()
+        public void FourRectanglesInParallelogramHaveSpacingAsTheirDistance()
         {
             Assert.AreEqual(1f, new[]
             {
@@ -122,11 +122,11 @@
                 new Rectangle(3, 1.5f, 1, 1),
                 new Rectangle(1, 3, 1, 1),
                 new Rectangle(3, 3.5f, 1, 1)
-            }.GetAveragePadding());
+            }.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void FourRectanglesInExtremeParallelogramHavePaddingAsTheirDistance_H()
+        public void FourRectanglesInExtremeParallelogramHaveSpacingAsTheirDistance_H()
         {
             Assert.AreEqual(1f, new[]
             {
@@ -134,11 +134,11 @@
                 new Rectangle(5, 1, 1, 1),
                 new Rectangle(1, 1, 1, 1),
                 new Rectangle(7, 1, 1, 1)
-            }.GetAveragePadding());
+            }.GetAverageSpacing());
         }
 
         [TestMethod]
-        public void FourRectanglesInExtremeParallelogramHavePaddingAsTheirDistance_V()
+        public void FourRectanglesInExtremeParallelogramHaveSpacingAsTheirDistance_V()
         {
             Assert.AreEqual(1f, new[]
             {
@@ -146,7 +146,7 @@
                 new Rectangle(3, 3, 1, 1),
                 new Rectangle(1, 5, 1, 1),
                 new Rectangle(3, 7, 1, 1)
-            }.GetAveragePadding());
+            }.GetAverageSpacing());
         }
     }
 }

@@ -76,10 +76,10 @@ namespace VstoEx.Geometry
         public Rectangle ScaleInPlace(float scale)
             => new Rectangle(Center, scale * Width, scale * Height);
 
-        public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float padding) {
-            if (Math.Abs(padding) > Epsilon)
+        public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float spacing) {
+            if (Math.Abs(spacing) > Epsilon)
             {
-                other=new Rectangle(other.Left + padding, other.Top + padding, other.Width - 2 * padding, other.Height - 2 * padding);   
+                other=new Rectangle(other.Left + spacing, other.Top + spacing, other.Width - 2 * spacing, other.Height - 2 * spacing);   
             }
             var scale = new[] { other.Width / Width, other.Height / Height }.Min();
             var newWidth  = Width * scale;
