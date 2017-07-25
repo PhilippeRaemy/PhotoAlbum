@@ -3,7 +3,6 @@ namespace VstoEx.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows.Forms;
     using Geometry;
 
     public static class RectanglesExtensions
@@ -11,17 +10,23 @@ namespace VstoEx.Extensions
         public static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
         {
             var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
-            var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
+            var oldContainer = Container(aRectangles);
 
-            var largestDim = new[] {oldContainer.Width, oldContainer.Height}.Max();
-            var newContainer = oldContainer.ScaleInPlace((largestDim + increment)/largestDim);
+            var largestDim = new[] { oldContainer.Width, oldContainer.Height }.Max();
+            var newContainer = oldContainer.ScaleInPlace((largestDim + increment) / largestDim);
             return aRectangles.Select(r => r.ReFit(oldContainer, newContainer));
+        }
+
+        public static Rectangle Container(this IEnumerable<Rectangle> rectangles)
+        {
+            var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
+            return aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
         }
 
         public static IEnumerable<Rectangle> IncreaseSpacing(this IEnumerable<Rectangle> rectangles, float scale)
         {
             var aRectangles  = rectangles as Rectangle[] ?? rectangles.ToArray();
-            var oldContainer = aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
+            var oldContainer = Container(aRectangles);
             var scaled       = aRectangles.Select(r => r.ScaleInPlace(scale)).ToArray();
             var newContainer = scaled.Aggregate((r1, r2) => r1.Absorb(r2));
             return scaled.Select(r => r.ReFit(newContainer, oldContainer));
