@@ -1,8 +1,8 @@
 ﻿namespace VstoExTests.RectanglesTests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VstoEx.Geometry;
     using VstoEx.Extensions;
+    using VstoEx.Geometry;
 
     /// <summary>
     /// Summary description for RectanglessTest
