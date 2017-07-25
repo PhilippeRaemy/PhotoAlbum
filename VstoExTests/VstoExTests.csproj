@@ -66,7 +66,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="RectanglesTests\GetAverageSpacing.cs" />
+    <None Include="RectanglesTests\GetAverageSpacing.cs" />
     <Compile Include="RectangleTests\RectangleConstructor.cs" />
     <Compile Include="RectangleTests\RectangleRefit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
