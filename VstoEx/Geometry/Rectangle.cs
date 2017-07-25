@@ -15,6 +15,7 @@ namespace VstoEx.Geometry
 
         public float Right => Left + Width;
         public float Bottom => Top + Height;
+        public float Area => Width * Height;
 
         public Point TopLeft     => new Point(Left , Top);
         public Point TopRight    => new Point(Right, Top);

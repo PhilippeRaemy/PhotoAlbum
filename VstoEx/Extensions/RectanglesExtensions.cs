@@ -35,21 +35,23 @@ namespace VstoEx.Extensions
         public static float GetAverageSpacing(this IEnumerable<Rectangle> rectangles)
         {
             var rr = rectangles.CheapToArray();
-            if (rr.Length <= 1 ) return 0;
-            if (rr.Length == 2)
-            {
-                var vOverlap = rr[0].VerticalSegment.Overlaps(rr[1].VerticalSegment);
-                var hOverlap = rr[0].HorizontalSegment.Overlaps(rr[1].HorizontalSegment);
-                if (vOverlap && !hOverlap) return rr[0].HorizontalSegment.DistanceTo(rr[1].HorizontalSegment);
-                if (!vOverlap && hOverlap) return rr[0].VerticalSegment.DistanceTo(rr[1].VerticalSegment);
-                return new[] 
-                {
-                    rr[0].VerticalSegment.DistanceTo(rr[1].VerticalSegment) ,
-                    rr[0].HorizontalSegment.DistanceTo(rr[1].HorizontalSegment)
-                }
-                .Average();
-            }
-            throw new NotImplementedException();
+            var container = rr.Container();
+            return 1 - rr.Sum(r => r.Area) / container.Area;
+            //if (rr.Length <= 1 ) return 0;
+            //if (rr.Length == 2)
+            //{
+            //    var vOverlap = rr[0].VerticalSegment.Overlaps(rr[1].VerticalSegment);
+            //    var hOverlap = rr[0].HorizontalSegment.Overlaps(rr[1].HorizontalSegment);
+            //    if (vOverlap && !hOverlap) return rr[0].HorizontalSegment.DistanceTo(rr[1].HorizontalSegment);
+            //    if (!vOverlap && hOverlap) return rr[0].VerticalSegment.DistanceTo(rr[1].VerticalSegment);
+            //    return new[] 
+            //    {
+            //        rr[0].VerticalSegment.DistanceTo(rr[1].VerticalSegment) ,
+            //        rr[0].HorizontalSegment.DistanceTo(rr[1].HorizontalSegment)
+            //    }
+            //    .Average();
+            //}
+            //throw new NotImplementedException();
         }
     }
 }
