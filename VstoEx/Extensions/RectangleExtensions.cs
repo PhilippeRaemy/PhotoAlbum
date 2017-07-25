@@ -14,7 +14,7 @@ namespace VstoEx.Extensions
 
         static Rectangle WhatMost(this IEnumerable<Rectangle> r, Func<Rectangle, float> selector)
         {
-            var ra = r as Rectangle[] ?? r.ToArray();
+            var ra = r.CheapToArray();
             var left = ra.Min(selector);
             // ReSharper disable once CompareOfFloatsByEqualityOperator : the value came from one of the rectangles: we'll find an exact match
             return ra.First(rr => selector(rr) == left);

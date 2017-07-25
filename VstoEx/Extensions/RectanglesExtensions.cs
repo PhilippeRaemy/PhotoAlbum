@@ -9,7 +9,7 @@ namespace VstoEx.Extensions
     {
         public static IEnumerable<Rectangle> IncreaseMargin(this IEnumerable<Rectangle> rectangles, float increment)
         {
-            var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var aRectangles = rectangles.CheapToArray();
             var oldContainer = Container(aRectangles);
 
             var largestDim = new[] { oldContainer.Width, oldContainer.Height }.Max();
@@ -19,13 +19,13 @@ namespace VstoEx.Extensions
 
         public static Rectangle Container(this IEnumerable<Rectangle> rectangles)
         {
-            var aRectangles = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var aRectangles = rectangles.CheapToArray();
             return aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
         }
 
         public static IEnumerable<Rectangle> IncreaseSpacing(this IEnumerable<Rectangle> rectangles, float scale)
         {
-            var aRectangles  = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var aRectangles  = rectangles.CheapToArray();
             var oldContainer = Container(aRectangles);
             var scaled       = aRectangles.Select(r => r.ScaleInPlace(scale)).ToArray();
             var newContainer = scaled.Aggregate((r1, r2) => r1.Absorb(r2));
@@ -34,7 +34,7 @@ namespace VstoEx.Extensions
 
         public static float GetAverageSpacing(this IEnumerable<Rectangle> rectangles)
         {
-            var rr = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var rr = rectangles.CheapToArray();
             if (rr.Length <= 1 ) return 0;
             if (rr.Length == 2)
             {

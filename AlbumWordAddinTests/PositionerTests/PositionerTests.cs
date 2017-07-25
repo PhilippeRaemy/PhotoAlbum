@@ -8,6 +8,7 @@
     using AlbumWordAddin.Positioning;
     using MoreLinq;
     using TestHelpers;
+    using VstoEx.Extensions;
     using VstoEx.Geometry;
 
     [TestClass]
@@ -36,7 +37,7 @@
         public void TestPositioner_1x1()
         {
             var pos = new Positioner.Parms{ Cols = 1, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1 }).ToArray();
+            var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1 }).CheapToArray();
             Assert.AreEqual(1, rc.Length);
             Assert.AreEqual(R1X1, rc.First());
         }
@@ -45,7 +46,7 @@
         public void TestPositioner_2x1()
         {
             var pos = new Positioner.Parms { Cols = 1, Rows = 2, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1, R1X1 }).ToArray();
+            var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(2, rc.Length);
             ValidateAllAreEqual.Test(
                 new[] { new Rectangle(.25f, 0, .5f, .5f), new Rectangle(.25f, .5f, .5f, .5f) },
@@ -62,7 +63,7 @@
         static void TestPositioner_1x2(float factor)
         {
             var pos = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).ToArray();
+            var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(2, rc.Length);
             var expected = new Rectangle(0, .25f, .5f, .5f).Scale(factor, factor);
             Assert.AreEqual(expected, rc.First());
@@ -79,7 +80,7 @@
         static void TestPositioner_1x3(float factor)
         {
             var pos = new Positioner.Parms { Cols = 3, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).ToArray();
+            var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(3, rc.Length);
             var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f).Scale(factor, factor);
             Assert.AreEqual(expected, rc.First());
@@ -151,8 +152,8 @@
 
         internal static void Run(Rectangle clientArea, IEnumerable<Rectangle> rectangles, Positioner.Parms pos, IEnumerable<Rectangle> expected, string label)
         {
-            var rc = Positioner.DoPosition(pos, clientArea, rectangles).ToArray();
-            expected = expected.ToArray();
+            var rc = Positioner.DoPosition(pos, clientArea, rectangles).CheapToArray();
+            expected = expected.CheapToArray();
             Assert.AreEqual(expected.Count(), rc.Length, "Results length");
             var results = expected.EquiZip(rc, (e, r) => new {expected = e, results = r})
                 .Select((r, i) => new {i, r.expected, r.results, success = r.expected.Equals(r.results)})

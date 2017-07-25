@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using VstoEx.Extensions;
     using VstoEx.Geometry;
 
     public static class Spacer
@@ -35,7 +36,7 @@
             Func<Rectangle, float, Rectangle> positionerFunc
         )
         {
-            var rectA = rectangles as Rectangle[] ?? rectangles.ToArray();
+            var rectA = rectangles.CheapToArray();
             var count = rectA.Length;
             if (count == 0) yield break;
             yield return rectA[0];

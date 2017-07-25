@@ -12,7 +12,7 @@
         }
 
         public static Shape[] ReplaceSelection(this IEnumerable<Shape> shapes)
-            => ReplaceSelectionImpl(shapes).ToArray();
+            => ReplaceSelectionImpl(shapes).CheapToArray();
 
         static IEnumerable<Shape> ReplaceSelectionImpl(this IEnumerable<Shape> shapes)
         {

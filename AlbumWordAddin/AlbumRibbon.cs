@@ -10,6 +10,7 @@
     using MoreLinq;
     using Positioning;
     using UserPreferences;
+    using VstoEx.Extensions;
 
     public partial class AlbumRibbon
     {
@@ -353,7 +354,7 @@
 
         void IniDropDownItems(RibbonDropDown dropdown, int min, int max, int selectedValue)
         {
-            var items = GenIntDropdownItems(min, max - min + 1).ToArray();
+            var items = GenIntDropdownItems(min, max - min + 1).CheapToArray();
             items.ForEach(dropdown.Items.Add);
             dropdown.SelectedItem = items.FirstOrDefault(i => (int)i.Tag == selectedValue);
             if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;

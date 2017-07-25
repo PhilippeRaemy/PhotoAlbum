@@ -4,6 +4,7 @@ namespace AlbumWordAddin
     using System.Linq;
     using Microsoft.Office.Tools.Ribbon;
     using MoreLinq;
+    using VstoEx.Extensions;
 
 
     internal enum RibbonControlEnablereasonEnum { Functional, Selection}
@@ -15,7 +16,7 @@ namespace AlbumWordAddin
 
         public RibbonControlSet(IEnumerable<RibbonControl> buttons)
         {
-            Buttons = buttons.ToArray();
+            Buttons = buttons.CheapToArray();
         }
 
         public void SetEnabled(RibbonControlEnablereasonEnum reason, bool enabled)

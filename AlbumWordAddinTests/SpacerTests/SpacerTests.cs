@@ -7,6 +7,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MoreLinq;
     using TestHelpers;
+    using VstoEx.Extensions;
     using VstoEx.Geometry;
 
     [TestClass]
@@ -160,9 +161,9 @@
             params Validation<Rectangle>[] validations
             )
         {
-            var sourceA = source as Rectangle[] ?? source.ToArray();
-            var results = transformation(sourceA).ToArray();
-            var expectedA = expected as Rectangle[] ?? expected.ToArray();
+            var sourceA = source.CheapToArray();
+            var results = transformation(sourceA).CheapToArray();
+            var expectedA = expected.CheapToArray();
             Assert.AreEqual(expectedA.Length, results.Length, "Series length");
             expectedA.EquiZip(results, Tuple.Create).Index().ForEach(r=>Assert.AreEqual(r.Value.Item1, r.Value.Item2, $"Rectangle #{r.Key}"));
             validations.ForEach(v => v.Test(sourceA, results));

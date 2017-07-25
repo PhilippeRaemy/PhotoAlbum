@@ -5,7 +5,7 @@
 
     public static class EnumerableExtensions
     {
-        public static T[] AffordableToArray<T>(this IEnumerable<T> enumerable)
+        public static T[] CheapToArray<T>(this IEnumerable<T> enumerable)
             => enumerable as T[] ?? enumerable.ToArray();
     }
 }

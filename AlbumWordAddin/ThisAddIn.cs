@@ -67,7 +67,7 @@
             Alignment alignment1 = alignment;
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
-                var shapes = Globals.ThisAddIn.SelectedShapes().ToArray();
+                var shapes = Globals.ThisAddIn.SelectedShapes();
                 if (shapes.Length < 2) return;
                 switch (alignment1)
                 {
@@ -199,7 +199,7 @@
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
                 var doc = ActiveDocument;
-                var shapes = Globals.ThisAddIn.SelectedShapes().ToArray();
+                var shapes = Globals.ThisAddIn.SelectedShapes();
                 if (!shapes.Any()) return;
                 var paragraphsByPage =
                     doc.Paragraphs.Cast<Word.Paragraph>()
@@ -434,7 +434,7 @@
                 throw new InvalidOperationException("Please make sure that all the selected shapes are on the same page");
             }
             var rectangles = transformation(SelectedShapes().ToRectangles())
-                                .ToArray();
+                                .CheapToArray();
             using (Application.StatePreserver().FreezeScreenUpdating())
                 SelectedShapes().ApplyPositions(rectangles);
             return feedbackFunc(rectangles);
@@ -482,7 +482,7 @@
         {
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
-                Globals.ThisAddIn.SelectedShapes().ToArray().ForEach(shapeAction);
+                Globals.ThisAddIn.SelectedShapes().ForEach(shapeAction);
             }
         }
     }
