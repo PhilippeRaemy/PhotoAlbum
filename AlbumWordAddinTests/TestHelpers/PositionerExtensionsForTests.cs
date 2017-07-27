@@ -1,7 +1,6 @@
 namespace AlbumWordAddinTests.TestHelpers
 
 {
-    using AlbumWordAddin;
     using AlbumWordAddin.Positioning;
 
     public static class PositionerExtensionsForTests

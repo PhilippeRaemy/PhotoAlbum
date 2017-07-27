@@ -1,9 +1,6 @@
 ﻿namespace AlbumWordAddinTests.PositionerTests
 {
-    using System;
-    using System.Collections.Generic;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AlbumWordAddin;
     using System.Linq;
     using AlbumWordAddin.Positioning;
     using MoreLinq;
@@ -12,7 +9,7 @@
     using VstoEx.Geometry;
 
     [TestClass]
-    public class PositionerTests
+    public class PositionerTests : PositionerTestsBase
     {
         internal static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
         static readonly Rectangle R4X1 = new Rectangle(0, 0, 4, 1);
@@ -148,18 +145,6 @@
             Run(R1X4, R1X1.Range(4), VFlatTopPos, R1X1.Range(4, 0, 1), nameof(R1X1));
             Run(R1X4, R4X2.Range(4), VFlatTopPos, R4X2.Grow(.25f).Range(4, 0, 1), nameof(R4X2));
             Run(R1X4, R2X4.Range(4), VFlatTopPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
-        }
-
-        internal static void Run(Rectangle clientArea, IEnumerable<Rectangle> rectangles, Positioner.Parms pos, IEnumerable<Rectangle> expected, string label)
-        {
-            var rc = Positioner.DoPosition(pos, clientArea, rectangles).CheapToArray();
-            expected = expected.CheapToArray();
-            Assert.AreEqual(expected.Count(), rc.Length, "Results length");
-            var results = expected.EquiZip(rc, (e, r) => new {expected = e, results = r})
-                .Select((r, i) => new {i, r.expected, r.results, success = r.expected.Equals(r.results)})
-                .ToArray();
-
-            Assert.IsTrue(results.All(r=>r.success), results.Select(r=> $"{Environment.NewLine}{r.expected} {(r.success ? "==" : "<>")} {r.results}").ToDelimitedString(","));
         }
     }
 }
