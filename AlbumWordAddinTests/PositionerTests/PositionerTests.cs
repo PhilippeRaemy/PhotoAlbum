@@ -1,5 +1,6 @@
 ﻿namespace AlbumWordAddinTests.PositionerTests
 {
+    using System;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Linq;
     using AlbumWordAddin.Positioning;
@@ -17,50 +18,40 @@
         static readonly Rectangle R4X4 = new Rectangle(0, 0, 4, 4);
         static readonly Rectangle R4X2 = new Rectangle(0, 0, 4, 2);
         static readonly Rectangle R2X4 = new Rectangle(0, 0, 2, 4);
-        static readonly Positioner.Parms HFlatPos     = new Positioner.Parms { Cols = 4, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
-        static readonly Positioner.Parms HFlatPosPad  = new Positioner.Parms { Cols = 4, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0.1f };
-        static readonly Positioner.Parms HFlatLeftPos = new Positioner.Parms { Cols = 4, Rows = 1, HShape = HShape.Left, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
-        static readonly Positioner.Parms HFlatTopPos  = new Positioner.Parms { Cols = 4, Rows = 1, HShape = HShape.Flat, VShape = VShape.Top , Margin = 0, Spacing = 0};
-        static readonly Positioner.Parms VFlatPos     = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
-        static readonly Positioner.Parms VFlatPosPad  = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0.1f };
-        static readonly Positioner.Parms VFlatLeftPos = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Left, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
-        static readonly Positioner.Parms VFlatTopPos  = new Positioner.Parms { Cols = 1, Rows = 4, HShape = HShape.Flat, VShape = VShape.Top , Margin = 0, Spacing = 0};
-
-        static readonly Validation<Rectangle> ValidateAllAreEqual = new Validation<Rectangle>("All rectangles are equal",
-            (expected, actual) => expected.Zip(actual, (e, a) => e.Equals(a)).All(b => b)
-        );
+        static readonly Positioner.Parms TrivialPos   = new Positioner.Parms { Rows = 1, Cols = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms VFlat2X1Pos  = new Positioner.Parms { Rows = 2, Cols = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms HFlat1X2Pos  = new Positioner.Parms { Rows = 1, Cols = 2, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms HFlat1X3Pos  = new Positioner.Parms { Rows = 1, Cols = 3, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
+        static readonly Positioner.Parms HFlatPos     = new Positioner.Parms { Rows = 1, Cols = 4, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms HFlatPosPad  = new Positioner.Parms { Rows = 1, Cols = 4, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0.1f };
+        static readonly Positioner.Parms HFlatLeftPos = new Positioner.Parms { Rows = 1, Cols = 4, HShape = HShape.Left, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms HFlatTopPos  = new Positioner.Parms { Rows = 1, Cols = 4, HShape = HShape.Flat, VShape = VShape.Top , Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms VFlatPos     = new Positioner.Parms { Rows = 4, Cols = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms VFlatPosPad  = new Positioner.Parms { Rows = 4, Cols = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0.1f };
+        static readonly Positioner.Parms VFlatLeftPos = new Positioner.Parms { Rows = 4, Cols = 1, HShape = HShape.Left, VShape = VShape.Flat, Margin = 0, Spacing = 0    };
+        static readonly Positioner.Parms VFlatTopPos  = new Positioner.Parms { Rows = 4, Cols = 1, HShape = HShape.Flat, VShape = VShape.Top , Margin = 0, Spacing = 0    };
 
         [TestMethod]
         public void TestPositioner_1x1()
         {
-            var pos = new Positioner.Parms{ Cols = 1, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1 }).CheapToArray();
-            Assert.AreEqual(1, rc.Length);
-            Assert.AreEqual(R1X1, rc.First());
+            Run(R1X1, new[] { R1X1 }, TrivialPos, new[] { R1X1 }, string.Empty);
         }
 
         [TestMethod]
-        public void TestPositioner_2x1()
+        public void TestPositioner_VFlat2X1()
         {
-            var pos = new Positioner.Parms { Cols = 1, Rows = 2, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1, new[] { R1X1, R1X1 }).CheapToArray();
-            Assert.AreEqual(2, rc.Length);
-            ValidateAllAreEqual.Test(
-                new[] { new Rectangle(.25f, 0, .5f, .5f), new Rectangle(.25f, .5f, .5f, .5f) },
-                rc.Take(2)
-            );
+            Run(R1X1, new[] {R1X1, R1X1}, VFlat2X1Pos, new[] {new Rectangle(.25f, 0, .5f, .5f), new Rectangle(.25f, .5f, .5f, .5f)}, string.Empty);
         }
 
         [TestMethod]
-        public void TestPositioner_1x2()
+        public void TestPositioner_HFlat1X2()
         {
-            new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_1x2);
+            new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_HFlat1X2);
         }
 
-        static void TestPositioner_1x2(float factor)
+        static void TestPositioner_HFlat1X2(float factor)
         {
-            var pos = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).CheapToArray();
+            var rc = Positioner.DoPosition(HFlat1X2Pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(2, rc.Length);
             var expected = new Rectangle(0, .25f, .5f, .5f).Scale(factor, factor);
             Assert.AreEqual(expected, rc.First());
@@ -69,15 +60,14 @@
         }
 
         [TestMethod]
-        public void TestPositioner_1x3()
+        public void TestPositioner_HFlat1X3()
         {
-            new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_1x3);
+            new[] { .5f, 1f, 1.5f, 2f }.ForEach(TestPositioner_HFlat1X3);
         }
 
-        static void TestPositioner_1x3(float factor)
+        static void TestPositioner_HFlat1X3(float factor)
         {
-            var pos = new Positioner.Parms { Cols = 3, Rows = 1, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0 };
-            var rc = Positioner.DoPosition(pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).CheapToArray();
+            var rc = Positioner.DoPosition(HFlat1X3Pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(3, rc.Length);
             var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f).Scale(factor, factor);
             Assert.AreEqual(expected, rc.First());
