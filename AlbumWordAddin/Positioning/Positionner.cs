@@ -60,14 +60,15 @@
                     )
                 );
             var draft = grid
-                .ZipLongest(rectangles, (area, rectangle) => new {area, rectangle})
+                .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle})
                 .Where(x => x.rectangle != null && x.area != null)
                 .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, 0))
                 .ToArray();
             if (spacing == 0) return draft;
             var y0 = draft.GetAverageSpacing();
-            var y1 = draft.IncreaseSpacing(5).GetAverageSpacing();
-            var dy = (y1 - y0) / 5;
+            const float delta = -.05f;
+            var y1 = draft.IncreaseSpacing(delta).GetAverageSpacing();
+            var dy = (y1 - y0) / delta;
             return draft.IncreaseSpacing((spacing - y0) / dy);
         }
 
