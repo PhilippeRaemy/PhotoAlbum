@@ -64,8 +64,8 @@
                     .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
                 ;
         }
+
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
-        [SuppressMessage("ReSharper", "RedundantCaseLabel")]
         static Func<int, int, float> ShaperH(HShape hShape, int rows, int cols)
         {
             switch (hShape)
@@ -91,8 +91,8 @@
                     throw new NotImplementedException($"Invalid ShaperH value {hShape}");
             }
         }
+
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
-        [SuppressMessage("ReSharper", "RedundantCaseLabel")]
         static Func<int, int, float> ShaperV(VShape vShape, int rows, int cols)
         {
             switch (vShape)
