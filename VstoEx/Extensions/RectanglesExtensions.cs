@@ -23,11 +23,15 @@ namespace VstoEx.Extensions
             return aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
         }
 
-        public static IEnumerable<Rectangle> IncreaseSpacing(this IEnumerable<Rectangle> rectangles, float scale)
+        public static IEnumerable<Rectangle> IncreaseSpacing(this IEnumerable<Rectangle> rectangles, float scalePerc)
         {
+            if (scalePerc <= -1)
+            {
+                throw new InvalidOperationException("Cannot decrease spacing of more than 100%.");
+            }
             var aRectangles  = rectangles.CheapToArray();
             var oldContainer = Container(aRectangles);
-            var scaled       = aRectangles.Select(r => r.ScaleInPlace(scale)).ToArray();
+            var scaled       = aRectangles.Select(r => r.ScaleInPlace(1 + scalePerc)).ToArray();
             var newContainer = scaled.Aggregate((r1, r2) => r1.Absorb(r2));
             return scaled.Select(r => r.ReFit(newContainer, oldContainer));
         }
