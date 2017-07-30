@@ -72,10 +72,16 @@ namespace VstoEx.Geometry
         /// <summary>
         /// Scale a rectangle by a given scaling factor, preserving the location of its center.
         /// </summary>
-        /// <param name="scale"></param>
+        /// <param name="scale">A positive float value</param>
         /// <returns></returns>
         public Rectangle ScaleInPlace(float scale)
-            => new Rectangle(Center, scale * Width, scale * Height);
+        {
+            if (scale <= 0)
+            {
+                throw new InvalidOperationException("Scale factor must be positive.");
+            }
+            return new Rectangle(Center, scale * Width, scale * Height);
+        }
 
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float absoluteSpacing) {
             if (Math.Abs(absoluteSpacing) > Epsilon)
