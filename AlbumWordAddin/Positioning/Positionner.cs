@@ -5,6 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using MoreLinq;
+    using VstoEx.Extensions;
     using VstoEx.Geometry;
 
     public static class Positioner
@@ -33,7 +34,7 @@
             );
         }
 
-        public static IEnumerable<Rectangle> DoPosition(
+        static IEnumerable<Rectangle> DoPosition(
             int rows,
             int cols,
             HShape hShape,
@@ -58,11 +59,16 @@
                         }
                     )
                 );
-            return grid
-                    .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
-                    .Where(x => x.rectangle != null && x.area != null)
-                    .Select(x=> x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
-                ;
+            var draft = grid
+                .ZipLongest(rectangles, (area, rectangle) => new {area, rectangle})
+                .Where(x => x.rectangle != null && x.area != null)
+                .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, 0))
+                .ToArray();
+            if (spacing == 0) return draft;
+            var y0 = draft.GetAverageSpacing();
+            var y1 = draft.IncreaseSpacing(5).GetAverageSpacing();
+            var dy = (y1 - y0) / 5;
+            return draft.IncreaseSpacing((spacing - y0) / dy);
         }
 
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
