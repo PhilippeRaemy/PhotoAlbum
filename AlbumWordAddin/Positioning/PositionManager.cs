@@ -16,7 +16,7 @@
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
-            _positionerParms.Spacing = spacing;
+            _positionerParms.Spacing = spacing / 100f;
             _positionerParms.Margin = margin;
             var shapesCount = Globals.ThisAddIn.SelectedShapes().Length;
             switch (arrangement)
@@ -65,7 +65,7 @@
 
         internal void DoPositionSelectedImages(int spacing, int margin)
         {
-            _positionerParms.Spacing = spacing;
+            _positionerParms.Spacing = spacing / 100f;
             _positionerParms.Margin = margin;
             DoPositionSelectedImages(_positionerParms);
         }
@@ -89,6 +89,9 @@
             {
                 selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
                 throw new InvalidOperationException("Some moved shapes are null");
+
+
+
             }
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);

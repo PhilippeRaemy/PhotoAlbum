@@ -230,7 +230,7 @@
             DoPositionSelectedImages();
         }
 
-        int Spacing() => SpacingFactor * (int)dropDownSpacing.SelectedItem.Tag;
+        int Spacing() => (int)dropDownSpacing.SelectedItem.Tag;
         int Margin () => MarginFactor  * (int)dropDownMargin .SelectedItem.Tag;
 
         void DoPositionSelectedImages()
