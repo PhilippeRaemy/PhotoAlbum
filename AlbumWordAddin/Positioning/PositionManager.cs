@@ -11,8 +11,8 @@
     public class PositionManager
     {
         readonly Positioner.Parms _positionerParms = new Positioner.Parms();
-        Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
-        Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
+        static Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
+        static Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
