@@ -76,7 +76,7 @@
             if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             if (selectedShapes.Any(s => s == null))
             {
-                selectedShapes.ForEach(sh => Trace.WriteLine(ShapeExtensions.GetLocationString(sh)));
+                selectedShapes.ForEach(sh => Trace.WriteLine(sh.GetLocationString()));
                 throw new InvalidOperationException("Some selected shapes are null");
             }
             var shapes = Globals.ThisAddIn.MoveAllToSamePage(selectedShapes).ReplaceSelection();
