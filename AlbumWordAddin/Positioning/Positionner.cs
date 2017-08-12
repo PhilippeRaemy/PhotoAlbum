@@ -68,10 +68,21 @@
                 .ToArray();
             if (spacing == 0) return draft;
             var y0 = draft.GetAverageSpacing();
-            const float delta = -.05f;
-            var y1 = draft.IncreaseSpacing(delta).GetAverageSpacing();
-            var dy = (y1 - y0) / delta;
-            return draft.IncreaseSpacing((spacing - y0) / dy);
+            var delta = Math.Sign(spacing) * .05f;
+            var candidate = draft;
+            for (var i=0; i<10; i++)
+            {
+                candidate = draft.IncreaseSpacing(delta).CheapToArray();
+                var y1 = candidate.GetAverageSpacing();
+                Trace.WriteLine($"spacing:{spacing}, y0:{y0}, y1:{y1}, delta:{delta}.");
+                if (Math.Abs(y1 - spacing) < 0.01f)
+                {
+                    return candidate;
+                }
+                var dy = (y1 - y0) / delta;
+                delta = (spacing - y0) / dy;
+            }
+            return candidate;
         }
 
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
