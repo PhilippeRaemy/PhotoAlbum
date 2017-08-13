@@ -17,7 +17,7 @@ namespace AlbumWordAddin
         {
             InitializeComponent();
             IniDropDownItems(dropDownMargin, 0, 10, 5);
-            IniDropDownItems(dropDownSpacing, -10, 10, 0);
+            IniDropDownItems(dropDownSpacing, -100, 100, 0);
             ThisAddIn.ThisRibbon = this;
         }
 
