@@ -65,7 +65,7 @@
 
         internal void DoPositionSelectedImages(int spacing, int margin)
         {
-            _positionerParms.Spacing = spacing / 100f;
+            _positionerParms.Spacing = spacing;
             _positionerParms.Margin = margin;
             DoPositionSelectedImages(_positionerParms);
         }

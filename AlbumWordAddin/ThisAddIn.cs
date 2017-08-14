@@ -419,11 +419,6 @@
                 );
         }
 
-        public float SpacingAdjust(float scale)
-        {
-            return SelectedShapesAdjustImpl(r => r.IncreaseSpacing(scale), _ => 0f);
-        }
-
         T SelectedShapesAdjustImpl<T>(
             Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation,
             Func<IEnumerable<Rectangle>, T> feedbackFunc
@@ -484,6 +479,21 @@
             {
                 Globals.ThisAddIn.SelectedShapes().ForEach(shapeAction);
             }
+        }
+
+        public void SpacingIncreaseBoth()
+        {
+            SpacingAdjust(1);
+        }
+
+        public void SpacingDecreaseBoth()
+        {
+            SpacingAdjust(-1);
+        }
+
+        public float SpacingAdjust(float scale)
+        {
+            return SelectedShapesAdjustImpl(r => r.IncreaseSpacing(scale), _ => 0f);
         }
     }
 }

@@ -230,7 +230,7 @@
             DoPositionSelectedImages();
         }
 
-        int Spacing() => (int)dropDownSpacing.SelectedItem.Tag;
+        int Spacing() => SpacingFactor * (int)dropDownSpacing.SelectedItem.Tag;
         int Margin () => MarginFactor  * (int)dropDownMargin .SelectedItem.Tag;
 
         void DoPositionSelectedImages()
@@ -414,14 +414,14 @@
                });
         }
 
-        private void buttonSpacingIncreaseBoth_Click(object sender, RibbonControlEventArgs e)
+        void buttonSpacingIncreaseBoth_Click(object sender, RibbonControlEventArgs e)
         {
-
+            Globals.ThisAddIn.SpacingIncreaseBoth();
         }
-        
-        private void buttonSpacingDecreaseBoth_Click(object sender, RibbonControlEventArgs e)
-        {
 
+        void buttonSpacingDecreaseBoth_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.SpacingDecreaseBoth();
         }
     }
 }

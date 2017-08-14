@@ -61,11 +61,12 @@
                         }
                     )
                 );
-            var draft = grid
+            return grid
                 .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle})
                 .Where(x => x.rectangle != null && x.area != null)
-                .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, 0))
+                .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
                 .ToArray();
+            /*
             if (spacing == 0) return draft;
             var y0 = draft.GetAverageSpacing();
             var delta = Math.Sign(spacing) * .05f;
@@ -83,6 +84,7 @@
                 delta = (spacing - y0) / dy;
             }
             return candidate;
+            */
         }
 
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
