@@ -414,5 +414,14 @@
                });
         }
 
+        private void buttonSpacingIncreaseBoth_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
+        
+        private void buttonSpacingDecreaseBoth_Click(object sender, RibbonControlEventArgs e)
+        {
+
+        }
     }
 }

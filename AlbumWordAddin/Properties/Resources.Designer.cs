@@ -323,6 +323,16 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SpacingDecreaseBoth {
+            get {
+                object obj = ResourceManager.GetObject("SpacingDecreaseBoth", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SpacingDecreaseHorizontal {
             get {
                 object obj = ResourceManager.GetObject("SpacingDecreaseHorizontal", resourceCulture);
@@ -366,6 +376,16 @@ namespace AlbumWordAddin.Properties {
         internal static System.Drawing.Bitmap spacingGrow {
             get {
                 object obj = ResourceManager.GetObject("spacingGrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SpacingIncreaseBoth {
+            get {
+                object obj = ResourceManager.GetObject("SpacingIncreaseBoth", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -118,6 +118,8 @@ namespace AlbumWordAddin
             this.buttonSpacingDecreaseVertical = this.Factory.CreateRibbonButton();
             this.buttonSpacingIncreaseVertical = this.Factory.CreateRibbonButton();
             this.buttonSpacingInterpolate = this.Factory.CreateRibbonButton();
+            this.buttonSpacingDecreaseBoth = this.Factory.CreateRibbonButton();
+            this.buttonSpacingIncreaseBoth = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingLeftOnly = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingBothSides = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingRightOnly = this.Factory.CreateRibbonButton();
@@ -334,9 +336,9 @@ namespace AlbumWordAddin
             this.dropDownMargin.ScreenTip = "Margins";
             this.dropDownMargin.ShowItemImage = false;
             this.dropDownMargin.ShowLabel = false;
+            this.dropDownMargin.Tag = AlbumWordAddin.ShapeToolRequiredCount.OneOrMore;
             this.dropDownMargin.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownMargin_ButtonClick);
             this.dropDownMargin.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownMargin_SelectionChanged);
-            this.dropDownMargin.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // box5
             // 
@@ -352,9 +354,9 @@ namespace AlbumWordAddin
             this.dropDownSpacing.ScreenTip = "Spacing";
             this.dropDownSpacing.ShowItemImage = false;
             this.dropDownSpacing.ShowLabel = false;
+            this.dropDownSpacing.Tag = AlbumWordAddin.ShapeToolRequiredCount.OneOrMore;
             this.dropDownSpacing.ButtonClick += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownSpacing_ButtonClick);
             this.dropDownSpacing.SelectionChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.dropDownSpacing_SelectionChanged);
-            this.dropDownSpacing.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonGroup2
             // 
@@ -429,6 +431,8 @@ namespace AlbumWordAddin
             // box8
             // 
             this.box8.Items.Add(this.buttonSpacingInterpolate);
+            this.box8.Items.Add(this.buttonSpacingDecreaseBoth);
+            this.box8.Items.Add(this.buttonSpacingIncreaseBoth);
             this.box8.Name = "box8";
             // 
             // groupWrapping
@@ -816,8 +820,8 @@ namespace AlbumWordAddin
             this.buttonMarginLess.ScreenTip = "Shrink Page Margins";
             this.buttonMarginLess.ShowImage = true;
             this.buttonMarginLess.ShowLabel = false;
+            this.buttonMarginLess.Tag = AlbumWordAddin.ShapeToolRequiredCount.OneOrMore;
             this.buttonMarginLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginLess_Click);
-            this.buttonMarginLess.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonMarginMore
             // 
@@ -827,8 +831,8 @@ namespace AlbumWordAddin
             this.buttonMarginMore.ScreenTip = "Grow Page Margins";
             this.buttonMarginMore.ShowImage = true;
             this.buttonMarginMore.ShowLabel = false;
+            this.buttonMarginMore.Tag = AlbumWordAddin.ShapeToolRequiredCount.OneOrMore;
             this.buttonMarginMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonMarginMore_Click);
-            this.buttonMarginMore.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonSpacingLess
             // 
@@ -838,8 +842,8 @@ namespace AlbumWordAddin
             this.buttonSpacingLess.ScreenTip = "Shrink Spacing between images";
             this.buttonSpacingLess.ShowImage = true;
             this.buttonSpacingLess.ShowLabel = false;
+            this.buttonSpacingLess.Tag = AlbumWordAddin.ShapeToolRequiredCount.OneOrMore;
             this.buttonSpacingLess.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingLess_Click);
-            this.buttonSpacingLess.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonSpacingMore
             // 
@@ -849,8 +853,8 @@ namespace AlbumWordAddin
             this.buttonSpacingMore.ScreenTip = "Grow Spacing between images";
             this.buttonSpacingMore.ShowImage = true;
             this.buttonSpacingMore.ShowLabel = false;
+            this.buttonSpacingMore.Tag = AlbumWordAddin.ShapeToolRequiredCount.OneOrMore;
             this.buttonSpacingMore.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingMore_Click);
-            this.buttonSpacingMore.Tag = ShapeToolRequiredCount.OneOrMore;
             // 
             // buttonSpacing
             // 
@@ -938,6 +942,30 @@ namespace AlbumWordAddin
     "ly and lastly selected images are left unmoved.";
             this.buttonSpacingInterpolate.Tag = AlbumWordAddin.ShapeToolRequiredCount.ThreeOrMore;
             this.buttonSpacingInterpolate.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingInterpolate_Click);
+            // 
+            // buttonSpacingDecreaseBoth
+            // 
+            this.buttonSpacingDecreaseBoth.Image = global::AlbumWordAddin.Properties.Resources.SpacingDecreaseBoth;
+            this.buttonSpacingDecreaseBoth.Label = "button1";
+            this.buttonSpacingDecreaseBoth.Name = "buttonSpacingDecreaseBoth";
+            this.buttonSpacingDecreaseBoth.ScreenTip = "Decrease Spacing";
+            this.buttonSpacingDecreaseBoth.ShowImage = true;
+            this.buttonSpacingDecreaseBoth.ShowLabel = false;
+            this.buttonSpacingDecreaseBoth.SuperTip = "Decrease empty space between selected images";
+            this.buttonSpacingDecreaseBoth.Tag = AlbumWordAddin.ShapeToolRequiredCount.ThreeOrMore;
+            this.buttonSpacingDecreaseBoth.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingDecreaseBoth_Click);
+            // 
+            // buttonSpacingIncreaseBoth
+            // 
+            this.buttonSpacingIncreaseBoth.Image = global::AlbumWordAddin.Properties.Resources.SpacingIncreaseBoth;
+            this.buttonSpacingIncreaseBoth.Label = "button1";
+            this.buttonSpacingIncreaseBoth.Name = "buttonSpacingIncreaseBoth";
+            this.buttonSpacingIncreaseBoth.ScreenTip = "Decrease Spacing";
+            this.buttonSpacingIncreaseBoth.ShowImage = true;
+            this.buttonSpacingIncreaseBoth.ShowLabel = false;
+            this.buttonSpacingIncreaseBoth.SuperTip = "Decrease empty space between selected images";
+            this.buttonSpacingIncreaseBoth.Tag = AlbumWordAddin.ShapeToolRequiredCount.ThreeOrMore;
+            this.buttonSpacingIncreaseBoth.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSpacingIncreaseBoth_Click);
             // 
             // buttonTextWrappingLeftOnly
             // 
@@ -1124,6 +1152,8 @@ namespace AlbumWordAddin
         internal RibbonBox box8;
         internal RibbonButton buttonSpacingInterpolate;
         internal RibbonGroup groupPrepare;
+        internal RibbonButton buttonSpacingDecreaseBoth;
+        internal RibbonButton buttonSpacingIncreaseBoth;
     }
 
     partial class ThisRibbonCollection

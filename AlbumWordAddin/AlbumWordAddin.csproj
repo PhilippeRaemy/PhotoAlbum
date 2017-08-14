@@ -275,10 +275,12 @@
   <ItemGroup>
     <Content Include="Icons\MarginsGrow.png" />
     <None Include="Icons\spacingShrink.png" />
+    <Content Include="Icons\SpacingDecreaseBoth.png" />
     <Content Include="Icons\SpacingDecreaseHorizontal.png" />
     <Content Include="Icons\SpacingDecreaseVertical.png" />
     <Content Include="Icons\SpacingEqualHorizontal.png" />
     <Content Include="Icons\SpacingEqualVertical.png" />
+    <Content Include="Icons\SpacingIncreaseBoth.png" />
     <Content Include="Icons\SpacingIncreaseHorizontal.png" />
     <Content Include="Icons\SpacingIncreaseVertical.png" />
     <Content Include="Icons\SpacingInterpolate.png" />
