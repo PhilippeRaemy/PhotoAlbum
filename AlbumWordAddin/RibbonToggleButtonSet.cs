@@ -6,24 +6,38 @@ namespace AlbumWordAddin
     using MoreLinq;
     using VstoEx.Extensions;
 
-
-    internal enum RibbonControlEnablereasonEnum { Functional, Selection}
-
     internal class RibbonControlSet
     {
+        static readonly Dictionary<RibbonControl, List<RibbonControlSet>> ControlsDic 
+            = new Dictionary<RibbonControl, List<RibbonControlSet>>();
+
         protected readonly RibbonControl[] Buttons;
-        readonly Dictionary<RibbonControlEnablereasonEnum, bool> _enableReasons = new Dictionary<RibbonControlEnablereasonEnum, bool>();
+        bool _enabled;
 
         public RibbonControlSet(IEnumerable<RibbonControl> buttons)
         {
             Buttons = buttons.CheapToArray();
+            foreach (var button in Buttons)
+            {
+                if (ControlsDic.ContainsKey(button))
+                {
+                    ControlsDic[button].Add(this);
+                }
+                else
+                {
+                    ControlsDic[button] = new List<RibbonControlSet> {this};
+                }
+            }
         }
 
-        public void SetEnabled(RibbonControlEnablereasonEnum reason, bool enabled)
+        public bool Enabled
         {
-            _enableReasons[reason] = enabled;
-            var allEnabled = _enableReasons.All(e => e.Value);
-            foreach(var button in Buttons) button.Enabled = allEnabled;
+            set
+                {
+                _enabled = value;
+                foreach (var button in Buttons) button.Enabled = ControlsDic[button].All(r => r.Enabled);
+            }
+            private get { return _enabled; }
         }
     }
 

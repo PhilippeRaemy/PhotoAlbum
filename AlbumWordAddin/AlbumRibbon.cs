@@ -36,10 +36,9 @@
             _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
             _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
             _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
-            _buttonsActingOnOneOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, false);
-            _buttonsActingOnTwoOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, false);
-            _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, false);
-
+            _buttonsActingOnOneOrMoreShapes.Enabled = false;
+            _buttonsActingOnTwoOrMoreShapes.Enabled = false;
+            _buttonsActingOnThreeOrMoreShapes.Enabled = false;
         }
 
         static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
@@ -139,39 +138,39 @@
         void buttonArrangeV_Click(object sender, RibbonControlEventArgs e)
         {
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
-            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true );
-            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
+            _hAlignButtonSet.Enabled = true;
+            _vAlignButtonSet.Enabled = false;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Spacing(), Margin());
         }
 
         void buttonArrangeRV_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
-            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _hAlignButtonSet.Enabled = true;
+            _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Spacing(), Margin());
         }
 
         void buttonArrangeSq_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
-            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _hAlignButtonSet.Enabled = true;
+            _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Spacing(), Margin());
         }
 
         void buttonArrangeRH_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
-            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _hAlignButtonSet.Enabled = true;
+            _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Spacing(), Margin());
         }
 
         void buttonArrangeH_Click(object sender, RibbonControlEventArgs e)
         {
-            _hAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, false);
-            _vAlignButtonSet.SetEnabled(RibbonControlEnablereasonEnum.Functional, true);
+            _hAlignButtonSet.Enabled = false;
+            _vAlignButtonSet.Enabled = true;
             _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Spacing(), Margin());
         }
@@ -397,9 +396,9 @@
 
         public void EnablePictureTools(int countOfSelectedShapes)
         {
-            _buttonsActingOnOneOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 1);
-            _buttonsActingOnTwoOrMoreShapes  .SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 2);
-            _buttonsActingOnThreeOrMoreShapes.SetEnabled(RibbonControlEnablereasonEnum.Selection, countOfSelectedShapes >= 3);
+            _buttonsActingOnOneOrMoreShapes  .Enabled = countOfSelectedShapes >= 1;
+            _buttonsActingOnTwoOrMoreShapes  .Enabled = countOfSelectedShapes >= 2;
+            _buttonsActingOnThreeOrMoreShapes.Enabled = countOfSelectedShapes >= 3;
         }
 
         IEnumerable<RibbonDropDownItem> GenIntDropdownItems(int start, int count)
