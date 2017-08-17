@@ -16,7 +16,7 @@
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
-            _positionerParms.Spacing = spacing / 100f;
+            _positionerParms.Spacing = spacing;
             _positionerParms.Margin = margin;
             var shapesCount = Globals.ThisAddIn.SelectedShapes().Length;
             switch (arrangement)
