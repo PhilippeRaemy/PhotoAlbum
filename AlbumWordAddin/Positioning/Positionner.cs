@@ -46,7 +46,6 @@
             IEnumerable<Rectangle> rectangles
         )
         {
-            Debug.Assert(spacing >- 1 && spacing < 1, "Spacing should be in range ]-1;1[");    
             var scaleX = (clientArea.Width - 2 * margin) / cols;
             var scaleY = (clientArea.Height - 2 * margin) / rows;
             var shaperH = ShaperH(hShape, rows, cols);
