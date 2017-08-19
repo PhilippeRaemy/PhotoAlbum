@@ -30,7 +30,11 @@
             DropDownIntSetter(dropDownMargin, userPrefs.Margin);
             DropDownIntSetter(dropDownSpacing, userPrefs.Spacing);
 
-            _arrangeButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")));
+            _arrangeButtonSet = new RibbonToggleButtonSet(
+                    EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")))
+                {
+                    Enabled = true
+                };
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
             _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
