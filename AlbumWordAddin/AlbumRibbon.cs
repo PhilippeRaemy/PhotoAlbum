@@ -2,9 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.Office.Tools.Ribbon;
     using System.Linq;
     using System.Windows.Forms;
+    using Microsoft.Office.Tools.Ribbon;
     using Mannex.Text.RegularExpressions;
     using Microsoft.Office.Interop.Word;
     using MoreLinq;

@@ -46,6 +46,9 @@
       <HintPath>..\packages\morelinq.2.2.0\lib\net35\MoreLinq.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -79,6 +82,7 @@
     <Compile Include="Extensions\ShapeExtensions.cs" />
     <Compile Include="StatePreserver.cs" />
     <Compile Include="Progress\StatusBarProgressIndicator.cs" />
+    <Compile Include="UndoerRedoer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
