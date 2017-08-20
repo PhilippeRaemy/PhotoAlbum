@@ -13,7 +13,7 @@
 
         public UndoerRedoer(Document document)
         {
-            if (_document == null) throw new ArgumentNullException(nameof(_document));
+            if (document == null) throw new ArgumentNullException(nameof(document));
             _document = document;
         }
 
