@@ -447,35 +447,32 @@
 
         public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
         {
-            using (new OperationWrapper(this))
+            if (selectedShapes
+                    .Select(s => s.GetPageNumber())
+                    .Distinct()
+                    .Count() <= 1
+            )
             {
-                if (selectedShapes
-                        .Select(s => s.GetPageNumber())
-                        .Distinct()
-                        .Count() <= 1
-                )
-                {
-                    return selectedShapes;
-                }
-                Word.Range anchor = null;
-                foreach (var shape in selectedShapes)
-                {
-                    if (anchor == null)
-                    {
-                        anchor = shape.Anchor;
-                        shape.Select(Replace: true);
-                    }
-                    else
-                    {
-                        shape.Select(Replace: false);
-                    }
-                }
-                if (anchor == null) return Enumerable.Empty<Word.Shape>();
-                Selection.Cut();
-                anchor.Select();
-                Selection.Paste();
                 return selectedShapes;
             }
+            Word.Range anchor = null;
+            foreach (var shape in selectedShapes)
+            {
+                if (anchor == null)
+                {
+                    anchor = shape.Anchor;
+                    shape.Select(Replace: true);
+                }
+                else
+                {
+                    shape.Select(Replace: false);
+                }
+            }
+            if (anchor == null) return Enumerable.Empty<Word.Shape>();
+            Selection.Cut();
+            anchor.Select();
+            Selection.Paste();
+            return selectedShapes;
         }
 
         public Word.Shape[] SelectedShapes()
