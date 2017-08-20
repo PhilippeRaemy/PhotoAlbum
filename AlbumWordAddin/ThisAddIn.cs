@@ -19,6 +19,7 @@
     using VstoEx.Extensions;
     using VstoEx.Geometry;
     using VstoEx.Progress;
+    using Action = System.Action;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -28,7 +29,7 @@
         Word.Selection Selection => ActiveDocument.Application.Selection;
         public static AlbumRibbon ThisRibbon { get; set; }
 
-        readonly PositionManager _utilities = new PositionManager();
+        readonly PositionManager _positionManager = new PositionManager();
 
         void ThisAddIn_Startup(object sender, EventArgs e)
         {
@@ -64,7 +65,7 @@
 
         internal void AlignSelectedImages(Alignment alignment, float forced = float.NaN)
         {
-            using (Application.StatePreserver().FreezeScreenUpdating())
+            using (new OperationWrapper(this))
             {
                 var shapes = Globals.ThisAddIn.SelectedShapes();
                 if (shapes.Length < 2) return;
@@ -150,9 +151,8 @@
 
         public void RemoveEmptyPages()
         {
-            using (Application.StatePreserver().FreezeScreenUpdating())
+            using (new OperationWrapper(this))
             {
-
                 var paragraphsToBeDeleted = ActiveDocument.Paragraphs.Cast<Word.Paragraph>()
                         .Select(p => new
                             {
@@ -185,13 +185,13 @@
                           || s.Type == MsoShapeType.msoPicture
                             ) && s.Anchor.GetPageNumber() == pageNumber
                 );
-            using (Application.StatePreserver().FreezeScreenUpdating())
+            using (new OperationWrapper(this))
                 shapesOnPage.ForEach(s => s.Select(Replace: false));
         }
 
         public void FixAnchorOfSelectedImages()
         {
-            using (Application.StatePreserver().FreezeScreenUpdating())
+            using (new OperationWrapper(this))
             {
                 var doc = ActiveDocument;
                 var shapes = Globals.ThisAddIn.SelectedShapes();
@@ -240,25 +240,37 @@
 
         public void DoPositionSelectedImages(string hAlign = null, string vAlign = null)
         {
-            _utilities.DoPositionSelectedImages(hAlign, vAlign);
+            using (new OperationWrapper(this))
+            {
+                _positionManager.DoPositionSelectedImages(hAlign, vAlign);
+            }
         }
 
         public void ArrangeSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
-            _utilities.DoPositionSelectedImages(arrangement, spacing, margin);
+            using (new OperationWrapper(this))
+            {
+                _positionManager.DoPositionSelectedImages(arrangement, spacing, margin);
+            }
         }
 
         internal void DoPositionSelectedImages(int spacing, int margin)
         {
-            _utilities.DoPositionSelectedImages(spacing, margin);
+            using (new OperationWrapper(this))
+            {
+                _positionManager.DoPositionSelectedImages(spacing, margin);
+            }
         }
 
         public void DoRelativePositionSelectedImages()
         {
-            _utilities.DoRelativePositionSelectedImages();
+            using (new OperationWrapper(this))
+            {
+                _positionManager.DoRelativePositionSelectedImages();
+            }
         }
 
-        public void CreateNewAlbumDocument(DirectoryInfo directoryInfo)
+        void CreateNewAlbumDocument(DirectoryInfo directoryInfo)
         {
             var userPrefs = new PersistedUserPreferences();
             var newDocFile = new FileInfo(Path.Combine(directoryInfo.FullName, $"{directoryInfo.Name}.docx"));
@@ -271,12 +283,12 @@
             newdoc.SaveAs(newDocFile.FullName);
         }
 
-        public void CloseCurrentAlbumDocument(DirectoryInfo directoryInfo)
+        void CloseCurrentAlbumDocument(DirectoryInfo directoryInfo)
         {
             Application.ActiveDocument.Close(Word.WdSaveOptions.wdSaveChanges);
         }
 
-        public void AddPictureToCurrentDocument(FileInfo fileInfo)
+        void AddPictureToCurrentDocument(FileInfo fileInfo)
         {
             var pageWidth = Selection.PageSetup.PageWidth;
             var pageHeight = Selection.PageSetup.PageHeight;
@@ -301,8 +313,8 @@
         public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker,
             Func<string, bool> toPatternIsMatch)
         {
-            using (new StatePreserver(Application).FreezeScreenUpdating())
-            using(var progress = (StatusBarProgressIndicator)new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count, "Change picture resolution"))
+            using (new OperationWrapper(this))
+            using (var progress = (StatusBarProgressIndicator)new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count, "Change picture resolution"))
             {
                 foreach (var shape in ActiveDocument.Shapes
                     .Cast<Word.Shape>()
@@ -401,16 +413,17 @@
             if (shapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             var positions = spacerFunc(shapes.ToRectangles());
 
-            using (Application.StatePreserver().FreezeScreenUpdating())
+            using (new OperationWrapper(this))
                 shapes.ApplyPositions(positions);
         }
 
 
         public float MarginAdjust(float increment)
         {
-            return SelectedShapesAdjustImpl(rr => rr.IncreaseMargin(increment),
-                r => r.Aggregate((r1,r2) => r1.Absorb(r2)).AverageDistance(new Rectangle(0, 0, ActiveDocument.PageSetup.PageWidth, ActiveDocument.PageSetup.PageHeight))
-                );
+            using (new OperationWrapper(this))
+                return SelectedShapesAdjustImpl(rr => rr.IncreaseMargin(increment),
+                    r => r.Aggregate((r1,r2) => r1.Absorb(r2)).AverageDistance(new Rectangle(0, 0, ActiveDocument.PageSetup.PageWidth, ActiveDocument.PageSetup.PageHeight))
+            );
         }
 
         T SelectedShapesAdjustImpl<T>(
@@ -418,45 +431,51 @@
             Func<IEnumerable<Rectangle>, T> feedbackFunc
             )
         {
-            if (SelectedShapes().Select(sh => sh.GetPageNumber()).Distinct().Count() > 1)
+            using (new OperationWrapper(this))
             {
-                throw new InvalidOperationException("Please make sure that all the selected shapes are on the same page");
+                if (SelectedShapes().Select(sh => sh.GetPageNumber()).Distinct().Count() > 1)
+                {
+                    throw new InvalidOperationException("Please make sure that all the selected shapes are on the same page");
+                }
+                var rectangles = transformation(SelectedShapes().ToRectangles())
+                                    .CheapToArray();
+                using (Application.StatePreserver().FreezeScreenUpdating())
+                    SelectedShapes().ApplyPositions(rectangles);
+                return feedbackFunc(rectangles);
             }
-            var rectangles = transformation(SelectedShapes().ToRectangles())
-                                .CheapToArray();
-            using (Application.StatePreserver().FreezeScreenUpdating())
-                SelectedShapes().ApplyPositions(rectangles);
-            return feedbackFunc(rectangles);
         }
 
         public IEnumerable<Word.Shape> MoveAllToSamePage(Word.Shape[] selectedShapes)
         {
-            if (selectedShapes
-                    .Select(s => s.GetPageNumber())
-                    .Distinct()
-                    .Count() <= 1
-            )
+            using (new OperationWrapper(this))
             {
+                if (selectedShapes
+                        .Select(s => s.GetPageNumber())
+                        .Distinct()
+                        .Count() <= 1
+                )
+                {
+                    return selectedShapes;
+                }
+                Word.Range anchor = null;
+                foreach (var shape in selectedShapes)
+                {
+                    if (anchor == null)
+                    {
+                        anchor = shape.Anchor;
+                        shape.Select(Replace: true);
+                    }
+                    else
+                    {
+                        shape.Select(Replace: false);
+                    }
+                }
+                if (anchor == null) return Enumerable.Empty<Word.Shape>();
+                Selection.Cut();
+                anchor.Select();
+                Selection.Paste();
                 return selectedShapes;
             }
-            Word.Range anchor = null;
-            foreach (var shape in selectedShapes)
-            {
-                if (anchor == null)
-                {
-                    anchor = shape.Anchor;
-                    shape.Select(Replace: true);
-                }
-                else
-                {
-                    shape.Select(Replace: false);
-                }
-            }
-            if (anchor == null) return Enumerable.Empty<Word.Shape>();
-            Selection.Cut();
-            anchor.Select();
-            Selection.Paste();
-            return selectedShapes;
         }
 
         public Word.Shape[] SelectedShapes()
@@ -469,7 +488,7 @@
 
         public void SelectedShapeIterator(Action<Word.Shape> shapeAction)
         {
-            using (Application.StatePreserver().FreezeScreenUpdating())
+            using(new OperationWrapper(this))
             {
                 Globals.ThisAddIn.SelectedShapes().ForEach(shapeAction);
             }
@@ -485,9 +504,27 @@
             SpacingAdjust(-1);
         }
 
-        public float SpacingAdjust(float scale)
+        float SpacingAdjust(float scale)
         {
             return SelectedShapesAdjustImpl(r => r.IncreaseSpacing(scale), _ => 0f);
+        }
+
+        class OperationWrapper:IDisposable
+        {
+            readonly ThisAddIn _addIn;
+            readonly StatePreserver _statePreserver;
+
+            public OperationWrapper(ThisAddIn addIn)
+            {
+                _addIn = addIn;
+                _statePreserver = addIn.Application.StatePreserver().FreezeScreenUpdating();
+            }
+
+            public void Dispose()
+            {
+                _statePreserver.Dispose();
+                _addIn.ThisAddIn_SelectionChange(null, null);
+            }            
         }
     }
 }
