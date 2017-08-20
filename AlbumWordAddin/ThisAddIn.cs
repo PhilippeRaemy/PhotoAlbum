@@ -513,16 +513,19 @@
         {
             readonly ThisAddIn _addIn;
             readonly StatePreserver _statePreserver;
+            readonly UndoerRedoer _undoer;
 
             public OperationWrapper(ThisAddIn addIn)
             {
                 _addIn = addIn;
                 _statePreserver = addIn.Application.StatePreserver().FreezeScreenUpdating();
+                _undoer = new UndoerRedoer(addIn.ActiveDocument).TrackChanges();
             }
 
             public void Dispose()
             {
                 _statePreserver.Dispose();
+                _undoer.Dispose();
                 _addIn.ThisAddIn_SelectionChange(null, null);
             }            
         }
