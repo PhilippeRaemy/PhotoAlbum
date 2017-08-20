@@ -4,7 +4,6 @@
     using Microsoft.Office.Core;
     using Microsoft.Office.Tools.Word;
     using System.Linq;
-;
 
     public class UndoerRedoer : IDisposable
     {
@@ -18,13 +17,16 @@
             _document = document;
         }
 
-        int IncreaseRevisionNumber()
+        void IncreaseRevisionNumber()
         {
-            dynamic revisionProp = GetRevisionProperty();
-            if (revisionProp != null) return revisionProp.Value = (int)revisionProp.Value + 1;
+            var revisionProp = GetRevisionProperty();
+            if (revisionProp != null)
+            {
+                revisionProp.Value = (int)revisionProp.Value + 1;
+                return;
+            }
             _document.CustomDocumentProperties.Add(RevisionPropName, false,
                 MsoDocProperties.msoPropertyTypeNumber, 1);
-            return 1;
         }
 
         DocumentProperty GetRevisionProperty() 
@@ -52,7 +54,7 @@
 
         bool UndoRedo(Func<bool> undoredo)
         {
-            // if 1st undo changes the revision number then undo until another revision number change occurs
+            // if 1st undo/redo changes the revision number then undo until another revision number change occurs
             // otherwise indo only one.
             var revisionNumber = GetRevisionNumber();
             var success = undoredo();
