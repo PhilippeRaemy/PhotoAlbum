@@ -1,15 +1,20 @@
 ﻿namespace VstoEx
 {
     using System;
+    using System.Globalization;
     using Microsoft.Office.Core;
-    using Microsoft.Office.Tools.Word;
     using System.Linq;
+    using System.Text.RegularExpressions;
+    using Microsoft.Office.Interop.Word;
+    using Document = Microsoft.Office.Tools.Word.Document;
 
     public class UndoerRedoer : IDisposable
     {
         readonly Document _document;
         bool _trackChanges;
-        const string RevisionPropName = "VstoEx.UndoerRedoer.Revision";
+        const string RevisionPropRegex  = @"VstoEx.UndoerRedoer.Revision\((\d+)\).";
+        const string RevisionPropFormat = @"VstoEx.UndoerRedoer.Revision({0}).";
+        const WdBuiltInProperty UnderlyingProperty = WdBuiltInProperty.wdPropertyKeywords;
 
         public UndoerRedoer(Document document)
         {
@@ -17,25 +22,46 @@
             _document = document;
         }
 
-        void IncreaseRevisionNumber()
-        {
-            var revisionProp = GetRevisionProperty();
-            if (revisionProp != null)
-            {
-                revisionProp.Value = (int)revisionProp.Value + 1;
-                return;
-            }
-            _document.CustomDocumentProperties.Add(RevisionPropName, false,
-                MsoDocProperties.msoPropertyTypeNumber, 1);
-        }
-
         DocumentProperty GetRevisionProperty() 
             => Enumerable.Range(1, (int?)_document.CustomDocumentProperties.Count() ?? 0)
                          .Select(i => (DocumentProperty)_document.CustomDocumentProperties.Item(i))
-                         .FirstOrDefault(p => p.Name == RevisionPropName);
+                         .FirstOrDefault(p => p.Name == RevisionPropRegex);
 
         int GetRevisionNumber()
-            => (int?) GetRevisionProperty()?.Value ?? 0;
+        {
+            var ma = new Regex(RevisionPropRegex).Match(GetPropertyString() ?? string.Empty);
+            return ma.Success
+                ? int.Parse(ma.Groups[1].Value, NumberStyles.Integer)
+                : 0;
+        }
+
+        DocumentProperty GetProperty()
+            => (DocumentProperty)_document.BuiltInDocumentProperties[UnderlyingProperty];
+
+        string GetPropertyString()
+            => (string)GetProperty().Value;
+
+        void IncreaseRevisionNumber()
+        {
+            var propertyString = GetPropertyString();
+            var revisionNumber = GetRevisionNumber();
+            if (revisionNumber > 0)
+                GetProperty().Value = propertyString.Replace(
+                    string.Format(RevisionPropFormat, revisionNumber),
+                    string.Format(RevisionPropFormat, revisionNumber + 1)
+                );
+            else
+            {
+                if (string.IsNullOrWhiteSpace(propertyString))
+                    propertyString = string.Empty;
+                else
+                {
+                    propertyString += Environment.NewLine;
+                }
+                GetProperty().Value = 
+                    propertyString + string.Format(RevisionPropFormat, 1);
+            }
+        }
 
         public UndoerRedoer TrackChanges()
         {
