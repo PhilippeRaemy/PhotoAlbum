@@ -10,6 +10,7 @@
     using MoreLinq;
     using Positioning;
     using UserPreferences;
+    using VstoEx;
     using VstoEx.Extensions;
 
     public partial class AlbumRibbon
@@ -425,6 +426,16 @@
         void buttonSpacingDecreaseBoth_Click(object sender, RibbonControlEventArgs e)
         {
             Globals.ThisAddIn.SpacingDecreaseBoth();
+        }
+
+        void buttonUndo_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Undo();
+        }
+
+        void buttonRedo_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.Redo();
         }
     }
 }

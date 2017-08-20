@@ -526,5 +526,15 @@
                 _addIn.ThisAddIn_SelectionChange(null, null);
             }            
         }
+
+        public void Undo()
+        {
+            new UndoerRedoer(ActiveDocument).Undo();
+        }
+
+        public void Redo()
+        {
+            new UndoerRedoer(ActiveDocument).Redo();
+        }
     }
 }
