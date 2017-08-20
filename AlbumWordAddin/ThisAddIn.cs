@@ -62,14 +62,13 @@
             ThisRibbon.EnablePictureTools(s.Length);
         }
 
-        internal void AlignSelectedImages(Alignment alignment, float forced = Single.NaN)
+        internal void AlignSelectedImages(Alignment alignment, float forced = float.NaN)
         {
-            Alignment alignment1 = alignment;
             using (Application.StatePreserver().FreezeScreenUpdating())
             {
                 var shapes = Globals.ThisAddIn.SelectedShapes();
                 if (shapes.Length < 2) return;
-                switch (alignment1)
+                switch (alignment)
                 {
                     case Alignment.Top:
                     {
@@ -144,13 +143,9 @@
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(alignment1), alignment1, null);
+                        throw new ArgumentOutOfRangeException(nameof(alignment), alignment, null);
                 }
             }
-        }
-
-        void ThisAddIn_Shutdown(object sender, EventArgs e)
-        {
         }
 
         public void RemoveEmptyPages()
@@ -239,7 +234,6 @@
         void InternalStartup()
         {
             Startup += ThisAddIn_Startup;
-            Shutdown += ThisAddIn_Shutdown;
         }
 
         #endregion
