@@ -323,6 +323,26 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap RotateAntiClockwise {
+            get {
+                object obj = ResourceManager.GetObject("RotateAntiClockwise", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RotateClockwise {
+            get {
+                object obj = ResourceManager.GetObject("RotateClockwise", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SelectAllImagesOnPage {
             get {
                 object obj = ResourceManager.GetObject("SelectAllImagesOnPage", resourceCulture);
@@ -436,6 +456,16 @@ namespace AlbumWordAddin.Properties {
         internal static System.Drawing.Bitmap spacingShrink {
             get {
                 object obj = ResourceManager.GetObject("spacingShrink", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SwapPositions {
+            get {
+                object obj = ResourceManager.GetObject("SwapPositions", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
