@@ -437,5 +437,20 @@
         {
             Globals.ThisAddIn.Redo();
         }
+
+        void buttonSwapPositions_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.RotateSelectedImages(1);
+        }
+
+        void ButtonRotatePositionsClockwise_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.RotateSelectedImages(1);
+        }
+
+        void ButtonRotatePositionsAnticlockwise_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.RotateSelectedImages(-1);
+        }
     }
 }

@@ -536,5 +536,10 @@
         {
             new UndoerRedoer(ActiveDocument).Redo();
         }
+
+        public void RotateSelectedImages(int d)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
