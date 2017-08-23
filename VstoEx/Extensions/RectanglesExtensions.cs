@@ -23,6 +23,14 @@ namespace VstoEx.Extensions
             return aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
         }
 
+        public static Point Center(this IEnumerable<Rectangle> rectangles)
+        {
+            var c = 1;
+            var p = rectangles
+                .Aggregate<Rectangle, Point>(null, (current, r) => c++ == 1 ? r.Center : current + r.Center);
+            return p / c;
+        }
+
         public static IEnumerable<Rectangle> IncreaseSpacing(this IEnumerable<Rectangle> rectangles, float scalePerc)
         {
             if (scalePerc <= -1)

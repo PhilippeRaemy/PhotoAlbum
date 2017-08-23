@@ -537,9 +537,26 @@
             new UndoerRedoer(ActiveDocument).Redo();
         }
 
-        public void RotateSelectedImages(int d)
+        public void RotateSelectedImages(int direction)
         {
-            throw new NotImplementedException();
+            var selectedShapes = SelectedShapes();
+            if (selectedShapes.Length < 2) return;
+            var rectangles = selectedShapes.ToRectangles().CheapToArray();
+            var center = rectangles.Center();
+            var orderedRectangles = (
+                from r in rectangles
+                let d = r.Center - center
+                orderby Math.Atan2(d.Y, d.X)
+                select r).ToArray();
+            if (direction < 0)
+            {
+                selectedShapes.ApplyPositions(orderedRectangles.Skip(1).Concat(orderedRectangles.First()));
+            }
+            else if (direction > 0)
+            {
+                selectedShapes.ApplyPositions(orderedRectangles.Take(orderedRectangles.Length -1).Prepend(orderedRectangles.Last()));
+            }
+
         }
     }
 }
