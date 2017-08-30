@@ -1,8 +1,7 @@
 ﻿namespace AlbumWordAddin
 {
-    enum ShapeToolRequiredCount
+    internal enum ShapeToolRequiredCount
     {
-        None,
         OneOrMore,
         Two,
         TwoOrMore,
