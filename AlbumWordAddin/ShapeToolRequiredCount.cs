@@ -2,10 +2,10 @@
 {
     enum ShapeToolRequiredCount
     {
-        None ,
-        OneOrMore  ,
+        None,
+        OneOrMore,
         Two,
-        TwoOrMore  ,
+        TwoOrMore,
         ThreeOrMore
     }
 }
