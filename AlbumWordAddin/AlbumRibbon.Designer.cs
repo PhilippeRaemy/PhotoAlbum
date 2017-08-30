@@ -676,6 +676,7 @@ namespace AlbumWordAddin
             this.buttonSwapPositions.Name = "buttonSwapPositions";
             this.buttonSwapPositions.ShowImage = true;
             this.buttonSwapPositions.ShowLabel = false;
+            this.buttonSwapPositions.Tag = AlbumWordAddin.ShapeToolRequiredCount.Two;
             this.buttonSwapPositions.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonSwapPositions_Click);
             // 
             // ButtonRotatePositionsClockwise
@@ -685,6 +686,7 @@ namespace AlbumWordAddin
             this.ButtonRotatePositionsClockwise.Name = "ButtonRotatePositionsClockwise";
             this.ButtonRotatePositionsClockwise.ShowImage = true;
             this.ButtonRotatePositionsClockwise.ShowLabel = false;
+            this.ButtonRotatePositionsClockwise.Tag = AlbumWordAddin.ShapeToolRequiredCount.ThreeOrMore;
             this.ButtonRotatePositionsClockwise.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonRotatePositionsClockwise_Click);
             // 
             // ButtonRotatePositionsAnticlockwise
@@ -694,6 +696,7 @@ namespace AlbumWordAddin
             this.ButtonRotatePositionsAnticlockwise.Name = "ButtonRotatePositionsAnticlockwise";
             this.ButtonRotatePositionsAnticlockwise.ShowImage = true;
             this.ButtonRotatePositionsAnticlockwise.ShowLabel = false;
+            this.ButtonRotatePositionsAnticlockwise.Tag = AlbumWordAddin.ShapeToolRequiredCount.ThreeOrMore;
             this.ButtonRotatePositionsAnticlockwise.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonRotatePositionsAnticlockwise_Click);
             // 
             // buttonAlignTop

@@ -23,6 +23,7 @@
         RibbonControlSet _buttonsActingOnOneOrMoreShapes;
         RibbonControlSet _buttonsActingOnTwoOrMoreShapes;
         RibbonControlSet _buttonsActingOnThreeOrMoreShapes;
+        RibbonControlSet _buttonsActingOnTwoShapes;
 
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
@@ -39,10 +40,12 @@
             _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
             _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
             _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
+            _buttonsActingOnTwoShapes         = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two        )));
             _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
             _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
-            _buttonsActingOnOneOrMoreShapes.Enabled = false;
-            _buttonsActingOnTwoOrMoreShapes.Enabled = false;
+            _buttonsActingOnOneOrMoreShapes.Enabled   = false;
+            _buttonsActingOnTwoShapes.Enabled         = false;
+            _buttonsActingOnTwoOrMoreShapes.Enabled   = false;
             _buttonsActingOnThreeOrMoreShapes.Enabled = false;
         }
 
@@ -402,6 +405,7 @@
         public void EnablePictureTools(int countOfSelectedShapes)
         {
             _buttonsActingOnOneOrMoreShapes  .Enabled = countOfSelectedShapes >= 1;
+            _buttonsActingOnTwoShapes        .Enabled = countOfSelectedShapes == 2;
             _buttonsActingOnTwoOrMoreShapes  .Enabled = countOfSelectedShapes >= 2;
             _buttonsActingOnThreeOrMoreShapes.Enabled = countOfSelectedShapes >= 3;
         }

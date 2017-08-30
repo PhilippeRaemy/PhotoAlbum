@@ -4,6 +4,7 @@
     {
         None ,
         OneOrMore  ,
+        Two,
         TwoOrMore  ,
         ThreeOrMore
     }
