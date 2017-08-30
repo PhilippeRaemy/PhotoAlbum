@@ -79,8 +79,8 @@
                         break;
                     case Alignment.Middle:
                     {
-                        var pos = shapes.Average(shp => shp.Top + shp.Height/2);
-                        shapes.ForEach(shp => shp.Top = pos - shp.Height/2);
+                        var pos = shapes.Average(shp => shp.Top + shp.Height / 2);
+                        shapes.ForEach(shp => shp.Top = pos - shp.Height / 2);
                     }
                         break;
                     case Alignment.Bottom:
@@ -97,8 +97,8 @@
                         break;
                     case Alignment.Center:
                     {
-                        var pos = shapes.Average(shp => shp.Left + shp.Width/2);
-                        shapes.ForEach(shp => shp.Left = pos - shp.Width/2);
+                        var pos = shapes.Average(shp => shp.Left + shp.Width / 2);
+                        shapes.ForEach(shp => shp.Left = pos - shp.Width / 2);
                     }
                         break;
                     case Alignment.Right:
@@ -182,7 +182,7 @@
             var pageNumber = Selection.GetPageNumber();
             var shapesOnPage = ActiveDocument.Shapes.Cast<Word.Shape>()
                 .Where(s => (s.Type == MsoShapeType.msoLinkedPicture
-                          || s.Type == MsoShapeType.msoPicture
+                             || s.Type == MsoShapeType.msoPicture
                             ) && s.Anchor.GetPageNumber() == pageNumber
                 );
             using (new OperationWrapper(this))
@@ -303,7 +303,7 @@
             var vRatio = pageHeight / shp.Height;
             var maxShpWidth = shp.Width * 0.75f * (vRatio < hRatio ? vRatio : hRatio);
             var maxShpHeight = shp.Height * 0.75f * (vRatio < hRatio ? vRatio : hRatio);
-            if (shp.Width  > maxShpWidth ) shp.Width  = maxShpWidth;
+            if (shp.Width > maxShpWidth) shp.Width = maxShpWidth;
             if (shp.Height > maxShpHeight) shp.Height = maxShpHeight;
             shp.WrapFormat.Type = Word.WdWrapType.wdWrapTight;
             sel.EndKey(Word.WdUnits.wdStory, Word.WdMovementType.wdMove);
@@ -314,7 +314,11 @@
             Func<string, bool> toPatternIsMatch)
         {
             using (new OperationWrapper(this))
-            using (var progress = (StatusBarProgressIndicator)new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count, "Change picture resolution"))
+            using (
+                var progress =
+                    (StatusBarProgressIndicator)
+                    new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count,
+                        "Change picture resolution"))
             {
                 foreach (var shape in ActiveDocument.Shapes
                     .Cast<Word.Shape>()
@@ -379,32 +383,32 @@
 
         public void SpacingDecreaseHorizontal()
         {
-            SpacingImpl(Spacer.DecreaseHorizontal    );
+            SpacingImpl(Spacer.DecreaseHorizontal);
         }
 
         public void SpacingIncreaseHorizontal()
         {
-            SpacingImpl(Spacer.IncreaseHorizontal    );
+            SpacingImpl(Spacer.IncreaseHorizontal);
         }
 
         public void SpacingEqualVertical()
         {
-            SpacingImpl(Spacer.VerticalEqualSpacing  );
+            SpacingImpl(Spacer.VerticalEqualSpacing);
         }
 
         public void SpacingDecreaseVertical()
         {
-            SpacingImpl(Spacer.DecreaseVertical      );
+            SpacingImpl(Spacer.DecreaseVertical);
         }
 
         public void SpacingIncreaseVertical()
         {
-            SpacingImpl(Spacer.IncreaseVertical      );
+            SpacingImpl(Spacer.IncreaseVertical);
         }
 
         public void SpacingInterpolate()
         {
-            SpacingImpl(Spacer.SpacingInterpolate    );
+            SpacingImpl(Spacer.SpacingInterpolate);
         }
 
         void SpacingImpl(Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> spacerFunc)
@@ -422,23 +426,27 @@
         {
             using (new OperationWrapper(this))
                 return SelectedShapesAdjustImpl(rr => rr.IncreaseMargin(increment),
-                    r => r.Aggregate((r1,r2) => r1.Absorb(r2)).AverageDistance(new Rectangle(0, 0, ActiveDocument.PageSetup.PageWidth, ActiveDocument.PageSetup.PageHeight))
-            );
+                    r =>
+                        r.Aggregate((r1, r2) => r1.Absorb(r2))
+                            .AverageDistance(new Rectangle(0, 0, ActiveDocument.PageSetup.PageWidth,
+                                ActiveDocument.PageSetup.PageHeight))
+                );
         }
 
         T SelectedShapesAdjustImpl<T>(
             Func<IEnumerable<Rectangle>, IEnumerable<Rectangle>> transformation,
             Func<IEnumerable<Rectangle>, T> feedbackFunc
-            )
+        )
         {
             using (new OperationWrapper(this))
             {
                 if (SelectedShapes().Select(sh => sh.GetPageNumber()).Distinct().Count() > 1)
                 {
-                    throw new InvalidOperationException("Please make sure that all the selected shapes are on the same page");
+                    throw new InvalidOperationException(
+                        "Please make sure that all the selected shapes are on the same page");
                 }
                 var rectangles = transformation(SelectedShapes().ToRectangles())
-                                    .CheapToArray();
+                    .CheapToArray();
                 using (Application.StatePreserver().FreezeScreenUpdating())
                     SelectedShapes().ApplyPositions(rectangles);
                 return feedbackFunc(rectangles);
@@ -485,7 +493,7 @@
 
         public void SelectedShapeIterator(Action<Word.Shape> shapeAction)
         {
-            using(new OperationWrapper(this))
+            using (new OperationWrapper(this))
             {
                 Globals.ThisAddIn.SelectedShapes().ForEach(shapeAction);
             }
@@ -506,7 +514,7 @@
             return SelectedShapesAdjustImpl(r => r.IncreaseSpacing(scale), _ => 0f);
         }
 
-        class OperationWrapper:IDisposable
+        class OperationWrapper : IDisposable
         {
             readonly ThisAddIn _addIn;
             readonly StatePreserver _statePreserver;
@@ -524,7 +532,7 @@
                 _statePreserver.Dispose();
                 _undoer.Dispose();
                 _addIn.ThisAddIn_SelectionChange(null, null);
-            }            
+            }
         }
 
         public void Undo()
@@ -539,24 +547,45 @@
 
         public void RotateSelectedImages(int direction)
         {
+            using(new OperationWrapper(this))
+                RotateSelectedImagesImpl(direction);
+        }
+
+        void RotateSelectedImagesImpl(int direction)
+        {
             var selectedShapes = SelectedShapes();
             if (selectedShapes.Length < 2) return;
-            var rectangles = selectedShapes.ToRectangles().CheapToArray();
-            var center = rectangles.Center();
+            var rectangles = selectedShapes
+                .Select(s => new {S = s, R=new Rectangle(s)})
+                .ToArray();
+            var center = rectangles.Select(r => r.R).Center();
             var orderedRectangles = (
                 from r in rectangles
-                let d = r.Center - center
-                orderby Math.Atan2(d.Y, d.X)
+                let d = r.R.Center - center
+                orderby Math.Atan2(d.Y, d.X) // + (d.X < 0 ? Math.PI : 0)
                 select r).ToArray();
-            if (direction < 0)
+            if (direction > 0)
             {
-                selectedShapes.ApplyPositions(orderedRectangles.Skip(1).Concat(orderedRectangles.First()));
+                orderedRectangles
+                    .Select(r => r.S)
+                    .ApplyPositions(
+                        orderedRectangles
+                            .Skip(1)
+                            .Concat(orderedRectangles.First())
+                            .Select(r => r.R)
+                        );
             }
-            else if (direction > 0)
+            else if (direction < 0)
             {
-                selectedShapes.ApplyPositions(orderedRectangles.Take(orderedRectangles.Length -1).Prepend(orderedRectangles.Last()));
+                orderedRectangles
+                    .Select(r => r.S)
+                    .ApplyPositions(
+                        orderedRectangles
+                            .Take(orderedRectangles.Length - 1)
+                            .Prepend(orderedRectangles.Last())
+                            .Select(r => r.R)
+                        );
             }
-
         }
     }
 }

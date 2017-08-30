@@ -25,9 +25,9 @@ namespace VstoEx.Extensions
 
         public static Point Center(this IEnumerable<Rectangle> rectangles)
         {
-            var c = 1;
+            var c = 0;
             var p = rectangles
-                .Aggregate<Rectangle, Point>(null, (current, r) => c++ == 1 ? r.Center : current + r.Center);
+                .Aggregate<Rectangle, Point>(null, (current, r) => ++c == 1 ? r.Center : current + r.Center);
             return p / c;
         }
 
