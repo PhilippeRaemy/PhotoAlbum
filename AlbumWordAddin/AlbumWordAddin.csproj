@@ -207,6 +207,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DualFile.cs" />
     <EmbeddedResource Include="AlbumRibbon.resx">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
       <SubType>Designer</SubType>

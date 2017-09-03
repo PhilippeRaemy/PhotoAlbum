@@ -325,10 +325,11 @@
                     .Where(sh => sh.LinkFormat.Type == Word.WdLinkType.wdLinkTypePicture))
                 {
                     progress.SetCaption(shape.LinkFormat.SourceFullName);
-                    var fileInfo = new FileInfo(shape.LinkFormat.SourceFullName);
-                    if (fileInfo.DirectoryName == null) break;
-                    var newFileInfo = new FileInfo(Path.Combine(fileInfo.DirectoryName, fileNameMaker(fileInfo.Name)));
-                    if (newFileInfo.Exists) shape.LinkFormat.SourceFullName = newFileInfo.FullName;
+                    var dualFile = new DualFile(shape.LinkFormat.SourceFullName, fileNameMaker);
+                    shape.LinkFormat.SourceFullName 
+                        = dualFile.DualExists ? dualFile.DualFileInfo.FullName
+                        : dualFile.Exists     ? dualFile.FileInfo.FullName
+                        : shape.LinkFormat.SourceFullName;
                 }
             }
         }
