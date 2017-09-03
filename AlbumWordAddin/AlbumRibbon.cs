@@ -300,13 +300,13 @@
         void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences()); 
-            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.FilePatternIsMatch, fileNameHandler.SmallFileNameMaker, fileNameHandler.SmallPatternIsMatch);
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallFileNameMaker);
         }
 
         void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
         {
             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
-            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallPatternIsMatch, fileNameHandler.LargeFileNameMaker, fileNameHandler.FilePatternIsMatch);
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.LargeFileNameMaker);
         }
 
         void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)

@@ -19,7 +19,6 @@
     using VstoEx.Extensions;
     using VstoEx.Geometry;
     using VstoEx.Progress;
-    using Action = System.Action;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -310,8 +309,7 @@
             sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
         }
 
-        public void ChangePicturesResolution(Func<string, bool> fromPatternIsMatch, Func<string, string> fileNameMaker,
-            Func<string, bool> toPatternIsMatch)
+        public void ChangePicturesResolution(Func<string, string> fileNameMaker)
         {
             using (new OperationWrapper(this))
             using (
