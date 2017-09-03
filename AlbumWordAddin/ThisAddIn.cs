@@ -325,7 +325,7 @@
                     .Where(sh => sh.LinkFormat.Type == Word.WdLinkType.wdLinkTypePicture))
                 {
                     progress.SetCaption(shape.LinkFormat.SourceFullName);
-                    var dualFile = new DualFile(shape.LinkFormat.SourceFullName, fileNameMaker);
+                    var dualFile = new DualFile(shape.LinkFormat.SourceFullName, ActiveDocument.FullName, fileNameMaker);
                     shape.LinkFormat.SourceFullName 
                         = dualFile.DualExists ? dualFile.DualFileInfo.FullName
                         : dualFile.Exists     ? dualFile.FileInfo.FullName
