@@ -41,8 +41,14 @@
                 // ignored
             }
             Application.DocumentOpen += Application_DocumentOpen;
+            Application.DocumentBeforeClose += Application_DocumentBeforeClose;
             ((Word.ApplicationEvents4_Event) Application).NewDocument += Application_DocumentOpen;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        }
+
+        void Application_DocumentBeforeClose(Word.Document doc, ref bool cancel)
+        {
+            Globals.Factory.GetVstoObject(doc).SelectionChange -= ThisAddIn_SelectionChange;
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
