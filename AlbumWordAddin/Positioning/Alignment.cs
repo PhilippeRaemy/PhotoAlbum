@@ -1,7 +1,7 @@
-﻿using System.Runtime.InteropServices;
-
-namespace AlbumWordAddin
+﻿namespace AlbumWordAddin.Positioning
 {
+    using System.Runtime.InteropServices;
+
     [ComVisible(true)]
     public enum Alignment
     {

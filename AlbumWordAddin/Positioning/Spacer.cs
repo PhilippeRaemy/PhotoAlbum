@@ -1,4 +1,4 @@
-﻿namespace AlbumWordAddin
+﻿namespace AlbumWordAddin.Positioning
 {
     using System;
     using System.Collections.Generic;

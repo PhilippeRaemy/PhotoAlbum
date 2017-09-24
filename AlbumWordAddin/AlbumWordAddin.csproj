@@ -193,7 +193,7 @@
     </Compile>
     <Compile Include="Positioning\HShape.cs" />
     <Compile Include="Positioning\PositionManager.cs" />
-    <Compile Include="Alignment.cs" />
+    <Compile Include="Positioning\Alignment.cs" />
     <Compile Include="Positioning\Arrangement.cs" />
     <Compile Include="FolderWalker.cs" />
     <Compile Include="FormImportPictures.cs">
@@ -244,7 +244,7 @@
     </Compile>
     <Compile Include="RibbonToggleButtonSet.cs" />
     <Compile Include="ShapeToolRequiredCount.cs" />
-    <Compile Include="Spacer.cs" />
+    <Compile Include="Positioning\Spacer.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
