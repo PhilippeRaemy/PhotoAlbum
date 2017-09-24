@@ -129,6 +129,7 @@ namespace AlbumWordAddin
             this.groupPrepare = this.Factory.CreateRibbonGroup();
             this.ButtonLowRes = this.Factory.CreateRibbonButton();
             this.ButtonHiRes = this.Factory.CreateRibbonButton();
+            this.buttonShowShapeProperties = this.Factory.CreateRibbonButton();
             buttonArrangeV = this.Factory.CreateRibbonToggleButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
@@ -182,6 +183,7 @@ namespace AlbumWordAddin
             // 
             this.groupFile.Items.Add(this.buttonPictureSorter);
             this.groupFile.Items.Add(this.ButtonImport);
+            this.groupFile.Items.Add(this.buttonShowShapeProperties);
             this.groupFile.Label = "File";
             this.groupFile.Name = "groupFile";
             // 
@@ -1105,6 +1107,16 @@ namespace AlbumWordAddin
     "the editing work is complete.";
             this.ButtonHiRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonHiRes_Click);
             // 
+            // buttonShowShapeProperties
+            // 
+            this.buttonShowShapeProperties.Label = "buttonShowShapeProperties";
+            this.buttonShowShapeProperties.Name = "buttonShowShapeProperties";
+            this.buttonShowShapeProperties.OfficeImageId = "Insights";
+            this.buttonShowShapeProperties.ScreenTip = "Show selected images properties";
+            this.buttonShowShapeProperties.ShowImage = true;
+            this.buttonShowShapeProperties.ShowLabel = false;
+            this.buttonShowShapeProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ShowShapeProperties);
+            // 
             // AlbumRibbon
             // 
             this.Name = "AlbumRibbon";
@@ -1247,6 +1259,7 @@ namespace AlbumWordAddin
         internal RibbonButton buttonSwapPositions;
         internal RibbonButton ButtonRotatePositionsClockwise;
         internal RibbonButton ButtonRotatePositionsAnticlockwise;
+        internal RibbonButton buttonShowShapeProperties;
     }
 
     partial class ThisRibbonCollection

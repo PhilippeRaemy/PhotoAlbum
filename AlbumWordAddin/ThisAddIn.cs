@@ -592,5 +592,25 @@
                         );
             }
         }
+
+        public void ShowSelectedImagesProperties()
+        {
+            var selectedShapes = SelectedShapes();
+            foreach (var shape in selectedShapes)
+            {
+                shape.Select();
+                if(DialogResult.Cancel == MessageBox.Show(
+                    new[] {
+                        shape.LinkFormat.SourceFullName,
+                        $"Position ({shape.Top}, {shape.Left}) - ({shape.Width}, {shape.Height})",
+                        $"On page {shape.GetPageNumber()}",
+                        $"Location : {shape.GetLocationString()}"
+                    }
+                    .ToDelimitedString(Environment.NewLine),
+                    "Shape properties",
+                    MessageBoxButtons.OKCancel
+                    )) break;
+            }
+        }
     }
 }

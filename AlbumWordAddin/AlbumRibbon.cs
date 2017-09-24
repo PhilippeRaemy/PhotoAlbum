@@ -455,5 +455,10 @@
         {
             Globals.ThisAddIn.RotateSelectedImages(-1);
         }
+
+        void ShowShapeProperties(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.ShowSelectedImagesProperties();
+        }
     }
 }
