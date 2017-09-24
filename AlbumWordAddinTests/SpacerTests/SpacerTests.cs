@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using AlbumWordAddin;
     using AlbumWordAddin.Positioning;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using MoreLinq;

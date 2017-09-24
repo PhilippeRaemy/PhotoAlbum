@@ -10,7 +10,6 @@
     using MoreLinq;
     using Positioning;
     using UserPreferences;
-    using VstoEx;
     using VstoEx.Extensions;
 
     public partial class AlbumRibbon

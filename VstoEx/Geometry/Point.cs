@@ -1,7 +1,5 @@
 namespace VstoEx.Geometry
 {
-    using System;
-
     public class Point
     {
         public float Y { get;}

@@ -1,8 +1,5 @@
 namespace VstoEx.Geometry
 {
-    using System;
-    using Microsoft.Office.Interop.Word;
-
     public class Segment
     {
         public float Start { get; }

@@ -1,7 +1,6 @@
 ﻿namespace VstoEx.Extensions
 {
     using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.Office.Interop.Word;
 
     public static class ShapeExtensions

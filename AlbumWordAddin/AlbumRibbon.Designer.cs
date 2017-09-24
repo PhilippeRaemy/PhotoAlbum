@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Office.Tools.Ribbon;
-using MoreLinq;
+﻿using Microsoft.Office.Tools.Ribbon;
 
 namespace AlbumWordAddin
 {
