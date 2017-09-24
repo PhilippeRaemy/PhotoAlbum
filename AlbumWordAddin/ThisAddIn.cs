@@ -328,7 +328,7 @@
                     .Cast<Word.Shape>()
                     // ReSharper disable once AccessToDisposedClosure
                     .Pipe(sh => progress.Progress(string.Empty))
-                    .Where(sh => sh.LinkFormat.Type == Word.WdLinkType.wdLinkTypePicture))
+                    .Where(sh => sh.LinkFormat?.Type == Word.WdLinkType.wdLinkTypePicture))
                 {
                     progress.SetCaption(shape.LinkFormat.SourceFullName);
                     var dualFile = new DualFile(shape.LinkFormat.SourceFullName, ActiveDocument.FullName, fileNameMaker);
@@ -601,7 +601,7 @@
                 shape.Select();
                 if(DialogResult.Cancel == MessageBox.Show(
                     new[] {
-                        shape.LinkFormat.SourceFullName,
+                        shape.LinkFormat?.SourceFullName ?? "Embedded picture",
                         $"Position ({shape.Top}, {shape.Left}) - ({shape.Width}, {shape.Height})",
                         $"On page {shape.GetPageNumber()}",
                         $"Location : {shape.GetLocationString()}"
