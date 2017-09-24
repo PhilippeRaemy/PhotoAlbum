@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Raemy Lalive and Kids")]
 [assembly: AssemblyProduct("AlbumWordAddin")]
-[assembly: AssemblyCopyright("Copyright © Philippe Raemy 2016")]
+[assembly: AssemblyCopyright("Copyright © Philippe Raemy 2017")]
 [assembly: AssemblyTrademark("Raemy Lalive and Kids")]
 [assembly: AssemblyCulture("")]
 
