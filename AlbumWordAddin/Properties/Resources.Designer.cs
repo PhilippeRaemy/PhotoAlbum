@@ -323,6 +323,16 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap RightResPictures {
+            get {
+                object obj = ResourceManager.GetObject("RightResPictures", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap RotateAntiClockwise {
             get {
                 object obj = ResourceManager.GetObject("RotateAntiClockwise", resourceCulture);

@@ -299,14 +299,21 @@
         void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences()); 
-            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallFileNameMaker);
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallFileNameMaker, fileNameHandler.LargeFileNameMaker, true, false);
         }
 
         void ButtonHiRes_Click(object sender, RibbonControlEventArgs e)
         {
             var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
-            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.LargeFileNameMaker);
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.LargeFileNameMaker, fileNameHandler.LargeFileNameMaker, false, false);
         }
+
+        void ButtonRightRes_Click(object sender, RibbonControlEventArgs e)
+        {
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
+            Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.RightFileNameMaker, fileNameHandler.LargeFileNameMaker, true, true);
+        }
+
 
         void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)
         {

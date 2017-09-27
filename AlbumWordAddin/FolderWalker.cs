@@ -106,11 +106,10 @@
 
         void ProgressIndicator_CancelEvent(object sender, EventArgs e){ _cancel = true; }
 
-
         static FileInfo MakeSmallImage(FileInfo sourceFileInfo, string newFileName)
         {
             using (var img = Image.FromFile(sourceFileInfo.FullName))
-                using (var newImg = img.Scale(0.2))
+            using (var newImg = img.Scale(0.2))
             {
                 newImg.Save(newFileName, ImageFormat.Jpeg);
                 return new FileInfo(newFileName);

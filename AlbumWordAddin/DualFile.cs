@@ -7,25 +7,26 @@ namespace AlbumWordAddin
     internal class DualFile
     {
         readonly string _documentFullFileName;
-        public FileInfo FileInfo { get; }
-        public FileInfo DualFileInfo { get; }
-        public bool DualExists => DualFileInfo.Exists;
-        public bool Exists => FileInfo.Exists;
+        public FileInfo FileInfo      { get; }
+        public FileInfo LargeFileInfo { get; }
+        public FileInfo DualFileInfo  { get; }
+        public bool LargeExists => LargeFileInfo.Exists;
+        public bool DualExists  => DualFileInfo .Exists;
+        public bool Exists      => FileInfo     .Exists;
 
-        public DualFile(string fullFileName, string documentFullFileName, Func<string, string> fileNameMaker)
+        public DualFile(string fullFileName, string documentFullFileName, Func<string, string> fileNameMaker, Func<string, string> largeFileNameMaker)
         {
             _documentFullFileName = documentFullFileName;
             FileInfo =  ValidateFileInfo(new FileInfo(fullFileName));
 
-            if (FileInfo.DirectoryName == null) return;
-            DualFileInfo = ValidateFileInfo(new FileInfo(Path.Combine(FileInfo.DirectoryName, fileNameMaker(FileInfo.Name))));
+            LargeFileInfo = ValidateFileInfo(new FileInfo(Path.Combine(FileInfo.DirectoryName, largeFileNameMaker(FileInfo.Name))));
+            DualFileInfo  = ValidateFileInfo(new FileInfo(Path.Combine(FileInfo.DirectoryName, fileNameMaker(FileInfo.Name))));
         }
 
         FileInfo ValidateFileInfo(FileInfo fi)
         {
             if(fi.Exists) return fi;
             var documentFileInfo = new FileInfo(_documentFullFileName);
-            if (documentFileInfo.DirectoryName == null) return fi;
             var documentFolder = new DirectoryInfo(documentFileInfo.DirectoryName);
             var candidate = documentFolder.GetFiles(fi.Name).FirstOrDefault();
             if (candidate?.Exists ?? false) return candidate;

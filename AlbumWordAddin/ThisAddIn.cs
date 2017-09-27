@@ -7,6 +7,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Drawing;
+    using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
@@ -17,8 +19,8 @@
     using UserPreferences;
     using VstoEx;
     using VstoEx.Extensions;
-    using VstoEx.Geometry;
     using VstoEx.Progress;
+    using Rectangle = VstoEx.Geometry.Rectangle;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -315,7 +317,7 @@
             sel.InsertBreak(Type: Word.WdBreakType.wdPageBreak);
         }
 
-        public void ChangePicturesResolution(Func<string, string> fileNameMaker)
+        public void ChangePicturesResolution(Func<string, string> fileNameMaker, Func<string, string> largeFileNameMaker, bool createFileIfMissing, bool rightSize)
         {
             using (new OperationWrapper(this))
             using (
@@ -331,11 +333,40 @@
                     .Where(sh => sh.LinkFormat?.Type == Word.WdLinkType.wdLinkTypePicture))
                 {
                     progress.SetCaption(shape.LinkFormat.SourceFullName);
-                    var dualFile = new DualFile(shape.LinkFormat.SourceFullName, ActiveDocument.FullName, fileNameMaker);
+                    var dualFile = new DualFile(shape.LinkFormat.SourceFullName, ActiveDocument.FullName, fileNameMaker, largeFileNameMaker);
+                    if (createFileIfMissing && (rightSize || !dualFile.DualExists) && dualFile.LargeExists)
+                    {
+                        MakeSmallImage(dualFile.LargeFileInfo, dualFile.DualFileInfo.FullName, rightSize ? shape : null);
+                    }
                     shape.LinkFormat.SourceFullName 
                         = dualFile.DualExists ? dualFile.DualFileInfo.FullName
                         : dualFile.Exists     ? dualFile.FileInfo.FullName
                         : shape.LinkFormat.SourceFullName;
+                }
+            }
+        }
+
+        static void MakeSmallImage(FileInfo sourceFileInfo, string newFileName, Word.Shape shape = null)
+        {
+            var fi = new FileInfo(newFileName);
+            using (var img = Image.FromFile(sourceFileInfo.FullName))
+            {
+                var scale = .2;
+                if (shape != null)
+                {
+                    scale = img.Width / (new Word.Global().PointsToInches(shape.Width) * 400);
+                    if (scale > 0.95)
+                    {
+                        if (!fi.Exists)
+                        {
+                            sourceFileInfo.CopyTo(newFileName);
+                        }
+                        return;
+                    }
+                }
+                using (var newImg = img.Scale(scale))
+                {
+                    newImg.Save(newFileName, ImageFormat.Jpeg);
                 }
             }
         }

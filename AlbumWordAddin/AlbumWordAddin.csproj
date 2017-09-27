@@ -278,6 +278,7 @@
     <None Include="Icons\SwapPositions.png" />
     <None Include="Icons\RotateAntiClockwise.png" />
     <None Include="Icons\RotateClockwise.png" />
+    <Content Include="Icons\RightResPictures.png" />
     <Content Include="Icons\Undo.png" />
     <None Include="Icons\spacingShrink.png" />
     <Content Include="Icons\Redo.png" />

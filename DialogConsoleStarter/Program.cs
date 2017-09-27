@@ -19,12 +19,16 @@
             }
             Console.WriteLine("Processing settings...");
             var userPrefs=new PersistedUserPreferences();
+            Func<string, string> largeFileNameMaker = s => new Regex(@"(.*\.)(small|right)\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$3");
+            Func<string, string> smallFileNameMaker = s => new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(largeFileNameMaker(s), ".small.$1");
+            Func<string, string> rightFileNameMaker = s => new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(largeFileNameMaker(s), ".right.$1");
             var fileNameMaker = new FileNameHandler(
                 userPrefs.IncludeFiles,
                 userPrefs.ExcludeFolders,
                 @"\.small\.((jpeg)|(jpg))$",
-                s => new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, ".small.$1"),
-                s => new Regex(@"(.*\.)small\.(jpg|jpeg)$", RegexOptions.IgnoreCase).Replace(s, "$1.$2")
+                smallFileNameMaker,
+                rightFileNameMaker,
+                largeFileNameMaker
             );
 
             var folderWalker = new FolderWalker(
