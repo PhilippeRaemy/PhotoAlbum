@@ -335,6 +335,7 @@
                     if (createFileIfMissing && (rightSize || !dualFile.DualExists) && dualFile.LargeExists)
                     {
                         MakeSmallImage(dualFile.LargeFileInfo, dualFile.DualFileInfo.FullName, rightSize ? shape : null);
+                        dualFile.Refresh();
                     }
                     shape.LinkFormat.SourceFullName 
                         = dualFile.DualExists ? dualFile.DualFileInfo.FullName
@@ -347,18 +348,24 @@
 
         static void MakeSmallImage(FileInfo sourceFileInfo, string newFileName, Word.Shape shape = null)
         {
-            var fi = new FileInfo(newFileName);
             using (var img = Image.FromFile(sourceFileInfo.FullName))
             {
-                var scale = .2;
-                if (shape != null)
+                var expectedWidth = shape == null ? 
+                    img.Width * .2
+                    : new Word.Global().PointsToInches(shape.Width) * 400;
+                var scale = expectedWidth / img.Width;
+
+                var fi = new FileInfo(newFileName);
+                if (fi.Exists)
                 {
-                    scale = new Word.Global().PointsToInches(shape.Width) * 400 / img.Width;
-                    if (scale > 0.95)
-                    {
-                        sourceFileInfo.CopyTo(newFileName, true);
-                        return;
-                    }
+                    var newImg = Image.FromFile(newFileName);
+                    var ratio = newImg.Width/img.Width;
+                    if (ratio > .95 && ratio < 1.05) return;
+                }
+                if (scale > 0.95)
+                {
+                    sourceFileInfo.CopyTo(newFileName, true);
+                    return;
                 }
                 using (var newImg = img.Scale(scale))
                 {
