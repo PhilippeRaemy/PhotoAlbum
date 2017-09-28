@@ -320,11 +320,8 @@
         public void ChangePicturesResolution(Func<string, string> fileNameMaker, Func<string, string> largeFileNameMaker, bool createFileIfMissing, bool rightSize)
         {
             using (new OperationWrapper(this))
-            using (
-                var progress =
-                    (StatusBarProgressIndicator)
-                    new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count,
-                        "Change picture resolution"))
+            using ( var progress = (StatusBarProgressIndicator)
+                    new StatusBarProgressIndicator(Application).InitProgress(ActiveDocument.Shapes.Count, "Change picture resolution"))
             {
                 foreach (var shape in ActiveDocument.Shapes
                     .Cast<Word.Shape>()
@@ -332,7 +329,8 @@
                     .Pipe(sh => progress.Progress(string.Empty))
                     .Where(sh => sh.LinkFormat?.Type == Word.WdLinkType.wdLinkTypePicture))
                 {
-                    progress.SetCaption(shape.LinkFormat.SourceFullName);
+                    var trace = $"CPR {shape.LinkFormat.SourceFullName} into ";
+                    progress.SetCaption(fileNameMaker(shape.LinkFormat.SourceFullName));
                     var dualFile = new DualFile(shape.LinkFormat.SourceFullName, ActiveDocument.FullName, fileNameMaker, largeFileNameMaker);
                     if (createFileIfMissing && (rightSize || !dualFile.DualExists) && dualFile.LargeExists)
                     {
@@ -342,6 +340,7 @@
                         = dualFile.DualExists ? dualFile.DualFileInfo.FullName
                         : dualFile.Exists     ? dualFile.FileInfo.FullName
                         : shape.LinkFormat.SourceFullName;
+                    Trace.WriteLine($"{trace}{shape.LinkFormat.SourceFullName}.");
                 }
             }
         }
@@ -354,18 +353,16 @@
                 var scale = .2;
                 if (shape != null)
                 {
-                    scale = img.Width / (new Word.Global().PointsToInches(shape.Width) * 400);
+                    scale = new Word.Global().PointsToInches(shape.Width) * 400 / img.Width;
                     if (scale > 0.95)
                     {
-                        if (!fi.Exists)
-                        {
-                            sourceFileInfo.CopyTo(newFileName);
-                        }
+                        sourceFileInfo.CopyTo(newFileName, true);
                         return;
                     }
                 }
                 using (var newImg = img.Scale(scale))
                 {
+                    if(fi.Exists) fi.Delete();
                     newImg.Save(newFileName, ImageFormat.Jpeg);
                 }
             }
@@ -630,17 +627,28 @@
             foreach (var shape in selectedShapes)
             {
                 shape.Select();
-                if(DialogResult.Cancel == MessageBox.Show(
+                var fileName = shape.LinkFormat?.SourceFullName ?? "Embedded picture";
+                switch(MessageBox.Show(
                     new[] {
-                        shape.LinkFormat?.SourceFullName ?? "Embedded picture",
+                        fileName,
+                        new FileInfo(fileName).Exists ? "File exists" : "File does not exist",
                         $"Position ({shape.Top}, {shape.Left}) - ({shape.Width}, {shape.Height})",
                         $"On page {shape.GetPageNumber()}",
-                        $"Location : {shape.GetLocationString()}"
+                        $"Location : {shape.GetLocationString()}",
+                        string.Empty,
+                        "Click Yes to copy the path, No to continue, Cancel to stop"
                     }
                     .ToDelimitedString(Environment.NewLine),
                     "Shape properties",
-                    MessageBoxButtons.OKCancel
-                    )) break;
+                    MessageBoxButtons.YesNoCancel
+                    ))
+                {
+                    case DialogResult.Cancel:
+                        return;
+                    case DialogResult.Yes:
+                        Clipboard.SetText(fileName);
+                        break;
+                }
             }
         }
     }
