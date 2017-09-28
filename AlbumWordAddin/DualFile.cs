@@ -7,9 +7,9 @@ namespace AlbumWordAddin
     internal class DualFile
     {
         readonly string _documentFullFileName;
-        public FileInfo FileInfo      { get; }
-        public FileInfo LargeFileInfo { get; }
-        public FileInfo DualFileInfo  { get; }
+        public FileInfo FileInfo      { get; private set; }
+        public FileInfo LargeFileInfo { get; private set; }
+        public FileInfo DualFileInfo  { get; private set; }
         public bool LargeExists => LargeFileInfo.Exists;
         public bool DualExists  => DualFileInfo .Exists;
         public bool Exists      => FileInfo     .Exists;
@@ -33,6 +33,13 @@ namespace AlbumWordAddin
             candidate = documentFolder.Parent?.GetFiles(fi.Name).FirstOrDefault();
             if (candidate?.Exists ?? false) return candidate;
             return fi;
+        }
+
+        public void Refresh()
+        {
+            FileInfo      = new FileInfo(FileInfo.FullName);
+            LargeFileInfo = new FileInfo(LargeFileInfo.FullName);
+            DualFileInfo  = new FileInfo(DualFileInfo.FullName); 
         }
     }
 }
