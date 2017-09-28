@@ -359,8 +359,8 @@
                 if (fi.Exists)
                 {
                     var newImg = Image.FromFile(newFileName);
-                    var ratio = newImg.Width/img.Width;
-                    if (ratio > .95 && ratio < 1.05) return;
+                    var ratio = expectedWidth / newImg.Width;
+                    if (ratio > .95 && (ratio < 1.05 || scale > 0.95)) return;
                 }
                 if (scale > 0.95)
                 {
