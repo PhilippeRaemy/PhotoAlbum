@@ -106,6 +106,7 @@ namespace PicturesSorter
                 || FileInfo.DirectoryName == null
             ) return;
             var smallFile = GetSmallFile();
+            var rightFile = GetRightFile();
 
             var di = string.Equals(FileInfo.Directory.Name, "spare", StringComparison.InvariantCultureIgnoreCase)
                 ? FileInfo.Directory.Parent
@@ -117,6 +118,10 @@ namespace PicturesSorter
             {
                 File.Move(smallFile.FullName, Path.Combine(di.FullName, smallFile.Name));
             }
+            if (rightFile.Exists)
+            {
+                File.Move(rightFile.FullName, Path.Combine(di.FullName, rightFile.Name));
+            }
         }
 
         FileInfo GetSmallFile()
@@ -125,8 +130,14 @@ namespace PicturesSorter
             var smallFile = new FileInfo(fileNameHandler.SmallFileNameMaker(FileInfo.FullName));
             return smallFile;
         }
+        FileInfo GetRightFile()
+        {
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
+            var rightFile = new FileInfo(fileNameHandler.RightFileNameMaker(FileInfo.FullName));
+            return rightFile;
+        }
 
-        public void Dispose()
+    public void Dispose()
         {
             _image?.Dispose();
             _image = null;
