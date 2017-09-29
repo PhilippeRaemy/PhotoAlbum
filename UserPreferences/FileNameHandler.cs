@@ -59,8 +59,9 @@ namespace AlbumWordAddin
             : s;
 
         public bool FileMatch(string fileFullName, bool includeSmalls)
-            => (FilePatternIsMatch(fileFullName) || SmallPatternIsMatch(fileFullName))
-            && (includeSmalls                    || !SmallPatternIsMatch(fileFullName));
+            => FilePatternIsMatch(fileFullName)
+            || includeSmalls 
+                && (SmallPatternIsMatch(fileFullName) || RightPatternIsMatch(fileFullName));
 
         public bool SmallPatternIsMatch(string fileFullName) => _smallPattern.Match(fileFullName).Success;
         public bool RightPatternIsMatch(string fileFullName) => _rightPattern.Match(fileFullName).Success;
