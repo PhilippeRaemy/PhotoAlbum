@@ -102,8 +102,6 @@ namespace PicturesSorter
         {
             if (FileInfo               == null 
                 || !FileInfo.Exists
-                || FileInfo.Directory     == null 
-                || FileInfo.DirectoryName == null
             ) return;
             var smallFile = GetSmallFile();
             var rightFile = GetRightFile();
