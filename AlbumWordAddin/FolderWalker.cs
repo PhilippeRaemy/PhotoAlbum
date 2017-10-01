@@ -92,9 +92,15 @@
                 _progressIndicator?.CloseProgress();
             }
             if (_cancel) return;
+            var folderCompare 
+                = folderFrom.FullName.StartsWith(_diFolderTo.FullName) // hence folderFrom is grater than FolderTo, but it makes sense...
+                ? (Func<string, int>)(_ => -1)
+                : di => string.Compare(di, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase)
+            ;
+                
             folderFrom
                 .EnumerateDirectories()
-                .TakeWhile(di=>string.Compare(di.FullName/*.Substring(0, _diFolderTo.FullName.Length)*/, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) <= 0)
+                .TakeWhile(di=> folderCompare(di.FullName) <= 0)
                 .ForEach(Run);
         }
 
