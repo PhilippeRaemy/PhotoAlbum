@@ -1,0 +1,32 @@
+﻿<Window x:Class="PicturesOrganizer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PicturesOrganizer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid x:Name="Grid" HorizontalAlignment="Left" Height="auto" Margin="0,0,0,0" VerticalAlignment="Top" Width="auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="Menu" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="25" Margin="0,0,0,0" VerticalAlignment="Top" Width="auto">
+            <MenuItem Header="_Folder">
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Next" />
+                <MenuItem Header="_Previous" />
+            </MenuItem>
+            <MenuItem Header="Pictures"></MenuItem>
+        </Menu>
+        <Image x:Name="Image1" HorizontalAlignment="Left" Height="100" Margin="0,0,0,0" VerticalAlignment="Top" Width="100" Grid.Column ="0" Grid.Row="1" />
+        <Image x:Name="Image2" HorizontalAlignment="Left" Height="100" Margin="0,0,0,0" VerticalAlignment="Top" Width="100" Grid.Column ="1" Grid.Row="1" />
+        <Label x:Name="ImageName1" Grid.Column ="0" Grid.Row="2" ></Label>
+        <Label x:Name="ImageName2" Grid.Column ="1" Grid.Row="2" ></Label>
+    </Grid>
+</Window>

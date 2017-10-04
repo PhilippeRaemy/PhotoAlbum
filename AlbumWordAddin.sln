@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoExTests", "VstoExTests\
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "AlbumWordAddinSetup", "AlbumWordAddinSetup\AlbumWordAddinSetup.isproj", "{1A839E06-B174-4D13-9330-2F33BE2D0386}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturesOrganizer", "PicturesOrganizer\PicturesOrganizer.csproj", "{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -149,6 +151,16 @@ Global
 		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Release|Any CPU.Build.0 = SingleImage
 		{1A839E06-B174-4D13-9330-2F33BE2D0386}.SingleImage|Any CPU.ActiveCfg = SingleImage
 		{1A839E06-B174-4D13-9330-2F33BE2D0386}.SingleImage|Any CPU.Build.0 = SingleImage
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{1D3625A3-DDCD-4D5D-AC86-3E416C8FC477}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
