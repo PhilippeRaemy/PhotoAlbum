@@ -29,7 +29,7 @@ namespace PicturesSorter
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
-        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -47,7 +47,7 @@ namespace PicturesSorter
 
         void PictureSorterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            (new PersistedUserPreferences {FolderImportStart = _currentDirectory.FullName}).Save();
+            new PersistedUserPreferences {FolderImportStart = _currentDirectory.FullName}.Save();
         }
 
         void OpenFolder()
