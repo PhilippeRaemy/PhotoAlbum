@@ -13,6 +13,11 @@ namespace PicturesSorter
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
 
+    /*TODO: 
+     * handle all derived images (small, right, etc.) at once.
+     * Trace when the images are disposed: there must be a bad case there!
+     */
+
     internal class ImageHost : IDisposable {
         Image _image;
         Image _smallImage;
