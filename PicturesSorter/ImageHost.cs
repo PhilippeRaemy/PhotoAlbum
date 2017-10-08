@@ -135,7 +135,7 @@ namespace PicturesSorter
             return rightFile;
         }
 
-    public void Dispose()
+        public void Dispose()
         {
             _image?.Dispose();
             _image = null;
@@ -175,7 +175,18 @@ namespace PicturesSorter
         public void Rotate(RotateFlipType rotateFlipType)
         {
             Image.RotateFlip(rotateFlipType);
-            Image.Save(FullName, ImageFormat.Jpeg);
+            try
+            {
+                Image.Save(FullName, ImageFormat.Jpeg);
+            }
+            catch //  sometimes the save fails: save to temp and copy
+            {
+                var tempFile = Path.GetTempFileName();
+                Image.Save(tempFile, ImageFormat.Jpeg);
+                FileInfo.Delete();
+                new FileInfo(tempFile).MoveTo(FullName);
+                FileInfo = new FileInfo(FullName);
+            }
             var smallImg = GetSmallFile();
             if (smallImg.Exists)
             {
