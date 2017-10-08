@@ -23,6 +23,8 @@ namespace PicturesOrganizer
         public MainWindow()
         {
             InitializeComponent();
+            Image1.Source = new BitmapImage(new Uri("file:///d:/users/public/pictures/2016/201612/20161204/20161204_102842_IMG_6991.jpg"));
+            Image2.Source = new BitmapImage(new Uri("file:///d:/users/public/pictures/2016/201612/20161204/20161204_102904_IMG_6992.jpg"));
         }
     }
 }
