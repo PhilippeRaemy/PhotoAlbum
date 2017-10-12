@@ -100,7 +100,7 @@ namespace PicturesSorter
         public void Release()
         {
             Trace.WriteLine($"ImageHost releasing. _useCount={_useCount-1}: {FileInfo.FullName}");
-            if (--_useCount < 0) return;
+            if (--_useCount > 0) return;
             Dispose();
             _useCount = 0;
         }
