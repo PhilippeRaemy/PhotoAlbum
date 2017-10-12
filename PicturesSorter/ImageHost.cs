@@ -27,10 +27,11 @@ namespace PicturesSorter
             {
                 lock (this)
                 {
-                    ScheduleReset();
+                    // ScheduleReset();
                     if (_image != null) return _image;
                     using (var stream = new FileStream(FullName, FileMode.Open, FileAccess.Read))
                     {
+                        Trace.WriteLine($"ImageHost reading from {FileInfo.FullName}");
                         return _image = Image.FromStream(stream);
                     }
                 }
@@ -52,7 +53,7 @@ namespace PicturesSorter
             {
                 lock (this)
                 {
-                    ScheduleReset();
+                    // ScheduleReset();
                     if (_smallImage != null) return _smallImage;
                     using (var stream = new FileStream(GetSmallFile().FullName, FileMode.Open, FileAccess.Read))
                     {
@@ -98,6 +99,7 @@ namespace PicturesSorter
 
         public void Release()
         {
+            Trace.WriteLine($"ImageHost releasing. _useCount={_useCount-1}: {FileInfo.FullName}");
             if (--_useCount < 0) return;
             Dispose();
             _useCount = 0;
@@ -142,6 +144,9 @@ namespace PicturesSorter
 
         public void Dispose()
         {
+            Trace.WriteLine($"IMageHost disposing of {FileInfo.FullName}");
+            Trace.WriteLine(new StackTrace());
+
             _image?.Dispose();
             _image = null;
         }
@@ -152,13 +157,13 @@ namespace PicturesSorter
             {
                 try
                 {
-                    pictureBox.Image = Image;
                     label.Tag = FileInfo.FullName;
+                    pictureBox.Image = Image;
                     pictureBox.Refresh();
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine(e);
+                    Trace.WriteLine($"ImageHost Render error: {e}. _useCount={_useCount}: {FileInfo.FullName}");
                     var host = pictureBox.Parent;
                     var bogusPic = pictureBox;
                     host.Controls.Remove(bogusPic);
@@ -168,12 +173,21 @@ namespace PicturesSorter
                         prop.SetValue(pictureBox, prop.GetValue(bogusPic));
                     }
                     host.Controls.Add(pictureBox);
+                    lock (this)
+                    {
+                        _image?.Dispose();
+                        _image = null;
+                    }
+                    pictureBox.Image = Image;
+                    pictureBox.Refresh();
+                    Trace.WriteLine($"ImageHost has replaced pictureBox. {FileInfo.FullName}");
                     return false;
                 }
             }
             // ReSharper disable once LocalizableElement
             label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
             _useCount++;
+            Trace.WriteLine($"ImageHost Render. _useCount={_useCount}: {FileInfo.FullName}");
             return true;
         }
 

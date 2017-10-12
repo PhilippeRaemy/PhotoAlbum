@@ -15,13 +15,13 @@ namespace PicturesSorter
 
     public partial class PictureSorterForm : Form
     {
-        class Nodes : Tuple<LinkedListNode<ImageHost>, LinkedListNode<ImageHost>> {
-            public Nodes(LinkedListNode<ImageHost> item1, LinkedListNode<ImageHost> item2) : base(item1, item2) { }
+        class NodesTuple : Tuple<LinkedListNode<ImageHost>, LinkedListNode<ImageHost>> {
+            public NodesTuple(LinkedListNode<ImageHost> item1, LinkedListNode<ImageHost> item2) : base(item1, item2) { }
         }
 
         DirectoryInfo _currentDirectory;
         LinkedList<ImageHost> _currentFiles;
-        Nodes _fileIndex;
+        NodesTuple _fileIndex;
 
         public PictureSorterForm()
         {
@@ -153,18 +153,18 @@ namespace PicturesSorter
             {
                 case 0:
                     // MessageBox.Show($"There are no pictures to sort in folder {selectedPath}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    _fileIndex = new Nodes(null, null);
+                    _fileIndex = new NodesTuple(null, null);
                     return;
                 case 1:
-                    _fileIndex = LoadPictures(new Nodes(_currentFiles.First, _currentFiles.First), 0, 0, noRelease: true);
+                    _fileIndex = LoadPictures(new NodesTuple(_currentFiles.First, _currentFiles.First), 0, 0, noRelease: true);
                     break;
                 default:
-                    _fileIndex = LoadPictures(new Nodes(_currentFiles.First, _currentFiles.First.Next), 0, 0, noRelease: true);
+                    _fileIndex = LoadPictures(new NodesTuple(_currentFiles.First, _currentFiles.First.Next), 0, 0, noRelease: true);
                     break;
             }
         }
 
-        Nodes LoadPictures(Nodes idx, int step1, int step2, bool noRelease = false)
+        NodesTuple LoadPictures(NodesTuple idx, int step1, int step2, bool noRelease = false)
         {
             var rc = SelectIndexes(idx, step1, step2);
             if (rc.Item1 == null || rc.Item2 == null) return null;
@@ -180,8 +180,8 @@ namespace PicturesSorter
             return rc;
         }
 
-        Nodes SelectIndexes(Nodes idx, int step1, int step2)
-            => new Nodes(idx?.Item1.SafeStep(step1), idx?.Item2.SafeStep(step2));
+        NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2)
+            => new NodesTuple(idx?.Item1.SafeStep(step1), idx?.Item2.SafeStep(step2));
 
         void LoadPicture(PictureBox pb, Label lbl, FileSystemInfo fi)
         {
@@ -238,9 +238,9 @@ namespace PicturesSorter
         void ArchivePicture(ImageHost imageHost, int step1, int step2)
         {
             _fileIndex = LoadPictures(_fileIndex, step1, step2);
+            _currentFiles.Remove(imageHost);
             imageHost.ArchivePicture();
             imageHost.Dispose();
-            _currentFiles.Remove(imageHost);
         }
 
         void previousToolStripMenuItem_Click(object sender, EventArgs e)
