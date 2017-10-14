@@ -87,30 +87,33 @@ namespace PicturesSorter
             }
         }
 
-        public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, bool ignoreSubFolders = false)
+        static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, bool ignoreSubFolders = false)
         {
-            var comparer = new Func<string, string, bool>((f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0);
-            if (currentDirectory == null) return null;
-            if (!currentDirectory.Exists) return null;
-            if (!ignoreSubFolders)
+            while (true)
             {
-                foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderBy(d => d.Name))
+                var comparer = new Func<string, string, bool>((f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0);
+                if (currentDirectory == null) return null;
+                if (!currentDirectory.Exists) return null;
+                if (!ignoreSubFolders)
+                {
+                    foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderBy(d => d.Name))
+                    {
+                        return subDirectory;
+                    }
+                }
+                if (currentDirectory.Parent == null) return null;
+                var directory = currentDirectory;
+                foreach (var subDirectory in
+                    currentDirectory.Parent.EnumerateDirectories().OrderBy(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
                 {
                     return subDirectory;
                 }
+                currentDirectory = currentDirectory.Parent;
+                ignoreSubFolders = true;
             }
-            if (currentDirectory.Parent == null) return null;
-            var directory = currentDirectory;
-            foreach (
-                var subDirectory in
-                currentDirectory.Parent.EnumerateDirectories().OrderBy(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
-            {
-                return subDirectory;
-            }
-            return GetNextFolder(currentDirectory.Parent, ignoreSubFolders=true);
         }
 
-        public static DirectoryInfo GetPreviousFolder(DirectoryInfo currentDirectory, bool diveSubFolders = false)
+        static DirectoryInfo GetPreviousFolder(DirectoryInfo currentDirectory, bool diveSubFolders = false)
         {
 
             var comparer = new Func<string, string, bool>((b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0);
@@ -122,7 +125,7 @@ namespace PicturesSorter
             {
                 foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderByDescending(d => d.Name))
                 {
-                    return GetPreviousFolder(subDirectory, diveSubFolders = true);
+                    return GetPreviousFolder(subDirectory, diveSubFolders: true);
                 }
                 return currentDirectory;
             }
@@ -131,7 +134,7 @@ namespace PicturesSorter
                 var subDirectory in
                 currentDirectory.Parent.EnumerateDirectories().OrderByDescending(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
             {
-                return GetPreviousFolder(subDirectory, diveSubFolders = true);
+                return GetPreviousFolder(subDirectory, diveSubFolders: true);
             }
 
             return currentDirectory.Parent;
@@ -180,9 +183,10 @@ namespace PicturesSorter
             return rc;
         }
 
-        NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2)
+        static NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2)
             => new NodesTuple(idx?.Item1.SafeStep(step1), idx?.Item2.SafeStep(step2));
 
+/*
         void LoadPicture(PictureBox pb, Label lbl, FileSystemInfo fi)
         {
             lbl.Text = fi.FullName;
@@ -193,6 +197,7 @@ namespace PicturesSorter
             }
             pb.Refresh();
         }
+*/
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -333,6 +338,5 @@ namespace PicturesSorter
             };
             p.Start();
         }
-
     }
 }
