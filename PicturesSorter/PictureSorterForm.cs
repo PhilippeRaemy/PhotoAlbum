@@ -37,7 +37,7 @@ namespace PicturesSorter
         void PictureSorterForm_Resize(object sender, EventArgs e)
         {
             pictureBox1.Width = pictureBox2.Width = ClientRectangle.Width / 2;
-            label1.Width = label2.Width = ClientRectangle.Width / 2;
+            labelLeft.Width = labelRight.Width = ClientRectangle.Width / 2;
         }
 
         void PictureSorterForm_Load(object sender, EventArgs e)
@@ -172,8 +172,8 @@ namespace PicturesSorter
             var rc = SelectIndexes(idx, step1, step2);
             if (rc.Item1 == null || rc.Item2 == null) return null;
             Trace.WriteLine($"LoadPictures({rc.Item1.Value.FileInfo.Name}, {rc.Item2.Value.FileInfo.Name}, {step1}, {step2}, {noRelease})");
-            rc.Item1?.Value?.Render(pictureBox1, label1);
-            rc.Item2?.Value?.Render(pictureBox2, label2);
+            rc.Item1?.Value?.Render(pictureBox1, labelLeft);
+            rc.Item2?.Value?.Render(pictureBox2, labelRight);
             if (!noRelease)
             {
                 idx?.Item1?.Value?.Release();
@@ -295,25 +295,25 @@ namespace PicturesSorter
         void RotateLeftClock_Click(object sender, EventArgs e)
         {
             _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Item1.Value.Render(pictureBox1, label1, force: true);
+            _fileIndex.Item1.Value.Render(pictureBox1, labelLeft, force: true);
         }
 
         void RotateLeftAnti_Click(object sender, EventArgs e)
         {
             _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Item1.Value.Render(pictureBox1, label1, force: true);
+            _fileIndex.Item1.Value.Render(pictureBox1, labelLeft, force: true);
         }
 
         void RotateRightClock_Click(object sender, EventArgs e)
         {
             _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Item2.Value.Render(pictureBox2, label2, force: true);
+            _fileIndex.Item2.Value.Render(pictureBox2, labelRight, force: true);
         }
 
         void RotateRightAnti_Click(object sender, EventArgs e)
         {
             _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Item2.Value.Render(pictureBox2, label2, force: true);
+            _fileIndex.Item2.Value.Render(pictureBox2, labelRight, force: true);
         }
 
         void nextFolder_Click(object sender, EventArgs e)
