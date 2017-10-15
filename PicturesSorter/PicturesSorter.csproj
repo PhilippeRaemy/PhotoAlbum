@@ -73,6 +73,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -96,6 +97,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PictureSorter.ico" />
+    <Content Include="Pictures\Shelve.png" />
+    <Content Include="Pictures\SmallLeft.png" />
+    <Content Include="Pictures\SmallLeftSync.png" />
+    <Content Include="Pictures\SmallRight.png" />
+    <Content Include="Pictures\SmallRightSync.png" />
+    <Content Include="Pictures\SmallRotateLeft.png" />
+    <Content Include="Pictures\SmallRotateRight.png" />
+    <Content Include="Pictures\SmallShelve.png" />
+    <Content Include="Pictures\SmallUnshelve.png" />
+    <Content Include="Pictures\Unshelve.png" />
+    <Resource Include="Pictures\Left.png" />
+    <Resource Include="Pictures\LeftSync.png" />
+    <Resource Include="Pictures\Right.png" />
+    <Resource Include="Pictures\RightSync.png" />
+    <Resource Include="Pictures\RotateLeft.png" />
+    <Resource Include="Pictures\RotateRight.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
