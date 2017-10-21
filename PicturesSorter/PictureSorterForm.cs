@@ -348,7 +348,42 @@ namespace PicturesSorter
 
         void buttonNavigateLeftLeft_Click(object sender, EventArgs e)
         {
+            _fileIndex = LoadPictures(_fileIndex, -1, 0);
+        }
 
+        void buttonNavigateRight_Click(object sender, EventArgs e)
+        {
+            _fileIndex = LoadPictures(_fileIndex, 1, 0);
+        }
+
+        void buttonNavigateBothLeft_Click(object sender, EventArgs e)
+        {
+            _fileIndex = LoadPictures(_fileIndex, -1, -1);
+        }
+
+        void buttonNavigateBothRight_Click(object sender, EventArgs e)
+        {
+            _fileIndex = LoadPictures(_fileIndex, 1, 1);
+        }
+
+        void buttonNavigateRightLeft_Click(object sender, EventArgs e)
+        {
+            _fileIndex = LoadPictures(_fileIndex, 0, -1);
+        }
+
+        void buttonNavigateRightRight_Click(object sender, EventArgs e)
+        {
+            _fileIndex = LoadPictures(_fileIndex, 0, 1);
+        }
+
+        void buttonShelfRight_Click(object sender, EventArgs e)
+        {
+            ArchiveRightPicture();
+        }
+
+        void buttonShelfLeft_Click(object sender, EventArgs e)
+        {
+            ArchiveLeftPicture();
         }
     }
 }

@@ -217,7 +217,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -225,7 +225,7 @@
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.ShortcutKeyDisplayString = "F1, 1";
             this.leftToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.leftToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.leftToolStripMenuItem.Text = "Left";
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.archiveLeftToolStripMenuItem_Click);
             // 
@@ -234,7 +234,7 @@
             this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
             this.rightToolStripMenuItem.ShortcutKeyDisplayString = "F2, 2";
             this.rightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.rightToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rightToolStripMenuItem.Text = "Right";
             this.rightToolStripMenuItem.Click += new System.EventHandler(this.archiveRightToolStripMenuItem_Click);
             // 
@@ -247,7 +247,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -317,6 +317,7 @@
             this.buttonNavigateBothRight.TabIndex = 26;
             this.buttonNavigateBothRight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateBothRight.UseVisualStyleBackColor = true;
+            this.buttonNavigateBothRight.Click += new System.EventHandler(this.buttonNavigateBothRight_Click);
             // 
             // buttonNavigateBothLeft
             // 
@@ -327,6 +328,7 @@
             this.buttonNavigateBothLeft.TabIndex = 25;
             this.buttonNavigateBothLeft.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateBothLeft.UseVisualStyleBackColor = true;
+            this.buttonNavigateBothLeft.Click += new System.EventHandler(this.buttonNavigateBothLeft_Click);
             // 
             // panel4
             // 
@@ -350,6 +352,7 @@
             this.buttonShelfRight.TabIndex = 24;
             this.buttonShelfRight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonShelfRight.UseVisualStyleBackColor = true;
+            this.buttonShelfRight.Click += new System.EventHandler(this.buttonShelfRight_Click);
             // 
             // buttonNavigateRightLeft
             // 
@@ -360,6 +363,7 @@
             this.buttonNavigateRightLeft.TabIndex = 23;
             this.buttonNavigateRightLeft.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateRightLeft.UseVisualStyleBackColor = true;
+            this.buttonNavigateRightLeft.Click += new System.EventHandler(this.buttonNavigateRightLeft_Click);
             // 
             // buttonRotateRightClock
             // 
@@ -370,6 +374,7 @@
             this.buttonRotateRightClock.TabIndex = 22;
             this.buttonRotateRightClock.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonRotateRightClock.UseVisualStyleBackColor = true;
+            this.buttonRotateRightClock.Click += new System.EventHandler(this.RotateRightClock_Click);
             // 
             // buttonRotateRightAnti
             // 
@@ -380,6 +385,7 @@
             this.buttonRotateRightAnti.TabIndex = 21;
             this.buttonRotateRightAnti.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonRotateRightAnti.UseVisualStyleBackColor = true;
+            this.buttonRotateRightAnti.Click += new System.EventHandler(this.RotateRightAnti_Click);
             // 
             // buttonNavigateRightRight
             // 
@@ -390,6 +396,7 @@
             this.buttonNavigateRightRight.TabIndex = 20;
             this.buttonNavigateRightRight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateRightRight.UseVisualStyleBackColor = true;
+            this.buttonNavigateRightRight.Click += new System.EventHandler(this.buttonNavigateRightRight_Click);
             // 
             // panel2
             // 
@@ -413,6 +420,7 @@
             this.buttonShelfLeft.TabIndex = 24;
             this.buttonShelfLeft.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonShelfLeft.UseVisualStyleBackColor = true;
+            this.buttonShelfLeft.Click += new System.EventHandler(this.buttonShelfLeft_Click);
             // 
             // buttonNavigateLeftLeft
             // 
@@ -434,6 +442,7 @@
             this.buttonRotateLeftClock.TabIndex = 22;
             this.buttonRotateLeftClock.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonRotateLeftClock.UseVisualStyleBackColor = true;
+            this.buttonRotateLeftClock.Click += new System.EventHandler(this.RotateLeftClock_Click);
             // 
             // buttonRotateLeftAnti
             // 
@@ -444,6 +453,7 @@
             this.buttonRotateLeftAnti.TabIndex = 21;
             this.buttonRotateLeftAnti.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonRotateLeftAnti.UseVisualStyleBackColor = true;
+            this.buttonRotateLeftAnti.Click += new System.EventHandler(this.RotateLeftAnti_Click);
             // 
             // buttonNavigateRight
             // 
@@ -454,6 +464,7 @@
             this.buttonNavigateRight.TabIndex = 20;
             this.buttonNavigateRight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateRight.UseVisualStyleBackColor = true;
+            this.buttonNavigateRight.Click += new System.EventHandler(this.buttonNavigateRight_Click);
             // 
             // panel3
             // 
