@@ -56,32 +56,32 @@
             this.RotateRightClock = new System.Windows.Forms.ToolStripMenuItem();
             this.RotateRightAnti = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.labelLeft = new System.Windows.Forms.Label();
-            this.labelRight = new System.Windows.Forms.Label();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.buttonNavigateBothRight = new System.Windows.Forms.Button();
             this.buttonNavigateBothLeft = new System.Windows.Forms.Button();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.buttonShelfRight = new System.Windows.Forms.Button();
             this.buttonNavigateRightLeft = new System.Windows.Forms.Button();
             this.buttonRotateRightClock = new System.Windows.Forms.Button();
             this.buttonRotateRightAnti = new System.Windows.Forms.Button();
             this.buttonNavigateRightRight = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.buttonShelfLeft = new System.Windows.Forms.Button();
             this.buttonNavigateLeftLeft = new System.Windows.Forms.Button();
             this.buttonRotateLeftClock = new System.Windows.Forms.Button();
             this.buttonRotateLeftAnti = new System.Windows.Forms.Button();
             this.buttonNavigateRight = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.labelLeft = new System.Windows.Forms.Label();
+            this.labelRight = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel5.SuspendLayout();
+            this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -298,62 +298,6 @@
             this.panel1.Size = new System.Drawing.Size(562, 54);
             this.panel1.TabIndex = 7;
             // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.labelLeft);
-            this.panel3.Controls.Add(this.labelRight);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(562, 20);
-            this.panel3.TabIndex = 26;
-            // 
-            // labelLeft
-            // 
-            this.labelLeft.AutoSize = true;
-            this.labelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.labelLeft.Location = new System.Drawing.Point(0, 0);
-            this.labelLeft.Name = "labelLeft";
-            this.labelLeft.Size = new System.Drawing.Size(35, 13);
-            this.labelLeft.TabIndex = 11;
-            this.labelLeft.Text = "label1";
-            // 
-            // labelRight
-            // 
-            this.labelRight.AutoSize = true;
-            this.labelRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.labelRight.Location = new System.Drawing.Point(527, 0);
-            this.labelRight.Name = "labelRight";
-            this.labelRight.Size = new System.Drawing.Size(35, 13);
-            this.labelRight.TabIndex = 7;
-            this.labelRight.Text = "label3";
-            // 
-            // panel4
-            // 
-            this.panel4.Controls.Add(this.buttonShelfRight);
-            this.panel4.Controls.Add(this.buttonNavigateRightLeft);
-            this.panel4.Controls.Add(this.buttonRotateRightClock);
-            this.panel4.Controls.Add(this.buttonRotateRightAnti);
-            this.panel4.Controls.Add(this.buttonNavigateRightRight);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(410, 20);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(152, 34);
-            this.panel4.TabIndex = 28;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.buttonShelfLeft);
-            this.panel2.Controls.Add(this.buttonNavigateLeftLeft);
-            this.panel2.Controls.Add(this.buttonRotateLeftClock);
-            this.panel2.Controls.Add(this.buttonRotateLeftAnti);
-            this.panel2.Controls.Add(this.buttonNavigateRight);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel2.Location = new System.Drawing.Point(0, 20);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(154, 34);
-            this.panel2.TabIndex = 27;
-            // 
             // panel5
             // 
             this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
@@ -363,26 +307,6 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(87, 34);
             this.panel5.TabIndex = 29;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pictureBox2.Location = new System.Drawing.Point(302, 78);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(260, 243);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 14;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 78);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(252, 243);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 13;
-            this.pictureBox1.TabStop = false;
             // 
             // buttonNavigateBothRight
             // 
@@ -403,6 +327,19 @@
             this.buttonNavigateBothLeft.TabIndex = 25;
             this.buttonNavigateBothLeft.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateBothLeft.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.buttonShelfRight);
+            this.panel4.Controls.Add(this.buttonNavigateRightLeft);
+            this.panel4.Controls.Add(this.buttonRotateRightClock);
+            this.panel4.Controls.Add(this.buttonRotateRightAnti);
+            this.panel4.Controls.Add(this.buttonNavigateRightRight);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
+            this.panel4.Location = new System.Drawing.Point(410, 20);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(152, 34);
+            this.panel4.TabIndex = 28;
             // 
             // buttonShelfRight
             // 
@@ -454,6 +391,19 @@
             this.buttonNavigateRightRight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateRightRight.UseVisualStyleBackColor = true;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.buttonShelfLeft);
+            this.panel2.Controls.Add(this.buttonNavigateLeftLeft);
+            this.panel2.Controls.Add(this.buttonRotateLeftClock);
+            this.panel2.Controls.Add(this.buttonRotateLeftAnti);
+            this.panel2.Controls.Add(this.buttonNavigateRight);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel2.Location = new System.Drawing.Point(0, 20);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(154, 34);
+            this.panel2.TabIndex = 27;
+            // 
             // buttonShelfLeft
             // 
             this.buttonShelfLeft.Image = global::PicturesSorter.Properties.Resources.SmallShelve;
@@ -473,6 +423,7 @@
             this.buttonNavigateLeftLeft.TabIndex = 23;
             this.buttonNavigateLeftLeft.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateLeftLeft.UseVisualStyleBackColor = true;
+            this.buttonNavigateLeftLeft.Click += new System.EventHandler(this.buttonNavigateLeftLeft_Click);
             // 
             // buttonRotateLeftClock
             // 
@@ -504,6 +455,56 @@
             this.buttonNavigateRight.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonNavigateRight.UseVisualStyleBackColor = true;
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.labelLeft);
+            this.panel3.Controls.Add(this.labelRight);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(562, 20);
+            this.panel3.TabIndex = 26;
+            // 
+            // labelLeft
+            // 
+            this.labelLeft.AutoSize = true;
+            this.labelLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.labelLeft.Location = new System.Drawing.Point(0, 0);
+            this.labelLeft.Name = "labelLeft";
+            this.labelLeft.Size = new System.Drawing.Size(35, 13);
+            this.labelLeft.TabIndex = 11;
+            this.labelLeft.Text = "label1";
+            // 
+            // labelRight
+            // 
+            this.labelRight.AutoSize = true;
+            this.labelRight.Dock = System.Windows.Forms.DockStyle.Right;
+            this.labelRight.Location = new System.Drawing.Point(527, 0);
+            this.labelRight.Name = "labelRight";
+            this.labelRight.Size = new System.Drawing.Size(35, 13);
+            this.labelRight.TabIndex = 7;
+            this.labelRight.Text = "label3";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Right;
+            this.pictureBox2.Location = new System.Drawing.Point(302, 78);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(260, 243);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 14;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 78);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(252, 243);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
             // PictureSorterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -524,11 +525,11 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel5.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

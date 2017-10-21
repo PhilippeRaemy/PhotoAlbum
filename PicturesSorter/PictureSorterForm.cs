@@ -15,8 +15,15 @@ namespace PicturesSorter
 
     public partial class PictureSorterForm : Form
     {
-        class NodesTuple : Tuple<LinkedListNode<ImageHost>, LinkedListNode<ImageHost>> {
-            public NodesTuple(LinkedListNode<ImageHost> item1, LinkedListNode<ImageHost> item2) : base(item1, item2) { }
+        class NodesTuple // : Tuple<LinkedListNode<ImageHost>, LinkedListNode<ImageHost>>
+        {
+            public NodesTuple(LinkedListNode<ImageHost> left, LinkedListNode<ImageHost> right)
+            {
+                Left = left;
+                Right = right;
+            }
+            public LinkedListNode<ImageHost> Left { get; }
+            public LinkedListNode<ImageHost> Right { get; }
         }
 
         DirectoryInfo _currentDirectory;
@@ -167,24 +174,24 @@ namespace PicturesSorter
             }
         }
 
-        NodesTuple LoadPictures(NodesTuple idx, int step1, int step2, bool noRelease = false)
+        NodesTuple LoadPictures(NodesTuple idx, int stepLeft, int stepRight, bool noRelease = false)
         {
-            var rc = SelectIndexes(idx, step1, step2);
-            if (rc.Item1 == null || rc.Item2 == null) return null;
-            Trace.WriteLine($"LoadPictures({rc.Item1.Value.FileInfo.Name}, {rc.Item2.Value.FileInfo.Name}, {step1}, {step2}, {noRelease})");
-            rc.Item1?.Value?.Render(pictureBox1, labelLeft);
-            rc.Item2?.Value?.Render(pictureBox2, labelRight);
+            var rc = SelectIndexes(idx, stepLeft, stepRight);
+            if (rc.Left == null || rc.Right == null) return null;
+            Trace.WriteLine($"LoadPictures({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name}, {stepLeft}, {stepRight}, {noRelease})");
+            rc.Left?.Value?.Render(pictureBox1, labelLeft);
+            rc.Right?.Value?.Render(pictureBox2, labelRight);
             if (!noRelease)
             {
-                idx?.Item1?.Value?.Release();
-                idx?.Item2?.Value?.Release();
+                idx?.Left?.Value?.Release();
+                idx?.Right?.Value?.Release();
             }
-            Trace.WriteLine($"LoadPictures returns({rc.Item1.Value.FileInfo.Name}, {rc.Item2.Value.FileInfo.Name})");
+            Trace.WriteLine($"LoadPictures returns({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name})");
             return rc;
         }
 
         static NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2)
-            => new NodesTuple(idx?.Item1.SafeStep(step1), idx?.Item2.SafeStep(step2));
+            => new NodesTuple(idx?.Left.SafeStep(step1), idx?.Right.SafeStep(step2));
 
 /*
         void LoadPicture(PictureBox pb, Label lbl, FileSystemInfo fi)
@@ -232,12 +239,12 @@ namespace PicturesSorter
 
         void ArchiveRightPicture()
         {
-            ArchivePicture(_fileIndex.Item2.Value, 0, 1);
+            ArchivePicture(_fileIndex.Right.Value, 0, 1);
         }
 
         void ArchiveLeftPicture()
         {
-            ArchivePicture(_fileIndex.Item1.Value, -1, 0);
+            ArchivePicture(_fileIndex.Left.Value, -1, 0);
         }
 
         void ArchivePicture(ImageHost imageHost, int step1, int step2)
@@ -294,26 +301,26 @@ namespace PicturesSorter
 
         void RotateLeftClock_Click(object sender, EventArgs e)
         {
-            _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Item1.Value.Render(pictureBox1, labelLeft, force: true);
+            _fileIndex.Left.Value.Rotate(RotateFlipType.Rotate90FlipNone);
+            _fileIndex.Left.Value.Render(pictureBox1, labelLeft, force: true);
         }
 
         void RotateLeftAnti_Click(object sender, EventArgs e)
         {
-            _fileIndex.Item1.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Item1.Value.Render(pictureBox1, labelLeft, force: true);
+            _fileIndex.Left.Value.Rotate(RotateFlipType.Rotate270FlipNone);
+            _fileIndex.Left.Value.Render(pictureBox1, labelLeft, force: true);
         }
 
         void RotateRightClock_Click(object sender, EventArgs e)
         {
-            _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Item2.Value.Render(pictureBox2, labelRight, force: true);
+            _fileIndex.Right.Value.Rotate(RotateFlipType.Rotate90FlipNone);
+            _fileIndex.Right.Value.Render(pictureBox2, labelRight, force: true);
         }
 
         void RotateRightAnti_Click(object sender, EventArgs e)
         {
-            _fileIndex.Item2.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Item2.Value.Render(pictureBox2, labelRight, force: true);
+            _fileIndex.Right.Value.Rotate(RotateFlipType.Rotate270FlipNone);
+            _fileIndex.Right.Value.Render(pictureBox2, labelRight, force: true);
         }
 
         void nextFolder_Click(object sender, EventArgs e)
@@ -337,6 +344,11 @@ namespace PicturesSorter
                 }
             };
             p.Start();
+        }
+
+        void buttonNavigateLeftLeft_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
