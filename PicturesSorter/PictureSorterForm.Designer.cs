@@ -217,7 +217,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -225,7 +225,7 @@
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.ShortcutKeyDisplayString = "F1, 1";
             this.leftToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.leftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.leftToolStripMenuItem.Text = "Left";
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.archiveLeftToolStripMenuItem_Click);
             // 
@@ -234,7 +234,7 @@
             this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
             this.rightToolStripMenuItem.ShortcutKeyDisplayString = "F2, 2";
             this.rightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.rightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.rightToolStripMenuItem.Text = "Right";
             this.rightToolStripMenuItem.Click += new System.EventHandler(this.archiveRightToolStripMenuItem_Click);
             // 
@@ -247,7 +247,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -378,7 +378,7 @@
             // 
             // buttonRotateRightAnti
             // 
-            this.buttonRotateRightAnti.Image = global::PicturesSorter.Properties.Resources.SmallRotateLeft;
+            this.buttonRotateRightAnti.Image = ((System.Drawing.Image)(resources.GetObject("buttonRotateRightAnti.Image")));
             this.buttonRotateRightAnti.Location = new System.Drawing.Point(63, 0);
             this.buttonRotateRightAnti.Name = "buttonRotateRightAnti";
             this.buttonRotateRightAnti.Size = new System.Drawing.Size(32, 32);
@@ -446,7 +446,7 @@
             // 
             // buttonRotateLeftAnti
             // 
-            this.buttonRotateLeftAnti.Image = global::PicturesSorter.Properties.Resources.SmallRotateLeft;
+            this.buttonRotateLeftAnti.Image = ((System.Drawing.Image)(resources.GetObject("buttonRotateLeftAnti.Image")));
             this.buttonRotateLeftAnti.Location = new System.Drawing.Point(60, 0);
             this.buttonRotateLeftAnti.Name = "buttonRotateLeftAnti";
             this.buttonRotateLeftAnti.Size = new System.Drawing.Size(32, 32);
