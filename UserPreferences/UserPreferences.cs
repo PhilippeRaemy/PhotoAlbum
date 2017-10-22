@@ -83,7 +83,7 @@
             set { Modified = true; _newDocumentTemplate = value; }
         }
 
-        [XmlElement("NewDocumentTemplate")]
+        [XmlElement("ShelfName")]
         public string ShelfName
         {
             get { return _shelfName ?? "spare"; }
