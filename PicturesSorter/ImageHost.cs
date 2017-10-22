@@ -20,39 +20,21 @@ namespace PicturesSorter
 
         string ShelfName { get; }
         FileNameHandler FileNameHandler { get; }
-         
 
-        Image _image;
-        Image _smallImage;
-        Image Image
-        {
-            get
-            {
-                lock (this)
-                {
-                    // ScheduleReset();
-                    if (_image != null) return _image;
-                    using (var stream = new FileStream(FullName, FileMode.Open, FileAccess.Read))
-                    {
-                        Trace.WriteLine($"ImageHost reading from {FileInfo.FullName}");
-                        return _image = Image.FromStream(stream);
-                    }
-                }
-            }
-        }
+        Image[] _images;
+        Image Image => Images.First();
+        readonly Func<string>[] _imageNamesGetters; 
+        IEnumerable<Image> Images => _images.Select((im, i) => im ?? (_images[i] = GetImage(_imageNamesGetters[i]())));
 
-        Image SmallImage
+        Image GetImage(string imageFullPathName)
         {
-            get
+            if (!new FileInfo(imageFullPathName).Exists) return null;
+            lock (this)
             {
-                lock (this)
+                using (var stream = new FileStream(imageFullPathName, FileMode.Open, FileAccess.Read))
                 {
-                    // ScheduleReset();
-                    if (_smallImage != null) return _smallImage;
-                    using (var stream = new FileStream(GetSmallFile().FullName, FileMode.Open, FileAccess.Read))
-                    {
-                        return _smallImage = Image.FromStream(stream);
-                    }
+                    Trace.WriteLine($"ImageHost reading from {FullName}");
+                    return Image.FromStream(stream);
                 }
             }
         }
@@ -64,7 +46,7 @@ namespace PicturesSorter
         {
             lock (this)
             {
-                _image = _smallImage = null;
+                _images = new Image[_images.Length];
             }
         }
 
@@ -76,6 +58,13 @@ namespace PicturesSorter
 
         public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo)
         {
+            _images = new Image[3];
+            _imageNamesGetters = new Func<string>[]
+            {
+                () => FullName,
+                () => GetSmallFile().FullName,
+                () => GetRightFile().FullName
+            };
             FileNameHandler = fileNameHandler;
             ShelfName = shelfName;
             FileInfo = fileInfo;
@@ -129,8 +118,11 @@ namespace PicturesSorter
             Trace.WriteLine($"IMageHost disposing of {FileInfo.FullName}");
             Trace.WriteLine(new StackTrace());
 
-            _image?.Dispose();
-            _image = null;
+            for (var i = 0; i < _images.Length; i++)
+            {
+                _images[i]?.Dispose();
+                _images[i] = null;
+            }
         }
 
         public bool Render(PictureBox pictureBox, Label label, bool force = false)
@@ -157,8 +149,7 @@ namespace PicturesSorter
                     host.Controls.Add(pictureBox);
                     lock (this)
                     {
-                        _image?.Dispose();
-                        _image = null;
+                        Dispose();
                     }
                     pictureBox.Image = Image;
                     pictureBox.Refresh();
@@ -175,24 +166,15 @@ namespace PicturesSorter
 
         public void Rotate(RotateFlipType rotateFlipType)
         {
-            Image.RotateFlip(rotateFlipType);
-            try
+            for (var i = 0; i < _images.Length; i++)
             {
-                Image.Save(FullName, ImageFormat.Jpeg);
-            }
-            catch //  sometimes the save fails: save to temp and copy
-            {
+                if (_images[i] == null) continue;
+                _images[i].RotateFlip(rotateFlipType);
                 var tempFile = Path.GetTempFileName();
-                Image.Save(tempFile, ImageFormat.Jpeg);
-                FileInfo.Delete();
-                new FileInfo(tempFile).MoveTo(FullName);
-                FileInfo = new FileInfo(FullName);
-            }
-            var smallImg = GetSmallFile();
-            if (smallImg.Exists)
-            {
-                SmallImage.RotateFlip(rotateFlipType);
-                SmallImage.Save(smallImg.FullName, ImageFormat.Jpeg);
+                _images[i].Save(tempFile, ImageFormat.Jpeg);
+                var fi = new FileInfo(_imageNamesGetters[i]());
+                if(fi.Exists) fi.Delete();
+                new FileInfo(tempFile).MoveTo(fi.FullName);
             }
             Reset();
         }
