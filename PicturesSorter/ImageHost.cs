@@ -73,8 +73,6 @@ namespace PicturesSorter
         public LinkedList<ImageHost> Parent { private get; set; }
 
         int _useCount;
-        Task _delayedResetTask;
-        int _loadNumber;
 
         public ImageHost(FileNameHandler fileNameHandler, string spare)
         {
