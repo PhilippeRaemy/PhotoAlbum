@@ -152,13 +152,13 @@ namespace PicturesSorter
             _currentDirectory = selectedPath;
             Text = _currentDirectory.FullName;
             _currentFiles = new LinkedList<ImageHost>(
-                    _currentDirectory
+                _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                     .Where         (f => fileNameMatcher(f.Name))
                     .OrderBy       (f => f.Name)
-                    .Select        (f => new ImageHost(fileNameHandler, shelf,  f ))
-                );
-            _currentFiles.ForEach(ih=>ih.Parent= _currentFiles);
+                    .Select        (f => new ImageHost(fileNameHandler, shelf, f))
+            );
+            _currentFiles.ForEach(ih => ih.Parent = _currentFiles);
             switch (_currentFiles.Count)
             {
                 case 0:
@@ -172,6 +172,10 @@ namespace PicturesSorter
                     _fileIndex = LoadPictures(new NodesTuple(_currentFiles.First, _currentFiles.First.Next), 0, 0, noRelease: true);
                     break;
             }
+            buttonShelfLeft.Image = buttonShelfRight.Image =
+                (_currentDirectory.Parent?.Name.Equals(shelf, StringComparison.InvariantCultureIgnoreCase) ?? false)
+                    ? Properties.Resources.SmallUnshelve
+                    : Properties.Resources.SmallShelve;
         }
 
         NodesTuple LoadPictures(NodesTuple idx, int stepLeft, int stepRight, bool noRelease = false)
