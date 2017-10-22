@@ -7,7 +7,6 @@ namespace PicturesSorter
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using AlbumWordAddin;
@@ -19,6 +18,7 @@ namespace PicturesSorter
      */
 
     internal class ImageHost : IDisposable {
+        const string Spare = "spare";
         Image _image;
         Image _smallImage;
         Image Image
@@ -38,15 +38,6 @@ namespace PicturesSorter
             }
         }
 
-        void ScheduleReset()
-        {
-            _loadNumber++;
-            if (_delayedResetTask == null || _delayedResetTask.IsCompleted)
-            {
-                _delayedResetTask = Task.Factory.StartNew(DelayedReset);
-            }
-        }
-
         Image SmallImage
         {
             get
@@ -61,21 +52,6 @@ namespace PicturesSorter
                     }
                 }
             }
-        }
-
-        void DelayedReset()
-        {
-            var loadNumber = _loadNumber;
-            var wait = 0;
-            while (++wait < 60) { 
-                Thread.Sleep(1000);
-                if (loadNumber != _loadNumber)
-                {
-                    loadNumber = _loadNumber;
-                    wait = 0;
-                }
-            }
-            Reset();
         }
 
         /// <summary>
@@ -113,9 +89,9 @@ namespace PicturesSorter
             var smallFile = GetSmallFile();
             var rightFile = GetRightFile();
 
-            var di = string.Equals(FileInfo.Directory.Name, "spare", StringComparison.InvariantCultureIgnoreCase)
+            var di = string.Equals(FileInfo.Directory.Name, Spare, StringComparison.InvariantCultureIgnoreCase)
                 ? FileInfo.Directory.Parent
-                : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, "spare"));
+                : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, Spare));
             if (di == null) return;
             di.Create();
             File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
