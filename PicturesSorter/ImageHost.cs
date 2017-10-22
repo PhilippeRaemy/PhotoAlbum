@@ -10,7 +10,6 @@ namespace PicturesSorter
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using AlbumWordAddin;
-    using AlbumWordAddin.UserPreferences;
 
     /*TODO: 
      * handle all derived images (small, right, etc.) at once.
@@ -18,7 +17,11 @@ namespace PicturesSorter
      */
 
     internal class ImageHost : IDisposable {
-        const string Spare = "spare";
+
+        string Spare { get; }
+        FileNameHandler FileNameHandler { get; }
+         
+
         Image _image;
         Image _smallImage;
         Image Image
@@ -73,6 +76,12 @@ namespace PicturesSorter
         Task _delayedResetTask;
         int _loadNumber;
 
+        public ImageHost(FileNameHandler fileNameHandler, string spare)
+        {
+            FileNameHandler = fileNameHandler;
+            Spare = spare;
+        }
+
         public void Release()
         {
             Trace.WriteLine($"ImageHost releasing. _useCount={_useCount-1}: {FileInfo.FullName}");
@@ -107,14 +116,12 @@ namespace PicturesSorter
 
         FileInfo GetSmallFile()
         {
-            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
-            var smallFile = new FileInfo(fileNameHandler.SmallFileNameMaker(FileInfo.FullName));
+            var smallFile = new FileInfo(FileNameHandler.SmallFileNameMaker(FileInfo.FullName));
             return smallFile;
         }
         FileInfo GetRightFile()
         {
-            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
-            var rightFile = new FileInfo(fileNameHandler.RightFileNameMaker(FileInfo.FullName));
+            var rightFile = new FileInfo(FileNameHandler.RightFileNameMaker(FileInfo.FullName));
             return rightFile;
         }
 
