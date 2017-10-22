@@ -7,7 +7,6 @@ namespace PicturesSorter
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Forms;
     using AlbumWordAddin;
 
@@ -80,8 +79,10 @@ namespace PicturesSorter
 
         public void ArchivePicture()
         {
-            if (FileInfo               == null 
+            if (FileInfo                  == null 
                 || !FileInfo.Exists
+                || FileInfo.Directory     == null
+                || FileInfo.DirectoryName == null
             ) return;
             var smallFile = GetSmallFile();
             var rightFile = GetRightFile();
@@ -116,7 +117,6 @@ namespace PicturesSorter
         public void Dispose()
         {
             Trace.WriteLine($"IMageHost disposing of {FileInfo.FullName}");
-            Trace.WriteLine(new StackTrace());
 
             for (var i = 0; i < _images.Length; i++)
             {
