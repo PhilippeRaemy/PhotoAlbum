@@ -18,6 +18,7 @@
         string _includeFiles;
         string _excludeFolders;
         string _newDocumentTemplate;
+        string _shelfName;
 
         [XmlElement("FolderImportStart")]
         public string FolderImportStart
@@ -80,6 +81,13 @@
         {
             get { return _newDocumentTemplate; }
             set { Modified = true; _newDocumentTemplate = value; }
+        }
+
+        [XmlElement("NewDocumentTemplate")]
+        public string ShelfName
+        {
+            get { return _shelfName ?? "spare"; }
+            set { Modified = true; _shelfName = value; }
         }
     }
 

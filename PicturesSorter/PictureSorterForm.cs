@@ -67,7 +67,7 @@ namespace PicturesSorter
             }
             folderBrowserDialog.ShowDialog();
             OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false),
-                new DirectoryInfo(folderBrowserDialog.SelectedPath), fileNameHandler, "spare");
+                new DirectoryInfo(folderBrowserDialog.SelectedPath), fileNameHandler, userPrefs.ShelfName);
             userPrefs.Save();
         }
 
@@ -78,7 +78,7 @@ namespace PicturesSorter
             {
                 var userPrefs = new PersistedUserPreferences();
                 var fileNameHandler = new FileNameHandler(userPrefs);
-                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, "spare");
+                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
                 userPrefs.Save();
             }
         }
@@ -156,7 +156,7 @@ namespace PicturesSorter
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                     .Where         (f => fileNameMatcher(f.Name))
                     .OrderBy       (f => f.Name)
-                    .Select        (f => new ImageHost(fileNameHandler, shelf) { FileInfo = f })
+                    .Select        (f => new ImageHost(fileNameHandler, shelf,  f ))
                 );
             _currentFiles.ForEach(ih=>ih.Parent= _currentFiles);
             switch (_currentFiles.Count)

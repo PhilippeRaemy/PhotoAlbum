@@ -18,7 +18,7 @@ namespace PicturesSorter
 
     internal class ImageHost : IDisposable {
 
-        string Spare { get; }
+        string ShelfName { get; }
         FileNameHandler FileNameHandler { get; }
          
 
@@ -74,10 +74,11 @@ namespace PicturesSorter
 
         int _useCount;
 
-        public ImageHost(FileNameHandler fileNameHandler, string spare)
+        public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo)
         {
             FileNameHandler = fileNameHandler;
-            Spare = spare;
+            ShelfName = shelfName;
+            FileInfo = fileInfo;
         }
 
         public void Release()
@@ -96,9 +97,9 @@ namespace PicturesSorter
             var smallFile = GetSmallFile();
             var rightFile = GetRightFile();
 
-            var di = string.Equals(FileInfo.Directory.Name, Spare, StringComparison.InvariantCultureIgnoreCase)
+            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase)
                 ? FileInfo.Directory.Parent
-                : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, Spare));
+                : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
             if (di == null) return;
             di.Create();
             File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
