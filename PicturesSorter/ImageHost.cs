@@ -45,7 +45,7 @@ namespace PicturesSorter
             }
         }
 
-        public FileInfo FileInfo { get; set; }
+        public FileInfo FileInfo { get; private set; }
         string FullName => FileInfo.FullName;
         public LinkedList<ImageHost> Parent { private get; set; }
 
@@ -73,7 +73,7 @@ namespace PicturesSorter
             _useCount = 0;
         }
 
-        public void ArchivePicture()
+        public void ArchivePicture(Side side)
         {
             if (FileInfo                  == null 
                 || !FileInfo.Exists
@@ -81,15 +81,27 @@ namespace PicturesSorter
                 || FileInfo.DirectoryName == null
             ) return;
 
-            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase)
-                ? FileInfo.Directory.Parent
-                : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
+            Shelve shelve;
+            DirectoryInfo di;
+            if (string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                di = FileInfo.Directory.Parent;
+                shelve = Shelve.Unshelve;
+            }
+            else
+            {
+                shelve = Shelve.Shelve;
+                di = new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
+            }
             if (di == null) return;
             di.Create();
             _imageNamesGetters
                 .Select (ig => ig())
                 .Where  (fi => fi.Exists)
                 .ForEach(fi => File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name)));
+            FileInfo = new FileInfo(Path.Combine(di.FullName, FileInfo.Name));
+            OperationStack.Push(side, this, shelve: shelve);
+            Reset();
         }
 
         FileInfo GetSmallFile()
@@ -114,8 +126,9 @@ namespace PicturesSorter
             }
         }
 
-        public bool Render(PictureBox pictureBox, Label label, bool force = false)
+        public bool Render(PictureBox pictureBox, Label label, Side side, bool force = false)
         {
+            var success = true;
             if (force || (string)label.Tag != FileInfo.FullName)
             {
                 try
@@ -143,17 +156,18 @@ namespace PicturesSorter
                     pictureBox.Image = Image;
                     pictureBox.Refresh();
                     Trace.WriteLine($"ImageHost has replaced pictureBox. {FileInfo.FullName}");
-                    return false;
+                    success = false;
                 }
             }
             // ReSharper disable once LocalizableElement
             label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
             _useCount++;
             Trace.WriteLine($"ImageHost Render. _useCount={_useCount}: {FileInfo.FullName}");
-            return true;
+            OperationStack.Push(side, this);
+            return success;
         }
 
-        public void Rotate(RotateFlipType rotateFlipType)
+        public void Rotate(RotateFlipType rotateFlipType, Side side)
         {
             for (var i = 0; i < _images.Length; i++)
             {
@@ -165,6 +179,7 @@ namespace PicturesSorter
                 if(fi.Exists) fi.Delete();
                 new FileInfo(tempFile).MoveTo(fi.FullName);
             }
+            OperationStack.Push(side, this, rotateFlipType : rotateFlipType);
             Reset();
         }
     }

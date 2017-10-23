@@ -183,8 +183,8 @@ namespace PicturesSorter
             var rc = SelectIndexes(idx, stepLeft, stepRight);
             if (rc.Left == null || rc.Right == null) return null;
             Trace.WriteLine($"LoadPictures({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name}, {stepLeft}, {stepRight}, {noRelease})");
-            rc.Left?.Value?.Render(pictureBox1, labelLeft);
-            rc.Right?.Value?.Render(pictureBox2, labelRight);
+            rc.Left?.Value?.Render(pictureBox1, labelLeft, Side.Left);
+            rc.Right?.Value?.Render(pictureBox2, labelRight, Side.Right);
             if (!noRelease)
             {
                 idx?.Left?.Value?.Release();
@@ -243,19 +243,19 @@ namespace PicturesSorter
 
         void ArchiveRightPicture()
         {
-            ArchivePicture(_fileIndex.Right.Value, 0, 1);
+            ArchivePicture(_fileIndex.Right.Value, 0, 1, Side.Right);
         }
 
         void ArchiveLeftPicture()
         {
-            ArchivePicture(_fileIndex.Left.Value, -1, 0);
+            ArchivePicture(_fileIndex.Left.Value, -1, 0, Side.Left);
         }
 
-        void ArchivePicture(ImageHost imageHost, int step1, int step2)
+        void ArchivePicture(ImageHost imageHost, int step1, int step2, Side side)
         {
             _fileIndex = LoadPictures(_fileIndex, step1, step2);
             _currentFiles.Remove(imageHost);
-            imageHost.ArchivePicture();
+            imageHost.ArchivePicture(side);
             imageHost.Dispose();
         }
 
@@ -305,26 +305,26 @@ namespace PicturesSorter
 
         void RotateLeftClock_Click(object sender, EventArgs e)
         {
-            _fileIndex.Left.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Left.Value.Render(pictureBox1, labelLeft, force: true);
+            _fileIndex.Left.Value.Rotate(RotateFlipType.Rotate90FlipNone, Side.Left);
+            _fileIndex.Left.Value.Render(pictureBox1, labelLeft, Side.Left, force: true);
         }
 
         void RotateLeftAnti_Click(object sender, EventArgs e)
         {
-            _fileIndex.Left.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Left.Value.Render(pictureBox1, labelLeft, force: true);
+            _fileIndex.Left.Value.Rotate(RotateFlipType.Rotate270FlipNone, Side.Left);
+            _fileIndex.Left.Value.Render(pictureBox1, labelLeft, Side.Left, force: true);
         }
 
         void RotateRightClock_Click(object sender, EventArgs e)
         {
-            _fileIndex.Right.Value.Rotate(RotateFlipType.Rotate90FlipNone);
-            _fileIndex.Right.Value.Render(pictureBox2, labelRight, force: true);
+            _fileIndex.Right.Value.Rotate(RotateFlipType.Rotate90FlipNone, Side.Right);
+            _fileIndex.Right.Value.Render(pictureBox2, labelRight, Side.Right, force: true);
         }
 
         void RotateRightAnti_Click(object sender, EventArgs e)
         {
-            _fileIndex.Right.Value.Rotate(RotateFlipType.Rotate270FlipNone);
-            _fileIndex.Right.Value.Render(pictureBox2, labelRight, force: true);
+            _fileIndex.Right.Value.Rotate(RotateFlipType.Rotate270FlipNone, Side.Right);
+            _fileIndex.Right.Value.Render(pictureBox2, labelRight, Side.Right, force: true);
         }
 
         void nextFolder_Click(object sender, EventArgs e)

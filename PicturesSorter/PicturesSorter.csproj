@@ -54,6 +54,7 @@
     <Compile Include="FolderDirection.cs" />
     <Compile Include="GenericExtentions.cs" />
     <Compile Include="ImageHost.cs" />
+    <Compile Include="OperationStack.cs" />
     <Compile Include="PictureSorterForm.cs">
       <SubType>Form</SubType>
     </Compile>
