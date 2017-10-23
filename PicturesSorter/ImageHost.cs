@@ -10,11 +10,6 @@ namespace PicturesSorter
     using System.Windows.Forms;
     using AlbumWordAddin;
 
-    /*TODO: 
-     * handle all derived images (small, right, etc.) at once.
-     * Trace when the images are disposed: there must be a bad case there!
-     */
-
     internal class ImageHost : IDisposable {
 
         string ShelfName { get; }
@@ -22,15 +17,15 @@ namespace PicturesSorter
 
         Image[] _images;
         Image Image => Images.First();
-        readonly Func<string>[] _imageNamesGetters; 
+        readonly Func<FileInfo>[] _imageNamesGetters; 
         IEnumerable<Image> Images => _images.Select((im, i) => im ?? (_images[i] = GetImage(_imageNamesGetters[i]())));
 
-        Image GetImage(string imageFullPathName)
+        Image GetImage(FileInfo imageFullPathName)
         {
-            if (!new FileInfo(imageFullPathName).Exists) return null;
+            if (!imageFullPathName.Exists) return null;
             lock (this)
             {
-                using (var stream = new FileStream(imageFullPathName, FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
                 {
                     Trace.WriteLine($"ImageHost reading from {FullName}");
                     return Image.FromStream(stream);
@@ -58,11 +53,11 @@ namespace PicturesSorter
         public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo)
         {
             _images = new Image[3];
-            _imageNamesGetters = new Func<string>[]
+            _imageNamesGetters = new Func<FileInfo>[]
             {
-                () => FullName,
-                () => GetSmallFile().FullName,
-                () => GetRightFile().FullName
+                () => FileInfo,
+                () => GetSmallFile(),
+                () => GetRightFile()
             };
             FileNameHandler = fileNameHandler;
             ShelfName = shelfName;
@@ -84,22 +79,19 @@ namespace PicturesSorter
                 || FileInfo.Directory     == null
                 || FileInfo.DirectoryName == null
             ) return;
-            var smallFile = GetSmallFile();
-            var rightFile = GetRightFile();
 
             var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase)
                 ? FileInfo.Directory.Parent
                 : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
             if (di == null) return;
             di.Create();
-            File.Move(FileInfo.FullName, Path.Combine(di.FullName, FileInfo.Name));
-            if (smallFile.Exists)
+            foreach (var imageNamesGetter in _imageNamesGetters)
             {
-                File.Move(smallFile.FullName, Path.Combine(di.FullName, smallFile.Name));
-            }
-            if (rightFile.Exists)
-            {
-                File.Move(rightFile.FullName, Path.Combine(di.FullName, rightFile.Name));
+                var fi = imageNamesGetter();
+                if (fi.Exists)
+                {
+                    File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name));
+                }
             }
         }
 
@@ -172,7 +164,7 @@ namespace PicturesSorter
                 _images[i].RotateFlip(rotateFlipType);
                 var tempFile = Path.GetTempFileName();
                 _images[i].Save(tempFile, ImageFormat.Jpeg);
-                var fi = new FileInfo(_imageNamesGetters[i]());
+                var fi = _imageNamesGetters[i]();
                 if(fi.Exists) fi.Delete();
                 new FileInfo(tempFile).MoveTo(fi.FullName);
             }
