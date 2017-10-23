@@ -9,6 +9,7 @@ namespace PicturesSorter
     using System.Linq;
     using System.Windows.Forms;
     using AlbumWordAddin;
+    using MoreLinq;
 
     internal class ImageHost : IDisposable {
 
@@ -85,14 +86,10 @@ namespace PicturesSorter
                 : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
             if (di == null) return;
             di.Create();
-            foreach (var imageNamesGetter in _imageNamesGetters)
-            {
-                var fi = imageNamesGetter();
-                if (fi.Exists)
-                {
-                    File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name));
-                }
-            }
+            _imageNamesGetters
+                .Select (ig => ig())
+                .Where  (fi => fi.Exists)
+                .ForEach(fi => File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name)));
         }
 
         FileInfo GetSmallFile()
