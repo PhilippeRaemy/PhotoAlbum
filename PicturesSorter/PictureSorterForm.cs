@@ -179,6 +179,7 @@ namespace PicturesSorter
                 _currentDirectory.Name.Equals(shelf, StringComparison.InvariantCultureIgnoreCase)
                     ? Properties.Resources.SmallUnshelve
                     : Properties.Resources.SmallShelve;
+            Focus();
         }
 
         NodesTuple LoadPictures(NodesTuple idx, int stepLeft, int stepRight, bool noRelease = false)
