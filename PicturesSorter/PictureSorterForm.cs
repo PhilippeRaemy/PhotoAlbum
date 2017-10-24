@@ -176,7 +176,7 @@ namespace PicturesSorter
                     break;
             }
             buttonShelfLeft.Image = buttonShelfRight.Image =
-                (_currentDirectory.Parent?.Name.Equals(shelf, StringComparison.InvariantCultureIgnoreCase) ?? false)
+                _currentDirectory.Name.Equals(shelf, StringComparison.InvariantCultureIgnoreCase)
                     ? Properties.Resources.SmallUnshelve
                     : Properties.Resources.SmallShelve;
         }
