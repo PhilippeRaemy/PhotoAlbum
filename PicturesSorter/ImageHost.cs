@@ -73,35 +73,29 @@ namespace PicturesSorter
             _useCount = 0;
         }
 
-        public void ArchivePicture(Side side)
+        /// <summary>
+        /// Shelve or unshelve a picture, depending on the name of the directory the picture is in.
+        /// </summary>
+        /// <returns>The path teh picture file is moved to</returns>
+        public string ShelvePicture()
         {
             if (FileInfo                  == null 
                 || !FileInfo.Exists
                 || FileInfo.Directory     == null
                 || FileInfo.DirectoryName == null
-            ) return;
+            ) return null;
 
-            Shelve shelve;
-            DirectoryInfo di;
-            if (string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase))
-            {
-                di = FileInfo.Directory.Parent;
-                shelve = Shelve.Unshelve;
-            }
-            else
-            {
-                shelve = Shelve.Shelve;
-                di = new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
-            }
-            if (di == null) return;
+            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase) 
+                ? FileInfo.Directory.Parent 
+                : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
+            if (di == null) return null;
             di.Create();
             _imageNamesGetters
                 .Select (ig => ig())
                 .Where  (fi => fi.Exists)
                 .ForEach(fi => File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name)));
-            FileInfo = new FileInfo(Path.Combine(di.FullName, FileInfo.Name));
-            OperationStack.Push(side, this, shelve: shelve);
             Reset();
+            return Path.Combine(di.FullName, FileInfo.Name);
         }
 
         FileInfo GetSmallFile()
@@ -126,9 +120,8 @@ namespace PicturesSorter
             }
         }
 
-        public bool Render(PictureBox pictureBox, Label label, Side side, bool force = false)
+        public void Render(PictureBox pictureBox, Label label, bool force = false)
         {
-            var success = true;
             if (force || (string)label.Tag != FileInfo.FullName)
             {
                 try
@@ -156,18 +149,15 @@ namespace PicturesSorter
                     pictureBox.Image = Image;
                     pictureBox.Refresh();
                     Trace.WriteLine($"ImageHost has replaced pictureBox. {FileInfo.FullName}");
-                    success = false;
                 }
             }
             // ReSharper disable once LocalizableElement
             label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
             _useCount++;
             Trace.WriteLine($"ImageHost Render. _useCount={_useCount}: {FileInfo.FullName}");
-            OperationStack.Push(side, this);
-            return success;
         }
 
-        public void Rotate(RotateFlipType rotateFlipType, Side side)
+        public void Rotate(RotateFlipType rotateFlipType)
         {
             for (var i = 0; i < _images.Length; i++)
             {
@@ -179,7 +169,6 @@ namespace PicturesSorter
                 if(fi.Exists) fi.Delete();
                 new FileInfo(tempFile).MoveTo(fi.FullName);
             }
-            OperationStack.Push(side, this, rotateFlipType : rotateFlipType);
             Reset();
         }
     }
