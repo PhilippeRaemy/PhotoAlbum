@@ -107,6 +107,7 @@
     <Content Include="Pictures\SmallShelve.png" />
     <Content Include="Pictures\SmallUnshelve.png" />
     <Content Include="Pictures\Unshelve.png" />
+    <None Include="Resources\undo.png" />
     <Resource Include="Pictures\Left.png" />
     <Resource Include="Pictures\LeftSync.png" />
     <Resource Include="Pictures\Right.png" />

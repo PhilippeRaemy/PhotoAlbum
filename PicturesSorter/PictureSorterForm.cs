@@ -255,11 +255,12 @@ namespace PicturesSorter
         {
             _fileIndex = LoadPictures(_fileIndex, step1, step2);
             _currentFiles.Remove(imageHost);
-            _operationStack.Push(imageHost.ShelvePicture());
+            _shelvedFiles.Push(imageHost.ShelvePicture());
+            buttonUndo.Enabled = true;
             imageHost.Dispose();
         }
 
-        readonly Stack<string> _operationStack =new Stack<string>();
+        readonly Stack<string> _shelvedFiles =new Stack<string>();
 
         void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -390,6 +391,11 @@ namespace PicturesSorter
         void buttonShelfLeft_Click(object sender, EventArgs e)
         {
             ArchiveLeftPicture();
+        }
+
+        void buttonUndo_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

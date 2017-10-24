@@ -76,6 +76,7 @@
             this.labelRight = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonUndo = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -217,7 +218,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -225,7 +226,7 @@
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.ShortcutKeyDisplayString = "F1, 1";
             this.leftToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.leftToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.leftToolStripMenuItem.Text = "Left";
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.archiveLeftToolStripMenuItem_Click);
             // 
@@ -234,7 +235,7 @@
             this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
             this.rightToolStripMenuItem.ShortcutKeyDisplayString = "F2, 2";
             this.rightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.rightToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rightToolStripMenuItem.Text = "Right";
             this.rightToolStripMenuItem.Click += new System.EventHandler(this.archiveRightToolStripMenuItem_Click);
             // 
@@ -247,7 +248,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -301,17 +302,18 @@
             // panel5
             // 
             this.panel5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.panel5.Controls.Add(this.buttonUndo);
             this.panel5.Controls.Add(this.buttonNavigateBothRight);
             this.panel5.Controls.Add(this.buttonNavigateBothLeft);
-            this.panel5.Location = new System.Drawing.Point(234, 20);
+            this.panel5.Location = new System.Drawing.Point(228, 20);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(87, 34);
+            this.panel5.Size = new System.Drawing.Size(96, 32);
             this.panel5.TabIndex = 29;
             // 
             // buttonNavigateBothRight
             // 
             this.buttonNavigateBothRight.Image = global::PicturesSorter.Properties.Resources.SmallRightSync;
-            this.buttonNavigateBothRight.Location = new System.Drawing.Point(42, 0);
+            this.buttonNavigateBothRight.Location = new System.Drawing.Point(64, 0);
             this.buttonNavigateBothRight.Name = "buttonNavigateBothRight";
             this.buttonNavigateBothRight.Size = new System.Drawing.Size(32, 32);
             this.buttonNavigateBothRight.TabIndex = 26;
@@ -322,7 +324,7 @@
             // buttonNavigateBothLeft
             // 
             this.buttonNavigateBothLeft.Image = global::PicturesSorter.Properties.Resources.SmallLeftSync;
-            this.buttonNavigateBothLeft.Location = new System.Drawing.Point(13, 0);
+            this.buttonNavigateBothLeft.Location = new System.Drawing.Point(0, 0);
             this.buttonNavigateBothLeft.Name = "buttonNavigateBothLeft";
             this.buttonNavigateBothLeft.Size = new System.Drawing.Size(32, 32);
             this.buttonNavigateBothLeft.TabIndex = 25;
@@ -338,15 +340,15 @@
             this.panel4.Controls.Add(this.buttonRotateRightAnti);
             this.panel4.Controls.Add(this.buttonNavigateRightRight);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel4.Location = new System.Drawing.Point(410, 20);
+            this.panel4.Location = new System.Drawing.Point(402, 20);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(152, 34);
+            this.panel4.Size = new System.Drawing.Size(160, 34);
             this.panel4.TabIndex = 28;
             // 
             // buttonShelfRight
             // 
             this.buttonShelfRight.Image = global::PicturesSorter.Properties.Resources.SmallShelve;
-            this.buttonShelfRight.Location = new System.Drawing.Point(119, 0);
+            this.buttonShelfRight.Location = new System.Drawing.Point(128, 0);
             this.buttonShelfRight.Name = "buttonShelfRight";
             this.buttonShelfRight.Size = new System.Drawing.Size(32, 32);
             this.buttonShelfRight.TabIndex = 24;
@@ -357,7 +359,7 @@
             // buttonNavigateRightLeft
             // 
             this.buttonNavigateRightLeft.Image = global::PicturesSorter.Properties.Resources.SmallLeft;
-            this.buttonNavigateRightLeft.Location = new System.Drawing.Point(4, 0);
+            this.buttonNavigateRightLeft.Location = new System.Drawing.Point(0, 0);
             this.buttonNavigateRightLeft.Name = "buttonNavigateRightLeft";
             this.buttonNavigateRightLeft.Size = new System.Drawing.Size(32, 32);
             this.buttonNavigateRightLeft.TabIndex = 23;
@@ -368,7 +370,7 @@
             // buttonRotateRightClock
             // 
             this.buttonRotateRightClock.Image = global::PicturesSorter.Properties.Resources.SmallRotateRight;
-            this.buttonRotateRightClock.Location = new System.Drawing.Point(91, 0);
+            this.buttonRotateRightClock.Location = new System.Drawing.Point(96, 0);
             this.buttonRotateRightClock.Name = "buttonRotateRightClock";
             this.buttonRotateRightClock.Size = new System.Drawing.Size(32, 32);
             this.buttonRotateRightClock.TabIndex = 22;
@@ -379,7 +381,7 @@
             // buttonRotateRightAnti
             // 
             this.buttonRotateRightAnti.Image = ((System.Drawing.Image)(resources.GetObject("buttonRotateRightAnti.Image")));
-            this.buttonRotateRightAnti.Location = new System.Drawing.Point(63, 0);
+            this.buttonRotateRightAnti.Location = new System.Drawing.Point(64, 0);
             this.buttonRotateRightAnti.Name = "buttonRotateRightAnti";
             this.buttonRotateRightAnti.Size = new System.Drawing.Size(32, 32);
             this.buttonRotateRightAnti.TabIndex = 21;
@@ -390,7 +392,7 @@
             // buttonNavigateRightRight
             // 
             this.buttonNavigateRightRight.Image = global::PicturesSorter.Properties.Resources.SmallRight;
-            this.buttonNavigateRightRight.Location = new System.Drawing.Point(34, 0);
+            this.buttonNavigateRightRight.Location = new System.Drawing.Point(32, 0);
             this.buttonNavigateRightRight.Name = "buttonNavigateRightRight";
             this.buttonNavigateRightRight.Size = new System.Drawing.Size(32, 32);
             this.buttonNavigateRightRight.TabIndex = 20;
@@ -408,13 +410,13 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 20);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(154, 34);
+            this.panel2.Size = new System.Drawing.Size(160, 34);
             this.panel2.TabIndex = 27;
             // 
             // buttonShelfLeft
             // 
             this.buttonShelfLeft.Image = global::PicturesSorter.Properties.Resources.SmallShelve;
-            this.buttonShelfLeft.Location = new System.Drawing.Point(117, 0);
+            this.buttonShelfLeft.Location = new System.Drawing.Point(128, 0);
             this.buttonShelfLeft.Name = "buttonShelfLeft";
             this.buttonShelfLeft.Size = new System.Drawing.Size(32, 32);
             this.buttonShelfLeft.TabIndex = 24;
@@ -425,7 +427,7 @@
             // buttonNavigateLeftLeft
             // 
             this.buttonNavigateLeftLeft.Image = global::PicturesSorter.Properties.Resources.SmallLeft;
-            this.buttonNavigateLeftLeft.Location = new System.Drawing.Point(1, 0);
+            this.buttonNavigateLeftLeft.Location = new System.Drawing.Point(0, 0);
             this.buttonNavigateLeftLeft.Name = "buttonNavigateLeftLeft";
             this.buttonNavigateLeftLeft.Size = new System.Drawing.Size(32, 32);
             this.buttonNavigateLeftLeft.TabIndex = 23;
@@ -436,7 +438,7 @@
             // buttonRotateLeftClock
             // 
             this.buttonRotateLeftClock.Image = global::PicturesSorter.Properties.Resources.SmallRotateRight;
-            this.buttonRotateLeftClock.Location = new System.Drawing.Point(89, 0);
+            this.buttonRotateLeftClock.Location = new System.Drawing.Point(96, 0);
             this.buttonRotateLeftClock.Name = "buttonRotateLeftClock";
             this.buttonRotateLeftClock.Size = new System.Drawing.Size(32, 32);
             this.buttonRotateLeftClock.TabIndex = 22;
@@ -447,7 +449,7 @@
             // buttonRotateLeftAnti
             // 
             this.buttonRotateLeftAnti.Image = ((System.Drawing.Image)(resources.GetObject("buttonRotateLeftAnti.Image")));
-            this.buttonRotateLeftAnti.Location = new System.Drawing.Point(60, 0);
+            this.buttonRotateLeftAnti.Location = new System.Drawing.Point(64, 0);
             this.buttonRotateLeftAnti.Name = "buttonRotateLeftAnti";
             this.buttonRotateLeftAnti.Size = new System.Drawing.Size(32, 32);
             this.buttonRotateLeftAnti.TabIndex = 21;
@@ -458,7 +460,7 @@
             // buttonNavigateRight
             // 
             this.buttonNavigateRight.Image = global::PicturesSorter.Properties.Resources.SmallRight;
-            this.buttonNavigateRight.Location = new System.Drawing.Point(31, 0);
+            this.buttonNavigateRight.Location = new System.Drawing.Point(32, 0);
             this.buttonNavigateRight.Name = "buttonNavigateRight";
             this.buttonNavigateRight.Size = new System.Drawing.Size(32, 32);
             this.buttonNavigateRight.TabIndex = 20;
@@ -515,6 +517,17 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
+            // 
+            // buttonUndo
+            // 
+            this.buttonUndo.Enabled = false;
+            this.buttonUndo.Image = global::PicturesSorter.Properties.Resources.Undo;
+            this.buttonUndo.Location = new System.Drawing.Point(32, 0);
+            this.buttonUndo.Name = "buttonUndo";
+            this.buttonUndo.Size = new System.Drawing.Size(32, 32);
+            this.buttonUndo.TabIndex = 27;
+            this.buttonUndo.UseVisualStyleBackColor = true;
+            this.buttonUndo.Click += new System.EventHandler(this.buttonUndo_Click);
             // 
             // PictureSorterForm
             // 
@@ -593,6 +606,7 @@
         private Panel panel3;
         private Label labelLeft;
         private Label labelRight;
+        private Button buttonUndo;
     }
 }
 
