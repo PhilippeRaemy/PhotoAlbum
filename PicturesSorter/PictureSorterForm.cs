@@ -26,6 +26,8 @@ namespace PicturesSorter
             public LinkedListNode<ImageHost> Right { get; }
         }
 
+        enum Side { Left, Right}
+
         DirectoryInfo _currentDirectory;
         LinkedList<ImageHost> _currentFiles;
         NodesTuple _fileIndex;
@@ -244,11 +246,15 @@ namespace PicturesSorter
 
         void ArchiveRightPicture()
         {
+            _shelvedFiles.Push(Tuple.Create(_fileIndex.Right.Value.ShelvePicture(), Side.Right));
+            buttonUndo.Enabled = true;
             ArchivePicture(_fileIndex.Right.Value, 0, 1);
         }
 
         void ArchiveLeftPicture()
         {
+            _shelvedFiles.Push(Tuple.Create(_fileIndex.Left.Value.ShelvePicture(), Side.Left));
+            buttonUndo.Enabled = true;
             ArchivePicture(_fileIndex.Left.Value, -1, 0);
         }
 
@@ -256,12 +262,10 @@ namespace PicturesSorter
         {
             _fileIndex = LoadPictures(_fileIndex, step1, step2);
             _currentFiles.Remove(imageHost);
-            _shelvedFiles.Push(imageHost.ShelvePicture());
-            buttonUndo.Enabled = true;
             imageHost.Dispose();
         }
 
-        readonly Stack<string> _shelvedFiles =new Stack<string>();
+        readonly Stack<Tuple<string, Side>> _shelvedFiles =new Stack<Tuple<string, Side>>();
 
         void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -400,10 +404,11 @@ namespace PicturesSorter
             if (_shelvedFiles.Count == 1) buttonUndo.Enabled = false;
 
             var userPrefs = new PersistedUserPreferences();
+            var shelvedFile = _shelvedFiles.Pop();
             var host = new ImageHost(
                 new FileNameHandler(userPrefs), 
                 userPrefs.ShelfName,
-                new FileInfo(_shelvedFiles.Pop())
+                new FileInfo(shelvedFile.Item1)
             ) {Parent = _currentFiles};
             host.ShelvePicture();
             var nextNode = _currentFiles.First;
@@ -413,16 +418,22 @@ namespace PicturesSorter
             {
                 nextNode = nextNode.Next;
             }
+            NodesTuple displayLocation;
             if (nextNode == null)
             {
                 _currentFiles.AddLast(host);
-                _fileIndex = LoadPictures(new NodesTuple(_currentFiles.Last.Previous, _currentFiles.Last), 0, 0, noRelease: true);
+                displayLocation = _currentFiles.Count == 1
+                    ? new NodesTuple(_currentFiles.First, _currentFiles.First)
+                    : new NodesTuple(_currentFiles.Last.Previous, _currentFiles.Last);
             }
             else
             {
-                _currentFiles.AddBefore(nextNode, host);
-                _fileIndex = LoadPictures(new NodesTuple(nextNode.Previous, nextNode), 0, 0, noRelease: true);
+                var newNode = _currentFiles.AddBefore(nextNode, host);
+                if (shelvedFile.Item2 == Side.Right && newNode.Previous != null)
+                    displayLocation = new NodesTuple(newNode.Previous, newNode);
+                else displayLocation = new NodesTuple(newNode, newNode.Next);
             }
+            _fileIndex = LoadPictures(displayLocation, 0, 0, noRelease: true);
         }
     }
 }
