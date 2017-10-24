@@ -95,7 +95,8 @@ namespace PicturesSorter
                 .Where  (fi => fi.Exists)
                 .ForEach(fi => File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name)));
             Reset();
-            return Path.Combine(di.FullName, FileInfo.Name);
+            FileInfo = new FileInfo(Path.Combine(di.FullName, FileInfo.Name));
+            return FileInfo.FullName;
         }
 
         FileInfo GetSmallFile()

@@ -74,13 +74,11 @@ namespace PicturesSorter
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
             var folder = GetNextFolder(currentDirectory, folderDirection);
-            if (folder != null)
-            {
-                var userPrefs = new PersistedUserPreferences();
-                var fileNameHandler = new FileNameHandler(userPrefs);
-                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
-                userPrefs.Save();
-            }
+            if (folder == null) return;
+            var userPrefs = new PersistedUserPreferences();
+            var fileNameHandler = new FileNameHandler(userPrefs);
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
+            userPrefs.Save();
         }
 
         public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
@@ -149,6 +147,9 @@ namespace PicturesSorter
 
         void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath, FileNameHandler fileNameHandler, string shelf)
         {
+            _shelvedFiles.Clear();
+            buttonUndo.Enabled = false;
+
             _currentDirectory = selectedPath;
             Text = _currentDirectory.FullName;
             _currentFiles = new LinkedList<ImageHost>(
@@ -395,7 +396,33 @@ namespace PicturesSorter
 
         void buttonUndo_Click(object sender, EventArgs e)
         {
+            if (_shelvedFiles.Count == 0) return;
+            if (_shelvedFiles.Count == 1) buttonUndo.Enabled = false;
 
+            var userPrefs = new PersistedUserPreferences();
+            var host = new ImageHost(
+                new FileNameHandler(userPrefs), 
+                userPrefs.ShelfName,
+                new FileInfo(_shelvedFiles.Pop())
+            ) {Parent = _currentFiles};
+            host.ShelvePicture();
+            var nextNode = _currentFiles.First;
+            while (nextNode != null
+               && string.Compare(nextNode.Value.FileInfo.Name, host.FileInfo.Name, StringComparison.InvariantCultureIgnoreCase)<0
+            )
+            {
+                nextNode = nextNode.Next;
+            }
+            if (nextNode == null)
+            {
+                _currentFiles.AddLast(host);
+                _fileIndex = LoadPictures(new NodesTuple(_currentFiles.Last.Previous, _currentFiles.Last), 0, 0, noRelease: true);
+            }
+            else
+            {
+                _currentFiles.AddBefore(nextNode, host);
+                _fileIndex = LoadPictures(new NodesTuple(nextNode.Previous, nextNode), 0, 0, noRelease: true);
+            }
         }
     }
 }
