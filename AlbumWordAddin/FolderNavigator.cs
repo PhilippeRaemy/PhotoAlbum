@@ -56,51 +56,50 @@
         void Run(DirectoryInfo folderFrom)
         {
             if (_fileNameHandler.FolderExcludeMatch(folderFrom.Name)) return;
-            var matchingFiles1 = folderFrom
-                .EnumerateFiles("*",SearchOption.TopDirectoryOnly)
-                .Where(fi => _fileNameHandler.FileMatch(fi.Name, includeSmalls:true))
-                .Select(fi=>new
+            var allMatchingFiles = folderFrom
+                .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+                .Where(fi => _fileNameHandler.FileMatch(fi.Name, includeSmalls: true))
+                .Select(fi => new
                 {
-                    fileInfo=fi,
-                    fileMatch  = _fileNameHandler.FilePatternIsMatch(fi.Name),
-                    smallMatch = _fileNameHandler.SmallPatternIsMatch(fi.Name),
-                    smallName  = Path.Combine(folderFrom.FullName, _fileNameHandler.SmallFileNameMaker(fi.Name))
+                    fileInfo              = fi,
+                    fileIsARegularFile    = _fileNameHandler.FilePatternIsMatch(fi.Name),
+                    fileIsASmallFile      = _fileNameHandler.SmallPatternIsMatch(fi.Name),
+                    fileIsARightSizedFile = _fileNameHandler.RightPatternIsMatch(fi.Name),
+                    smallFileInfo         = new FileInfo(Path.Combine(folderFrom.FullName, _fileNameHandler.SmallFileNameMaker(fi.Name)))
+                })
+                .Select(fi => new
+                {
+                    fi.fileInfo,
+                    fi.fileIsARegularFile,
+                    fi.fileIsASmallFile,
+                    fi.fileIsARightSizedFile,
+                    fi.smallFileInfo,
+                    SmallFileExists = fi.smallFileInfo.Exists
                 })
                 .ToArray();
-            var matchingFiles2=matchingFiles1
-                .Select(fi=> new
-                {
-                    fi.fileInfo, fi.fileMatch, fi.smallMatch, fi.smallName, 
-                    SmallFileExists = fi.smallMatch || new FileInfo(fi.smallName).Exists
-                })
-                .ToArray();
-            var matchingFiles=matchingFiles2
-                .Where(fi => fi.fileMatch && !fi.smallMatch && !fi.SmallFileExists // this is an new hi res file
-                          || fi.smallMatch //  this is an already prepared low res file
+            var regularFiles = allMatchingFiles
+                .Where(fi => fi.fileIsARegularFile 
+                         && !fi.fileIsASmallFile
+                         && !fi.fileIsARightSizedFile
                 )
                 .ToArray();
-            if (matchingFiles.Length > 0)
+            if (regularFiles.Length <= 0) return;
+
+            OnStartingFolder(folderFrom, regularFiles.Length);
+            if (_cancel) return;
+            _progressIndicator?.InitProgress(regularFiles.Length, folderFrom.FullName);
+            foreach (var fi in regularFiles)
             {
-                OnStartingFolder(folderFrom, matchingFiles.Length);
+                _progressIndicator?.Progress(fi.fileInfo.Name);
+                OnFoundAFile(
+                    !fi.SmallFileExists
+                    ? fi.smallFileInfo
+                    : MakeSmallImage(fi.fileInfo, fi.smallFileInfo.FullName)
+                );
                 if (_cancel) return;
-                _progressIndicator?.InitProgress(matchingFiles.Length, folderFrom.FullName);
-                foreach (var fi in matchingFiles)
-                {
-                    if (fi.smallMatch)
-                    {
-                        _progressIndicator?.Progress(fi.fileInfo.Name);
-                        OnFoundAFile(fi.fileInfo);
-                        if (_cancel) return;
-                        continue;
-                    }
-                    if (!fi.fileMatch) continue;
-                    _progressIndicator?.Progress(fi.fileInfo.Name);
-                    OnFoundAFile(MakeSmallImage(fi.fileInfo, fi.smallName));
-                    if (_cancel) return;
-                }
-                OnEndingFolder(folderFrom);
-                _progressIndicator?.CloseProgress();
             }
+            OnEndingFolder(folderFrom);
+            _progressIndicator?.CloseProgress();
         }
 
         bool _cancel;
