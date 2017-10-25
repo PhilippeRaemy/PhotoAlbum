@@ -56,45 +56,40 @@
         void Run(DirectoryInfo folderFrom)
         {
             if (_fileNameHandler.FolderExcludeMatch(folderFrom.Name)) return;
-            var allMatchingFiles = folderFrom
+            var theFiles = folderFrom
                 .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                 .Where(fi => _fileNameHandler.FileMatch(fi.Name, includeSmalls: true))
                 .Select(fi => new
                 {
-                    fileInfo              = fi,
-                    fileIsARegularFile    = _fileNameHandler.FilePatternIsMatch(fi.Name),
-                    fileIsASmallFile      = _fileNameHandler.SmallPatternIsMatch(fi.Name),
-                    fileIsARightSizedFile = _fileNameHandler.RightPatternIsMatch(fi.Name),
-                    smallFileInfo         = new FileInfo(Path.Combine(folderFrom.FullName, _fileNameHandler.SmallFileNameMaker(fi.Name)))
+                    FileInfo              = fi,
+                    FileIsASmallFile      = _fileNameHandler.SmallPatternIsMatch(fi.Name),
+                    FileIsARightSizedFile = _fileNameHandler.RightPatternIsMatch(fi.Name),
+                    SmallFileInfo         = new FileInfo(Path.Combine(folderFrom.FullName, _fileNameHandler.SmallFileNameMaker(fi.Name)))
                 })
                 .Select(fi => new
                 {
-                    fi.fileInfo,
-                    fi.fileIsARegularFile,
-                    fi.fileIsASmallFile,
-                    fi.fileIsARightSizedFile,
-                    fi.smallFileInfo,
-                    SmallFileExists = fi.smallFileInfo.Exists
+                    fi.FileInfo,
+                    FileIsARegularFile = !fi.FileIsASmallFile && !fi.FileIsARightSizedFile,
+                    fi.FileIsASmallFile,
+                    fi.SmallFileInfo,
+                    SmallFileExists = fi.SmallFileInfo.Exists
                 })
-                .ToArray();
-            var regularFiles = allMatchingFiles
-                .Where(fi => fi.fileIsARegularFile 
-                         && !fi.fileIsASmallFile
-                         && !fi.fileIsARightSizedFile
+                .Where(fi => fi.FileIsARegularFile && !fi.SmallFileExists
+                          || fi.FileIsASmallFile
                 )
                 .ToArray();
-            if (regularFiles.Length <= 0) return;
+            if (theFiles.Length <= 0) return;
 
-            OnStartingFolder(folderFrom, regularFiles.Length);
+            OnStartingFolder(folderFrom, theFiles.Length);
             if (_cancel) return;
-            _progressIndicator?.InitProgress(regularFiles.Length, folderFrom.FullName);
-            foreach (var fi in regularFiles)
+            _progressIndicator?.InitProgress(theFiles.Length, folderFrom.FullName);
+            foreach (var fi in theFiles)
             {
-                _progressIndicator?.Progress(fi.fileInfo.Name);
+                _progressIndicator?.Progress(fi.FileInfo.Name);
                 OnFoundAFile(
-                    !fi.SmallFileExists
-                    ? fi.smallFileInfo
-                    : MakeSmallImage(fi.fileInfo, fi.smallFileInfo.FullName)
+                    fi.SmallFileExists
+                    ? fi.SmallFileInfo
+                    : MakeSmallImage(fi.FileInfo, fi.SmallFileInfo.FullName)
                 );
                 if (_cancel) return;
             }
