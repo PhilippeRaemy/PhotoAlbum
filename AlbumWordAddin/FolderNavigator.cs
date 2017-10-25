@@ -5,6 +5,7 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
+    using FolderExtensions;
     using MoreLinq;
     using VstoEx.Progress;
 
@@ -30,7 +31,12 @@
             _diFolderTo     = new DirectoryInfo(folderTo);
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
             //if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
-            if (string.Compare(folderFrom, folderTo, StringComparison.InvariantCultureIgnoreCase) > 0) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
+            if (FolderInScope(_diFolderFrom)) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
+        }
+
+        bool FolderInScope(DirectoryInfo folderFrom)
+        {
+            return string.Compare(folderFrom.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) > 0;
         }
 
         public event EventHandler<FolderEventArgs> StartingFolder;
@@ -40,7 +46,12 @@
         public void Run()
         {
             _cancel = false;
-            Run(_diFolderFrom);
+            var runningfolder = _diFolderFrom;
+            while (!_cancel && FolderInScope(runningfolder))
+            {
+                Run(runningfolder);
+                runningfolder = runningfolder.WalkNextFolder(FolderDirection.Forward);
+            }
         }
 
         void Run(DirectoryInfo folderFrom)
@@ -91,17 +102,6 @@
                 OnEndingFolder(folderFrom);
                 _progressIndicator?.CloseProgress();
             }
-            if (_cancel) return;
-            var folderCompare 
-                = folderFrom.FullName.StartsWith(_diFolderTo.FullName) // hence folderFrom is grater than FolderTo, but it makes sense...
-                ? (Func<string, int>)(_ => -1)
-                : di => string.Compare(di, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase)
-            ;
-                
-            folderFrom
-                .EnumerateDirectories()
-                .TakeWhile(di=> folderCompare(di.FullName) <= 0)
-                .ForEach(Run);
         }
 
         bool _cancel;

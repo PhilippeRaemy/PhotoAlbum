@@ -9,7 +9,7 @@ namespace PicturesSorterTests
     using System.Linq;
     using System.Reflection;
     using PicturesSorter;
-    using FolderWalker;
+    using FolderExtensions;
 
     [TestClass]
     public class FolderBrowserTests
@@ -60,7 +60,7 @@ namespace PicturesSorterTests
             foreach (var di in tree)
             {
                 Trace.WriteLine(di.FullName);
-                nextDi = FolderWalker.WalkNextFolder(nextDi, FolderDirection.Forward);
+                nextDi = nextDi.WalkNextFolder(FolderDirection.Forward);
                 Assert.AreEqual(di.FullName, nextDi.FullName);
             }
         }
@@ -80,7 +80,7 @@ namespace PicturesSorterTests
             foreach (var di in tree.Skip(1))
             {
                 Trace.WriteLine(di.FullName);
-                nextDi = FolderWalker.WalkNextFolder(nextDi, FolderDirection.Backward);
+                nextDi = nextDi.WalkNextFolder(FolderDirection.Backward);
                 Assert.AreEqual(di.FullName, nextDi.FullName);
             }
         }

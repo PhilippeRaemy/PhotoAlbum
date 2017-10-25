@@ -1,4 +1,4 @@
-﻿namespace FolderWalker
+﻿namespace FolderExtensions
 {
     using System;
     using System.IO;
@@ -6,18 +6,18 @@
 
     public static class FolderWalker
     {
-        public static DirectoryInfo WalkNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
+        public static DirectoryInfo WalkNextFolder(this DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
             switch (folderDirection)
             {
-                case FolderDirection.Forward: return WalkNextFolder(currentDirectory);
-                case FolderDirection.Backward: return WalkPreviousFolder(currentDirectory);
+                case FolderDirection.Forward : return currentDirectory.WalkNextFolder();
+                case FolderDirection.Backward: return currentDirectory.WalkPreviousFolder();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(folderDirection), folderDirection, null);
             }
         }
 
-        static DirectoryInfo WalkNextFolder(DirectoryInfo currentDirectory, bool ignoreSubFolders = false)
+        static DirectoryInfo WalkNextFolder(this DirectoryInfo currentDirectory, bool ignoreSubFolders = false)
         {
             while (true)
             {
@@ -43,7 +43,7 @@
             }
         }
 
-        static DirectoryInfo WalkPreviousFolder(DirectoryInfo currentDirectory, bool diveSubFolders = false)
+        static DirectoryInfo WalkPreviousFolder(this DirectoryInfo currentDirectory, bool diveSubFolders = false)
         {
 
             var comparer = new Func<string, string, bool>((b1, b2) => String.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0);

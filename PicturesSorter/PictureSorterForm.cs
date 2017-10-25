@@ -11,7 +11,7 @@ namespace PicturesSorter
     using System.Windows.Forms;
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
-    using global::FolderWalker;
+    using global::FolderExtensions;
     using MoreLinq;
 
     public partial class PictureSorterForm : Form
@@ -76,7 +76,7 @@ namespace PicturesSorter
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
-            var folder = FolderWalker.WalkNextFolder(currentDirectory, folderDirection);
+            var folder = currentDirectory.WalkNextFolder(folderDirection);
             if (folder == null) return;
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);

@@ -260,6 +260,10 @@
     <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FolderWalker\Folders.csproj">
+      <Project>{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}</Project>
+      <Name>Folders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PicturesSorter\PicturesSorter.csproj">
       <Project>{7dd760cb-1e03-4dfb-8af6-2825bcdbf6f2}</Project>
       <Name>PicturesSorter</Name>
