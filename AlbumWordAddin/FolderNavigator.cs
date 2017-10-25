@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
     using FolderExtensions;
-    using MoreLinq;
     using VstoEx.Progress;
 
     public class FolderNavigator
@@ -31,12 +30,12 @@
             _diFolderTo     = new DirectoryInfo(folderTo);
             if (!_diFolderFrom.Exists) throw new DirectoryNotFoundException(folderFrom);
             //if (!_diFolderTo.Exists  ) throw new DirectoryNotFoundException(folderTo  );
-            if (FolderInScope(_diFolderFrom)) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
+            if (!FolderInScope(_diFolderFrom)) throw new InvalidOperationException("Please pick an upper bound folder alphabetically after the lower bound folder");
         }
 
         bool FolderInScope(DirectoryInfo folderFrom)
         {
-            return string.Compare(folderFrom.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) > 0;
+            return string.Compare(folderFrom.FullName, _diFolderTo.FullName, StringComparison.InvariantCultureIgnoreCase) <= 0;
         }
 
         public event EventHandler<FolderEventArgs> StartingFolder;
