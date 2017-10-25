@@ -317,7 +317,7 @@
 
         void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)
         {
-            new PicturesSorter.PictureSorterForm().Show();
+            new global::PicturesSorter.PictureSorterForm().Show();
         }
 
         void buttonTextWrappingSquare_Click(object sender, RibbonControlEventArgs e)

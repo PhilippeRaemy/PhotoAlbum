@@ -31,7 +31,7 @@
                 largeFileNameMaker
             );
 
-            var folderWalker = new FolderWalker(
+            var folderWalker = new FolderNavigator(
                 userPrefs.FolderImportStart,
                 userPrefs.FolderImportEnd,
                 fileNameMaker,

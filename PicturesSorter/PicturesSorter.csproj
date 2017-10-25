@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FolderDirection.cs" />
     <Compile Include="GenericExtentions.cs" />
     <Compile Include="ImageHost.cs" />
     <Compile Include="PictureSorterForm.cs">
@@ -96,6 +95,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FolderWalker\Folders.csproj">
+      <Project>{e1f84e76-798a-40c1-affe-3c0c92df20a6}</Project>
+      <Name>Folders</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserPreferences\UserPreferences.csproj">
       <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>
       <Name>UserPreferences</Name>

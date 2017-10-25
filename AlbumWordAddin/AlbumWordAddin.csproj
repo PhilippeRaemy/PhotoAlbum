@@ -195,7 +195,7 @@
     <Compile Include="Positioning\PositionManager.cs" />
     <Compile Include="Positioning\Alignment.cs" />
     <Compile Include="Positioning\Arrangement.cs" />
-    <Compile Include="FolderWalker.cs" />
+    <Compile Include="FolderNavigator.cs" />
     <Compile Include="FormImportPictures.cs">
       <SubType>Form</SubType>
     </Compile>

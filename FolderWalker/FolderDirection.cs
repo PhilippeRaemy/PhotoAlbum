@@ -1,4 +1,4 @@
-namespace PicturesSorter
+namespace FolderWalker
 {
     public enum FolderDirection { Forward, Backward}
 }

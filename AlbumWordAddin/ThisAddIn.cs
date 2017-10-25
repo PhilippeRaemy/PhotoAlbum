@@ -378,7 +378,7 @@
         public void ImportPictures()
         {
             var userprefs = new PersistedUserPreferences();
-            var fw = new FolderWalker(
+            var fw = new FolderNavigator(
                 userprefs.FolderImportStart,
                 userprefs.FolderImportEnd,
                 new FileNameHandler(userprefs),

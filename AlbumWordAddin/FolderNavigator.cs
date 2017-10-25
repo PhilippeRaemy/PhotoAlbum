@@ -8,14 +8,14 @@
     using MoreLinq;
     using VstoEx.Progress;
 
-    public class FolderWalker
+    public class FolderNavigator
     {
         readonly FileNameHandler _fileNameHandler;
         readonly IProgress       _progressIndicator;
         readonly DirectoryInfo   _diFolderFrom;
         readonly DirectoryInfo   _diFolderTo;
 
-        public FolderWalker(
+        public FolderNavigator(
             string folderFrom, 
             string folderTo,
             FileNameHandler fileNameHandler,

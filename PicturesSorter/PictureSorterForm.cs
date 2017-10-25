@@ -11,6 +11,7 @@ namespace PicturesSorter
     using System.Windows.Forms;
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
+    using global::FolderWalker;
     using MoreLinq;
 
     public partial class PictureSorterForm : Form
@@ -75,76 +76,12 @@ namespace PicturesSorter
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
-            var folder = GetNextFolder(currentDirectory, folderDirection);
+            var folder = FolderWalker.WalkNextFolder(currentDirectory, folderDirection);
             if (folder == null) return;
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);
             OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
             userPrefs.Save();
-        }
-
-        public static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
-        {
-            switch (folderDirection)
-            {
-                case FolderDirection.Forward: return GetNextFolder(currentDirectory);
-                case FolderDirection.Backward: return GetPreviousFolder(currentDirectory);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(folderDirection), folderDirection, null);
-            }
-        }
-
-        static DirectoryInfo GetNextFolder(DirectoryInfo currentDirectory, bool ignoreSubFolders = false)
-        {
-            while (true)
-            {
-                var comparer = new Func<string, string, bool>((f1, f2) => string.Compare(f1, f2, StringComparison.InvariantCultureIgnoreCase) > 0);
-                if (currentDirectory == null) return null;
-                if (!currentDirectory.Exists) return null;
-                if (!ignoreSubFolders)
-                {
-                    foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderBy(d => d.Name))
-                    {
-                        return subDirectory;
-                    }
-                }
-                if (currentDirectory.Parent == null) return null;
-                var directory = currentDirectory;
-                foreach (var subDirectory in
-                    currentDirectory.Parent.EnumerateDirectories().OrderBy(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
-                {
-                    return subDirectory;
-                }
-                currentDirectory = currentDirectory.Parent;
-                ignoreSubFolders = true;
-            }
-        }
-
-        static DirectoryInfo GetPreviousFolder(DirectoryInfo currentDirectory, bool diveSubFolders = false)
-        {
-
-            var comparer = new Func<string, string, bool>((b1, b2) => string.Compare(b1, b2, StringComparison.InvariantCultureIgnoreCase) < 0);
-            if (currentDirectory == null) return null;
-            if (!currentDirectory.Exists) return null;
-            if (currentDirectory.Parent == null) return null;
-            var directory = currentDirectory;
-            if (diveSubFolders)
-            {
-                foreach (var subDirectory in currentDirectory.EnumerateDirectories().OrderByDescending(d => d.Name))
-                {
-                    return GetPreviousFolder(subDirectory, diveSubFolders: true);
-                }
-                return currentDirectory;
-            }
-
-            foreach (
-                var subDirectory in
-                currentDirectory.Parent.EnumerateDirectories().OrderByDescending(d => d.Name).Where(d => comparer(d.Name, directory.Name)))
-            {
-                return GetPreviousFolder(subDirectory, diveSubFolders: true);
-            }
-
-            return currentDirectory.Parent;
         }
 
         void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath, FileNameHandler fileNameHandler, string shelf)

@@ -3,6 +3,7 @@
     using System;
     using System.Threading;
     using System.Windows.Forms;
+    using PicturesSorter;
 
     internal static class Program
     {
