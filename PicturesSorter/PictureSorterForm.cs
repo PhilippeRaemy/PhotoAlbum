@@ -12,6 +12,7 @@ namespace PicturesSorter
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
     using global::FolderExtensions;
+    using Microsoft.VisualBasic;
     using MoreLinq;
 
     public partial class PictureSorterForm : Form
@@ -62,25 +63,27 @@ namespace PicturesSorter
 
         void OpenFolder()
         {
-            var userPrefs = new PersistedUserPreferences();
-            var fileNameHandler = new FileNameHandler(userPrefs);
             if (string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
             {
-                folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
+                folderBrowserDialog.SelectedPath = new PersistedUserPreferences().FolderImportStart;
             }
             folderBrowserDialog.ShowDialog();
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false),
-                new DirectoryInfo(folderBrowserDialog.SelectedPath), fileNameHandler, userPrefs.ShelfName);
-            userPrefs.Save();
+            OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
         }
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
             var folder = currentDirectory.WalkNextFolder(folderDirection);
             if (folder == null) return;
+            OpenFolderImpl(folder);
+        }
+
+        void OpenFolderImpl(DirectoryInfo folder)
+        {
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler,
+                userPrefs.ShelfName);
             userPrefs.Save();
         }
 
@@ -372,6 +375,21 @@ namespace PicturesSorter
                 else displayLocation = new NodesTuple(newNode, newNode.Next);
             }
             _fileIndex = LoadPictures(displayLocation, 0, 0, noRelease: true);
+        }
+
+        void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newName = Interaction.InputBox("Folder name", "Enter new folder name", _currentDirectory.Name);
+            try
+            {
+                var newFolderName = Path.Combine(_currentDirectory.Parent.FullName, newName);
+                _currentDirectory.MoveTo(newFolderName);
+                OpenFolderImpl(new DirectoryInfo(newFolderName));
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Folder rename error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
