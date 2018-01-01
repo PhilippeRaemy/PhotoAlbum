@@ -172,5 +172,10 @@ namespace PicturesSorter
             }
             Reset();
         }
+
+        public string MovePicture(DirectoryInfo destinationDirectoryInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

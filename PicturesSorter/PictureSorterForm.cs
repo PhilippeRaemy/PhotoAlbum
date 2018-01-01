@@ -3,6 +3,7 @@
 namespace PicturesSorter
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
@@ -197,6 +198,25 @@ namespace PicturesSorter
             _shelvedFiles.Push(Tuple.Create(_fileIndex.Left.Value.ShelvePicture(), Side.Left));
             buttonUndo.Enabled = true;
             ArchivePicture(_fileIndex.Left.Value, -1, 0);
+        }
+
+        void moreRightToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MovePictureImpl(_fileIndex.Right.Value, Side.Right, 0, 1);
+        }
+
+        void moveLeftToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MovePictureImpl(_fileIndex.Left.Value, Side.Left, -1, 0);
+        }
+
+        void MovePictureImpl(ImageHost imageHost, Side side, int step1, int step2)
+        { 
+            throw new NotImplementedException("Move Picture is not implemented (yet).");
+            DirectoryInfo destination = null;
+            _shelvedFiles.Push(Tuple.Create(imageHost.MovePicture(destination), side));
+            buttonUndo.Enabled = true;
+            ArchivePicture(imageHost, step1, step2);
         }
 
         void ArchivePicture(ImageHost imageHost, int step1, int step2)

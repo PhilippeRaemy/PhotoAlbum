@@ -557,12 +557,14 @@
             this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
             this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
+            this.moreRightToToolStripMenuItem.Click += new System.EventHandler(this.moreRightToToolStripMenuItem_Click);
             // 
             // moveLeftToToolStripMenuItem
             // 
             this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
             this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
+            this.moveLeftToToolStripMenuItem.Click += new System.EventHandler(this.moveLeftToToolStripMenuItem_Click);
             // 
             // PictureSorterForm
             // 
