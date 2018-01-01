@@ -32,6 +32,7 @@ namespace PicturesSorter
         enum Side { Left, Right}
 
         DirectoryInfo _currentDirectory;
+        DirectoryInfo _lastDestinationDirectory;
         LinkedList<ImageHost> _currentFiles;
         NodesTuple _fileIndex;
 
@@ -64,10 +65,10 @@ namespace PicturesSorter
 
         void OpenFolder()
         {
-            if (string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
-            {
-                folderBrowserDialog.SelectedPath = new PersistedUserPreferences().FolderImportStart;
-            }
+            folderBrowserDialog.SelectedPath = string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath) 
+                || string.IsNullOrWhiteSpace(_currentDirectory?.FullName)
+                ? new PersistedUserPreferences().FolderImportStart 
+                : _currentDirectory.FullName;
             folderBrowserDialog.ShowDialog();
             OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
         }
@@ -211,9 +212,15 @@ namespace PicturesSorter
         }
 
         void MovePictureImpl(ImageHost imageHost, Side side, int step1, int step2)
-        { 
-            throw new NotImplementedException("Move Picture is not implemented (yet).");
-            DirectoryInfo destination = null;
+        {
+            folderBrowserDialog.SelectedPath = 
+                _lastDestinationDirectory?.FullName
+                ?? _currentDirectory?.FullName
+                ?? new PersistedUserPreferences().FolderImportStart;
+            folderBrowserDialog.ShowDialog();
+            OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
+
+            var destination = new DirectoryInfo(folderBrowserDialog.SelectedPath);
             _shelvedFiles.Push(Tuple.Create(imageHost.MovePicture(destination), side));
             buttonUndo.Enabled = true;
             ArchivePicture(imageHost, step1, step2);

@@ -98,6 +98,7 @@ namespace PicturesSorter
                 || FileInfo.Directory == null
                 || FileInfo.DirectoryName == null
                 || destinationDirectoryInfo == null
+                || !destinationDirectoryInfo.Exists
             ) return null;
 
             destinationDirectoryInfo.Create();
