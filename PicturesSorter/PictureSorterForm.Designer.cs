@@ -79,6 +79,8 @@
             this.labelRight = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.moreRightToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveLeftToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -240,9 +242,11 @@
             // 
             // moveToToolStripMenuItem
             // 
+            this.moveToToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveLeftToToolStripMenuItem,
+            this.moreRightToToolStripMenuItem});
             this.moveToToolStripMenuItem.Name = "moveToToolStripMenuItem";
-            this.moveToToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.M)));
-            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.moveToToolStripMenuItem.Text = "&Move to...";
             // 
             // viewToolStripMenuItem
@@ -548,6 +552,18 @@
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
             // 
+            // moreRightToToolStripMenuItem
+            // 
+            this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
+            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
+            // 
+            // moveLeftToToolStripMenuItem
+            // 
+            this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
+            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
+            // 
             // PictureSorterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -628,6 +644,8 @@
         private Button buttonUndo;
         private ToolStripMenuItem renameToolStripMenuItem;
         private ToolStripMenuItem moveToToolStripMenuItem;
+        private ToolStripMenuItem moveLeftToToolStripMenuItem;
+        private ToolStripMenuItem moreRightToToolStripMenuItem;
     }
 }
 
