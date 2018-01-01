@@ -88,14 +88,25 @@ namespace PicturesSorter
             var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase) 
                 ? FileInfo.Directory.Parent 
                 : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
-            if (di == null) return null;
-            di.Create();
+            return MovePicture(di);
+        }
+
+        public string MovePicture(DirectoryInfo destinationDirectoryInfo)
+        {
+            if (FileInfo == null
+                || !FileInfo.Exists
+                || FileInfo.Directory == null
+                || FileInfo.DirectoryName == null
+                || destinationDirectoryInfo == null
+            ) return null;
+
+            destinationDirectoryInfo.Create();
             _imageNamesGetters
-                .Select (ig => ig())
-                .Where  (fi => fi.Exists)
-                .ForEach(fi => File.Move(fi.FullName, Path.Combine(di.FullName, fi.Name)));
+                .Select(ig => ig())
+                .Where(fi => fi.Exists)
+                .ForEach(fi => File.Move(fi.FullName, Path.Combine(destinationDirectoryInfo.FullName, fi.Name)));
             Reset();
-            FileInfo = new FileInfo(Path.Combine(di.FullName, FileInfo.Name));
+            FileInfo = new FileInfo(Path.Combine(destinationDirectoryInfo.FullName, FileInfo.Name));
             return FileInfo.FullName;
         }
 
@@ -171,11 +182,6 @@ namespace PicturesSorter
                 new FileInfo(tempFile).MoveTo(fi.FullName);
             }
             Reset();
-        }
-
-        public string MovePicture(DirectoryInfo destinationDirectoryInfo)
-        {
-            throw new NotImplementedException();
         }
     }
 }
