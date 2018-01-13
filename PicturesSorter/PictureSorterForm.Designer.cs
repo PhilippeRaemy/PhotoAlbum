@@ -31,6 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PictureSorterForm));
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -50,6 +51,8 @@
             this.RotateRightClock = new System.Windows.Forms.ToolStripMenuItem();
             this.RotateRightAnti = new System.Windows.Forms.ToolStripMenuItem();
             this.moveToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveLeftToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moreRightToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previousToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -78,9 +81,12 @@
             this.labelLeft = new System.Windows.Forms.Label();
             this.labelRight = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.contextMenuStripPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.moreRightToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.moveLeftToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripPictureArchive = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripPictureRotateLeft = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripPictureRotateRight = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStripPictureMoveTo = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -88,6 +94,7 @@
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.contextMenuStripPicture.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -171,7 +178,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -201,7 +208,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -246,8 +253,22 @@
             this.moveLeftToToolStripMenuItem,
             this.moreRightToToolStripMenuItem});
             this.moveToToolStripMenuItem.Name = "moveToToolStripMenuItem";
-            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.moveToToolStripMenuItem.Text = "&Move to...";
+            // 
+            // moveLeftToToolStripMenuItem
+            // 
+            this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
+            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
+            this.moveLeftToToolStripMenuItem.Click += new System.EventHandler(this.moveLeftToToolStripMenuItem_Click);
+            // 
+            // moreRightToToolStripMenuItem
+            // 
+            this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
+            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
+            this.moreRightToToolStripMenuItem.Click += new System.EventHandler(this.moreRightToToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -534,6 +555,7 @@
             // 
             // pictureBox2
             // 
+            this.pictureBox2.ContextMenuStrip = this.contextMenuStripPicture;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Right;
             this.pictureBox2.Location = new System.Drawing.Point(302, 78);
             this.pictureBox2.Name = "pictureBox2";
@@ -542,8 +564,19 @@
             this.pictureBox2.TabIndex = 14;
             this.pictureBox2.TabStop = false;
             // 
+            // contextMenuStripPicture
+            // 
+            this.contextMenuStripPicture.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.contextMenuStripPictureArchive,
+            this.contextMenuStripPictureRotateLeft,
+            this.contextMenuStripPictureRotateRight,
+            this.contextMenuStripPictureMoveTo});
+            this.contextMenuStripPicture.Name = "contextMenuStripPicture";
+            this.contextMenuStripPicture.Size = new System.Drawing.Size(153, 114);
+            // 
             // pictureBox1
             // 
+            this.pictureBox1.ContextMenuStrip = this.contextMenuStripPicture;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.pictureBox1.Location = new System.Drawing.Point(0, 78);
             this.pictureBox1.Name = "pictureBox1";
@@ -552,19 +585,33 @@
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
             // 
-            // moreRightToToolStripMenuItem
+            // contextMenuStripPictureArchive
             // 
-            this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
-            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
-            this.moreRightToToolStripMenuItem.Click += new System.EventHandler(this.moreRightToToolStripMenuItem_Click);
+            this.contextMenuStripPictureArchive.Name = "contextMenuStripPictureArchive";
+            this.contextMenuStripPictureArchive.Size = new System.Drawing.Size(152, 22);
+            this.contextMenuStripPictureArchive.Text = "&Archive";
+            this.contextMenuStripPictureArchive.Click += new System.EventHandler(this.contextMenuStripPictureArchive_Click);
             // 
-            // moveLeftToToolStripMenuItem
+            // contextMenuStripPictureRotateLeft
             // 
-            this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
-            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
-            this.moveLeftToToolStripMenuItem.Click += new System.EventHandler(this.moveLeftToToolStripMenuItem_Click);
+            this.contextMenuStripPictureRotateLeft.Name = "contextMenuStripPictureRotateLeft";
+            this.contextMenuStripPictureRotateLeft.Size = new System.Drawing.Size(152, 22);
+            this.contextMenuStripPictureRotateLeft.Text = "Rotate Left";
+            this.contextMenuStripPictureRotateLeft.Click += new System.EventHandler(this.contextMenuStripPictureRotateLeft_Click);
+            // 
+            // contextMenuStripPictureRotateRight
+            // 
+            this.contextMenuStripPictureRotateRight.Name = "contextMenuStripPictureRotateRight";
+            this.contextMenuStripPictureRotateRight.Size = new System.Drawing.Size(152, 22);
+            this.contextMenuStripPictureRotateRight.Text = "Rotate Right";
+            this.contextMenuStripPictureRotateRight.Click += new System.EventHandler(this.contextMenuStripPictureRotateRight_Click);
+            // 
+            // contextMenuStripPictureMoveTo
+            // 
+            this.contextMenuStripPictureMoveTo.Name = "contextMenuStripPictureMoveTo";
+            this.contextMenuStripPictureMoveTo.Size = new System.Drawing.Size(152, 22);
+            this.contextMenuStripPictureMoveTo.Text = "Move To...";
+            this.contextMenuStripPictureMoveTo.Click += new System.EventHandler(this.contextMenuStripPictureMoveTo_Click);
             // 
             // PictureSorterForm
             // 
@@ -592,6 +639,7 @@
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.contextMenuStripPicture.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -648,6 +696,11 @@
         private ToolStripMenuItem moveToToolStripMenuItem;
         private ToolStripMenuItem moveLeftToToolStripMenuItem;
         private ToolStripMenuItem moreRightToToolStripMenuItem;
+        private ContextMenuStrip contextMenuStripPicture;
+        private ToolStripMenuItem contextMenuStripPictureArchive;
+        private ToolStripMenuItem contextMenuStripPictureRotateLeft;
+        private ToolStripMenuItem contextMenuStripPictureRotateRight;
+        private ToolStripMenuItem contextMenuStripPictureMoveTo;
     }
 }
 

@@ -418,5 +418,57 @@ namespace PicturesSorter
                 MessageBox.Show(ex.Message, "Folder rename error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        void contextMenuStripPictureArchive_Click(object sender, EventArgs e)
+        {
+            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
+            {
+                case "pictureBox1":
+                    ArchiveLeftPicture();
+                    break;
+                case "pictureBox2":
+                    ArchiveRightPicture();
+                    break;
+            }
+        }
+
+        void contextMenuStripPictureRotateLeft_Click(object sender, EventArgs e)
+        {
+            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
+            {
+                case "pictureBox1":
+                    RotateLeftAnti_Click(sender, e);
+                    break;
+                case "pictureBox2":
+                    RotateLeftClock_Click(sender, e);
+                    break;
+            }
+        }
+
+        void contextMenuStripPictureRotateRight_Click(object sender, EventArgs e)
+        {
+            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
+            {
+                case "pictureBox1":
+                    RotateRightAnti_Click(sender, e);
+                    break;
+                case "pictureBox2":
+                    RotateRightClock_Click(sender, e);
+                    break;
+            }
+        }
+
+        void contextMenuStripPictureMoveTo_Click(object sender, EventArgs e)
+        {
+            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
+            {
+                case "pictureBox1":
+                    MovePictureImpl(_fileIndex.Left.Value, Side.Left, -1, 0);
+                    break;
+                case "pictureBox2":
+                    MovePictureImpl(_fileIndex.Right.Value, Side.Left, 0, 1);
+                    break;
+            }
+        }
     }
 }
