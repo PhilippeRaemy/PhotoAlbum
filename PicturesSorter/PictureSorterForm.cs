@@ -218,10 +218,10 @@ namespace PicturesSorter
                 ?? _currentDirectory?.FullName
                 ?? new PersistedUserPreferences().FolderImportStart;
             folderBrowserDialog.ShowDialog();
-            OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
+            // OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
 
-            var destination = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-            _shelvedFiles.Push(Tuple.Create(imageHost.MovePicture(destination), side));
+            _lastDestinationDirectory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
+            _shelvedFiles.Push(Tuple.Create(imageHost.MovePicture(_lastDestinationDirectory), side));
             buttonUndo.Enabled = true;
             ArchivePicture(imageHost, step1, step2);
         }
