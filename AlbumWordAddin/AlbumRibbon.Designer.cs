@@ -129,8 +129,8 @@ namespace AlbumWordAddin
             this.buttonTextWrappingBothSides = this.Factory.CreateRibbonButton();
             this.buttonTextWrappingRightOnly = this.Factory.CreateRibbonButton();
             this.ButtonLowRes = this.Factory.CreateRibbonButton();
-            this.ButtonHiRes = this.Factory.CreateRibbonButton();
             this.ButtonRightRes = this.Factory.CreateRibbonButton();
+            this.ButtonHiRes = this.Factory.CreateRibbonButton();
             buttonArrangeV = this.Factory.CreateRibbonToggleButton();
             this.TabAddIns.SuspendLayout();
             this.groupFile.SuspendLayout();
@@ -178,6 +178,7 @@ namespace AlbumWordAddin
             // 
             // ButtonImport
             // 
+            this.ButtonImport.Image = global::AlbumWordAddin.Properties.Resources.green_cloud_import;
             this.ButtonImport.Label = "Import pictures";
             this.ButtonImport.Name = "ButtonImport";
             this.ButtonImport.OfficeImageId = "PictureInsertFromFile";
@@ -1107,6 +1108,17 @@ namespace AlbumWordAddin
             this.ButtonLowRes.SuperTip = resources.GetString("ButtonLowRes.SuperTip");
             this.ButtonLowRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonLowRes_Click);
             // 
+            // ButtonRightRes
+            // 
+            this.ButtonRightRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.ButtonRightRes.Image = global::AlbumWordAddin.Properties.Resources.RightResPictures;
+            this.ButtonRightRes.Label = "Right Res Images";
+            this.ButtonRightRes.Name = "ButtonRightRes";
+            this.ButtonRightRes.ScreenTip = "Right Resolution Images";
+            this.ButtonRightRes.ShowImage = true;
+            this.ButtonRightRes.SuperTip = resources.GetString("ButtonRightRes.SuperTip");
+            this.ButtonRightRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonRightRes_Click);
+            // 
             // ButtonHiRes
             // 
             this.ButtonHiRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
@@ -1118,17 +1130,6 @@ namespace AlbumWordAddin
             this.ButtonHiRes.SuperTip = "Change all the pictures to higher resolution, to optimize the print quality when " +
     "the editing work is complete.";
             this.ButtonHiRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonHiRes_Click);
-            // 
-            // ButtonRightRes
-            // 
-            this.ButtonRightRes.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.ButtonRightRes.Image = global::AlbumWordAddin.Properties.Resources.RightResPictures;
-            this.ButtonRightRes.Label = "Right Res Images";
-            this.ButtonRightRes.Name = "ButtonRightRes";
-            this.ButtonRightRes.ScreenTip = "Right Resolution Images";
-            this.ButtonRightRes.ShowImage = true;
-            this.ButtonRightRes.SuperTip = resources.GetString("ButtonRightRes.SuperTip");
-            this.ButtonRightRes.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.ButtonRightRes_Click);
             // 
             // AlbumRibbon
             // 

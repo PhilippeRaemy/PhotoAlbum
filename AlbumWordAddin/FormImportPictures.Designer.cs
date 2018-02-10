@@ -380,6 +380,7 @@
             this.Controls.Add(this.panelIncludeFiles);
             this.Controls.Add(this.panelEndFolder);
             this.Controls.Add(this.panelStartFolder);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormImportPictures";
             this.Text = "Import Pictures";
             this.panelStartFolder.ResumeLayout(false);

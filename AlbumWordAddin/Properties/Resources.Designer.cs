@@ -63,6 +63,16 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap green_cloud_import {
+            get {
+                object obj = ResourceManager.GetObject("green_cloud_import", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HAlignBendLeft {
             get {
                 object obj = ResourceManager.GetObject("HAlignBendLeft", resourceCulture);
