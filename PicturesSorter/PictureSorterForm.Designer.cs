@@ -148,7 +148,7 @@
             this.renameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.renameToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.renameToolStripMenuItem.Text = "Rena&me";
-            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            // this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // openInWindowsExplorerToolStripMenuItem
             // 
@@ -257,14 +257,14 @@
             this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
             this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
-            this.moveLeftToToolStripMenuItem.Click += new System.EventHandler(this.moveLeftToToolStripMenuItem_Click);
+            // this.moveLeftToToolStripMenuItem.Click += new System.EventHandler(this.moveLeftToToolStripMenuItem_Click);
             // 
             // moreRightToToolStripMenuItem
             // 
             this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
             this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
-            this.moreRightToToolStripMenuItem.Click += new System.EventHandler(this.moreRightToToolStripMenuItem_Click);
+            // this.moreRightToToolStripMenuItem.Click += new System.EventHandler(this.moreRightToToolStripMenuItem_Click);
             // 
             // viewToolStripMenuItem
             // 
@@ -564,11 +564,11 @@
             // 
             // contextMenuStripPicture
             // 
-            this.contextMenuStripPicture.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.contextMenuStripPictureArchive,
-            this.contextMenuStripPictureRotateLeft,
-            this.contextMenuStripPictureRotateRight,
-            this.contextMenuStripPictureMoveTo});
+            // this.contextMenuStripPicture.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            // this.contextMenuStripPictureArchive,
+            // this.contextMenuStripPictureRotateLeft,
+            // this.contextMenuStripPictureRotateRight,
+            // this.contextMenuStripPictureMoveTo});
             this.contextMenuStripPicture.Name = "contextMenuStripPicture";
             this.contextMenuStripPicture.Size = new System.Drawing.Size(153, 114);
             // 
@@ -585,31 +585,31 @@
             // 
             // contextMenuStripPictureArchive
             // 
-            this.contextMenuStripPictureArchive.Name = "contextMenuStripPictureArchive";
-            this.contextMenuStripPictureArchive.Size = new System.Drawing.Size(152, 22);
-            this.contextMenuStripPictureArchive.Text = "&Archive";
-            this.contextMenuStripPictureArchive.Click += new System.EventHandler(this.contextMenuStripPictureArchive_Click);
+            // this.contextMenuStripPictureArchive.Name = "contextMenuStripPictureArchive";
+            // this.contextMenuStripPictureArchive.Size = new System.Drawing.Size(152, 22);
+            // this.contextMenuStripPictureArchive.Text = "&Archive";
+            // this.contextMenuStripPictureArchive.Click += new System.EventHandler(this.contextMenuStripPictureArchive_Click);
             // 
             // contextMenuStripPictureRotateLeft
             // 
-            this.contextMenuStripPictureRotateLeft.Name = "contextMenuStripPictureRotateLeft";
-            this.contextMenuStripPictureRotateLeft.Size = new System.Drawing.Size(152, 22);
-            this.contextMenuStripPictureRotateLeft.Text = "Rotate Left";
-            this.contextMenuStripPictureRotateLeft.Click += new System.EventHandler(this.contextMenuStripPictureRotateLeft_Click);
+            // this.contextMenuStripPictureRotateLeft.Name = "contextMenuStripPictureRotateLeft";
+            // this.contextMenuStripPictureRotateLeft.Size = new System.Drawing.Size(152, 22);
+            // this.contextMenuStripPictureRotateLeft.Text = "Rotate Left";
+            // this.contextMenuStripPictureRotateLeft.Click += new System.EventHandler(this.contextMenuStripPictureRotateLeft_Click);
             // 
             // contextMenuStripPictureRotateRight
             // 
-            this.contextMenuStripPictureRotateRight.Name = "contextMenuStripPictureRotateRight";
-            this.contextMenuStripPictureRotateRight.Size = new System.Drawing.Size(152, 22);
-            this.contextMenuStripPictureRotateRight.Text = "Rotate Right";
-            this.contextMenuStripPictureRotateRight.Click += new System.EventHandler(this.contextMenuStripPictureRotateRight_Click);
+            // this.contextMenuStripPictureRotateRight.Name = "contextMenuStripPictureRotateRight";
+            // this.contextMenuStripPictureRotateRight.Size = new System.Drawing.Size(152, 22);
+            // this.contextMenuStripPictureRotateRight.Text = "Rotate Right";
+            // this.contextMenuStripPictureRotateRight.Click += new System.EventHandler(this.contextMenuStripPictureRotateRight_Click);
             // 
             // contextMenuStripPictureMoveTo
             // 
-            this.contextMenuStripPictureMoveTo.Name = "contextMenuStripPictureMoveTo";
-            this.contextMenuStripPictureMoveTo.Size = new System.Drawing.Size(152, 22);
-            this.contextMenuStripPictureMoveTo.Text = "Move To...";
-            this.contextMenuStripPictureMoveTo.Click += new System.EventHandler(this.contextMenuStripPictureMoveTo_Click);
+            // this.contextMenuStripPictureMoveTo.Name = "contextMenuStripPictureMoveTo";
+            // this.contextMenuStripPictureMoveTo.Size = new System.Drawing.Size(152, 22);
+            // this.contextMenuStripPictureMoveTo.Text = "Move To...";
+            // this.contextMenuStripPictureMoveTo.Click += new System.EventHandler(this.contextMenuStripPictureMoveTo_Click);
             // 
             // PictureSorterForm
             // 

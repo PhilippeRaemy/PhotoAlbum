@@ -3,7 +3,6 @@
 namespace PicturesSorter
 {
     using System;
-    using System.CodeDom;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
@@ -13,7 +12,6 @@ namespace PicturesSorter
     using AlbumWordAddin;
     using AlbumWordAddin.UserPreferences;
     using global::FolderExtensions;
-    using Microsoft.VisualBasic;
     using MoreLinq;
 
     public partial class PictureSorterForm : Form
@@ -32,7 +30,6 @@ namespace PicturesSorter
         enum Side { Left, Right}
 
         DirectoryInfo _currentDirectory;
-        DirectoryInfo _lastDestinationDirectory;
         LinkedList<ImageHost> _currentFiles;
         NodesTuple _fileIndex;
 
@@ -65,27 +62,25 @@ namespace PicturesSorter
 
         void OpenFolder()
         {
-            folderBrowserDialog.SelectedPath = string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath) 
-                || string.IsNullOrWhiteSpace(_currentDirectory?.FullName)
-                ? new PersistedUserPreferences().FolderImportStart 
-                : _currentDirectory.FullName;
+            var userPrefs = new PersistedUserPreferences();
+            var fileNameHandler = new FileNameHandler(userPrefs);
+            if (string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
+            {
+                folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
+            }
             folderBrowserDialog.ShowDialog();
-            OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false),
+                new DirectoryInfo(folderBrowserDialog.SelectedPath), fileNameHandler, userPrefs.ShelfName);
+            userPrefs.Save();
         }
 
         void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
         {
             var folder = currentDirectory.WalkNextFolder(folderDirection);
             if (folder == null) return;
-            OpenFolderImpl(folder);
-        }
-
-        void OpenFolderImpl(DirectoryInfo folder)
-        {
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler,
-                userPrefs.ShelfName);
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
             userPrefs.Save();
         }
 
@@ -199,31 +194,6 @@ namespace PicturesSorter
             _shelvedFiles.Push(Tuple.Create(_fileIndex.Left.Value.ShelvePicture(), Side.Left));
             buttonUndo.Enabled = true;
             ArchivePicture(_fileIndex.Left.Value, -1, 0);
-        }
-
-        void moreRightToToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MovePictureImpl(_fileIndex.Right.Value, Side.Right, 0, 1);
-        }
-
-        void moveLeftToToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MovePictureImpl(_fileIndex.Left.Value, Side.Left, -1, 0);
-        }
-
-        void MovePictureImpl(ImageHost imageHost, Side side, int step1, int step2)
-        {
-            folderBrowserDialog.SelectedPath = 
-                _lastDestinationDirectory?.FullName
-                ?? _currentDirectory?.FullName
-                ?? new PersistedUserPreferences().FolderImportStart;
-            folderBrowserDialog.ShowDialog();
-            // OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath));
-
-            _lastDestinationDirectory = new DirectoryInfo(folderBrowserDialog.SelectedPath);
-            _shelvedFiles.Push(Tuple.Create(imageHost.MovePicture(_lastDestinationDirectory), side));
-            buttonUndo.Enabled = true;
-            ArchivePicture(imageHost, step1, step2);
         }
 
         void ArchivePicture(ImageHost imageHost, int step1, int step2)
@@ -402,73 +372,6 @@ namespace PicturesSorter
                 else displayLocation = new NodesTuple(newNode, newNode.Next);
             }
             _fileIndex = LoadPictures(displayLocation, 0, 0, noRelease: true);
-        }
-
-        void renameToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var newName = Interaction.InputBox("Folder name", "Enter new folder name", _currentDirectory.Name);
-            try
-            {
-                var newFolderName = Path.Combine(_currentDirectory.Parent.FullName, newName);
-                _currentDirectory.MoveTo(newFolderName);
-                OpenFolderImpl(new DirectoryInfo(newFolderName));
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Folder rename error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        void contextMenuStripPictureArchive_Click(object sender, EventArgs e)
-        {
-            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
-            {
-                case "pictureBox1":
-                    ArchiveLeftPicture();
-                    break;
-                case "pictureBox2":
-                    ArchiveRightPicture();
-                    break;
-            }
-        }
-
-        void contextMenuStripPictureRotateLeft_Click(object sender, EventArgs e)
-        {
-            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
-            {
-                case "pictureBox1":
-                    RotateLeftAnti_Click(sender, e);
-                    break;
-                case "pictureBox2":
-                    RotateLeftClock_Click(sender, e);
-                    break;
-            }
-        }
-
-        void contextMenuStripPictureRotateRight_Click(object sender, EventArgs e)
-        {
-            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
-            {
-                case "pictureBox1":
-                    RotateRightAnti_Click(sender, e);
-                    break;
-                case "pictureBox2":
-                    RotateRightClock_Click(sender, e);
-                    break;
-            }
-        }
-
-        void contextMenuStripPictureMoveTo_Click(object sender, EventArgs e)
-        {
-            switch (((sender as ToolStripItem)?.Owner as ContextMenuStrip)?.SourceControl.Name)
-            {
-                case "pictureBox1":
-                    MovePictureImpl(_fileIndex.Left.Value, Side.Left, -1, 0);
-                    break;
-                case "pictureBox2":
-                    MovePictureImpl(_fileIndex.Right.Value, Side.Left, 0, 1);
-                    break;
-            }
         }
 
         void pictureBox1_MouseClick(object sender, MouseEventArgs e)
