@@ -278,6 +278,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icons\green-cloud-import.png" />
     <Content Include="Icons\MarginsGrow.png" />
     <None Include="Icons\SwapPositions.png" />
     <None Include="Icons\RotateAntiClockwise.png" />

@@ -16,7 +16,7 @@ namespace PictureHandlerTest
     using PictureHandler;
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    enum PropertyItemIdEnum
+    internal enum PropertyItemIdEnum
     {
         PropertyTagGpsVer                         = 0x0000,
         PropertyTagGpsLatitudeRef                 = 0x0001,
