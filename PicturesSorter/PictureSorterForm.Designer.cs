@@ -57,6 +57,7 @@
             this.RotateRightAnti = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.buttonUndo = new System.Windows.Forms.Button();
             this.buttonNavigateBothRight = new System.Windows.Forms.Button();
             this.buttonNavigateBothLeft = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -76,7 +77,6 @@
             this.labelRight = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.buttonUndo = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -218,7 +218,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -226,7 +226,7 @@
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.ShortcutKeyDisplayString = "F1, 1";
             this.leftToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.leftToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.leftToolStripMenuItem.Text = "Left";
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.archiveLeftToolStripMenuItem_Click);
             // 
@@ -235,7 +235,7 @@
             this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
             this.rightToolStripMenuItem.ShortcutKeyDisplayString = "F2, 2";
             this.rightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.rightToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.rightToolStripMenuItem.Text = "Right";
             this.rightToolStripMenuItem.Click += new System.EventHandler(this.archiveRightToolStripMenuItem_Click);
             // 
@@ -248,7 +248,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -309,6 +309,17 @@
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(96, 32);
             this.panel5.TabIndex = 29;
+            // 
+            // buttonUndo
+            // 
+            this.buttonUndo.Enabled = false;
+            this.buttonUndo.Image = global::PicturesSorter.Properties.Resources.Undo;
+            this.buttonUndo.Location = new System.Drawing.Point(32, 0);
+            this.buttonUndo.Name = "buttonUndo";
+            this.buttonUndo.Size = new System.Drawing.Size(32, 32);
+            this.buttonUndo.TabIndex = 27;
+            this.buttonUndo.UseVisualStyleBackColor = true;
+            this.buttonUndo.Click += new System.EventHandler(this.buttonUndo_Click);
             // 
             // buttonNavigateBothRight
             // 
@@ -507,6 +518,8 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox2.TabIndex = 14;
             this.pictureBox2.TabStop = false;
+            this.pictureBox2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseClick);
+            this.pictureBox2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox2_MouseDoubleClick);
             // 
             // pictureBox1
             // 
@@ -517,17 +530,8 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
-            // 
-            // buttonUndo
-            // 
-            this.buttonUndo.Enabled = false;
-            this.buttonUndo.Image = global::PicturesSorter.Properties.Resources.Undo;
-            this.buttonUndo.Location = new System.Drawing.Point(32, 0);
-            this.buttonUndo.Name = "buttonUndo";
-            this.buttonUndo.Size = new System.Drawing.Size(32, 32);
-            this.buttonUndo.TabIndex = 27;
-            this.buttonUndo.UseVisualStyleBackColor = true;
-            this.buttonUndo.Click += new System.EventHandler(this.buttonUndo_Click);
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDoubleClick);
             // 
             // PictureSorterForm
             // 

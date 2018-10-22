@@ -373,5 +373,42 @@ namespace PicturesSorter
             }
             _fileIndex = LoadPictures(displayLocation, 0, 0, noRelease: true);
         }
+
+        void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    RotateLeftAnti_Click(sender, EventArgs.Empty);
+                    break;
+                case MouseButtons.Right:
+                    RotateLeftClock_Click(sender, EventArgs.Empty);
+                    break;
+            }
+        }
+
+        void pictureBox2_MouseClick(object sender, MouseEventArgs e)
+        {
+            switch (e.Button)
+            {
+                case MouseButtons.Left:
+                    RotateRightAnti_Click(sender, EventArgs.Empty);
+                    break;
+                case MouseButtons.Right:
+                    RotateRightClock_Click(sender, EventArgs.Empty);
+                    break;
+
+            }
+        }
+
+        void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            buttonShelfLeft_Click(sender, EventArgs.Empty);
+        }
+
+        void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            buttonShelfRight_Click(sender, EventArgs.Empty);
+        }
     }
 }
