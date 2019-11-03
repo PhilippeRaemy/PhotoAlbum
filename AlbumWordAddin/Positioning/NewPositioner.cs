@@ -30,7 +30,7 @@
             var scaleHeight = container.Height / (clientArea.Height - 2 * margin);
             return rects
                     .Select(r => r
-                        .MoveBy(-container.Left, -container.Right)
+                        .MoveBy(-container.Left, -container.Top)
                         .LinearScale(scaleWidth, scaleHeight)
                         .MoveBy(margin, margin)
                     );
