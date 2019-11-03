@@ -7,7 +7,13 @@
     using VstoEx.Geometry;
 
 
-    public class Positioner {
+    public interface IPositioner
+    {
+        IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles);
+    }
+
+    public class Positioner : IPositioner
+    {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
         {
             return DoPosition(
@@ -126,15 +132,5 @@
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }
         }
-    }
-
-    public class PositionerParms
-    {
-        public int Rows { get; set; }
-        public int Cols { get; set; }
-        public HShape HShape { get; set; }
-        public VShape VShape { get; set; }
-        public float Margin { get; set; }
-        public float Spacing { get; set; }
     }
 }
