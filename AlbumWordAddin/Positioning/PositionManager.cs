@@ -11,7 +11,7 @@
     public class PositionManager
     {
         readonly PositionerParms _positionerParms = new PositionerParms();
-        Positioner _positioner;
+        readonly IPositioner _positioner;
         static Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         static Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
 
