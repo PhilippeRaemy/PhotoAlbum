@@ -7,11 +7,6 @@
     using VstoEx.Geometry;
 
 
-    public interface IPositioner
-    {
-        IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles);
-    }
-
     public class Positioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)

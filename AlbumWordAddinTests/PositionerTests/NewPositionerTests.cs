@@ -9,9 +9,9 @@
     using VstoEx.Geometry;
 
     [TestClass]
-    public class PositionerTests : PositionerTestsBase
+    public class NewPositionerTests : PositionerTestsBase
     {
-        protected override IPositioner GetNewPositioner() => new Positioner();
+        protected override IPositioner GetNewPositioner() => new NewPositioner();
 
         internal static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
         static readonly Rectangle R4X1 = new Rectangle(0, 0, 4, 1);

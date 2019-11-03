@@ -5,9 +5,9 @@
     using TestHelpers;
 
     [TestClass]
-    public class PositionerTestsBendUpDown : PositionerTestsBase
+    public class NewPositionerTestsBendUpDown : PositionerTestsBase
     {
-        protected override IPositioner GetNewPositioner() => new Positioner();
+        protected override IPositioner GetNewPositioner() => new NewPositioner();
 
         static readonly PositionerParms BendDownPos  = new PositionerParms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Benddown, Margin = 0, Spacing = 0};
         static readonly PositionerParms BendUpPos    = new PositionerParms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Bendup  , Margin = 0, Spacing = 0};

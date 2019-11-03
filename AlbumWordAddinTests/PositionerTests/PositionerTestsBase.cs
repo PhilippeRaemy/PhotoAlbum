@@ -9,11 +9,13 @@ namespace AlbumWordAddinTests.PositionerTests
     using VstoEx.Extensions;
     using VstoEx.Geometry;
 
-    public class PositionerTestsBase
+    public abstract class PositionerTestsBase
     {
-        internal static void Run(Rectangle clientArea, IEnumerable<Rectangle> rectangles, PositionerParms pos, IEnumerable<Rectangle> expected, string label)
+        protected abstract IPositioner GetNewPositioner();
+
+        internal void Run(Rectangle clientArea, IEnumerable<Rectangle> rectangles, PositionerParms pos, IEnumerable<Rectangle> expected, string label)
         {
-            var rc = new Positioner().DoPosition(pos, clientArea, rectangles).CheapToArray();
+            var rc = GetNewPositioner().DoPosition(pos, clientArea, rectangles).CheapToArray();
             expected = expected.CheapToArray();
             Assert.AreEqual(expected.Count(), rc.Length, $"{label}: Results length");
             var results = expected.EquiZip(rc, (e, r) => new {expected = e, results = r})
