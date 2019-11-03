@@ -10,9 +10,15 @@
 
     public class PositionManager
     {
-        readonly Positioner.Parms _positionerParms = new Positioner.Parms();
+        readonly PositionerParms _positionerParms = new PositionerParms();
+        Positioner _positioner;
         static Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         static Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
+
+        public PositionManager()
+        {
+            _positioner = new Positioner();
+        }
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
@@ -70,7 +76,7 @@
             DoPositionSelectedImages(_positionerParms);
         }
 
-        void DoPositionSelectedImages(Positioner.Parms positionerParms)
+        void DoPositionSelectedImages(PositionerParms positionerParms)
         {
             var selectedShapes = Globals.ThisAddIn.SelectedShapes();
             if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
@@ -95,7 +101,7 @@
             }
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
-            var positions = Positioner.DoPosition(positionerParms, clientArea, shapes.ToRectangles());
+            var positions = _positioner.DoPosition(positionerParms, clientArea, shapes.ToRectangles());
 
             using (Application.StatePreserver().FreezeScreenUpdating())
                 shapes.ApplyPositions(positions);

@@ -7,8 +7,8 @@
     [TestClass]
     public class PositionerTestsBendUpDown : PositionerTestsBase
     {
-        static readonly Positioner.Parms BendDownPos  = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Benddown, Margin = 0, Spacing = 0};
-        static readonly Positioner.Parms BendUpPos    = new Positioner.Parms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Bendup  , Margin = 0, Spacing = 0};
+        static readonly PositionerParms BendDownPos  = new PositionerParms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Benddown, Margin = 0, Spacing = 0};
+        static readonly PositionerParms BendUpPos    = new PositionerParms { Cols = 2, Rows = 1, HShape = HShape.Flat, VShape = VShape.Bendup  , Margin = 0, Spacing = 0};
 
         [TestMethod]
         public void TestPositioner_BendDown2Shapes()
