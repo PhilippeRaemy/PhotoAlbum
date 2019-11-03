@@ -54,7 +54,7 @@
         {
             var rc = new Positioner().DoPosition(HFlat1X2Pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(2, rc.Length);
-            var expected = new Rectangle(0, .25f, .5f, .5f).Scale(factor, factor);
+            var expected = new Rectangle(0, .25f, .5f, .5f).LinearScale(factor, factor);
             Assert.AreEqual(expected, rc.First());
             expected = expected.MoveBy(.5f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(1).First());
@@ -70,7 +70,7 @@
         {
             var rc = new Positioner().DoPosition(HFlat1X3Pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(3, rc.Length);
-            var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f).Scale(factor, factor);
+            var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f).LinearScale(factor, factor);
             Assert.AreEqual(expected, rc.First());
             expected = expected.MoveBy(1 / 3f * factor, 0);
             Assert.AreEqual(expected, rc.Skip(1).First());

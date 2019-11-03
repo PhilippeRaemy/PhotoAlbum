@@ -17,7 +17,7 @@ namespace VstoExTests.RectangleTests
         [TestMethod]
         public void TestRectangleScale()
         {
-            var r = new Rectangle(0, 0, 1, 1).Scale(.3f, .6f);
+            var r = new Rectangle(0, 0, 1, 1).LinearScale(.3f, .6f);
             Assert.AreEqual(.3f, r.Width, float.Epsilon);
             Assert.AreEqual(.6f, r.Height, float.Epsilon);
         }

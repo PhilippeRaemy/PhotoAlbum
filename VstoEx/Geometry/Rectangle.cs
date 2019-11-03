@@ -63,10 +63,20 @@ namespace VstoEx.Geometry
         public Rectangle Grow(float w, float h)
             => new Rectangle(Left, Top, Width * w, Height * h);
 
-        public Rectangle Scale(float scale)
-            => Scale(scale, scale);
+        /// <summary>
+        /// Scale all corner points of a rectangle linearly (from point [0, 0] )
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public Rectangle LinearScale(float scale)
+            => LinearScale(scale, scale);
 
-        public Rectangle Scale(float scaleX, float scaleY)
+        /// <summary>
+        /// Scale all corner points of a rectangle linearly (from point [0, 0] )
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public Rectangle LinearScale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
         /// <summary>
