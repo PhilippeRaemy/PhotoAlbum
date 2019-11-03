@@ -6,19 +6,9 @@
     using MoreLinq;
     using VstoEx.Geometry;
 
-    public static class Positioner
-    {
-        public class Parms
-        {
-            public int Rows         { get; set; }
-            public int Cols         { get; set; }
-            public HShape HShape    { get; set; }
-            public VShape VShape    { get; set; }
-            public float Margin     { get; set; }
-            public float Spacing    { get; set; }
-        }
 
-        public static IEnumerable<Rectangle> DoPosition(Parms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
+    public class Positioner {
+        public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
         {
             return DoPosition(
                 parms.Rows,
@@ -39,7 +29,7 @@
             VShape vShape,
             float margin,
             float spacing,
-            Rectangle clientArea, 
+            Rectangle clientArea,
             IEnumerable<Rectangle> rectangles
         )
         {
@@ -50,15 +40,15 @@
             var grid = Enumerable.Range(0, rows)
                 .SelectMany(r => Enumerable.Range(0, cols)
                     .Select(c => new
-                        {
-                            area   = new Rectangle(margin + c*scaleX, margin + r*scaleY, scaleX, scaleY),
-                            hShape = shaperH(r, c),
-                            vShape = shaperV(r, c),
-                        }
+                    {
+                        area = new Rectangle(margin + c * scaleX, margin + r * scaleY, scaleX, scaleY),
+                        hShape = shaperH(r, c),
+                        vShape = shaperV(r, c),
+                    }
                     )
                 );
             return grid
-                .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle})
+                .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
                 .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
                 .ToArray();
@@ -88,12 +78,12 @@
         {
             switch (hShape)
             {
-                case HShape.Flat     : return (_, __) => 0.5F;
-                case HShape.Left     : return (_, __) => 0F;
-                case HShape.Right    : return (_, __) => 1F;
+                case HShape.Flat: return (_, __) => 0.5F;
+                case HShape.Left: return (_, __) => 0F;
+                case HShape.Right: return (_, __) => 1F;
                 case HShape.Rightdown: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => r / ((float)rows - 1);
-                case HShape.Rightup  : if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
-                case HShape.BendLeft :
+                case HShape.Rightup: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
+                case HShape.BendLeft:
                     if (rows <= 2) return (_, __) => 0F;
                     if (rows % 2 == 1) return (r, _) => 1 - Math.Abs(2 * r / ((float)rows - 1) - 1);
                     return (r, _) => r < rows / 2
@@ -115,18 +105,18 @@
         {
             switch (vShape)
             {
-                case VShape.Flat     : return (_, __) => 0.5F;
-                case VShape.Top      : return (_, __) => 0F;
-                case VShape.Bottom   : return (_, __) => 1F;
+                case VShape.Flat: return (_, __) => 0.5F;
+                case VShape.Top: return (_, __) => 0F;
+                case VShape.Bottom: return (_, __) => 1F;
                 case VShape.Rightdown: if (cols <= 1) return (_, __) => 0.5F; return (_, c) => c / ((float)cols - 1);
-                case VShape.Rightup  : if (cols <= 1) return (_, __) => 0.5F; return (_, c) => 1 - c / ((float)cols - 1);
-                case VShape.Benddown :
+                case VShape.Rightup: if (cols <= 1) return (_, __) => 0.5F; return (_, c) => 1 - c / ((float)cols - 1);
+                case VShape.Benddown:
                     if (cols <= 2) return (_, __) => 0F;
                     if (cols % 2 == 1) return (_, c) => 1 - Math.Abs(2 * c / ((float)cols - 1) - 1);
                     return (_, c) => c < cols / 2
                         ? 2 * c / ((float)cols - 2)
-                        : 2 * (cols-c-1) / ((float)cols - 2);
-                case VShape.Bendup   :
+                        : 2 * (cols - c - 1) / ((float)cols - 2);
+                case VShape.Bendup:
                     if (cols <= 2) return (_, __) => 1F;
                     if (cols % 2 == 1) return (_, c) => Math.Abs(2 * c / ((float)cols - 1) - 1);
                     return (_, c) => c < cols / 2
@@ -136,5 +126,15 @@
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }
         }
+    }
+
+    public class PositionerParms
+    {
+        public int Rows { get; set; }
+        public int Cols { get; set; }
+        public HShape HShape { get; set; }
+        public VShape VShape { get; set; }
+        public float Margin { get; set; }
+        public float Spacing { get; set; }
     }
 }
