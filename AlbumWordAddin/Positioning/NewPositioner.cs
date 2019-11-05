@@ -26,8 +26,8 @@
         {
             var rects = rectangles.CheapToArray();
             var container = rects.Container();
-            var scaleWidth = container.Width / (clientArea.Width - 2 * margin);
-            var scaleHeight = container.Height / (clientArea.Height - 2 * margin);
+            var scaleWidth  = (clientArea.Width - 2 * margin)  / container.Width ;
+            var scaleHeight = (clientArea.Height - 2 * margin) / container.Height;
             return rects
                     .Select(r => r
                         .MoveBy(-container.Left, -container.Top)
