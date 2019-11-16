@@ -21,7 +21,12 @@ namespace VstoEx.Geometry
         public Point TopRight    => new Point(Right, Top);
         public Point BottomLeft  => new Point(Left , Bottom);
         public Point BottomRight => new Point(Right, Bottom);
-        public Point Center      => new Point(Left + Width / 2, Top + Height / 2);
+
+        public Point Center
+        {
+            get { return new Point(Left + Width / 2, Top + Height / 2); }
+            set { MoveBy(value.X - (Left + Width / 2), value.Y - (Top + Height / 2)); }
+        }
 
         public Segment HorizontalSegment => new Segment(Left, Right );
         public Segment VerticalSegment   => new Segment(Top , Bottom);

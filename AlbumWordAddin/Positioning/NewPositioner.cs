@@ -26,14 +26,18 @@
         {
             var rects = rectangles.CheapToArray();
             var container = rects.Container();
-            var scaleWidth  = (clientArea.Width - 2 * margin)  / container.Width ;
-            var scaleHeight = (clientArea.Height - 2 * margin) / container.Height;
+            container.Center = clientArea.Center;
+            var scale = new[]
+            {
+                (clientArea.Width - 2 * margin) / container.Width,
+                (clientArea.Height - 2 * margin) / container.Height
+            }.Min();
             return rects
-                    .Select(r => r
-                        .MoveBy(-container.Left, -container.Top)
-                        .LinearScale(scaleWidth, scaleHeight)
-                        .MoveBy(margin, margin)
-                    );
+                .Select(r => r
+                    .MoveBy(-container.Left, -container.Top)
+                    .LinearScale(scale, scale)
+                    .MoveBy(margin, margin)
+                );
         }
 
         static IEnumerable<Rectangle> DoPosition(

@@ -13,7 +13,7 @@
     {
         protected override IPositioner GetNewPositioner() => new NewPositioner();
 
-        internal static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
+        static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
         static readonly Rectangle R4X1 = new Rectangle(0, 0, 4, 1);
         static readonly Rectangle R1X4 = new Rectangle(0, 0, 1, 4);
         static readonly Rectangle R4X4 = new Rectangle(0, 0, 4, 4);
