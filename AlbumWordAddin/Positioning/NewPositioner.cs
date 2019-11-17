@@ -25,13 +25,13 @@
         IEnumerable<Rectangle> FitInClientArea(IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
         {
             var rects = rectangles.CheapToArray();
-            var container = rects.Container();
-            container.Center = clientArea.Center;
+            var container = rects.Container().CenterOn(clientArea);
             var scale = new[]
             {
                 (clientArea.Width - 2 * margin) / container.Width,
                 (clientArea.Height - 2 * margin) / container.Height
             }.Min();
+            container = container.LinearScale(scale, scale);
             return rects
                 .Select(r => r
                     .MoveBy(-container.Left, -container.Top)

@@ -8,25 +8,27 @@ namespace VstoEx.Geometry
 
     public class Rectangle
     {
-        public float Left   { get; }
-        public float Top    { get; }
-        public float Width  { get; }
+        public float Left { get; }
+        public float Top { get; }
+        public float Width { get; }
         public float Height { get; }
 
         public float Right => Left + Width;
         public float Bottom => Top + Height;
         public float Area => Width * Height;
 
-        public Point TopLeft     => new Point(Left , Top);
-        public Point TopRight    => new Point(Right, Top);
-        public Point BottomLeft  => new Point(Left , Bottom);
+        public Point TopLeft => new Point(Left, Top);
+        public Point TopRight => new Point(Right, Top);
+        public Point BottomLeft => new Point(Left, Bottom);
         public Point BottomRight => new Point(Right, Bottom);
 
-        public Point Center
-        {
-            get { return new Point(Left + Width / 2, Top + Height / 2); }
-            set { MoveBy(value.X - (Left + Width / 2), value.Y - (Top + Height / 2)); }
-        }
+        public Point Center => new Point(Left + Width / 2, Top + Height / 2);
+
+        public Rectangle CenterOn(Rectangle other)
+            => CenterOn(other.Center);
+
+        public Rectangle CenterOn(Point point)
+            => MoveBy(point.X - (Left + Width / 2), point.Y - (Top + Height / 2));
 
         public Segment HorizontalSegment => new Segment(Left, Right );
         public Segment VerticalSegment   => new Segment(Top , Bottom);
