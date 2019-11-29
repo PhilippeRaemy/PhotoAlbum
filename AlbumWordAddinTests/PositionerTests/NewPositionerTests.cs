@@ -79,10 +79,20 @@
         }
 
         [TestMethod]
-        public void TestPositioner_FourInaRowFlatNoSpacing()
+        public void TestPositioner_FourInaRowFlatNoSpacing1()
         {
             Run(R4X1, R1X1.Range(4), HFlatPos, R1X1.Range(4, 1, 0), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaRowFlatNoSpacing2()
+        {
             Run(R4X1, R4X2.Range(4), HFlatPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaRowFlatNoSpacing3()
+        {
             Run(R4X1, R2X4.Range(4), HFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
 
@@ -93,26 +103,56 @@
         }
 
         [TestMethod]
-        public void TestPositioner_FourInaRowLeftNoSpacing()
+        public void TestPositioner_FourInaRowLeftNoSpacing1()
         {
             Run(R4X1, R1X1.Range(4), HFlatLeftPos, R1X1.Range(4, 1, 0), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaRowLeftNoSpacing2()
+        {
             Run(R4X1, R4X2.Range(4), HFlatLeftPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 1, 0), nameof(R4X2));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaRowLeftNoSpacing3()
+        {
             Run(R4X1, R2X4.Range(4), HFlatLeftPos, R2X4.Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
 
         [TestMethod]
-        public void TestPositioner_FourInaRowTopNoSpacing()
+        public void TestPositioner_FourInaRowTopNoSpacing1()
         {
             Run(R4X1, R1X1.Range(4), HFlatTopPos, R1X1.Range(4, 1, 0), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaRowTopNoSpacing2()
+        {
             Run(R4X1, R4X2.Range(4), HFlatTopPos, R4X2.Grow(.25f).Range(4, 1, 0), nameof(R4X2));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaRowTopNoSpacing3()
+        {
             Run(R4X1, R2X4.Range(4), HFlatTopPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
         }
 
         [TestMethod]
-        public void TestPositioner_FourInaColFlatNoSpacing()
+        public void TestPositioner_FourInaColFlatNoSpacing1()
         {
             Run(R1X4, R1X1.Range(4), VFlatPos, R1X1.Range(4, 0, 1), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaColFlatNoSpacing2()
+        {
             Run(R1X4, R4X2.Range(4), VFlatPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaColFlatNoSpacing3()
+        {
             Run(R1X4, R2X4.Range(4), VFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
 
@@ -123,18 +163,38 @@
         }
 
         [TestMethod]
-        public void TestPositioner_FourInaColLeftNoSpacing()
+        public void TestPositioner_FourInaColLeftNoSpacing1()
         {
             Run(R1X4, R1X1.Range(4), VFlatLeftPos, R1X1.Range(4, 0, 1), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaColLeftNoSpacing2()
+        {
             Run(R1X4, R4X2.Range(4), VFlatLeftPos, R4X2.MoveBy(0, .25f).Grow(.25f).Range(4, 0, 1), nameof(R4X2));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaColLeftNoSpacing3()
+        {
             Run(R1X4, R2X4.Range(4), VFlatLeftPos, R2X4.Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
 
         [TestMethod]
-        public void TestPositioner_FourInaColTopNoSpacing()
+        public void TestPositioner_FourInaColTopNoSpacing1()
         {
             Run(R1X4, R1X1.Range(4), VFlatTopPos, R1X1.Range(4, 0, 1), nameof(R1X1));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaColTopNoSpacing2()
+        {
             Run(R1X4, R4X2.Range(4), VFlatTopPos, R4X2.Grow(.25f).Range(4, 0, 1), nameof(R4X2));
+        }
+
+        [TestMethod]
+        public void TestPositioner_FourInaColTopNoSpacing3()
+        {
             Run(R1X4, R2X4.Range(4), VFlatTopPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
         }
     }
