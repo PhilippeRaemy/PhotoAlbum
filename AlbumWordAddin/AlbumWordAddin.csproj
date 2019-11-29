@@ -231,6 +231,7 @@
     <None Include="AlbumWordAddinCertificate.pfx" />
     <None Include="AlbumWordAddin_1_TemporaryKey.pfx" />
     <None Include="AlbumWordAddin_2_TemporaryKey.pfx" />
+    <None Include="AlbumWordAddin_3_TemporaryKey.pfx" />
     <None Include="AlbumWordAddin_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -344,10 +345,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AlbumWordAddinCertificate.pfx</ManifestKeyFile>
+    <ManifestKeyFile>AlbumWordAddin_3_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>13B083B938810C7AFD07580582774BE78D574367</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>0A96D2A9034DE7FBB97DF9A873905B0B6E2BA99D</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

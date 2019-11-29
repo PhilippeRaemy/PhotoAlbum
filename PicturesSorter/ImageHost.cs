@@ -164,10 +164,22 @@ namespace PicturesSorter
                 }
             }
             // ReSharper disable once LocalizableElement
-            label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count}";
+            label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count} - {FileInfo.LastWriteTime:g} - {FormatLength(FileInfo.Length)}";
             _useCount++;
             Trace.WriteLine($"ImageHost Render. _useCount={_useCount}: {FileInfo.FullName}");
         }
+
+        string FormatLength(long fileInfoLength) =>
+            fileInfoLength < 1024
+                ? $"{fileInfoLength}b"
+                : FormatLength(fileInfoLength/1024f, new[] {"Kb", "Mb", "Gb", "Tb"});
+
+        string FormatLength(float fileInfoLength, string[] unit)
+            => fileInfoLength < 1024 || unit.Length == 1
+                ? fileInfoLength > 100 || Math.Round(fileInfoLength, 0) == Math.Round(fileInfoLength, 1)
+                    ? $"{fileInfoLength:f0}{unit[0]}"
+                    : $"{fileInfoLength:f1}{unit[0]}"
+                : FormatLength(fileInfoLength/1024f, unit.Skip(1).ToArray());
 
         public void Rotate(RotateFlipType rotateFlipType)
         {
