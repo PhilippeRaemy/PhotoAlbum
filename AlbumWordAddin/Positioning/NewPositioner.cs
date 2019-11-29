@@ -10,19 +10,18 @@
     public class NewPositioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
-        {
-            return FitInClientArea(
+            => FitInClientArea(
                 DoPosition(
-                parms.Rows,
-                parms.Cols,
-                parms.HShape,
-                parms.VShape,
-                parms.Spacing,
-                rectangles
-            ), parms.Margin, clientArea);
-        }
+                    parms.Rows,
+                    parms.Cols,
+                    parms.HShape,
+                    parms.VShape,
+                    parms.Spacing,
+                    rectangles,
+                    clientArea
+                ), parms.Margin, clientArea);
 
-        IEnumerable<Rectangle> FitInClientArea(IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
+        static IEnumerable<Rectangle> FitInClientArea(IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
         {
             var rects = rectangles.CheapToArray();
             var container = rects.Container().CenterOn(clientArea);
@@ -40,22 +39,23 @@
                 );
         }
 
-        static IEnumerable<Rectangle> DoPosition(
-            int rows,
+        static IEnumerable<Rectangle> DoPosition(int rows,
             int cols,
             HShape hShape,
             VShape vShape,
             float spacing,
-            IEnumerable<Rectangle> rectangles
-        )
+            IEnumerable<Rectangle> rectangles, 
+            Rectangle clientArea)
         {
             var shaperH = ShaperH(hShape, rows, cols);
             var shaperV = ShaperV(vShape, rows, cols);
+            var wi = clientArea.Width / cols;
+            var he = clientArea.Height / rows;
             var grid = Enumerable.Range(0, rows)
                 .SelectMany(r => Enumerable.Range(0, cols)
                     .Select(c => new
                     {
-                        area = new Rectangle(c, r, 1, 1),
+                        area = new Rectangle(c * wi, r * he, wi, he),
                         hShape = shaperH(r, c),
                         vShape = shaperV(r, c),
                     }
@@ -76,8 +76,8 @@
                 case HShape.Flat: return (_, __) => 0.5F;
                 case HShape.Left: return (_, __) => 0F;
                 case HShape.Right: return (_, __) => 1F;
-                case HShape.Rightdown: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => r / ((float)rows - 1);
-                case HShape.Rightup: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
+                case HShape.RightDown: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => r / ((float)rows - 1);
+                case HShape.RightUp: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
                 case HShape.BendLeft:
                     if (rows <= 2) return (_, __) => 0F;
                     if (rows % 2 == 1) return (r, _) => 1 - Math.Abs(2 * r / ((float)rows - 1) - 1);

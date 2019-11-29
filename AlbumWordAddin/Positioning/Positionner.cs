@@ -82,8 +82,8 @@
                 case HShape.Flat: return (_, __) => 0.5F;
                 case HShape.Left: return (_, __) => 0F;
                 case HShape.Right: return (_, __) => 1F;
-                case HShape.Rightdown: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => r / ((float)rows - 1);
-                case HShape.Rightup: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
+                case HShape.RightDown: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => r / ((float)rows - 1);
+                case HShape.RightUp: if (rows <= 1) return (_, __) => 0.5F; return (r, _) => 1 - r / ((float)rows - 1);
                 case HShape.BendLeft:
                     if (rows <= 2) return (_, __) => 0F;
                     if (rows % 2 == 1) return (r, _) => 1 - Math.Abs(2 * r / ((float)rows - 1) - 1);
