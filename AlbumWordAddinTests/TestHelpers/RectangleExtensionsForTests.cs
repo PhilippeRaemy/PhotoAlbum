@@ -6,11 +6,25 @@ namespace AlbumWordAddinTests.TestHelpers
 
     public static class RectangleExtensionsForTests
     {
-        public static IEnumerable<Rectangle> Range(this Rectangle first, int count, float offsetX, float offsetY)
+        /// <summary>
+        /// Replicate a model rectangle a certain number of times with given position offsets
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="count"></param>
+        /// <param name="offsetX"></param>
+        /// <param name="offsetY"></param>
+        /// <returns></returns>
+        public static IEnumerable<Rectangle> Range(this Rectangle model, int count, float offsetX, float offsetY)
         {
-            return Enumerable.Range(0, count).Select(i => first.MoveBy(i * offsetX, i * offsetY));
+            return Enumerable.Range(0, count).Select(i => model.MoveBy(i * offsetX, i * offsetY));
         }
-        public static IEnumerable<Rectangle> Range(this Rectangle first, int count)
-            => first.Range(count, 0, 0);
+        /// <summary>
+        /// Replicate a model rectangle a certain number of times
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static IEnumerable<Rectangle> Range(this Rectangle model, int count)
+            => model.Range(count, 0, 0);
     }
 }
