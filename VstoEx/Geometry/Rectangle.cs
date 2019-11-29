@@ -157,10 +157,14 @@ namespace VstoEx.Geometry
             => other.Contains(this);
 
         public float HorizontalDistanceTo(Rectangle other)
-            => HorizontalSegment.DistanceTo(other.HorizontalSegment);
+            => VerticalSegment.Overlaps(other.VerticalSegment)
+                ? HorizontalSegment.DistanceTo(other.HorizontalSegment)
+                : float.MaxValue;
 
         public float VerticalDistanceTo(Rectangle other)
-            => VerticalSegment.DistanceTo(other.VerticalSegment);
+            => HorizontalSegment.Overlaps(other.HorizontalSegment)
+                ? VerticalSegment.DistanceTo(other.VerticalSegment)
+                : float.MaxValue;
 
         public override string ToString()
             => $"[{Left},{Top}]..[{Left + Width},{Top + Height}] ({Width}x{Height})";
