@@ -59,8 +59,8 @@
             var byCols = Enumerable.Range(0, rects.Length).GroupBy(colNum).ToArray();
 
             // get the max horizontal and vertical scales by row and by column
-            var hScales = byRows.Select(row => row.Sum(r => clientArea.Width  / rects[r].Width )).ToArray();
-            var vScales = byCols.Select(col => col.Sum(r => clientArea.Height / rects[r].Height)).ToArray();
+            var hScales = byRows.Select(row => clientArea.Width  / row.Sum(r => rects[r].Width )).ToArray();
+            var vScales = byCols.Select(col => clientArea.Height / col.Sum(r => rects[r].Height)).ToArray();
 
             // scale each input rectangle into it's final size, using minimum scaling factor
             var scaledRects = Enumerable.Range(0, rects.Length)
