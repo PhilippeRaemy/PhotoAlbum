@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using MoreLinq;
     using VstoEx.Extensions;
@@ -16,7 +17,6 @@
                     parms.Cols,
                     parms.HShape,
                     parms.VShape,
-                    parms.Spacing,
                     rectangles,
                     clientArea
                 ), parms.Margin, clientArea);
@@ -35,7 +35,9 @@
                 .Select(r => r
                     .MoveBy(-container.Left, -container.Top)
                     .LinearScale(scale, scale)
-                    .MoveBy(margin, margin)
+                    .MoveBy(
+                        margin + (clientArea.Width - container.Width) / 2,
+                        margin + (clientArea.Height - container.Height) / 2)
                 );
         }
 
@@ -43,29 +45,41 @@
             int cols,
             HShape hShape,
             VShape vShape,
-            float spacing,
-            IEnumerable<Rectangle> rectangles, 
+            IEnumerable<Rectangle> rectangles,
             Rectangle clientArea)
         {
             var shaperH = ShaperH(hShape, rows, cols);
             var shaperV = ShaperV(vShape, rows, cols);
-            var wi = clientArea.Width / cols;
-            var he = clientArea.Height / rows;
-            var grid = Enumerable.Range(0, rows)
-                .SelectMany(r => Enumerable.Range(0, cols)
-                    .Select(c => new
-                    {
-                        area = new Rectangle(c * wi, r * he, wi, he),
-                        hShape = shaperH(r, c),
-                        vShape = shaperV(r, c),
-                    }
+            var rects = rectangles.CheapToArray();
+            Func<int, int> rowNum = i => (i - i % cols) / cols;
+            Func<int, int> colNum = i => i % cols;
+
+            // prepare collections of groups of indexes by rows and by columns
+            var byRows = Enumerable.Range(0, rects.Length).GroupBy(rowNum).ToArray();
+            var byCols = Enumerable.Range(0, rects.Length).GroupBy(colNum).ToArray();
+
+            // get the max horizontal and vertical scales by row and by column
+            var hScales = byRows.Select(row => row.Sum(r => clientArea.Width  / rects[r].Width )).ToArray();
+            var vScales = byCols.Select(col => col.Sum(r => clientArea.Height / rects[r].Height)).ToArray();
+
+            // scale each input rectangle into it's final size, using minimum scaling factor
+            var scaledRects = Enumerable.Range(0, rects.Length)
+                .Select(i => new[] {hScales[rowNum(i)], vScales[colNum(i)]}.Min())
+                .EquiZip(rects, (s, r) => r.Grow(s))
+                .ToArray();
+
+            // get the available width by row and height by column
+            var availWidths = byRows.Select(row => (clientArea.Width - row.Sum(r => scaledRects[r].Width)) / row.Count()).ToArray();
+            var availHeights = byCols.Select(col => (clientArea.Height - col.Sum(r => scaledRects[r].Height)) / col.Count()).ToArray();
+
+            // distribute the available space using the shaping factors
+            return Enumerable.Range(0, rects.Length)
+                .Select(i => new {Row = rowNum(i), Col = colNum(i), Rect = scaledRects[i]})
+                .Select(r => r.Rect.MoveTo(
+                        byRows[r.Row].Take(r.Col).Sum(rr => scaledRects[rr].Width ) + availWidths [r.Row] * (r.Col  + shaperH(r.Row, r.Col)),
+                        byCols[r.Col].Take(r.Row).Sum(rr => scaledRects[rr].Height) + availHeights[r.Col] * (r.Row  + shaperV(r.Row, r.Col))
                     )
                 );
-            return grid
-                .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
-                .Where(x => x.rectangle != null && x.area != null)
-                .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
-                .ToArray();
         }
 
         // ReSharper disable once UnusedParameter.Local :  for consistency with ShaperH and future usage
