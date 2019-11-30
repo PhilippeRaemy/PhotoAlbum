@@ -33,7 +33,16 @@ namespace VstoEx.Geometry
              : float.NaN;
 
         public bool Overlaps(Segment other)
-            => DistanceTo(other) <= 0;
+            => Contains(other)
+               || other.Contains(this)
+               || Start <= other.Start && other.Start <= End
+               || other.Start <= Start && Start <= other.End;
+
+        public bool OverlapsAbsolute(Segment other)
+            => Contains(other)
+               || other.Contains(this)
+               || Start < other.Start && other.Start < End
+               || other.Start < Start && Start < other.End;
 
         public override string ToString() => $"[{Start}, {End}]";
     }
