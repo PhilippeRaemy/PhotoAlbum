@@ -28,6 +28,12 @@
                 string.Empty);
 
         [TestMethod]
+        public void Stretch3RectsHoriz() =>
+            Test(R1X1.Range(3, 1, 0).StretchToContainer(R4X1),
+                R1X1.Range(3, 1.5f, 0),
+                string.Empty);
+
+        [TestMethod]
         public void Stretch2RectsVert() =>
             Test(new[] { R1X1, R1X1.MoveBy(0, 1) }.StretchToContainer(R1X4),
                 new[] { R1X1, R1X1.MoveBy(0, 3) },
