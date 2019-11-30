@@ -10,21 +10,20 @@
     public class NewPositioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
-            => 
-                DoPosition(
-                    parms.Rows,
-                    parms.Cols,
-                    parms.HShape,
-                    parms.VShape,
-                    rectangles,
-                    clientArea
-                ).FitInClientArea(parms.Margin, clientArea);
+            => rectangles
+                .DoPosition(parms.Rows, parms.Cols, parms.HShape, parms.VShape, clientArea)
+                .FitInClientArea(parms.Margin, clientArea)
+                .SetMinSpacing(parms.Spacing, clientArea);
 
-        static IEnumerable<Rectangle> DoPosition(int rows,
+    }
+
+    static class PositionerRectanglesExtensions
+    {
+        public static IEnumerable<Rectangle> DoPosition(this IEnumerable<Rectangle> rectangles,
+            int rows,
             int cols,
             HShape hShape,
             VShape vShape,
-            IEnumerable<Rectangle> rectangles,
             Rectangle clientArea)
         {
             var shaperH = ShaperH(hShape, rows, cols);
@@ -114,10 +113,14 @@
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }
         }
-    }
 
-    static class PositionerExtensions
-    {
+        /// <summary>
+        /// Proportionally resize each rectangle of the enumeration to fit in a target client area
+        /// </summary>
+        /// <param name="rectangles"></param>
+        /// <param name="margin"></param>
+        /// <param name="clientArea"></param>
+        /// <returns></returns>
         public static IEnumerable<Rectangle> FitInClientArea(this IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
         {
             var rects = rectangles.CheapToArray();
@@ -138,5 +141,28 @@
                 );
         }
 
+        public static IEnumerable<Rectangle> SetMinSpacing(this IEnumerable<Rectangle> rectangles, float spacing, Rectangle clientArea)
+        {
+            /* (1) Determine the minimum space between any of hte rectangles enumeration
+             * (2) from the % of that space in the client rectangle determine the % of the desired spacing in the client area
+             * (3) shrink the rectangles by teh appropriate scaling factor to create missing space
+             * (4) stretch the rectangles to the whole client area by moving them BUT NOT growing
+             *      this is achieved by growing the constellation of rectangle centers
+             */
+            return rectangles;
+        }
+
+        public static float GetMinSpacing(this IEnumerable<Rectangle> rectangles)
+        {
+            var rr = rectangles.CheapToArray();
+            var tuples = Enumerable.Range(0, rr.Length)
+                .SelectMany(i => Enumerable.Range(i + 1, rr.Length - i - 1).Select(j => (i, j)))
+                .ToArray();
+            return new[]
+            {
+                tuples.Min(t => rr[t.i].HorizontalDistanceTo(rr[t.j])),
+                tuples.Min(t => rr[t.i].VerticalDistanceTo(rr[t.j]))
+            }.Min();
+        }
     }
 }
