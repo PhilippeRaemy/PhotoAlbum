@@ -33,12 +33,10 @@ namespace VstoEx.Geometry
         public Segment HorizontalSegment => new Segment(Left, Right );
         public Segment VerticalSegment   => new Segment(Top , Bottom);
 
-        const float Epsilon = .000001f;
-
         public Rectangle(float left, float top, float width, float height)
         {
-            if (width < float.Epsilon) throw new InvalidOperationException("Rectangle cannot have negative or zero width.");
-            if (height < float.Epsilon) throw new InvalidOperationException("Rectangle cannot have negative or zero height.");
+            if (width < 0) throw new InvalidOperationException("Rectangle cannot have negative width.");
+            if (height < 0) throw new InvalidOperationException("Rectangle cannot have negative height.");
             Left = left;
             Top = top;
             Width = width;
@@ -104,7 +102,7 @@ namespace VstoEx.Geometry
         }
 
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float absoluteSpacing) {
-            if (Math.Abs(absoluteSpacing) > Epsilon)
+            if (Math.Abs(absoluteSpacing) > float.Epsilon)
             {
                 other=new Rectangle(other.Left + absoluteSpacing, other.Top + absoluteSpacing, other.Width - 2 * absoluteSpacing, other.Height - 2 * absoluteSpacing);   
             }
@@ -176,10 +174,10 @@ namespace VstoEx.Geometry
         {
             var other = obj as Rectangle;
             if (other == null) return false;
-            return Math.Abs(Left   - other.Left  ) < Epsilon
-                   && Math.Abs(Top    - other.Top   ) < Epsilon
-                   && Math.Abs(Width  - other.Width ) < Epsilon
-                   && Math.Abs(Height - other.Height) < Epsilon
+            return Math.Abs(Left   - other.Left  ) < float.Epsilon
+                && Math.Abs(Top    - other.Top   ) < float.Epsilon
+                && Math.Abs(Width  - other.Width ) < float.Epsilon
+                && Math.Abs(Height - other.Height) < float.Epsilon
                 ;
         }
         public override int GetHashCode()

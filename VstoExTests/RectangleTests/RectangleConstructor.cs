@@ -39,14 +39,14 @@ namespace VstoExTests.RectangleTests
         [TestMethod]
         public void CannotBeFlat()
         {
-            var r = new Rectangle(0, 0, 1, 0);
+            var r = new Rectangle(0, 0, 1, -float.Epsilon);
         }
 
         [ExpectedException(typeof(InvalidOperationException), "Rectangle should not accept zero or negative width")]
         [TestMethod]
         public void CannotBeThin()
         {
-            var r = new Rectangle(0, 0, 0, 1);
+            var r = new Rectangle(0, 0, -float.Epsilon, 1);
         }
     }
 }
