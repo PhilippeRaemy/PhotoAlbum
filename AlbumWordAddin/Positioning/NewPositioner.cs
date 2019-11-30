@@ -7,8 +7,6 @@
     using VstoEx.Extensions;
     using VstoEx.Geometry;
 
-    public class PositionerRectanglesExtensionsFoo { }
-
     public class NewPositioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
@@ -16,10 +14,7 @@
                 .DoPosition(parms.Rows, parms.Cols, parms.HShape, parms.VShape, clientArea)
                 .FitInContainer(parms.Margin, clientArea)
                 .SetMinSpacing(parms.Spacing);
-
     }
-
-    
     
     public static class NewPositionerRectanglesExtensions
         {
