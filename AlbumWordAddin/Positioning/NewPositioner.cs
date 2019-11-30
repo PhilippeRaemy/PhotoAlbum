@@ -153,6 +153,7 @@
              * (4) stretch the rectangles to the whole client area by moving them BUT NOT growing
              *      this is achieved by growing the constellation of rectangle centers
              */
+            if (spacing < Rectangle.Epsilon) return rectangles;
             var rects = rectangles.CheapToArray();
             if (rects.Length < 2) return rects;
             var container = rects.Container();

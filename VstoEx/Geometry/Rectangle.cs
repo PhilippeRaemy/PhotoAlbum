@@ -8,6 +8,8 @@ namespace VstoEx.Geometry
 
     public class Rectangle : IEquatable<Rectangle>
     {
+        public const float Epsilon = 0.000001f;
+        
         public float Left { get; }
         public float Top { get; }
         public float Width { get; }
@@ -204,11 +206,10 @@ namespace VstoEx.Geometry
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            const float epsilon = 0.000001f;
-            return Math.Abs(Left  -other.Left)  < epsilon
-                && Math.Abs(Top   -other.Top)   < epsilon
-                && Math.Abs(Width -other.Width) < epsilon
-                && Math.Abs(Height-other.Height)< epsilon;
+            return Math.Abs(Left  -other.Left)  < Epsilon
+                && Math.Abs(Top   -other.Top)   < Epsilon
+                && Math.Abs(Width -other.Width) < Epsilon
+                && Math.Abs(Height-other.Height)< Epsilon;
         }
     }
 }
