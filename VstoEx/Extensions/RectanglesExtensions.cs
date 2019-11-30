@@ -17,11 +17,11 @@ namespace VstoEx.Extensions
             return aRectangles.Select(r => r.ReFit(oldContainer, newContainer));
         }
 
-        public static Rectangle Container(this IEnumerable<Rectangle> rectangles)
-        {
-            var aRectangles = rectangles.CheapToArray();
-            return aRectangles.Aggregate((r1, r2) => r1.Absorb(r2));
-        }
+        public static Rectangle Container(this IEnumerable<Rectangle> rectangles) 
+            => rectangles.Aggregate((r1, r2) => r1.Absorb(r2));
+
+        public static Rectangle Container(this IEnumerable<Point> points)
+            => points.Select(p => p.AsRectangle()).Container();
 
         public static Point Center(this IEnumerable<Rectangle> rectangles)
         {

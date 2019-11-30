@@ -41,5 +41,7 @@ namespace VstoEx.Geometry
         // ReSharper disable CompareOfFloatsByEqualityOperator
         bool Equals(Point other) => other != null && other.X == X && other.Y == Y;
         // ReSharper enable CompareOfFloatsByEqualityOperator
+
+        public Rectangle AsRectangle() => new Rectangle(this,this);
     }
 }
