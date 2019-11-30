@@ -6,7 +6,7 @@ namespace VstoEx.Geometry
     using System.Linq;
     using Microsoft.Office.Interop.Word;
 
-    public class Rectangle
+    public class Rectangle : IEquatable<Rectangle>
     {
         public float Left { get; }
         public float Top { get; }
@@ -172,18 +172,21 @@ namespace VstoEx.Geometry
 
         public override bool Equals(object obj)
         {
-            var other = obj as Rectangle;
-            if (other == null) return false;
-            return Math.Abs(Left   - other.Left  ) < float.Epsilon
-                && Math.Abs(Top    - other.Top   ) < float.Epsilon
-                && Math.Abs(Width  - other.Width ) < float.Epsilon
-                && Math.Abs(Height - other.Height) < float.Epsilon
-                ;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Rectangle) obj);
         }
         public override int GetHashCode()
         {
-            // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
-            return base.GetHashCode();
+            unchecked
+            {
+                var hashCode = Left.GetHashCode();
+                hashCode = (hashCode * 397) ^ Top.GetHashCode();
+                hashCode = (hashCode * 397) ^ Width.GetHashCode();
+                hashCode = (hashCode * 397) ^ Height.GetHashCode();
+                return hashCode;
+            }
         }
 
         public float AverageDistance(Rectangle other)
@@ -195,6 +198,17 @@ namespace VstoEx.Geometry
                 other.Bottom - Bottom,
                 Left - other.Left
             }.Average();
+        }
+
+        public bool Equals(Rectangle other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            const float epsilon = 0.000001f;
+            return Math.Abs(Left  -other.Left)  < epsilon
+                && Math.Abs(Top   -other.Top)   < epsilon
+                && Math.Abs(Width -other.Width) < epsilon
+                && Math.Abs(Height-other.Height)< epsilon;
         }
     }
 }
