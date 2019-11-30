@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PositionerTests\NewPositionerTestsStretches.cs" />
     <Compile Include="PositionerTests\NewPositionerTests.cs" />
     <Compile Include="PositionerTests\NewPositionerTestsBendLeftRight.cs" />
     <Compile Include="PositionerTests\NewPositionerTestsBendUpDown.cs" />

@@ -7,6 +7,8 @@
     using VstoEx.Extensions;
     using VstoEx.Geometry;
 
+    public class PositionerRectanglesExtensionsFoo { }
+
     public class NewPositioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
@@ -17,8 +19,10 @@
 
     }
 
-    static class PositionerRectanglesExtensions
-    {
+    
+    
+    public static class NewPositionerRectanglesExtensions
+        {
         public static IEnumerable<Rectangle> DoPosition(this IEnumerable<Rectangle> rectangles,
             int rows,
             int cols,
@@ -166,17 +170,15 @@
 
             var centerContainer = rects.Select(r => r.Center).Container();
             var targetCenterContainer = new Rectangle(
-                targetContainer.Left + rects.LeftMost().Width / 2,
-                targetContainer.Top + rects.TopMost().Height /2,
-                targetContainer.Width - rects.RightMost().Width / 2,
-                targetContainer.Height - rects.BottomMost().Height /2
+                new Point(targetContainer.Left + rects.LeftMost().Width / 2, targetContainer.Top + rects.TopMost().Height /2),
+                new Point(targetContainer.Right - rects.RightMost().Width / 2, targetContainer.Bottom - rects.BottomMost().Height /2)
                 );
             var center = targetCenterContainer.Center;
-            var scaleX = targetCenterContainer.Width / centerContainer.Width;
-            var scaleY = targetCenterContainer.Height / centerContainer.Height;
+            var scaleX = centerContainer.Width  > 0 ? targetCenterContainer.Width  / centerContainer.Width  : 1;
+            var scaleY = centerContainer.Height > 0 ? targetCenterContainer.Height / centerContainer.Height : 1;
             return rects.Select(r => r.MoveBy(center - centerContainer.Center))
                     .Select(r => (r.Center, r))
-                    .Select(r => r.r.CenterOn(new Point((center.X - r.Center.X) * scaleX, (center.Y - r.Center.Y) * scaleY)));
+                    .Select(r => r.r.CenterOn(center - new Point((center.X - r.Center.X) * scaleX, (center.Y - r.Center.Y) * scaleY)));
         }
 
         static (float horizontal, float vertical) GetMinSpacing(this Rectangle[] rectangles)
