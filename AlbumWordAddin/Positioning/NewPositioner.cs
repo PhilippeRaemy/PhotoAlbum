@@ -154,6 +154,7 @@
              *      this is achieved by growing the constellation of rectangle centers
              */
             var rects = rectangles.CheapToArray();
+            if (rects.Length < 2) return rects;
             var container = rects.Container();
             var (hMinSpace, vMinSpace) = rects.GetMinSpacing(); /* (1) */
             var shrinkFactor = hMinSpace < vMinSpace  /* (2) */
