@@ -145,6 +145,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -232,6 +235,7 @@
     <None Include="AlbumWordAddin_1_TemporaryKey.pfx" />
     <None Include="AlbumWordAddin_2_TemporaryKey.pfx" />
     <None Include="AlbumWordAddin_3_TemporaryKey.pfx" />
+    <None Include="AlbumWordAddin_4_TemporaryKey.pfx" />
     <None Include="AlbumWordAddin_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -345,10 +349,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AlbumWordAddin_3_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>AlbumWordAddin_4_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0A96D2A9034DE7FBB97DF9A873905B0B6E2BA99D</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>BB8EB8BD0815049F093DCDFD96B4D4241ACE0F04</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
