@@ -159,9 +159,24 @@
                 .StretchToContainer(container) /* (4) */;
         }
 
-        public static IEnumerable<Rectangle> StretchToContainer(this IEnumerable<Rectangle> rectangles, Rectangle container)
+        public static IEnumerable<Rectangle> StretchToContainer(this IEnumerable<Rectangle> rectangles, Rectangle targetContainer)
         {
-            return rectangles;
+            var rects = rectangles.CheapToArray(); 
+            var container = rects.Container();
+
+            var centerContainer = rects.Select(r => r.Center).Container();
+            var targetCenterContainer = new Rectangle(
+                targetContainer.Left + rects.LeftMost().Width / 2,
+                targetContainer.Top + rects.TopMost().Height /2,
+                targetContainer.Width - rects.RightMost().Width / 2,
+                targetContainer.Height - rects.BottomMost().Height /2
+                );
+            var center = targetCenterContainer.Center;
+            var scaleX = targetCenterContainer.Width / centerContainer.Width;
+            var scaleY = targetCenterContainer.Height / centerContainer.Height;
+            return rects.Select(r => r.MoveBy(center - centerContainer.Center))
+                    .Select(r => (r.Center, r))
+                    .Select(r => r.r.CenterOn(new Point((center.X - r.Center.X) * scaleX, (center.Y - r.Center.Y) * scaleY)));
         }
 
         static (float horizontal, float vertical) GetMinSpacing(this Rectangle[] rectangles)

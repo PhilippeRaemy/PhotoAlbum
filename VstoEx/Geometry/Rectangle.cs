@@ -61,6 +61,9 @@ namespace VstoEx.Geometry
         public Rectangle MoveBy(float x, float y)
             => new Rectangle(Left + x, Top + y, Width, Height);
 
+        public Rectangle MoveBy(Point offset)
+            => MoveBy(offset.X, offset.Y);
+
         public Rectangle MoveTo(float x, float y)
             => new Rectangle(x, y, Width, Height);
 
