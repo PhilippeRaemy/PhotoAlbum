@@ -12,8 +12,8 @@
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
             => rectangles
                 .DoPosition(parms.Rows, parms.Cols, parms.HShape, parms.VShape, clientArea)
-                .FitInClientArea(parms.Margin, clientArea)
-                .SetMinSpacing(parms.Spacing, clientArea);
+                .FitInContainer(parms.Margin, clientArea)
+                .SetMinSpacing(parms.Spacing);
 
     }
 
@@ -119,16 +119,16 @@
         /// </summary>
         /// <param name="rectangles"></param>
         /// <param name="margin"></param>
-        /// <param name="clientArea"></param>
+        /// <param name="targetContainer"></param>
         /// <returns></returns>
-        public static IEnumerable<Rectangle> FitInClientArea(this IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
+        public static IEnumerable<Rectangle> FitInContainer(this IEnumerable<Rectangle> rectangles, float margin, Rectangle targetContainer)
         {
             var rects = rectangles.CheapToArray();
-            var container = rects.Container().CenterOn(clientArea);
+            var container = rects.Container().CenterOn(targetContainer);
             var scale = new[]
             {
-                (clientArea.Width - 2 * margin) / container.Width,
-                (clientArea.Height - 2 * margin) / container.Height
+                (targetContainer.Width - 2 * margin) / container.Width,
+                (targetContainer.Height - 2 * margin) / container.Height
             }.Min();
             container = container.LinearScale(scale, scale);
             return rects
@@ -136,12 +136,12 @@
                     .MoveBy(-container.Left, -container.Top)
                     .LinearScale(scale, scale)
                     .MoveBy(
-                        margin + (clientArea.Width - container.Width) / 2,
-                        margin + (clientArea.Height - container.Height) / 2)
+                        margin + (targetContainer.Width - container.Width) / 2,
+                        margin + (targetContainer.Height - container.Height) / 2)
                 );
         }
 
-        public static IEnumerable<Rectangle> SetMinSpacing(this IEnumerable<Rectangle> rectangles, float spacing, Rectangle clientArea)
+        public static IEnumerable<Rectangle> SetMinSpacing(this IEnumerable<Rectangle> rectangles, float spacing)
         {
             /* (1) Determine the minimum space between any of hte rectangles enumeration
              * (2) from the % of that space in the client rectangle determine the % of the desired spacing in the client area
@@ -149,20 +149,30 @@
              * (4) stretch the rectangles to the whole client area by moving them BUT NOT growing
              *      this is achieved by growing the constellation of rectangle centers
              */
+            var rects = rectangles.CheapToArray();
+            var container = rects.Container();
+            var (hMinSpace, vMinSpace) = rects.GetMinSpacing(); /* (1) */
+            var shrinkFactor = hMinSpace < vMinSpace  /* (2) */
+                ? (1 - spacing / container.Width) / (1 - hMinSpace / container.Width)
+                : (1 - spacing / container.Height) / (1 - vMinSpace / container.Height);
+            return rects.Select(r => r.ScaleInPlace(shrinkFactor)) /* (3) */
+                .StretchToContainer(container) /* (4) */;
+        }
+
+        public static IEnumerable<Rectangle> StretchToContainer(this IEnumerable<Rectangle> rectangles, Rectangle container)
+        {
             return rectangles;
         }
 
-        public static float GetMinSpacing(this IEnumerable<Rectangle> rectangles)
+        static (float horizontal, float vertical) GetMinSpacing(this Rectangle[] rectangles)
         {
-            var rr = rectangles.CheapToArray();
-            var tuples = Enumerable.Range(0, rr.Length)
-                .SelectMany(i => Enumerable.Range(i + 1, rr.Length - i - 1).Select(j => (i, j)))
+            var tuples = Enumerable.Range(0, rectangles.Length)
+                .SelectMany(i => Enumerable.Range(i + 1, rectangles.Length - i - 1).Select(j => (i, j)))
                 .ToArray();
-            return new[]
-            {
-                tuples.Min(t => rr[t.i].HorizontalDistanceTo(rr[t.j])),
-                tuples.Min(t => rr[t.i].VerticalDistanceTo(rr[t.j]))
-            }.Min();
+            return (
+                tuples.Min(t => rectangles[t.i].HorizontalDistanceTo(rectangles[t.j])),
+                tuples.Min(t => rectangles[t.i].VerticalDistanceTo(rectangles[t.j]))
+            );
         }
     }
 }
