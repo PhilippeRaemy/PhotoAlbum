@@ -10,7 +10,7 @@
     public class NewPositioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
-            => FitInClientArea(
+            => 
                 DoPosition(
                     parms.Rows,
                     parms.Cols,
@@ -18,27 +18,7 @@
                     parms.VShape,
                     rectangles,
                     clientArea
-                ), parms.Margin, clientArea);
-
-        static IEnumerable<Rectangle> FitInClientArea(IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
-        {
-            var rects = rectangles.CheapToArray();
-            var container = rects.Container().CenterOn(clientArea);
-            var scale = new[]
-            {
-                (clientArea.Width - 2 * margin) / container.Width,
-                (clientArea.Height - 2 * margin) / container.Height
-            }.Min();
-            container = container.LinearScale(scale, scale);
-            return rects
-                .Select(r => r
-                    .MoveBy(-container.Left, -container.Top)
-                    .LinearScale(scale, scale)
-                    .MoveBy(
-                        margin + (clientArea.Width - container.Width) / 2,
-                        margin + (clientArea.Height - container.Height) / 2)
-                );
-        }
+                ).FitInClientArea(parms.Margin, clientArea);
 
         static IEnumerable<Rectangle> DoPosition(int rows,
             int cols,
@@ -134,5 +114,29 @@
                     throw new NotImplementedException($"Invalid ShaperV value {vShape}");
             }
         }
+    }
+
+    static class PositionerExtensions
+    {
+        public static IEnumerable<Rectangle> FitInClientArea(this IEnumerable<Rectangle> rectangles, float margin, Rectangle clientArea)
+        {
+            var rects = rectangles.CheapToArray();
+            var container = rects.Container().CenterOn(clientArea);
+            var scale = new[]
+            {
+                (clientArea.Width - 2 * margin) / container.Width,
+                (clientArea.Height - 2 * margin) / container.Height
+            }.Min();
+            container = container.LinearScale(scale, scale);
+            return rects
+                .Select(r => r
+                    .MoveBy(-container.Left, -container.Top)
+                    .LinearScale(scale, scale)
+                    .MoveBy(
+                        margin + (clientArea.Width - container.Width) / 2,
+                        margin + (clientArea.Height - container.Height) / 2)
+                );
+        }
+
     }
 }
