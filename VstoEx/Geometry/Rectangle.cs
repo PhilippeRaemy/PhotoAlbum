@@ -159,15 +159,29 @@ namespace VstoEx.Geometry
         public bool IsContainedIn(Rectangle other)
             => other.Contains(this);
 
-        public float HorizontalDistanceTo(Rectangle other)
+        /// <summary>
+        /// Returns a tuple indicating if the distance makes sense or not, and the actual distance
+        /// (the horizontal distance does not make sense if the two rectangles do not overlap on the y-axis)
+        /// It the two rectangles do not overlap on the y-axis the distance is float.MaxValue
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public (bool success, float distance) HorizontalDistanceTo(Rectangle other)
             => VerticalSegment.OverlapsAbsolute(other.VerticalSegment)
-                ? Math.Abs(Center.X - other.Center.X) - (Width + other.Width) / 2
-                : float.MaxValue;
+                ? (true , Math.Abs(Center.X - other.Center.X) - (Width + other.Width) / 2)
+                : (false, float.MaxValue);
 
-        public float VerticalDistanceTo(Rectangle other)
+        /// <summary>
+        /// Returns a tuple indicating if the distance makes sense or not, and the actual distance
+        /// (the vertical distance does not make sense if the two rectangles do not overlap on the x-axis)
+        /// It the two rectangles do not overlap on the x-axis the distance is float.MaxValue
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public (bool success, float distance) VerticalDistanceTo(Rectangle other)
             => HorizontalSegment.OverlapsAbsolute(other.HorizontalSegment)
-                ? Math.Abs(Center.Y - other.Center.Y) - (Height+ other.Height) / 2
-                : float.MaxValue;
+                ? (true , Math.Abs(Center.Y - other.Center.Y) - (Height+ other.Height) / 2)
+                : (false, float.NaN);
 
         public override string ToString()
             => $"[{Left},{Top}]..[{Left + Width},{Top + Height}] ({Width}x{Height})";

@@ -152,7 +152,9 @@
             var rects = rectangles.CheapToArray();
             if (rects.Length < 2) return rects;
             var container = rects.Container();
-            var (hMinSpace, vMinSpace) = rects.GetMinSpacing(); /* (1) */
+            var (hMinSpace, hOverlaps, vMinSpace, vOverlaps) = rects.GetMinSpacing(); /* (1) */
+            /* TODO: shrink factor depends on the smallest space and on the existing
+             * percentage of used / free space on the line with the smallest space */
             var shrinkFactor = hMinSpace < vMinSpace  /* (2) */
                 ? (1 - spacing / container.Width) / (1 - hMinSpace / container.Width)
                 : (1 - spacing / container.Height) / (1 - vMinSpace / container.Height);
@@ -178,14 +180,16 @@
                     .Select(r => r.r.CenterOn(center - new Point((center.X - r.Center.X) * scaleX, (center.Y - r.Center.Y) * scaleY)));
         }
 
-        static (float horizontal, float vertical) GetMinSpacing(this Rectangle[] rectangles)
+        static (float horizontal, int maxHOverlaps, float vertical, int maxVOverlaps) GetMinSpacing(this Rectangle[] rectangles)
         {
             var tuples = Enumerable.Range(0, rectangles.Length)
                 .SelectMany(i => Enumerable.Range(i + 1, rectangles.Length - i - 1).Select(j => (i, j)))
                 .ToArray();
             return (
-                tuples.Min(t => rectangles[t.i].HorizontalDistanceTo(rectangles[t.j])),
-                tuples.Min(t => rectangles[t.i].VerticalDistanceTo(rectangles[t.j]))
+                tuples.Min    (t => rectangles[t.i].HorizontalDistanceTo(rectangles[t.j]).distance),
+                rectangles.Max(r => rectangles.Count(rr => r.HorizontalDistanceTo(rr).success)),
+                tuples.Min    (t => rectangles[t.i].VerticalDistanceTo  (rectangles[t.j]).distance),
+                rectangles.Max(r => rectangles.Count(rr => r.VerticalDistanceTo  (rr).success))
             );
         }
     }
