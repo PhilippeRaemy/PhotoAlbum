@@ -9,6 +9,15 @@
 
     public class NewPositioner : IPositioner
     {
+        /// <summary>
+        /// </summary>
+        /// <param name="parms">In this implementation, the spacing value is considered a space percentage,
+        /// of the most busy line (vertical or horizontal), provided this line cuts at least two rectangles
+        /// if no line cuts two rectangles, the projections on vertical or horizontal axis is used.
+        /// </param>
+        /// <param name="clientArea"></param>
+        /// <param name="rectangles"></param>
+        /// <returns></returns>
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
             => rectangles
                 .DoPosition(parms.Rows, parms.Cols, parms.HShape, parms.VShape, clientArea)
@@ -18,7 +27,8 @@
     
     public static class NewPositionerRectanglesExtensions
         {
-        public static IEnumerable<Rectangle> DoPosition(this IEnumerable<Rectangle> rectangles,
+        public static IEnumerable<Rectangle> DoPosition(
+            this IEnumerable<Rectangle> rectangles,
             int rows,
             int cols,
             HShape hShape,
