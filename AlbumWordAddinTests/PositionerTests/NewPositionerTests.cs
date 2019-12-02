@@ -76,12 +76,10 @@
         public void TestPositioner_FourInaRowFlatNoSpacing3() => Run(R4X1, R2X4.Range(4), HFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 1, 0), nameof(R2X4));
 
         [TestMethod]
-        public void TestPositioner_FourInaRowFlatSpacing() 
-            => Run(R4X1, 
-                R1X1.Range(4), 
-                HFlatPosPad, 
-                R1X1.MoveBy(0, .05f).Grow((4 - 3* HFlatPosPad.Spacing)/4).Range(4, (4 - 3 * HFlatPosPad.Spacing) / 4 + HFlatPosPad.Spacing, 0), 
-                nameof(R1X1));
+        public void TestPositioner_FourInaRowFlatSpacing()
+            => Run(R4X1, R1X1.Range(4), HFlatPosPad,
+                    R1X1.MoveBy(0, .05f).Grow(1 - HFlatPosPad.Spacing).Range(4, 1 + HFlatPosPad.Spacing / 3, 0),
+                    nameof(R1X1));
 
         [TestMethod]
         public void TestPositioner_FourInaRowLeftNoSpacing1() => Run(R4X1, R1X1.Range(4), HFlatLeftPos, R1X1.Range(4, 1, 0), nameof(R1X1));
@@ -111,9 +109,9 @@
         public void TestPositioner_FourInaColFlatNoSpacing3() => Run(R1X4, R2X4.Range(4), VFlatPos, R2X4.MoveBy(.25f, 0).Grow(.25f).Range(4, 0, 1), nameof(R2X4));
 
         [TestMethod]
-        public void TestPositioner_FourInaColFlatSpacing() => 
+        public void TestPositioner_FourInaColFlatSpacing() =>
             Run(R1X4, R1X1.Range(4), VFlatPosPad,
-                R1X1.MoveBy(.05f, 0).Grow((4 - 3 * HFlatPosPad.Spacing) / 4).Range(4, 0, (4 - 3 * HFlatPosPad.Spacing) / 4 + HFlatPosPad.Spacing),
+                R1X1.MoveBy(.05f, 0).Grow(1 - VFlatPosPad.Spacing).Range(4, 0, 1 + VFlatPosPad.Spacing / 3),
                 nameof(R1X1));
 
         [TestMethod]
