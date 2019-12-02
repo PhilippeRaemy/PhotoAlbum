@@ -162,12 +162,7 @@
             var rects = rectangles.CheapToArray();
             if (rects.Length < 2) return rects;
             var container = rects.Container();
-            var (hMinSpace, hOverlaps, vMinSpace, vOverlaps) = rects.GetMinSpacing(); /* (1) */
-            /* TODO: shrink factor depends on the smallest space and on the existing
-             * percentage of used / free space on the line with the smallest space */
-            var shrinkFactor = hMinSpace < vMinSpace  /* (2) */
-                ? (1 - spacing / container.Width) / (1 - hMinSpace / container.Width)
-                : (1 - spacing / container.Height) / (1 - vMinSpace / container.Height);
+            var shrinkFactor = (1 - spacing) / rects.GetMaxUseFactor(); /* (1) & (2) */
             return rects.Select(r => r.ScaleInPlace(shrinkFactor)) /* (3) */
                 .StretchToContainer(container) /* (4) */;
         }
@@ -190,17 +185,38 @@
                     .Select(r => r.r.CenterOn(center - new Point((center.X - r.Center.X) * scaleX, (center.Y - r.Center.Y) * scaleY)));
         }
 
-        static (float horizontal, int maxHOverlaps, float vertical, int maxVOverlaps) GetMinSpacing(this Rectangle[] rectangles)
+        static float GetMaxUseFactor(this Rectangle[] rectangles)
         {
-            var tuples = Enumerable.Range(0, rectangles.Length)
-                .SelectMany(i => Enumerable.Range(i + 1, rectangles.Length - i - 1).Select(j => (i, j)))
-                .ToArray();
-            return (
-                tuples.Min    (t => rectangles[t.i].HorizontalDistanceTo(rectangles[t.j]).distance),
-                rectangles.Max(r => rectangles.Count(rr => r.HorizontalDistanceTo(rr).success)),
-                tuples.Min    (t => rectangles[t.i].VerticalDistanceTo  (rectangles[t.j]).distance),
-                rectangles.Max(r => rectangles.Count(rr => r.VerticalDistanceTo  (rr).success))
-            );
+            if (rectangles.Length <= 1) return float.NaN;
+            var container = rectangles.Container();
+            var hMaxUsed = container.Width / rectangles
+                .SelectMany(r => new[] {r.Top, r.Bottom})
+                .Distinct()
+                .Select(y => rectangles.Where(r => r.VerticalSegment.Contains(y)).ToArray())
+                .Select(rr => (Count: rr.Length, Width: rr.Sum(r => r.Width)))
+                .Where(c => c.Count > 1)
+                .Append((Count: 0, Width: float.NaN)) // ensure there is at least 1 element in the enumeration
+                .Max(c => c.Width);
+            var vMaxUsed = container.Height / rectangles
+                .SelectMany(r => new[] {r.Left, r.Right})
+                .Distinct()
+                .Select(x => rectangles.Where(r => r.HorizontalSegment.Contains(x)).ToArray())
+                .Select(rr => (Count: rr.Length, Height: rr.Sum(r => r.Height)))
+                .Where(c => c.Count > 1)
+                .Append((Count: 0, Height: float.NaN)) // ensure there is at least 1 element in the enumeration
+                .Max(c => c.Height);
+            if (!(float.IsNaN(hMaxUsed) && float.IsNaN(vMaxUsed)))
+                return float.IsNaN(hMaxUsed)
+                        ? vMaxUsed
+                        : float.IsNaN(vMaxUsed)
+                            ? hMaxUsed
+                            : hMaxUsed > vMaxUsed
+                                ? hMaxUsed
+                                : vMaxUsed;
+            // there aren't any overlapping rectangles, hence we take simply the projection, i.e. the sum of heights and widths
+            var usedWwidth = container.Width / rectangles.Sum(r => r.Width);
+            var usedHeight = container.Height / rectangles.Sum(r => r.Height);
+            return usedWwidth > usedHeight ? usedWwidth : usedHeight;
         }
     }
 }

@@ -23,6 +23,9 @@ namespace VstoEx.Geometry
         public bool Contains(Segment other)
             => Start <= other.Start && End >= other.End;
 
+        public bool Contains(float value)
+            => Start <= value && value <= End;
+
         public float DistanceTo(Segment other)
             => other.Start >= End   ? other.Start - End // Righter disjoint
              : Start >= other.End   ? Start - other.End // Lefter disjoint
