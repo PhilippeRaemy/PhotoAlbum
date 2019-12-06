@@ -292,6 +292,7 @@
     <None Include="Icons\RotateAntiClockwise.png" />
     <None Include="Icons\RotateClockwise.png" />
     <Content Include="Icons\RightResPictures.png" />
+    <Content Include="Icons\ToggleFlowGrid.png" />
     <Content Include="Icons\Undo.png" />
     <None Include="Icons\spacingShrink.png" />
     <Content Include="Icons\Redo.png" />
@@ -335,7 +336,6 @@
     <Content Include="Icons\Pict_1x2.PNG" />
     <Content Include="Icons\Pict_1x3.PNG" />
     <Content Include="Icons\Pict_1x4.PNG" />
-    <Content Include="Icons\Pict_2x2.PNG" />
     <Content Include="Icons\Pict_2x3.PNG" />
     <None Include="Icons\Pict_3x1.PNG" />
     <Content Include="Icons\Pict_3x2.PNG" />

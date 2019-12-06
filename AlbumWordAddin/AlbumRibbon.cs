@@ -467,5 +467,10 @@
         {
             Globals.ThisAddIn.ShowSelectedImagesProperties();
         }
+
+        void toggleFlowGrid_Click(object sender, RibbonControlEventArgs e)
+        {
+            Globals.ThisAddIn.TogglePositioner(useFlow: ((RibbonToggleButton) sender).Checked);
+        }
     }
 }
