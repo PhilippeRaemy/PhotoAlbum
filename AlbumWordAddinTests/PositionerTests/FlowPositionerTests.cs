@@ -9,9 +9,9 @@
     using VstoEx.Geometry;
 
     [TestClass]
-    public class NewPositionerTests : PositionerTestsBase
+    public class FlowPositionerTests : PositionerTestsBase
     {
-        protected override IPositioner GetNewPositioner() => new NewPositioner();
+        protected override IPositioner GetNewPositioner() => new FlowPositioner();
 
         static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
         static readonly Rectangle R4X1 = new Rectangle(0, 0, 4, 1);
@@ -43,7 +43,7 @@
 
         static void TestPositioner_HFlat1X2(float factor)
         {
-            var rc = new Positioner().DoPosition(HFlat1X2Pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).CheapToArray();
+            var rc = new GridPositioner().DoPosition(HFlat1X2Pos, R1X1.Grow(factor), new[] { R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(2, rc.Length);
             var expected = new Rectangle(0, .25f, .5f, .5f).LinearScale(factor, factor);
             Assert.AreEqual(expected, rc.First());
@@ -56,7 +56,7 @@
 
         static void TestPositioner_HFlat1X3(float factor)
         {
-            var rc = new Positioner().DoPosition(HFlat1X3Pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).CheapToArray();
+            var rc = new GridPositioner().DoPosition(HFlat1X3Pos, R1X1.Grow(factor), new[] { R1X1, R1X1, R1X1 }).CheapToArray();
             Assert.AreEqual(3, rc.Length);
             var expected = new Rectangle(0, 1 / 3f, 1 / 3f, 1 / 3f).LinearScale(factor, factor);
             Assert.AreEqual(expected, rc.First());

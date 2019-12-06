@@ -7,7 +7,7 @@
     using VstoEx.Extensions;
     using VstoEx.Geometry;
 
-    public class NewPositioner : IPositioner
+    public class FlowPositioner : IPositioner
     {
         /// <summary>
         /// </summary>

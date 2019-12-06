@@ -10,9 +10,9 @@
     using VstoEx.Geometry;
 
     [TestClass]
-    public class NewPositionerTestsStretches : PositionerTestsBase
+    public class FlowPositionerTestsStretches : PositionerTestsBase
     {
-        protected override IPositioner GetNewPositioner() => new NewPositioner();
+        protected override IPositioner GetNewPositioner() => new FlowPositioner();
 
         static readonly Rectangle R1X1 = new Rectangle(0, 0, 1, 1);
         static readonly Rectangle R4X1 = new Rectangle(0, 0, 4, 1);

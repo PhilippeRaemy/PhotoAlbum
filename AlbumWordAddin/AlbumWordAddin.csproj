@@ -197,7 +197,7 @@
     <Compile Include="Positioning\EnumPositioner.cs" />
     <Compile Include="Positioning\HShape.cs" />
     <Compile Include="Positioning\IPositioner.cs" />
-    <Compile Include="Positioning\NewPositioner.cs" />
+    <Compile Include="Positioning\FlowPositioner.cs" />
     <Compile Include="Positioning\PositionerParms.cs" />
     <Compile Include="Positioning\PositionManager.cs" />
     <Compile Include="Positioning\Alignment.cs" />
@@ -209,7 +209,7 @@
     <Compile Include="FormImportPictures.Designer.cs">
       <DependentUpon>FormImportPictures.cs</DependentUpon>
     </Compile>
-    <Compile Include="Positioning\Positionner.cs" />
+    <Compile Include="Positioning\GridPositioner.cs" />
     <Compile Include="Positioning\VShape.cs" />
     <Compile Include="PositionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

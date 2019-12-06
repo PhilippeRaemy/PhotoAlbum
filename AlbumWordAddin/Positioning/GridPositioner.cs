@@ -7,7 +7,7 @@
     using VstoEx.Geometry;
 
 
-    public class Positioner : IPositioner
+    public class GridPositioner : IPositioner
     {
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
         {

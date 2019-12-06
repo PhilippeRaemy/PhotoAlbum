@@ -17,7 +17,7 @@
 
         public PositionManager()
         {
-            _positioner = new Positioner();
+            _positioner = new GridPositioner();
         }
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
@@ -132,10 +132,10 @@
             switch (flowPositioner)
             {
                 case EnumPositioner.FlowPositioner:
-                    _positioner = new NewPositioner();
+                    _positioner = new FlowPositioner();
                     break;
                 case EnumPositioner.GridPositioner:
-                    _positioner = new Positioner();
+                    _positioner = new GridPositioner();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(flowPositioner), flowPositioner, null);

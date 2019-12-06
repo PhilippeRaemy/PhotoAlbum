@@ -61,16 +61,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PositionerTests\NewPositionerTestsStretches.cs" />
-    <Compile Include="PositionerTests\NewPositionerTests.cs" />
-    <Compile Include="PositionerTests\NewPositionerTestsBendLeftRight.cs" />
-    <Compile Include="PositionerTests\NewPositionerTestsBendUpDown.cs" />
+    <Compile Include="PositionerTests\FlowPositionerTestsStretches.cs" />
+    <Compile Include="PositionerTests\FlowPositionerTests.cs" />
+    <Compile Include="PositionerTests\FlowPositionerTestsBendLeftRight.cs" />
+    <Compile Include="PositionerTests\FlowPositionerTestsBendUpDown.cs" />
     <Compile Include="PositionerTests\PositionerTestsBase.cs" />
-    <Compile Include="PositionerTests\PositionerTestsBendLeftRight.cs" />
+    <Compile Include="PositionerTests\GridPositionerTestsBendLeftRight.cs" />
     <Compile Include="TestHelpers\PositionerExtensionsForTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PositionerTests\PositionerTests.cs" />
-    <Compile Include="PositionerTests\PositionerTestsBendUpDown.cs" />
+    <Compile Include="PositionerTests\GridPositionerTests.cs" />
+    <Compile Include="PositionerTests\GridPositionerTestsBendUpDown.cs" />
     <Compile Include="SpacerTests\SpacerTests.cs" />
     <Compile Include="TestHelpers\RectangleExtensionsForTests.cs" />
     <Compile Include="UserPreferencesTests\UserPreferencesTests.cs" />
