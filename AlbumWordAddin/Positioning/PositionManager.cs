@@ -11,7 +11,7 @@
     public class PositionManager
     {
         readonly PositionerParms _positionerParms = new PositionerParms();
-        readonly IPositioner _positioner;
+        IPositioner _positioner;
         static Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         static Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
 
@@ -125,6 +125,21 @@
                     sh.RelativeVerticalPosition   = Microsoft.Office.Interop.Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
                 }
             );
+        }
+
+        public void UsePositioner(EnumPositioner flowPositioner)
+        {
+            switch (flowPositioner)
+            {
+                case EnumPositioner.FlowPositioner:
+                    _positioner = new NewPositioner();
+                    break;
+                case EnumPositioner.GridPositioner:
+                    _positioner = new Positioner();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(flowPositioner), flowPositioner, null);
+            }
         }
     }
 }

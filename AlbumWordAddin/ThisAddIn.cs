@@ -661,7 +661,7 @@
 
         public void TogglePositioner(bool useFlow)
         {
-            // throw new NotImplementedException();
+            _positionManager.UsePositioner(useFlow ? EnumPositioner.FlowPositioner : EnumPositioner.GridPositioner);
         }
     }
 }

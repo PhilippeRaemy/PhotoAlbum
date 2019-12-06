@@ -194,6 +194,7 @@
     <Compile Include="AlbumRibbon.Designer.cs">
       <DependentUpon>AlbumRibbon.cs</DependentUpon>
     </Compile>
+    <Compile Include="Positioning\EnumPositioner.cs" />
     <Compile Include="Positioning\HShape.cs" />
     <Compile Include="Positioning\IPositioner.cs" />
     <Compile Include="Positioning\NewPositioner.cs" />
@@ -210,6 +211,7 @@
     </Compile>
     <Compile Include="Positioning\Positionner.cs" />
     <Compile Include="Positioning\VShape.cs" />
+    <Compile Include="PositionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
