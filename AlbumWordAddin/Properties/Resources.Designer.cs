@@ -523,9 +523,19 @@ namespace AlbumWordAddin.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ToggleFlowGrid {
+        internal static System.Drawing.Bitmap ToggleFlowGridFlow {
             get {
-                object obj = ResourceManager.GetObject("ToggleFlowGrid", resourceCulture);
+                object obj = ResourceManager.GetObject("ToggleFlowGridFlow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ToggleFlowGridGrid {
+            get {
+                object obj = ResourceManager.GetObject("ToggleFlowGridGrid", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -326,7 +326,7 @@ namespace AlbumWordAddin
             // 
             // toggleFlowGrid
             // 
-            this.toggleFlowGrid.Image = global::AlbumWordAddin.Properties.Resources.ToggleFlowGrid;
+            this.toggleFlowGrid.Image = global::AlbumWordAddin.Properties.Resources.ToggleFlowGridGrid;
             this.toggleFlowGrid.Label = "toggleButton1";
             this.toggleFlowGrid.Name = "toggleFlowGrid";
             this.toggleFlowGrid.ScreenTip = "Toggle flow or grid layout ";

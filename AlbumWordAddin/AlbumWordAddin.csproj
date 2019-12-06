@@ -291,8 +291,10 @@
     <None Include="Icons\SwapPositions.png" />
     <None Include="Icons\RotateAntiClockwise.png" />
     <None Include="Icons\RotateClockwise.png" />
+    <Content Include="Icons\Pict_2x2.PNG" />
     <Content Include="Icons\RightResPictures.png" />
-    <Content Include="Icons\ToggleFlowGrid.png" />
+    <Content Include="Icons\ToggleFlowGridFlow.png" />
+    <Content Include="Icons\ToggleFlowGridGrid.png" />
     <Content Include="Icons\Undo.png" />
     <None Include="Icons\spacingShrink.png" />
     <Content Include="Icons\Redo.png" />

@@ -32,39 +32,40 @@
             DropDownIntSetter(dropDownSpacing, userPrefs.Spacing);
 
             _arrangeButtonSet = new RibbonToggleButtonSet(
-                    EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")))
-                {
-                    Enabled = true
-                };
-            _hAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
-            _vAlignButtonSet  = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
-            _buttonsActingOnOneOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore  )));
-            _buttonsActingOnTwoShapes         = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two        )));
-            _buttonsActingOnTwoOrMoreShapes   = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore  )));
+                EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("buttonArrange")))
+            {
+                Enabled = true
+            };
+            _hAlignButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
+            _vAlignButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
+            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore)));
+            _buttonsActingOnTwoShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two)));
+            _buttonsActingOnTwoOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore)));
             _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
-            _buttonsActingOnOneOrMoreShapes.Enabled   = false;
-            _buttonsActingOnTwoShapes.Enabled         = false;
-            _buttonsActingOnTwoOrMoreShapes.Enabled   = false;
+            _buttonsActingOnOneOrMoreShapes.Enabled = false;
+            _buttonsActingOnTwoShapes.Enabled = false;
+            _buttonsActingOnTwoOrMoreShapes.Enabled = false;
             _buttonsActingOnThreeOrMoreShapes.Enabled = false;
         }
 
-        static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount) 
-            => ctrl => ctrl.Tag is ShapeToolRequiredCount 
-                    && (ShapeToolRequiredCount)ctrl.Tag == shapeToolRequiredCount;
+        static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount)
+            => ctrl => ctrl.Tag is ShapeToolRequiredCount
+                       && (ShapeToolRequiredCount) ctrl.Tag == shapeToolRequiredCount;
 
-        IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T: RibbonControl 
+        IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T : RibbonControl
             => from gr in TabAddIns.Groups
-               from item in gr.Items
-               from subItem in ((item as RibbonBox)?.Items
-                                ?? (item as RibbonButtonGroup)?.Items
-                                ?? Enumerable.Empty<RibbonControl>()
-                               ).Prepend(item)
-               where subItem is T && filterFunc((T)subItem)
-               select (T)subItem;
+                from item in gr.Items
+                from subItem in ((item as RibbonBox)?.Items
+                                 ?? (item as RibbonButtonGroup)?.Items
+                                 ?? Enumerable.Empty<RibbonControl>()
+                    ).Prepend(item)
+                where subItem is T && filterFunc((T) subItem)
+                select (T) subItem;
 
         void AlbumRibbon_Close(object sender, EventArgs e)
         {
-            new PersistedUserPreferences {
+            new PersistedUserPreferences
+            {
                 Margin = (int) dropDownMargin.SelectedItem.Tag,
                 Spacing = (int) dropDownSpacing.SelectedItem.Tag
             }.Save();
@@ -72,9 +73,9 @@
 
         static void DropDownIntSetter(RibbonDropDown ribbonDropDown, int value)
         {
-            ribbonDropDown.SelectedItem 
-                =  ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag >= value)
-                ?? ribbonDropDown.SelectedItem;
+            ribbonDropDown.SelectedItem
+                = ribbonDropDown.Items.FirstOrDefault(i => (int) i.Tag >= value)
+                  ?? ribbonDropDown.SelectedItem;
         }
 
         void ButtonRemoveEmptyPages_Click(object sender, RibbonControlEventArgs e)
@@ -144,7 +145,7 @@
 
         void buttonArrangeV_Click(object sender, RibbonControlEventArgs e)
         {
-            _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
+            _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             _hAlignButtonSet.Enabled = true;
             _vAlignButtonSet.Enabled = false;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineVertical, Spacing(), Margin());
@@ -154,7 +155,7 @@
         {
             _hAlignButtonSet.Enabled = true;
             _vAlignButtonSet.Enabled = true;
-            _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
+            _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleVertical, Spacing(), Margin());
         }
 
@@ -162,7 +163,7 @@
         {
             _hAlignButtonSet.Enabled = true;
             _vAlignButtonSet.Enabled = true;
-            _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
+            _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.Square, Spacing(), Margin());
         }
 
@@ -170,7 +171,7 @@
         {
             _hAlignButtonSet.Enabled = true;
             _vAlignButtonSet.Enabled = true;
-            _arrangeButtonSet.SelectedButton = (RibbonToggleButton)sender;
+            _arrangeButtonSet.SelectedButton = (RibbonToggleButton) sender;
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.RectangleHorizontal, Spacing(), Margin());
         }
 
@@ -236,8 +237,8 @@
             DoPositionSelectedImages();
         }
 
-        int Spacing() => SpacingFactor * (int)dropDownSpacing.SelectedItem.Tag;
-        int Margin () => MarginFactor  * (int)dropDownMargin .SelectedItem.Tag;
+        int Spacing() => SpacingFactor * (int) dropDownSpacing.SelectedItem.Tag;
+        int Margin() => MarginFactor * (int) dropDownMargin.SelectedItem.Tag;
 
         void DoPositionSelectedImages()
         {
@@ -262,15 +263,15 @@
         void buttonMarginLess_Click(object sender, RibbonControlEventArgs e)
         {
             dropDownMargin_Change(sender, e, -1);
-            DropDownIntSetter(dropDownMargin, 
-                (int)Math.Round(Globals.ThisAddIn.MarginAdjust(-MarginFactor)));
+            DropDownIntSetter(dropDownMargin,
+                (int) Math.Round(Globals.ThisAddIn.MarginAdjust(-MarginFactor)));
         }
 
         void buttonMarginMore_Click(object sender, RibbonControlEventArgs e)
         {
             dropDownMargin_Change(sender, e, +1);
             DropDownIntSetter(dropDownMargin,
-                (int)Math.Round(Globals.ThisAddIn.MarginAdjust(+MarginFactor)));
+                (int) Math.Round(Globals.ThisAddIn.MarginAdjust(+MarginFactor)));
         }
 
         void dropDownMargin_Change(object sender, RibbonControlEventArgs e, int i)
@@ -298,7 +299,7 @@
 
         void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
-            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences()); 
+            var fileNameHandler = new FileNameHandler(new PersistedUserPreferences());
             Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.SmallFileNameMaker, fileNameHandler.LargeFileNameMaker, true, false);
         }
 
@@ -369,7 +370,7 @@
         {
             var items = GenIntDropdownItems(min, max - min + 1).CheapToArray();
             items.ForEach(dropdown.Items.Add);
-            dropdown.SelectedItem = items.FirstOrDefault(i => (int)i.Tag == selectedValue);
+            dropdown.SelectedItem = items.FirstOrDefault(i => (int) i.Tag == selectedValue);
             if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;
         }
 
@@ -410,22 +411,22 @@
 
         public void EnablePictureTools(int countOfSelectedShapes)
         {
-            _buttonsActingOnOneOrMoreShapes  .Enabled = countOfSelectedShapes >= 1;
-            _buttonsActingOnTwoShapes        .Enabled = countOfSelectedShapes == 2;
-            _buttonsActingOnTwoOrMoreShapes  .Enabled = countOfSelectedShapes >= 2;
+            _buttonsActingOnOneOrMoreShapes.Enabled = countOfSelectedShapes >= 1;
+            _buttonsActingOnTwoShapes.Enabled = countOfSelectedShapes == 2;
+            _buttonsActingOnTwoOrMoreShapes.Enabled = countOfSelectedShapes >= 2;
             _buttonsActingOnThreeOrMoreShapes.Enabled = countOfSelectedShapes >= 3;
         }
 
         IEnumerable<RibbonDropDownItem> GenIntDropdownItems(int start, int count)
         {
             return Enumerable.Range(start, count)
-               .Select(i =>
-               {
-                   var di = Factory.CreateRibbonDropDownItem();
-                   di.Label = i.ToString();
-                   di.Tag = i;
-                   return di;
-               });
+                .Select(i =>
+                {
+                    var di = Factory.CreateRibbonDropDownItem();
+                    di.Label = i.ToString();
+                    di.Tag = i;
+                    return di;
+                });
         }
 
         void buttonSpacingIncreaseBoth_Click(object sender, RibbonControlEventArgs e)
@@ -470,7 +471,11 @@
 
         void toggleFlowGrid_Click(object sender, RibbonControlEventArgs e)
         {
-            Globals.ThisAddIn.TogglePositioner(useFlow: ((RibbonToggleButton) sender).Checked);
+            var toggle = (RibbonToggleButton) sender;
+            toggle.Image = toggle.Checked
+                ? Properties.Resources.ToggleFlowGridFlow
+                : Properties.Resources.ToggleFlowGridGrid;
+            Globals.ThisAddIn.TogglePositioner(useFlow: toggle.Checked);
         }
     }
 }
