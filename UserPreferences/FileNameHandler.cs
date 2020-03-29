@@ -17,7 +17,7 @@ namespace AlbumWordAddin
         public FileNameHandler(UserPreferences.UserPreferences userPrefs)
         {
             var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
-            _filePattern = RegexFromPatternList(userPrefs.IncludeFiles);
+            _filePattern = RegexFromPatternList(userPrefs.IncludeFiles ?? "*.jpg;*.jpeg");
             _excludePattern = string.IsNullOrWhiteSpace(userPrefs.ExcludeFolders) ? null : RegexFromPatternList(userPrefs.ExcludeFolders);
             _smallPattern = new Regex(@"\.small\.((jpeg)|(jpg))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             _rightPattern = new Regex(@"\.right\.((jpeg)|(jpg))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
