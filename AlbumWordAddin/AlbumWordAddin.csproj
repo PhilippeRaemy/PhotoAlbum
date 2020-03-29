@@ -105,6 +105,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <!--
     This section defines properties that are set when the "Release" configuration is selected.
@@ -233,11 +234,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="AlbumWordAddinCertificate.pfx" />
-    <None Include="AlbumWordAddin_1_TemporaryKey.pfx" />
-    <None Include="AlbumWordAddin_2_TemporaryKey.pfx" />
-    <None Include="AlbumWordAddin_3_TemporaryKey.pfx" />
-    <None Include="AlbumWordAddin_4_TemporaryKey.pfx" />
     <None Include="AlbumWordAddin_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -353,10 +349,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AlbumWordAddin_4_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>AlbumWordAddin_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>BB8EB8BD0815049F093DCDFD96B4D4241ACE0F04</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C475E8BE12508BFF086D1A896425C1C7C436702B</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
