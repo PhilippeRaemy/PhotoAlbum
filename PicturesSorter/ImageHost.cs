@@ -58,8 +58,8 @@ namespace PicturesSorter
             _imageNamesGetters = new Func<FileInfo>[]
             {
                 () => FileInfo,
-                () => GetSmallFile(),
-                () => GetRightFile()
+                GetSmallFile,
+                GetRightFile
             };
             FileNameHandler = fileNameHandler;
             ShelfName = shelfName;
