@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddin", "AlbumWordAddin\AlbumWordAddin.csproj", "{BD7257CC-26EE-4AB5-9702-F493572324E6}"
 EndProject
@@ -27,8 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "AlbumWordAddinTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoExTests", "VstoExTests\VstoExTests.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
-EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "AlbumWordAddinSetup", "AlbumWordAddinSetup\AlbumWordAddinSetup.isproj", "{1A839E06-B174-4D13-9330-2F33BE2D0386}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Folders", "FolderWalker\Folders.csproj", "{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}"
 EndProject
@@ -141,16 +139,6 @@ Global
 		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.CD_ROM|Any CPU.Build.0 = CD_ROM
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Debug|Any CPU.ActiveCfg = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Debug|Any CPU.Build.0 = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.DVD-5|Any CPU.ActiveCfg = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.DVD-5|Any CPU.Build.0 = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Release|Any CPU.ActiveCfg = SingleImage
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Release|Any CPU.Build.0 = SingleImage
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.SingleImage|Any CPU.Build.0 = SingleImage
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -164,5 +152,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE7834BF-9E12-4154-BB27-D3957BE7BC65}
 	EndGlobalSection
 EndGlobal
