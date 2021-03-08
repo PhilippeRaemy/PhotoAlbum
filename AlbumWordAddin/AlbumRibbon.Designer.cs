@@ -660,7 +660,7 @@ namespace AlbumWordAddin
             this.buttonAlignMiddle.Label = "";
             this.buttonAlignMiddle.Name = "buttonAlignMiddle";
             this.buttonAlignMiddle.OfficeImageId = "ObjectsAlignMiddleVertical";
-            this.buttonAlignMiddle.ScreenTip = "Middle aalign";
+            this.buttonAlignMiddle.ScreenTip = "Middle align";
             this.buttonAlignMiddle.ShowImage = true;
             this.buttonAlignMiddle.SuperTip = "Align selected images to the middle vertical position";
             this.buttonAlignMiddle.Tag = AlbumWordAddin.ShapeToolRequiredCount.TwoOrMore;
