@@ -1,5 +1,8 @@
 ﻿
 
+using FolderWalker;
+using UserPreferences;
+
 namespace PicturesSorter
 {
     using System;
@@ -9,9 +12,6 @@ namespace PicturesSorter
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using AlbumWordAddin;
-    using AlbumWordAddin.UserPreferences;
-    using global::FolderExtensions;
     using MoreLinq;
 
     public partial class PictureSorterForm : Form

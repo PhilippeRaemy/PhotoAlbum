@@ -1,10 +1,10 @@
-﻿namespace AlbumWordAddin.UserPreferences
-{
-    using System;
-    using System.IO;
-    using System.Xml;
-    using System.Xml.Serialization;
+﻿using System;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
+namespace UserPreferences
+{
     [XmlRoot("UserPreferences")]
     public class UserPreferences
     {

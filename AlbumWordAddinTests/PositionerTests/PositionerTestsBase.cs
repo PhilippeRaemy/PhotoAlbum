@@ -1,14 +1,14 @@
-namespace AlbumWordAddinTests.PositionerTests
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using AlbumWordAddin.Positioning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using MoreLinq;
-    using VstoEx.Extensions;
-    using VstoEx.Geometry;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using AlbumWordAddin.Positioning;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
+using VstoEx.Extensions;
+using VstoEx.Geometry;
 
+namespace TestsAlbumWordAddin.PositionerTests
+{
     public abstract class PositionerTestsBase
     {
         protected abstract IPositioner GetNewPositioner();

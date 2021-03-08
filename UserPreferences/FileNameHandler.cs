@@ -1,9 +1,9 @@
-namespace AlbumWordAddin
-{
-    using System;
-    using System.Text.RegularExpressions;
-    using MoreLinq;
+using System;
+using System.Text.RegularExpressions;
+using MoreLinq;
 
+namespace UserPreferences
+{
     public class FileNameHandler
     {
         readonly Regex _filePattern;
@@ -14,7 +14,7 @@ namespace AlbumWordAddin
         readonly Func<string, string> _largeFileNameMaker;
         readonly Func<string, string> _rightFileNameMaker;
 
-        public FileNameHandler(UserPreferences.UserPreferences userPrefs)
+        public FileNameHandler(UserPreferences userPrefs)
         {
             var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
             _filePattern = RegexFromPatternList(userPrefs.IncludeFiles ?? "*.jpg;*.jpeg");

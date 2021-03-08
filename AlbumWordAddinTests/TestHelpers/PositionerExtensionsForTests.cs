@@ -1,8 +1,8 @@
-namespace AlbumWordAddinTests.TestHelpers
+using AlbumWordAddin.Positioning;
+
+namespace TestsAlbumWordAddin.TestHelpers
 
 {
-    using AlbumWordAddin.Positioning;
-
     public static class PositionerExtensionsForTests
     {
         public static PositionerParms WithRowsCols(this PositionerParms model, int rows, int cols)

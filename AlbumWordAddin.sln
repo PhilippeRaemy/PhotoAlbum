@@ -18,17 +18,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturesSorterTests", "PictureSorterTests\PicturesSorterTests.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesSorter", "PictureSorterTests\TestsPicturesSorter.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandlerTest", "PictureHandlerTest\PictureHandlerTest.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPictureHandler", "PictureHandlerTest\TestsPictureHandler.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandler", "PictureHandler\PictureHandler.csproj", "{559CDF0D-F38C-48BF-8ADE-AB32B2098134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "AlbumWordAddinTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsAlbumWordAddin", "AlbumWordAddinTests\TestsAlbumWordAddin.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoExTests", "VstoExTests\VstoExTests.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsVstoExT", "VstoExTests\TestsVstoExT.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Folders", "FolderWalker\Folders.csproj", "{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E9FEAC6-0756-425E-856C-095E160D42E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,6 +154,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B9106E8-B945-4572-A200-CDB0CF3A9BEC} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{82BAB931-BCA6-43F0-8B15-44E443B20033} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{14EDE71B-6E54-4791-81C4-8985FBF0AA87} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{99F4B6F3-B319-4A27-868D-2B21C36786EE} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BE7834BF-9E12-4154-BB27-D3957BE7BC65}

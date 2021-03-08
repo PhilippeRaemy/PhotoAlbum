@@ -1,11 +1,11 @@
-﻿namespace AlbumWordAddin
+﻿using UserPreferences;
+
+namespace AlbumWordAddin
 {
     using System;
     using System.Globalization;
     using System.IO;
     using System.Windows.Forms;
-
-    using UserPreferences;
 
     public partial class FormImportPictures : Form
     {

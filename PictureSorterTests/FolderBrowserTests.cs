@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using FolderWalker;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoreLinq;
 
-namespace PicturesSorterTests
+namespace TestsPicturesSorter
 {
-    using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using PicturesSorter;
-    using FolderExtensions;
-
     [TestClass]
     public class FolderBrowserTests
     {

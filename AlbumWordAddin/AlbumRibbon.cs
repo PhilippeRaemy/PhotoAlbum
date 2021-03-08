@@ -1,4 +1,6 @@
-﻿namespace AlbumWordAddin
+﻿using UserPreferences;
+
+namespace AlbumWordAddin
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +11,6 @@
     using Microsoft.Office.Interop.Word;
     using MoreLinq;
     using Positioning;
-    using UserPreferences;
     using VstoEx.Extensions;
 
     public partial class AlbumRibbon

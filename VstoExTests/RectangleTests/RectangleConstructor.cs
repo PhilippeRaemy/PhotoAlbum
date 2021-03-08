@@ -1,9 +1,9 @@
-namespace VstoExTests.RectangleTests
-{
-    using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VstoEx.Geometry;
+using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VstoEx.Geometry;
 
+namespace TestsVstoEx.RectangleTests
+{
     [TestClass]
     public class RectangleConstructor
     {

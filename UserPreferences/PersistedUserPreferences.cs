@@ -1,8 +1,8 @@
-namespace AlbumWordAddin.UserPreferences
-{
-    using System;
-    using System.IO;
+using System;
+using System.IO;
 
+namespace UserPreferences
+{
     public class PersistedUserPreferences: UserPreferences
     {
         static UserPreferences _userPreferences;

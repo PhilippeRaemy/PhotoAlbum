@@ -1,4 +1,6 @@
-﻿namespace AlbumWordAddin
+﻿using UserPreferences;
+
+namespace AlbumWordAddin
 {
     using System;
     using System.Windows.Forms;
@@ -16,7 +18,6 @@
     using Microsoft.Office.Core;
     using MoreLinq;
     using Positioning;
-    using UserPreferences;
     using VstoEx;
     using VstoEx.Extensions;
     using VstoEx.Progress;

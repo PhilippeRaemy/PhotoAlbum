@@ -1,3 +1,5 @@
+using UserPreferences;
+
 namespace PicturesSorter
 {
     using System;
@@ -8,7 +10,6 @@ namespace PicturesSorter
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using AlbumWordAddin;
     using MoreLinq;
 
     internal class ImageHost : IDisposable {

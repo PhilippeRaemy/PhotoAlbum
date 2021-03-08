@@ -1,8 +1,8 @@
-﻿namespace AlbumWordAddinTests.UserPreferencesTests
-{
-    using AlbumWordAddin.UserPreferences;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using UserPreferences;
 
+namespace TestsAlbumWordAddin.UserPreferencesTests
+{
     [TestClass]
     public  class UserPreferencesTests
     {

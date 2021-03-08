@@ -1,20 +1,20 @@
 ﻿
-namespace PictureHandlerTest
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Windows.Media.Imaging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
+using PictureHandler;
+
+namespace TestsPictureHandler
 
 {
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.IO;
-    using System.Linq;
-    using System.Windows.Media.Imaging;
-    using MoreLinq;
-    using PictureHandler;
-
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal enum PropertyItemIdEnum
     {

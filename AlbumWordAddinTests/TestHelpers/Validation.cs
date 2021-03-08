@@ -1,9 +1,9 @@
-namespace AlbumWordAddinTests.TestHelpers
-{
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+namespace TestsAlbumWordAddin.TestHelpers
+{
     internal class Validation<T>
     {
         readonly string _message;

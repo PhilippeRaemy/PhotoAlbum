@@ -1,8 +1,8 @@
-﻿namespace VstoExTests.RectangleTests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using VstoEx.Geometry;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VstoEx.Geometry;
 
+namespace TestsVstoEx.RectangleTests
+{
     [TestClass]
     public class RectangleRefit
     {

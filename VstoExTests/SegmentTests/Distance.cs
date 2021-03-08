@@ -1,10 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VstoEx.Geometry;
 
-namespace VstoExTests.SegmentTests
+namespace TestsVstoEx.SegmentTests
 {
-    using System;
-    using VstoEx.Geometry;
-
     [TestClass]
     public class Distance
     {

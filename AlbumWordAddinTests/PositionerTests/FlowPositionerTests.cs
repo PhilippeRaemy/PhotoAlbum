@@ -1,13 +1,13 @@
-﻿namespace AlbumWordAddinTests.PositionerTests
-{
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Linq;
-    using AlbumWordAddin.Positioning;
-    using MoreLinq;
-    using TestHelpers;
-    using VstoEx.Extensions;
-    using VstoEx.Geometry;
+﻿using System.Linq;
+using AlbumWordAddin.Positioning;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
+using TestsAlbumWordAddin.TestHelpers;
+using VstoEx.Extensions;
+using VstoEx.Geometry;
 
+namespace TestsAlbumWordAddin.PositionerTests
+{
     [TestClass]
     public class FlowPositionerTests : PositionerTestsBase
     {

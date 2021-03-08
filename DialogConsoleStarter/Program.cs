@@ -1,10 +1,11 @@
-﻿namespace DialogConsoleStarter
+﻿using UserPreferences;
+
+namespace DialogConsoleStarter
 {
     using System;
     using System.Text.RegularExpressions;
     using System.Windows.Forms;
     using AlbumWordAddin;
-    using AlbumWordAddin.UserPreferences;
 
     internal class Program
     {

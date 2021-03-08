@@ -1,9 +1,9 @@
-﻿namespace FolderExtensions
-{
-    using System;
-    using System.IO;
-    using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 
+namespace FolderWalker
+{
     public static class FolderWalker
     {
         public static DirectoryInfo WalkNextFolder(this DirectoryInfo currentDirectory, FolderDirection folderDirection)
