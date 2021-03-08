@@ -18,15 +18,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesSorter", "PictureSorterTests\TestsPicturesSorter.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesSorter", "TestsPictureSorter\TestsPicturesSorter.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPictureHandler", "PictureHandlerTest\TestsPictureHandler.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPictureHandler", "TestsPictureHandler\TestsPictureHandler.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandler", "PictureHandler\PictureHandler.csproj", "{559CDF0D-F38C-48BF-8ADE-AB32B2098134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsAlbumWordAddin", "AlbumWordAddinTests\TestsAlbumWordAddin.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsAlbumWordAddin", "TestsAlbumWordAddin\TestsAlbumWordAddin.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsVstoExT", "VstoExTests\TestsVstoExT.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsVstoEx", "TestsVstoEx\TestsVstoEx.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Folders", "FolderWalker\Folders.csproj", "{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}"
 EndProject
