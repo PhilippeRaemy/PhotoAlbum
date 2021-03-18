@@ -93,7 +93,8 @@ namespace TestsAlbumWordAddin.PositionerTests
         [TestMethod]
         public void TestPositioner_FourInaRowFlatSpacing()
         {
-            Run(R4X1, R1X1.Range(4), HFlatPosPad, R1X1.MoveBy(HFlatPosPad.Spacing, HFlatPosPad.Spacing).Grow(1 - 2 * HFlatPosPad.Spacing).Range(4, 1, 0), nameof(R1X1));
+            var clientArea = new Rectangle(0, 0, 4.3f, 1);
+            Run(clientArea, R1X1.Range(4), HFlatPosPad, R1X1.Range(4, 1.1f, 0), nameof(R1X1));
         }
 
         [TestMethod]
@@ -123,7 +124,8 @@ namespace TestsAlbumWordAddin.PositionerTests
         [TestMethod]
         public void TestPositioner_FourInaColFlatSpacing()
         {
-            Run(R1X4, R1X1.Range(4), VFlatPosPad, R1X1.MoveBy(VFlatPosPad.Spacing, VFlatPosPad.Spacing).Grow(1 - 2 * VFlatPosPad.Spacing).Range(4, 0, 1), nameof(R1X1));
+            var clientArea = new Rectangle(0, 0, 1, 4.3f);
+            Run(clientArea, R1X1.Range(4), VFlatPosPad, R1X1.Range(4, 0, 1.1f), nameof(R1X1));
         }
 
         [TestMethod]
