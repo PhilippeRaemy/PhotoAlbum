@@ -34,15 +34,19 @@
             IEnumerable<Rectangle> rectangles
         )
         {
-            var scaleX = (clientArea.Width - 2 * margin) / cols;
-            var scaleY = (clientArea.Height - 2 * margin) / rows;
+            var scaleX = (clientArea.Width - 2 * margin - (cols - 1) * spacing) / cols;
+            var scaleY = (clientArea.Height - 2 * margin - (rows - 1) * spacing) / rows;
             var shaperH = ShaperH(hShape, rows, cols);
             var shaperV = ShaperV(vShape, rows, cols);
             var grid = Enumerable.Range(0, rows)
                 .SelectMany(r => Enumerable.Range(0, cols)
                     .Select(c => new
                     {
-                        area = new Rectangle(margin + c * scaleX, margin + r * scaleY, scaleX, scaleY),
+                        area = new Rectangle(
+                            margin + c * (spacing + scaleX), 
+                            margin + r * (spacing + scaleY), 
+                            scaleX, 
+                            scaleY),
                         hShape = shaperH(r, c),
                         vShape = shaperV(r, c),
                     }
@@ -51,7 +55,7 @@
             return grid
                 .ZipLongest(rectangles, (area, rectangle) => new { area, rectangle })
                 .Where(x => x.rectangle != null && x.area != null)
-                .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, spacing))
+                .Select(x => x.rectangle.FitIn(x.area.area, x.area.hShape, x.area.vShape, 0))
                 .ToArray();
             /*
             if (spacing == 0) return draft;
