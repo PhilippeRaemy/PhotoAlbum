@@ -15,14 +15,14 @@
         /// of the most busy line (vertical or horizontal), provided this line cuts at least two rectangles
         /// if no line cuts two rectangles, the projections on vertical or horizontal axis is used.
         /// </param>
-        /// <param name="clientArea"></param>
+        /// <param name="clientArea"></param>           
         /// <param name="rectangles"></param>
         /// <returns></returns>
         public IEnumerable<Rectangle> DoPosition(PositionerParms parms, Rectangle clientArea, IEnumerable<Rectangle> rectangles)
             => rectangles
                 .DoPosition(parms.Rows, parms.Cols, parms.HShape, parms.VShape, clientArea)
                 .FitInContainer(parms.Margin, clientArea)
-                .SetMinSpacing(parms.Spacing);
+                .SetMinSpacing(parms.Spacing  / 100);
     }
     
     public static class NewPositionerRectanglesExtensions
