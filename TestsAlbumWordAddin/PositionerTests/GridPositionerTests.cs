@@ -220,5 +220,19 @@ namespace TestsAlbumWordAddin.PositionerTests
                 "TestPositioner_FourInSquareNoMarginNoSpacing"
             );
         }
+        [TestMethod]
+        public void TestPositioner_FourInSquareNoMarginSmallSpacing()
+        {
+            Run(R2X2, R1X1.Range(4),
+                new PositionerParms { Rows = 2, Cols = 2, HShape = HShape.Flat, VShape = VShape.Flat, Margin = 0, Spacing = 0.2f },
+                new[] {
+                    R1X1.Grow(.9f).MoveBy(0, 0),
+                    R1X1.Grow(.9f).MoveBy(1.1f, 0),
+                    R1X1.Grow(.9f).MoveBy(0, 1.1f),
+                    R1X1.Grow(.9f).MoveBy(1.1f, 1.1f)
+                },
+                "TestPositioner_FourInSquareNoMarginNoSpacing"
+            );
+        }
     }
 }
