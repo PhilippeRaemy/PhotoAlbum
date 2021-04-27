@@ -352,10 +352,11 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>AlbumWordAddin_2_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>A1C482B301EC6EA2FAB461CF08C19E08646D44AD</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>DC936C4920C60EFC9F7FBE18632E393B043B6188</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

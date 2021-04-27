@@ -24,14 +24,17 @@ namespace PicturesSorter
 
         Image GetImage(FileInfo imageFullPathName)
         {
-            if (!imageFullPathName.Exists) return null;
             lock (this)
+                return ReadImageFromStream(imageFullPathName);
+        }
+
+        public static Image ReadImageFromStream(FileInfo imageFullPathName)
+        {
+            if (!imageFullPathName.Exists) return null;
+            using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
             {
-                using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
-                {
-                    Trace.WriteLine($"ImageHost reading from {FullName}");
-                    return Image.FromStream(stream);
-                }
+                Trace.WriteLine($"ImageHost reading from {FullName}");
+                return Image.FromStream(stream);
             }
         }
 
@@ -52,7 +55,7 @@ namespace PicturesSorter
 
         int _useCount;
 
-        public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo)
+        public ImageHost(FileInfo fileInfo)
         {
             _images = new Image[3];
             _imageNamesGetters = new Func<FileInfo>[]
@@ -61,9 +64,13 @@ namespace PicturesSorter
                 GetSmallFile,
                 GetRightFile
             };
+            FileInfo = fileInfo;
+        }
+
+        public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo) : this(fileInfo)
+        {
             FileNameHandler = fileNameHandler;
             ShelfName = shelfName;
-            FileInfo = fileInfo;
         }
 
         public void Release()
@@ -124,7 +131,7 @@ namespace PicturesSorter
 
         public void Dispose()
         {
-            Trace.WriteLine($"IMageHost disposing of {FileInfo.FullName}");
+            Trace.WriteLine($"ImageHost disposing of {FileInfo.FullName}");
 
             for (var i = 0; i < _images.Length; i++)
             {
