@@ -100,6 +100,10 @@
       <Project>{e1f84e76-798a-40c1-affe-3c0c92df20a6}</Project>
       <Name>Folders</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PictureHandler\PictureHandler.csproj">
+      <Project>{559cdf0d-f38c-48bf-8ade-ab32b2098134}</Project>
+      <Name>PictureHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserPreferences\UserPreferences.csproj">
       <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>
       <Name>UserPreferences</Name>

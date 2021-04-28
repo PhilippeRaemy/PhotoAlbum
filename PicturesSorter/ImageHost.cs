@@ -6,11 +6,14 @@ namespace PicturesSorter
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Windows.Forms;
     using MoreLinq;
+    using PictureHandler;
 
     internal class ImageHost : IDisposable {
 
@@ -25,17 +28,7 @@ namespace PicturesSorter
         Image GetImage(FileInfo imageFullPathName)
         {
             lock (this)
-                return ReadImageFromStream(imageFullPathName);
-        }
-
-        public static Image ReadImageFromStream(FileInfo imageFullPathName)
-        {
-            if (!imageFullPathName.Exists) return null;
-            using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
-            {
-                Trace.WriteLine($"ImageHost reading from {FullName}");
-                return Image.FromStream(stream);
-            }
+                return PictureHelper.ReadImageFromStream(imageFullPathName);
         }
 
         /// <summary>
