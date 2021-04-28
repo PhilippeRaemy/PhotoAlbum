@@ -8,8 +8,6 @@ using VstoEx.Geometry;
 
 namespace TestsAlbumWordAddin.PositionerTests
 {
-    using System.Security.Cryptography.X509Certificates;
-
     [TestClass]
     public class GridPositionerTests : PositionerTestsBase
     {

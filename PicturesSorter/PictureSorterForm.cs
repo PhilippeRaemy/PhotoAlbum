@@ -9,10 +9,8 @@ namespace PicturesSorter
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
-    using System.Drawing.Drawing2D;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Windows.Forms;
     using MoreLinq;
     using PictureHandler;
@@ -422,7 +420,7 @@ namespace PicturesSorter
                 _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                     .Where(f => fileNameHandler.FileMatch(f.Name, includeSmalls: true))
-                    .Select(f => new {FileInfo = f, Signature = PictureHelper.ComputeSignature(f, 16)});
+                    .Select(f => new {FileInfo = f, Signature = PictureHelper.ComputeSignature(f, 16, 4)});
 
         }
 

@@ -1,11 +1,9 @@
 ﻿namespace TestsPicturesComparer
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Text;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using PictureHandler;
@@ -26,14 +24,14 @@
         }
 
         [TestMethod]
-        public void BasicLoadSignature() => TraceSignature(PictureHelper.ComputeSignature(new FileInfo(Jpg), 16));
+        public void BasicLoadSignature() => TraceSignature(PictureHelper.ComputeSignature(new FileInfo(Jpg), 16, 4));
 
         [TestMethod]
         public void CompareSignature()
         {
-            var size = 16;
-            var sign      = TraceSignature(PictureHelper.ComputeSignature(new FileInfo(Jpg), size));
-            var signSmall = TraceSignature(PictureHelper.ComputeSignature(new FileInfo(JpgSmall), size));
+            var size = 3;
+            var sign      = TraceSignature(PictureHelper.ComputeSignature(new FileInfo(Jpg), size, 2));
+            var signSmall = TraceSignature(PictureHelper.ComputeSignature(new FileInfo(JpgSmall), size, 2));
 
             Assert.IsTrue(sign.Zip(signSmall, (a, b) => a==b).Count(t => t) * 1.0 / size / size > .99);
         }
