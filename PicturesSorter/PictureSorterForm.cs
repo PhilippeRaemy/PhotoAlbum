@@ -422,7 +422,7 @@ namespace PicturesSorter
                 _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                     .Where(f => fileNameHandler.FileMatch(f.Name, includeSmalls: true))
-                    .Select(f => new {FileInfo = f, Signature = PictureHelper.ComputeSignature(f)});
+                    .Select(f => new {FileInfo = f, Signature = PictureHelper.ComputeSignature(f, 16)});
 
         }
 
