@@ -420,9 +420,46 @@ namespace PicturesSorter
                 _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                     .Where(f => fileNameHandler.FileMatch(f.Name, includeSmalls: true))
-                    .Select(f => new {FileInfo = f, Signature = new PictureSignature(f, 16, 4)});
+                    .ToDictionary(f => f, f => new PictureSignature(f, 16, 4));
+            var similarities = signatures.Keys
+                .SelectMany(k => signatures.Keys
+                    .Where(kk => string.Compare(k.FullName, kk.FullName, StringComparison.Ordinal) < 0)
+                    .Select(kk => 
+                    (
+                        FileInfo : k,
+                        OtherFileInfo : kk,
+                        Similarity : signatures[k].GetSimilarityWith(signatures[kk])
+                    )))
+                .Where(s => s.Similarity > .98)
+                .ToArray();
+
 
         }
 
+        IEnumerable<HashSet<FileInfo>> GroupSimilar(
+            IEnumerable<(FileInfo, FileInfo, PictureSignature)> similarities,
+            HashSet<FileInfo> fileInfos
+            )
+        {
+            while (fileInfos.Any())
+            {
+                var similaritiesA = similarities as (FileInfo, FileInfo, PictureSignature)[] ?? similarities.ToArray();
+                var fi = fileInfos.First();
+                var set = new HashSet<FileInfo>(new[] {fi});
+                fileInfos.Remove(fi);
+                var found = true;
+                while (found)
+                {
+                    found = false;
+                    foreach (var (_, otherFileInfo, _) in similaritiesA.Where(s => s.Item1.Equals(fi)))
+                    {
+                        fileInfos.Remove(otherFileInfo);
+                        set.Add(otherFileInfo);
+                        found = true;
+                    }
+                }
+                yield return set;
+            }
+        }
     }
 }
