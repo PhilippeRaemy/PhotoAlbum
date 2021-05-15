@@ -24,13 +24,13 @@
         }
 
         [TestMethod]
-        public void BasicLoadSignature() => TraceSignature(new PictureSignature(new FileInfo(Jpg), 16, 4, .99));
+        public void BasicLoadSignature() => TraceSignature(new PictureSignature(new FileInfo(Jpg), 16, 4));
 
-        void CompareSignatureImpl(int size, double tolerance, ushort levels)
+        void CompareSignatureImpl(int size, double similarity, ushort levels)
         {
-            var sign = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, levels, tolerance));
-            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, levels, tolerance));
-            Assert.AreEqual(sign, signSmall);
+            var sign = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, levels));
+            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, levels));
+            Assert.IsTrue(sign.GetSimilarityWith(signSmall) >= similarity);
         }
 
         [TestMethod] public void CompareSignature_005_99_2() => CompareSignatureImpl(005, .99, 2);

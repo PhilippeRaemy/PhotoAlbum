@@ -8,16 +8,14 @@
     using System.IO;
     using System.Linq;
 
-    public class PictureSignature:IEquatable<PictureSignature>
+    public class PictureSignature
     {
         readonly int _size;
-        readonly double _tolerance;
         public List<ushort> Signature { get; }
 
-        public PictureSignature(FileInfo fileInfo, int size, ushort levels, double tolerance)
+        public PictureSignature(FileInfo fileInfo, int size, ushort levels)
         {
             _size = size;
-            _tolerance = tolerance;
             var image = PictureHelper.ReadImageFromStream(fileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -34,13 +32,12 @@
                 .ToList();
         }
 
-        public bool Equals(PictureSignature other) => Equals(other, _tolerance);
 
         public bool Equals(PictureSignature other, double tolerance) =>
             other != null &&
             (
                 ReferenceEquals(this, other)
-                || _size == other._size && GetSimilarityWith(other) >= _tolerance
+                || _size == other._size && GetSimilarityWith(other) >= tolerance
             );
 
         public double GetSimilarityWith(PictureSignature other) =>
@@ -50,8 +47,5 @@
             : Signature.Zip(other.Signature, (a, b) => a == b)
                 .Count(t => t) * 1.0 / _size / _size;
 
-        public override bool Equals(object obj) => Equals(obj as PictureSignature);
-
-        public override int GetHashCode() => Signature != null ? Signature.GetHashCode() : 0;
     }
 }

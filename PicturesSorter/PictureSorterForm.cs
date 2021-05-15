@@ -420,7 +420,7 @@ namespace PicturesSorter
                 _currentDirectory
                     .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                     .Where(f => fileNameHandler.FileMatch(f.Name, includeSmalls: true))
-                    .Select(f => new {FileInfo = f, Signature = new PictureSignature(f, 16, 4, .99)});
+                    .Select(f => new {FileInfo = f, Signature = new PictureSignature(f, 16, 4)});
 
         }
 
