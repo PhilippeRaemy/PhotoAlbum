@@ -26,13 +26,17 @@
         [TestMethod]
         public void BasicLoadSignature() => TraceSignature(new PictureSignature(new FileInfo(Jpg), 16, 4, .99));
 
-        [TestMethod]
-        public void CompareSignature()
+        void CompareSignatureImpl(int size, double tolerance, ushort levels)
         {
-            var size = 25;
-            var sign      = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, 2, .99));
-            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, 2, .99));
+            var sign = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, levels, tolerance));
+            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, levels, tolerance));
             Assert.AreEqual(sign, signSmall);
         }
+
+        [TestMethod] public void CompareSignature_005_99_2() => CompareSignatureImpl(005, .99, 2);
+        [TestMethod] public void CompareSignature_025_99_2() => CompareSignatureImpl(025, .99, 2);
+        [TestMethod] public void CompareSignature_005_99_4() => CompareSignatureImpl(005, .99, 4);
+        [TestMethod] public void CompareSignature_025_99_4() => CompareSignatureImpl(025, .98, 4);
+
     }
 }

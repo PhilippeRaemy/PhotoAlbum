@@ -34,14 +34,21 @@
                 .ToList();
         }
 
-        public bool Equals(PictureSignature other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            if (_size != other._size) return false;
-            return Signature.Zip(other.Signature, (a, b) => a == b)
-                .Count(t => t) * 1.0 / _size / _size > _tolerance;
-        }
+        public bool Equals(PictureSignature other) => Equals(other, _tolerance);
+
+        public bool Equals(PictureSignature other, double tolerance) =>
+            other != null &&
+            (
+                ReferenceEquals(this, other)
+                || _size == other._size && GetSimilarityWith(other) >= _tolerance
+            );
+
+        public double GetSimilarityWith(PictureSignature other) =>
+            other == null ? 0
+            : ReferenceEquals(this, other) ? 1
+            : _size != other._size ? 0
+            : Signature.Zip(other.Signature, (a, b) => a == b)
+                .Count(t => t) * 1.0 / _size / _size;
 
         public override bool Equals(object obj) => Equals(obj as PictureSignature);
 
