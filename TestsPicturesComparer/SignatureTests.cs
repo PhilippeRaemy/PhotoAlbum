@@ -14,26 +14,25 @@
         const string Jpg = @"Sample\Sample.jpg";
         const string JpgSmall = @"Sample\SampleSmall.jpg";
 
-        static List<T> TraceSignature<T>(List<T> signature)
+        static PictureSignature TraceSignature(PictureSignature ps)
         {
             var sb = new StringBuilder();
-            foreach (var i in signature)
+            foreach (var i in ps.Signature)
                 sb.Append(i);
             Trace.WriteLine(sb.ToString());
-            return signature;
+            return ps;
         }
 
         [TestMethod]
-        public void BasicLoadSignature() => TraceSignature(PictureHelper.ComputeSignature(new FileInfo(Jpg), 16, 4));
+        public void BasicLoadSignature() => TraceSignature(new PictureSignature(new FileInfo(Jpg), 16, 4, .99));
 
         [TestMethod]
         public void CompareSignature()
         {
-            var size = 3;
-            var sign      = TraceSignature(PictureHelper.ComputeSignature(new FileInfo(Jpg), size, 2));
-            var signSmall = TraceSignature(PictureHelper.ComputeSignature(new FileInfo(JpgSmall), size, 2));
-
-            Assert.IsTrue(sign.Zip(signSmall, (a, b) => a==b).Count(t => t) * 1.0 / size / size > .99);
+            var size = 25;
+            var sign      = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, 2, .99));
+            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, 2, .99));
+            Assert.AreEqual(sign, signSmall);
         }
     }
 }
