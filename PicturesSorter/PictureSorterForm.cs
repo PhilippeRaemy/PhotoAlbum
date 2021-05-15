@@ -430,20 +430,19 @@ namespace PicturesSorter
                         OtherFileInfo : kk,
                         Similarity : signatures[k].GetSimilarityWith(signatures[kk])
                     )))
-                .Where(s => s.Similarity > .98)
-                .ToArray();
-
+                .Where(s => s.Similarity > .98);
+            var groups = GroupSimilar(similarities, signatures.Keys.ToHashSet());
 
         }
 
         IEnumerable<HashSet<FileInfo>> GroupSimilar(
-            IEnumerable<(FileInfo, FileInfo, PictureSignature)> similarities,
+            IEnumerable<(FileInfo, FileInfo, double)> similarities,
             HashSet<FileInfo> fileInfos
             )
         {
+            var similaritiesA = similarities as (FileInfo, FileInfo, double)[] ?? similarities.ToArray();
             while (fileInfos.Any())
             {
-                var similaritiesA = similarities as (FileInfo, FileInfo, PictureSignature)[] ?? similarities.ToArray();
                 var fi = fileInfos.First();
                 var set = new HashSet<FileInfo>(new[] {fi});
                 fileInfos.Remove(fi);
@@ -451,10 +450,10 @@ namespace PicturesSorter
                 while (found)
                 {
                     found = false;
-                    foreach (var (_, otherFileInfo, _) in similaritiesA.Where(s => s.Item1.Equals(fi)))
+                    foreach (var (_, otherFi, _) in similaritiesA.Where(s => s.Item1.Equals(fi)))
                     {
-                        fileInfos.Remove(otherFileInfo);
-                        set.Add(otherFileInfo);
+                        fileInfos.Remove(otherFi);
+                        set.Add(otherFi);
                         found = true;
                     }
                 }
