@@ -319,7 +319,7 @@ namespace AlbumWordAddin
 
         void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)
         {
-            new global::PicturesSorter.PictureSorterForm().Show();
+            new PicturesSorter.PictureSorterForm().Show();
         }
 
         void buttonTextWrappingSquare_Click(object sender, RibbonControlEventArgs e)
