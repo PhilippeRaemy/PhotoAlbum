@@ -41,6 +41,7 @@
             this.previousFolder = new System.Windows.Forms.ToolStripMenuItem();
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInWindowsExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortFilesBySignatureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.archiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.leftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +84,6 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.contextMenuStripPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.findDuplicatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -113,7 +113,8 @@
             this.nextFolder,
             this.previousFolder,
             this.renameToolStripMenuItem,
-            this.openInWindowsExplorerToolStripMenuItem});
+            this.openInWindowsExplorerToolStripMenuItem,
+            this.sortFilesBySignatureToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.fileToolStripMenuItem.Text = "F&older";
@@ -157,13 +158,19 @@
             this.openInWindowsExplorerToolStripMenuItem.Text = "Open in Windows &Explorer";
             this.openInWindowsExplorerToolStripMenuItem.Click += new System.EventHandler(this.openInWindowsExplorerToolStripMenuItem_Click);
             // 
+            // sortFilesBySignatureToolStripMenuItem
+            // 
+            this.sortFilesBySignatureToolStripMenuItem.Name = "sortFilesBySignatureToolStripMenuItem";
+            this.sortFilesBySignatureToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.sortFilesBySignatureToolStripMenuItem.Text = "Sort files by signature";
+            this.sortFilesBySignatureToolStripMenuItem.Click += new System.EventHandler(this.SortFilesBySignatureToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archiveToolStripMenuItem,
             this.rotateToolStripMenuItem,
-            this.moveToToolStripMenuItem,
-            this.findDuplicatesToolStripMenuItem});
+            this.moveToToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.editToolStripMenuItem.Text = "&File";
@@ -174,7 +181,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -182,7 +189,7 @@
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.ShortcutKeyDisplayString = "F1, 1";
             this.leftToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.leftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.leftToolStripMenuItem.Text = "Left";
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.archiveLeftToolStripMenuItem_Click);
             // 
@@ -191,7 +198,7 @@
             this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
             this.rightToolStripMenuItem.ShortcutKeyDisplayString = "F2, 2";
             this.rightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.rightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.rightToolStripMenuItem.Text = "Right";
             this.rightToolStripMenuItem.Click += new System.EventHandler(this.archiveRightToolStripMenuItem_Click);
             // 
@@ -204,7 +211,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -249,19 +256,19 @@
             this.moveLeftToToolStripMenuItem,
             this.moreRightToToolStripMenuItem});
             this.moveToToolStripMenuItem.Name = "moveToToolStripMenuItem";
-            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.moveToToolStripMenuItem.Text = "&Move to...";
             // 
             // moveLeftToToolStripMenuItem
             // 
             this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
-            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
             // 
             // moreRightToToolStripMenuItem
             // 
             this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
-            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
             // 
             // viewToolStripMenuItem
@@ -576,13 +583,6 @@
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
             // 
-            // findDuplicatesToolStripMenuItem
-            // 
-            this.findDuplicatesToolStripMenuItem.Name = "findDuplicatesToolStripMenuItem";
-            this.findDuplicatesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.findDuplicatesToolStripMenuItem.Text = "&Find duplicates";
-            this.findDuplicatesToolStripMenuItem.Click += new System.EventHandler(this.findDuplicatesToolStripMenuItem_Click);
-            // 
             // PictureSorterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -670,7 +670,7 @@
         private ToolStripMenuItem contextMenuStripPictureRotateLeft;
         private ToolStripMenuItem contextMenuStripPictureRotateRight;
         private ToolStripMenuItem contextMenuStripPictureMoveTo;
-        private ToolStripMenuItem findDuplicatesToolStripMenuItem;
+        private ToolStripMenuItem sortFilesBySignatureToolStripMenuItem;
     }
 }
 

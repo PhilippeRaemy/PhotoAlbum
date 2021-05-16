@@ -70,33 +70,41 @@ namespace PicturesSorter
                 folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
             }
             folderBrowserDialog.ShowDialog();
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false),
-                new DirectoryInfo(folderBrowserDialog.SelectedPath), fileNameHandler, userPrefs.ShelfName);
+            OpenFolderImpl(
+                n => fileNameHandler.FileMatch(n, includeSmalls: false),
+                new DirectoryInfo(folderBrowserDialog.SelectedPath), 
+                fileNameHandler, 
+                userPrefs.ShelfName, 
+                _sortBySignature);
             userPrefs.Save();
         }
 
-        void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection)
+        void OpenNextFolder(DirectoryInfo currentDirectory, FolderDirection folderDirection, bool sortBySignature)
         {
-            var folder = currentDirectory.WalkNextFolder(folderDirection);
+            var folder = folderDirection == FolderDirection.Reopen 
+                ? currentDirectory 
+                : currentDirectory.WalkNextFolder(folderDirection);
             if (folder == null) return;
             var userPrefs = new PersistedUserPreferences();
             var fileNameHandler = new FileNameHandler(userPrefs);
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName);
+            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName, sortBySignature);
             userPrefs.Save();
         }
 
-        void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath, FileNameHandler fileNameHandler, string shelf)
+        void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath, FileNameHandler fileNameHandler, string shelf, bool sortBySignature)
         {
             _shelvedFiles.Clear();
             buttonUndo.Enabled = false;
-
             _currentDirectory = selectedPath;
             Text = _currentDirectory.FullName;
+            IEnumerable<FileInfo> files = _currentDirectory
+                .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
+                .Where(f => fileNameMatcher(f.Name))
+                .OrderBy(f => f.Name);
+            if (sortBySignature) files = EnumerateFilesBySignature(files);
+
             _currentFiles = new LinkedList<ImageHost>(
-                _currentDirectory
-                    .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-                    .Where         (f => fileNameMatcher(f.Name))
-                    .OrderBy       (f => f.Name)
+                files
                     .Select        (f => new ImageHost(fileNameHandler, shelf, f))
             );
             _currentFiles.ForEach(ih => ih.Parent = _currentFiles);
@@ -167,8 +175,8 @@ namespace PicturesSorter
                 case Keys.Control | Keys.Shift | Keys.Left : _fileIndex = LoadPictures(_fileIndex,  0, -1); break;
                 case Keys.Control | Keys.Right             : _fileIndex = LoadPictures(_fileIndex,  1,  0); break;
                 case Keys.Control | Keys.Shift | Keys.Right: _fileIndex = LoadPictures(_fileIndex,  0,  1); break;
-                case Keys.PageDown: OpenNextFolder(_currentDirectory, FolderDirection.Forward ); break;
-                case Keys.PageUp  : OpenNextFolder(_currentDirectory, FolderDirection.Backward); break;
+                case Keys.PageDown: OpenNextFolder(_currentDirectory, FolderDirection.Forward, _sortBySignature); break;
+                case Keys.PageUp  : OpenNextFolder(_currentDirectory, FolderDirection.Backward, _sortBySignature); break;
                 case Keys.NumPad1:
                 case Keys.D1:
                     ArchiveLeftPicture();
@@ -205,6 +213,7 @@ namespace PicturesSorter
         }
 
         readonly Stack<Tuple<string, Side>> _shelvedFiles =new Stack<Tuple<string, Side>>();
+        bool _sortBySignature;
 
         void previousToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -276,12 +285,12 @@ namespace PicturesSorter
 
         void nextFolder_Click(object sender, EventArgs e)
         {
-            OpenNextFolder(_currentDirectory, FolderDirection.Forward);
+            OpenNextFolder(_currentDirectory, FolderDirection.Forward, _sortBySignature);
         }
 
         void previousFolder_Click(object sender, EventArgs e)
         {
-            OpenNextFolder(_currentDirectory, FolderDirection.Backward);
+            OpenNextFolder(_currentDirectory, FolderDirection.Backward, _sortBySignature);
         }
 
         void openInWindowsExplorerToolStripMenuItem_Click(object sender, EventArgs e)
@@ -412,14 +421,10 @@ namespace PicturesSorter
             buttonShelfRight_Click(sender, EventArgs.Empty);
         }
 
-        void findDuplicatesToolStripMenuItem_Click(object sender, EventArgs e)
+        IEnumerable<FileInfo> EnumerateFilesBySignature(IEnumerable<FileInfo> files)
         {
-            var userPrefs = new PersistedUserPreferences();
-            var fileNameHandler = new FileNameHandler(userPrefs);
             var signatures =
-                _currentDirectory
-                    .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-                    .Where(f => fileNameHandler.FileMatch(f.Name, includeSmalls: true))
+                files
                     .ToDictionary(f => f, f => new PictureSignature(f, 16, 4));
             var similarities = signatures.Keys
                 .SelectMany(k => signatures.Keys
@@ -431,11 +436,12 @@ namespace PicturesSorter
                         Similarity : signatures[k].GetSimilarityWith(signatures[kk])
                     )))
                 .Where(s => s.Similarity > .98);
-            var groups = GroupSimilar(similarities, signatures.Keys.ToHashSet());
+            return GroupSimilar(similarities, signatures.Keys.ToHashSet())
+                .SelectMany(li => li.Select(f => f));
 
         }
 
-        IEnumerable<HashSet<FileInfo>> GroupSimilar(
+        static IEnumerable<List<FileInfo>> GroupSimilar(
             IEnumerable<(FileInfo, FileInfo, double)> similarities,
             HashSet<FileInfo> fileInfos
             )
@@ -457,8 +463,16 @@ namespace PicturesSorter
                         found = true;
                     }
                 }
-                yield return set;
+                yield return set.OrderBy(s => s.FullName).ToList();
             }
+        }
+
+        void SortFilesBySignatureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!(sender is ToolStripMenuItem menuItem)) return;
+            menuItem.Checked = !menuItem.Checked;
+            _sortBySignature = menuItem.Checked;
+            OpenNextFolder(_currentDirectory, FolderDirection.Reopen, _sortBySignature);
         }
     }
 }
