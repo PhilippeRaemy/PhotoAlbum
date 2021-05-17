@@ -23,70 +23,70 @@ namespace UserPreferences
         [XmlElement("FolderImportStart")]
         public string FolderImportStart
         {
-            get { return _folderImportStart; }
+            get => _folderImportStart;
             set { Modified = true; _folderImportStart = value; }
         }
 
         [XmlElement("FolderImportEnd")]
         public string FolderImportEnd
         {
-            get { return _folderImportEnd; }
+            get => _folderImportEnd;
             set { Modified = true; _folderImportEnd = value; }
         }
 
         [XmlElement("MaxPicturesPerFile")]
         public int MaxPicturesPerFile
         {
-            get { return _maxPicturesPerFile; }
+            get => _maxPicturesPerFile;
             set { Modified = true; _maxPicturesPerFile = value; }
         }
 
         [XmlElement("Margin")]
         public int Margin
         {
-            get { return _margin; }
+            get => _margin;
             set { Modified = true; _margin = value; }
         }
 
         [XmlElement("Spacing")]
         public int Spacing
         {
-            get { return _spacing; }
+            get => _spacing;
             set { Modified = true; _spacing = value; }
         }
 
         [XmlElement("ConfirmFileOverwrite")]
         public bool ConfirmFileOverwrite
         {
-            get { return _confirmFileOverwrite; }
+            get => _confirmFileOverwrite;
             set { Modified = true; _confirmFileOverwrite = value; }
         }
 
         [XmlElement("IncludeFiles")]
         public string IncludeFiles
         {
-            get { return _includeFiles; }
+            get => _includeFiles;
             set { Modified = true; _includeFiles = value; }
         }
 
         [XmlElement("ExcludeFolders")]
         public string ExcludeFolders
         {
-            get { return _excludeFolders; }
+            get => _excludeFolders;
             set { Modified = true; _excludeFolders = value; }
         }
 
         [XmlElement("NewDocumentTemplate")]
         public string NewDocumentTemplate
         {
-            get { return _newDocumentTemplate; }
+            get => _newDocumentTemplate;
             set { Modified = true; _newDocumentTemplate = value; }
         }
 
         [XmlElement("ShelfName")]
         public string ShelfName
         {
-            get { return _shelfName ?? "spare"; }
+            get => _shelfName ?? "spare";
             set { Modified = true; _shelfName = value; }
         }
     }
