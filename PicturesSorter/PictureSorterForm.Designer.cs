@@ -181,7 +181,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -211,7 +211,7 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
@@ -256,7 +256,7 @@
             this.moveLeftToToolStripMenuItem,
             this.moreRightToToolStripMenuItem});
             this.moveToToolStripMenuItem.Name = "moveToToolStripMenuItem";
-            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
             this.moveToToolStripMenuItem.Text = "&Move to...";
             // 
             // moveLeftToToolStripMenuItem
@@ -582,6 +582,8 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDoubleClick);
             // 
             // PictureSorterForm
             // 
