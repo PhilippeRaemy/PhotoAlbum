@@ -19,6 +19,7 @@ namespace AlbumWordAddin
             _documentFullFileName = documentFullFileName;
             FileInfo =  ValidateFileInfo(new FileInfo(fullFileName));
 
+            // ReSharper disable once AssignNullToNotNullAttribute
             LargeFileInfo = ValidateFileInfo(new FileInfo(Path.Combine(FileInfo.DirectoryName, largeFileNameMaker(FileInfo.Name))));
             DualFileInfo  = ValidateFileInfo(new FileInfo(Path.Combine(FileInfo.DirectoryName, fileNameMaker(FileInfo.Name))));
         }
@@ -27,6 +28,7 @@ namespace AlbumWordAddin
         {
             if(fi.Exists) return fi;
             var documentFileInfo = new FileInfo(_documentFullFileName);
+            // ReSharper disable once AssignNullToNotNullAttribute
             var documentFolder = new DirectoryInfo(documentFileInfo.DirectoryName);
             var candidate = documentFolder.GetFiles(fi.Name).FirstOrDefault();
             if (candidate?.Exists ?? false) return candidate;

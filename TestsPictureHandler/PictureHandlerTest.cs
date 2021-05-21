@@ -247,7 +247,7 @@ namespace TestsPictureHandler
         [TestMethod]
         public void ReadPictureMetadata()
         {
-            var metadata = new JpegMetadataAdapter(Jpg).Metadata;
+            var metadata = new JpegMetadataAdapter(Jpg)._metadata;
             TraceMetadata(metadata);
         }
         [TestMethod]
@@ -258,7 +258,7 @@ namespace TestsPictureHandler
 
         static void ValidateMetadataImpl(string jpg, string title, string comment)
         {
-            var metadata = new JpegMetadataAdapter(jpg).Metadata;
+            var metadata = new JpegMetadataAdapter(jpg)._metadata;
             Assert.AreEqual(title, metadata.Title);
             Assert.AreEqual(comment, metadata.Comment);
             TraceMetadata(metadata);
@@ -271,7 +271,7 @@ namespace TestsPictureHandler
             const string comment = "Another Comment";
 
             var adapter = new JpegMetadataAdapter(Jpg);
-            var metadata = adapter.Metadata;
+            var metadata = adapter._metadata;
             metadata.Title = title;
             metadata.Comment = comment;
             metadata.Keywords = new ReadOnlyCollection<string>((metadata.Keywords??Enumerable.Empty<string>()).Concat("New Keyword").Concat("And another").ToList());
@@ -339,9 +339,10 @@ namespace TestsPictureHandler
             {
                 var img = Image.FromFile(Jpg);
                 img.RotateFlip(rotateFlipType);
-                var newfilename = Path.Combine(fi.DirectoryName, $"{fi.Name}-{rotateFlipType}{fi.Extension}");
-                Trace.WriteLine(newfilename);
-                img.Save(newfilename, ImageFormat.Jpeg);
+                // ReSharper disable once AssignNullToNotNullAttribute
+                var newFileName = Path.Combine(fi.DirectoryName, $"{fi.Name}-{rotateFlipType}{fi.Extension}");
+                Trace.WriteLine(newFileName);
+                img.Save(newFileName, ImageFormat.Jpeg);
             }
         }
     }

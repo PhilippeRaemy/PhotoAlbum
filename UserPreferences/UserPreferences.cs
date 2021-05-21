@@ -13,7 +13,7 @@ namespace UserPreferences
         int _maxPicturesPerFile;
         int _margin;
         int _spacing;
-        protected bool Modified;
+        protected bool _modified;
         bool _confirmFileOverwrite;
         string _includeFiles;
         string _excludeFolders;
@@ -24,70 +24,70 @@ namespace UserPreferences
         public string FolderImportStart
         {
             get => _folderImportStart;
-            set { Modified = true; _folderImportStart = value; }
+            set { _modified = true; _folderImportStart = value; }
         }
 
         [XmlElement("FolderImportEnd")]
         public string FolderImportEnd
         {
             get => _folderImportEnd;
-            set { Modified = true; _folderImportEnd = value; }
+            set { _modified = true; _folderImportEnd = value; }
         }
 
         [XmlElement("MaxPicturesPerFile")]
         public int MaxPicturesPerFile
         {
             get => _maxPicturesPerFile;
-            set { Modified = true; _maxPicturesPerFile = value; }
+            set { _modified = true; _maxPicturesPerFile = value; }
         }
 
         [XmlElement("Margin")]
         public int Margin
         {
             get => _margin;
-            set { Modified = true; _margin = value; }
+            set { _modified = true; _margin = value; }
         }
 
         [XmlElement("Spacing")]
         public int Spacing
         {
             get => _spacing;
-            set { Modified = true; _spacing = value; }
+            set { _modified = true; _spacing = value; }
         }
 
         [XmlElement("ConfirmFileOverwrite")]
         public bool ConfirmFileOverwrite
         {
             get => _confirmFileOverwrite;
-            set { Modified = true; _confirmFileOverwrite = value; }
+            set { _modified = true; _confirmFileOverwrite = value; }
         }
 
         [XmlElement("IncludeFiles")]
         public string IncludeFiles
         {
             get => _includeFiles;
-            set { Modified = true; _includeFiles = value; }
+            set { _modified = true; _includeFiles = value; }
         }
 
         [XmlElement("ExcludeFolders")]
         public string ExcludeFolders
         {
             get => _excludeFolders;
-            set { Modified = true; _excludeFolders = value; }
+            set { _modified = true; _excludeFolders = value; }
         }
 
         [XmlElement("NewDocumentTemplate")]
         public string NewDocumentTemplate
         {
             get => _newDocumentTemplate;
-            set { Modified = true; _newDocumentTemplate = value; }
+            set { _modified = true; _newDocumentTemplate = value; }
         }
 
         [XmlElement("ShelfName")]
         public string ShelfName
         {
             get => _shelfName ?? "spare";
-            set { Modified = true; _shelfName = value; }
+            set { _modified = true; _shelfName = value; }
         }
     }
 

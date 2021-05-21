@@ -18,6 +18,7 @@ namespace TestsPicturesSorter
         [TestInitialize]
         public void TestInitialize()
         {
+            // ReSharper disable once AssignNullToNotNullAttribute
             _root = new DirectoryInfo(new Uri(Path.GetDirectoryName(Assembly.GetExecutingAssembly().GetName().CodeBase)).AbsolutePath);
             _tree = new[]
             {

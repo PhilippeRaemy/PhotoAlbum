@@ -11,13 +11,13 @@ namespace AlbumWordAddin
         static readonly Dictionary<RibbonControl, List<RibbonControlSet>> ControlsDic 
             = new Dictionary<RibbonControl, List<RibbonControlSet>>();
 
-        protected readonly RibbonControl[] Buttons;
+        protected readonly RibbonControl[] _buttons;
         bool _enabled;
 
         public RibbonControlSet(IEnumerable<RibbonControl> buttons)
         {
-            Buttons = buttons.CheapToArray();
-            foreach (var button in Buttons)
+            _buttons = buttons.CheapToArray();
+            foreach (var button in _buttons)
             {
                 if (ControlsDic.ContainsKey(button))
                 {
@@ -35,7 +35,7 @@ namespace AlbumWordAddin
             set
                 {
                 _enabled = value;
-                foreach (var button in Buttons) button.Enabled = ControlsDic[button].All(r => r.Enabled);
+                foreach (var button in _buttons) button.Enabled = ControlsDic[button].All(r => r.Enabled);
             }
             private get { return _enabled; }
         }
@@ -50,8 +50,8 @@ namespace AlbumWordAddin
 
         public RibbonToggleButton SelectedButton
         {
-            get { return (RibbonToggleButton)Buttons.FirstOrDefault(b => ((RibbonToggleButton)b).Checked); }
-            set { Buttons.ForEach(b => ((RibbonToggleButton)b).Checked = b == value); }
+            get { return (RibbonToggleButton)_buttons.FirstOrDefault(b => ((RibbonToggleButton)b).Checked); }
+            set { _buttons.ForEach(b => ((RibbonToggleButton)b).Checked = b == value); }
         }
     }
 }

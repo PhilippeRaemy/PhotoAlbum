@@ -41,11 +41,11 @@ namespace UserPreferences
 
         public void Save()
         {
-            if (!Modified) return;
+            if (!_modified) return;
             var writer = new StreamWriter(PrefFileName);
             writer.Write(CopyUserPreferences(this, _userPreferences).Serialize());
             writer.Close();
-            Modified = false;
+            _modified = false;
         }
     }
 }
