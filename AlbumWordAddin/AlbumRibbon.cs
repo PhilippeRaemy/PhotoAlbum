@@ -79,70 +79,19 @@ namespace AlbumWordAddin
                   ?? ribbonDropDown.SelectedItem;
         }
 
-        void ButtonRemoveEmptyPages_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.RemoveEmptyPages();
-        }
-
-        void ButtonSelectShapesOnPage_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SelectShapesOnPage();
-        }
-
-        void ButtonFixAnchors_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.FixAnchorOfSelectedImages();
-        }
-
-        void buttonSizeToWidest_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Widest);
-        }
-
-        void buttonSizeToTallest_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Tallest);
-        }
-
-        void buttonAlignTop_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Top);
-        }
-
-        void buttonAlignMiddle_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Middle);
-        }
-
-        void buttonAlignBottom_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Bottom);
-        }
-
-        void buttonAlignLeft_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Left);
-        }
-
-        void buttonAlignCenter_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Center);
-        }
-
-        void buttonAlignRight_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Right);
-        }
-
-        void buttonSizeToNarrowest_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Narrowest);
-        }
-
-        void buttonSizeToShortest_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.AlignSelectedImages(Alignment.Shortest);
-        }
+        void ButtonRemoveEmptyPages_Click  (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.RemoveEmptyPages();
+        void ButtonSelectShapesOnPage_Click(object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SelectShapesOnPage();
+        void ButtonFixAnchors_Click        (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.FixAnchorOfSelectedImages();
+        void buttonSizeToWidest_Click      (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Widest);
+        void buttonSizeToTallest_Click     (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Tallest);
+        void buttonAlignTop_Click          (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Top);
+        void buttonAlignMiddle_Click       (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Middle);
+        void buttonAlignBottom_Click       (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Bottom);
+        void buttonAlignLeft_Click         (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Left);
+        void buttonAlignCenter_Click       (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Center);
+        void buttonAlignRight_Click        (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Right);
+        void buttonSizeToNarrowest_Click   (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Narrowest);
+        void buttonSizeToShortest_Click    (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.AlignSelectedImages(Alignment.Shortest);
 
         void buttonArrangeV_Click(object sender, RibbonControlEventArgs e)
         {
@@ -184,15 +133,8 @@ namespace AlbumWordAddin
             Globals.ThisAddIn.ArrangeSelectedImages(Arrangement.LineHorizonal, Spacing(), Margin());
         }
 
-        void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e)
-        {
-            mnuHAlign_Click(sender, e);
-        }
-
-        void MenuItemVAlign_Click(object sender, RibbonControlEventArgs e)
-        {
-            mnuVAlign_Click(sender, e);
-        }
+        void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e) => mnuHAlign_Click(sender, e);
+        void MenuItemVAlign_Click(object sender, RibbonControlEventArgs e) => mnuVAlign_Click(sender, e);
 
         void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
         {
@@ -210,15 +152,8 @@ namespace AlbumWordAddin
             Globals.ThisAddIn.DoPositionSelectedImages(vAlign: ribbonButton.Id);
         }
 
-        void buttonSpacingLess_Click(object sender, RibbonControlEventArgs e)
-        {
-            dropDownSpacing_Change(sender, e, -1);
-        }
-
-        void buttonSpacingMore_Click(object sender, RibbonControlEventArgs e)
-        {
-            dropDownSpacing_Change(sender, e, +1);
-        }
+        void buttonSpacingLess_Click(object sender, RibbonControlEventArgs e) => dropDownSpacing_Change(sender, e, -1);
+        void buttonSpacingMore_Click(object sender, RibbonControlEventArgs e) => dropDownSpacing_Change(sender, e, +1);
 
         void dropDownSpacing_Change(object sender, RibbonControlEventArgs e, int i)
         {
@@ -233,33 +168,15 @@ namespace AlbumWordAddin
             }
         }
 
-        void dropDownSpacing_ButtonClick(object sender, RibbonControlEventArgs e)
-        {
-            DoPositionSelectedImages();
-        }
+        void dropDownSpacing_ButtonClick(object sender, RibbonControlEventArgs e) => DoPositionSelectedImages();
 
         int Spacing() => SpacingFactor * (int) dropDownSpacing.SelectedItem.Tag;
         int Margin() => MarginFactor * (int) dropDownMargin.SelectedItem.Tag;
 
-        void DoPositionSelectedImages()
-        {
-            Globals.ThisAddIn.DoPositionSelectedImages(Spacing(), Margin());
-        }
-
-        void dropDownSpacing_SelectionChanged(object sender, RibbonControlEventArgs e)
-        {
-            dropDownSpacing_ButtonClick(sender, e);
-        }
-
-        void dropDownMargin_ButtonClick(object sender, RibbonControlEventArgs e)
-        {
-            DoPositionSelectedImages();
-        }
-
-        void dropDownMargin_SelectionChanged(object sender, RibbonControlEventArgs e)
-        {
-            dropDownMargin_ButtonClick(sender, e);
-        }
+        void DoPositionSelectedImages()                                                => Globals.ThisAddIn.DoPositionSelectedImages(Spacing(), Margin());
+        void dropDownSpacing_SelectionChanged(object sender, RibbonControlEventArgs e) => dropDownSpacing_ButtonClick(sender, e);
+        void dropDownMargin_ButtonClick      (object sender, RibbonControlEventArgs e) => DoPositionSelectedImages();
+        void dropDownMargin_SelectionChanged (object sender, RibbonControlEventArgs e) => dropDownMargin_ButtonClick(sender, e);
 
         void buttonMarginLess_Click(object sender, RibbonControlEventArgs e)
         {
@@ -293,10 +210,7 @@ namespace AlbumWordAddin
             if (results == DialogResult.OK) Globals.ThisAddIn.ImportPictures();
         }
 
-        void ButtonSetRelativePosition_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.DoRelativePositionSelectedImages();
-        }
+        void ButtonSetRelativePosition_Click(object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.DoRelativePositionSelectedImages();
 
         void ButtonLowRes_Click(object sender, RibbonControlEventArgs e)
         {
@@ -316,56 +230,16 @@ namespace AlbumWordAddin
             Globals.ThisAddIn.ChangePicturesResolution(fileNameHandler.RightFileNameMaker, fileNameHandler.LargeFileNameMaker, true, true);
         }
 
-
-        void buttonPictureSorter_Click(object sender, RibbonControlEventArgs e)
-        {
-            new PicturesSorter.PictureSorterForm().Show();
-        }
-
-        void buttonTextWrappingSquare_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapSquare);
-        }
-
-        void buttonTextWrappingInFrontOfText_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapFront);
-        }
-
-        void buttonTextWrappingThrough_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapThrough);
-        }
-
-        void buttonTextWrappingBehindTextv_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapBehind);
-        }
-
-        void buttonTextWrappingTopAndBottom_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapTopBottom);
-        }
-
-        void buttonTextWrappingTight_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapTight);
-        }
-
-        void buttonTextWrappingLeftOnly_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapLeft);
-        }
-
-        void buttonTextWrappingBothSides_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapBoth);
-        }
-
-        void buttonTextWrappingRightOnly_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapRight);
-        }
+        void buttonPictureSorter_Click            (object sender, RibbonControlEventArgs e) => new PicturesSorter.PictureSorterForm().Show();
+        void buttonTextWrappingSquare_Click       (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapSquare);
+        void buttonTextWrappingInFrontOfText_Click(object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapFront);
+        void buttonTextWrappingThrough_Click      (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapThrough);
+        void buttonTextWrappingBehindTextv_Click  (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapBehind);
+        void buttonTextWrappingTopAndBottom_Click (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapTopBottom);
+        void buttonTextWrappingTight_Click        (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapType.wdWrapTight);
+        void buttonTextWrappingLeftOnly_Click     (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapLeft);
+        void buttonTextWrappingBothSides_Click    (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapBoth);
+        void buttonTextWrappingRightOnly_Click    (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.TextWrapping(WdWrapSideType.wdWrapRight);
 
         void IniDropDownItems(RibbonDropDown dropdown, int min, int max, int selectedValue)
         {
@@ -375,40 +249,13 @@ namespace AlbumWordAddin
             if (dropdown.SelectedItem == null) dropdown.SelectedItemIndex = (max - min + 1) / 2;
         }
 
-        void buttonSpacingEqualHorizontal_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingEqualHorizontal();
-        }
-
-        void buttonSpacingDecreaseHorizontal_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingDecreaseHorizontal();
-        }
-
-        void buttonSpacingIncreaseHorizontal_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingIncreaseHorizontal();
-        }
-
-        void buttonSpacingEqualVertical_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingEqualVertical();
-        }
-
-        void buttonSpacingDecreaseVertical_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingDecreaseVertical();
-        }
-
-        void buttonSpacingIncreaseVertical_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingIncreaseVertical();
-        }
-
-        void buttonSpacingInterpolate_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingInterpolate();
-        }
+        void buttonSpacingEqualHorizontal_Click   (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingEqualHorizontal();
+        void buttonSpacingDecreaseHorizontal_Click(object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingDecreaseHorizontal();
+        void buttonSpacingIncreaseHorizontal_Click(object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingIncreaseHorizontal();
+        void buttonSpacingEqualVertical_Click     (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingEqualVertical();
+        void buttonSpacingDecreaseVertical_Click  (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingDecreaseVertical();
+        void buttonSpacingIncreaseVertical_Click  (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingIncreaseVertical();
+        void buttonSpacingInterpolate_Click       (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingInterpolate();
 
         public void EnablePictureTools(int countOfSelectedShapes)
         {
@@ -430,45 +277,14 @@ namespace AlbumWordAddin
                 });
         }
 
-        void buttonSpacingIncreaseBoth_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingIncreaseBoth();
-        }
-
-        void buttonSpacingDecreaseBoth_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.SpacingDecreaseBoth();
-        }
-
-        void buttonUndo_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Undo();
-        }
-
-        void buttonRedo_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.Redo();
-        }
-
-        void buttonSwapPositions_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.RotateSelectedImages(1);
-        }
-
-        void ButtonRotatePositionsClockwise_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.RotateSelectedImages(1);
-        }
-
-        void ButtonRotatePositionsAnticlockwise_Click(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.RotateSelectedImages(-1);
-        }
-
-        void ShowShapeProperties(object sender, RibbonControlEventArgs e)
-        {
-            Globals.ThisAddIn.ShowSelectedImagesProperties();
-        }
+        void buttonSpacingIncreaseBoth_Click         (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingIncreaseBoth();
+        void buttonSpacingDecreaseBoth_Click         (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.SpacingDecreaseBoth();
+        void buttonUndo_Click                        (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.Undo();
+        void buttonRedo_Click                        (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.Redo();
+        void buttonSwapPositions_Click               (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.RotateSelectedImages(1);
+        void ButtonRotatePositionsClockwise_Click    (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.RotateSelectedImages(1);
+        void ButtonRotatePositionsAnticlockwise_Click(object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.RotateSelectedImages(-1);
+        void ShowShapeProperties                     (object sender, RibbonControlEventArgs e) => Globals.ThisAddIn.ShowSelectedImagesProperties();
 
         void toggleFlowGrid_Click(object sender, RibbonControlEventArgs e)
         {
