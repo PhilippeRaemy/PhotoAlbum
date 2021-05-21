@@ -15,6 +15,8 @@ using PictureHandler;
 namespace TestsPictureHandler
 
 {
+    using System.Collections.ObjectModel;
+
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal enum PropertyItemIdEnum
     {
@@ -272,6 +274,7 @@ namespace TestsPictureHandler
             var metadata = adapter.Metadata;
             metadata.Title = title;
             metadata.Comment = comment;
+            metadata.Keywords = new ReadOnlyCollection<string>((metadata.Keywords??Enumerable.Empty<string>()).Concat("New Keyword").Concat("And another").ToList());
             const string anothersampleJpg = @"Sample\AnotherSample.jpg";
             adapter.SaveAs(anothersampleJpg);
             ValidateMetadataImpl(anothersampleJpg, title, comment);
@@ -281,7 +284,11 @@ namespace TestsPictureHandler
         {
             foreach (var prop in typeof(BitmapMetadata).GetProperties())
             {
-                Trace.WriteLine($"{prop.Name} : {prop.GetValue(metadata)}");
+                if ((prop.GetValue(metadata) is ReadOnlyCollection<string> collection))
+                {
+                    Trace.WriteLine($"{prop.Name} : [{collection.ToDelimitedString(", ")}]");
+                }
+                else Trace.WriteLine($"{prop.Name} : {prop.GetValue(metadata)}");
             }
         }
 
