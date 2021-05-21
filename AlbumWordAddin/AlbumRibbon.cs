@@ -113,16 +113,14 @@ namespace AlbumWordAddin
         void mnuHAlign_Click(object sender, RibbonControlEventArgs e)
         {
             var ribbonButton = sender as RibbonToggleButton;
-            if (ribbonButton == null) throw new InvalidOperationException();
-            _hAlignButtonSet.SelectedButton = ribbonButton;
+            _hAlignButtonSet.SelectedButton = ribbonButton ?? throw new InvalidOperationException();
             Globals.ThisAddIn.DoPositionSelectedImages(hAlign: ribbonButton.Id);
         }
 
         void mnuVAlign_Click(object sender, RibbonControlEventArgs e)
         {
             var ribbonButton = sender as RibbonToggleButton;
-            if (ribbonButton == null) throw new InvalidOperationException();
-            _vAlignButtonSet.SelectedButton = ribbonButton;
+            _vAlignButtonSet.SelectedButton = ribbonButton ?? throw new InvalidOperationException();
             Globals.ThisAddIn.DoPositionSelectedImages(vAlign: ribbonButton.Id);
         }
 
