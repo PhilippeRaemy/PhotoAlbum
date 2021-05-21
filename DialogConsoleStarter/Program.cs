@@ -7,7 +7,7 @@ namespace DialogConsoleStarter
     using System.Windows.Forms;
     using AlbumWordAddin;
 
-    internal class Program
+    internal static class Program
     {
         [STAThread]
         static void Main(string[] args)

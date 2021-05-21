@@ -84,7 +84,8 @@ namespace VstoEx.Geometry
         /// <summary>
         /// Scale all corner points of a rectangle linearly (from point [0, 0] )
         /// </summary>
-        /// <param name="scale"></param>
+        /// <param name="scaleX"></param>
+        /// <param name="scaleY"></param>
         /// <returns></returns>
         public Rectangle LinearScale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);

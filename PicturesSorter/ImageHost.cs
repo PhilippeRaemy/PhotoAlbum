@@ -175,6 +175,7 @@ namespace PicturesSorter
 
         string FormatLength(float fileInfoLength, string[] unit)
             => fileInfoLength < 1024 || unit.Length == 1
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 ? fileInfoLength > 100 || Math.Round(fileInfoLength, 0) == Math.Round(fileInfoLength, 1)
                     ? $"{fileInfoLength:f0}{unit[0]}"
                     : $"{fileInfoLength:f1}{unit[0]}"

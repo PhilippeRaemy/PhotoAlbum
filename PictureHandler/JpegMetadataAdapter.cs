@@ -21,10 +21,7 @@ namespace PictureHandler
             Metadata = (BitmapMetadata)_frame.Metadata?.Clone();
         }
 
-        public void Save()
-        {
-            SaveAs(_path);
-        }
+        public void Save() => SaveAs(_path);
 
         public void SaveAs(string path)
         {

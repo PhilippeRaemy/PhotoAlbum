@@ -170,7 +170,6 @@
         public static IEnumerable<Rectangle> StretchToContainer(this IEnumerable<Rectangle> rectangles, Rectangle targetContainer)
         {
             var rects = rectangles.CheapToArray(); 
-            var container = rects.Container();
 
             var centerContainer = rects.Select(r => r.Center).Container();
             var targetCenterContainer = new Rectangle(

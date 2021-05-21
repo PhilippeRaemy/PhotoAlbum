@@ -50,8 +50,8 @@ namespace AlbumWordAddin
         }
 
         static Func<RibbonControl, bool> FilterOnTag(ShapeToolRequiredCount shapeToolRequiredCount)
-            => ctrl => ctrl.Tag is ShapeToolRequiredCount
-                       && (ShapeToolRequiredCount) ctrl.Tag == shapeToolRequiredCount;
+            => ctrl => ctrl.Tag is ShapeToolRequiredCount tag
+                       && tag == shapeToolRequiredCount;
 
         IEnumerable<T> EnumerateControls<T>(Func<T, bool> filterFunc) where T : RibbonControl
             => from gr in TabAddIns.Groups
