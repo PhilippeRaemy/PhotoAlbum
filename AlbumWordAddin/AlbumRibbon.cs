@@ -20,10 +20,10 @@ namespace AlbumWordAddin
         RibbonToggleButtonSet _arrangeButtonSet;
         RibbonToggleButtonSet _hAlignButtonSet;
         RibbonToggleButtonSet _vAlignButtonSet;
-        RibbonControlSet _buttonsActingOnOneOrMoreShapes;
-        RibbonControlSet _buttonsActingOnTwoOrMoreShapes;
-        RibbonControlSet _buttonsActingOnThreeOrMoreShapes;
-        RibbonControlSet _buttonsActingOnTwoShapes;
+        RibbonControlSet      _buttonsActingOnOneOrMoreShapes;
+        RibbonControlSet      _buttonsActingOnTwoOrMoreShapes;
+        RibbonControlSet      _buttonsActingOnThreeOrMoreShapes;
+        RibbonControlSet      _buttonsActingOnTwoShapes;
 
         void AlbumRibbon_Load(object sender, RibbonUIEventArgs e)
         {
@@ -37,15 +37,15 @@ namespace AlbumWordAddin
             {
                 Enabled = true
             };
-            _hAlignButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
-            _vAlignButtonSet = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
-            _buttonsActingOnOneOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore)));
-            _buttonsActingOnTwoShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two)));
-            _buttonsActingOnTwoOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore)));
-            _buttonsActingOnThreeOrMoreShapes = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
-            _buttonsActingOnOneOrMoreShapes.Enabled = false;
-            _buttonsActingOnTwoShapes.Enabled = false;
-            _buttonsActingOnTwoOrMoreShapes.Enabled = false;
+            _hAlignButtonSet                          = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("hAlign")));
+            _vAlignButtonSet                          = new RibbonToggleButtonSet(EnumerateControls<RibbonToggleButton>(ctrl => ctrl.Name.IsMatch("vAlign")));
+            _buttonsActingOnOneOrMoreShapes           = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.OneOrMore)));
+            _buttonsActingOnTwoShapes                 = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.Two)));
+            _buttonsActingOnTwoOrMoreShapes           = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.TwoOrMore)));
+            _buttonsActingOnThreeOrMoreShapes         = new RibbonControlSet(EnumerateControls(FilterOnTag(ShapeToolRequiredCount.ThreeOrMore)));
+            _buttonsActingOnOneOrMoreShapes.Enabled   = false;
+            _buttonsActingOnTwoShapes.Enabled         = false;
+            _buttonsActingOnTwoOrMoreShapes.Enabled   = false;
             _buttonsActingOnThreeOrMoreShapes.Enabled = false;
         }
 
@@ -106,9 +106,8 @@ namespace AlbumWordAddin
         void ButtonArrangeSq_Click(object sender, RibbonControlEventArgs e) => ButtonArrange_Click(sender, true , true , Arrangement.Square);
         void ButtonArrangeRH_Click(object sender, RibbonControlEventArgs e) => ButtonArrange_Click(sender, true , true , Arrangement.RectangleHorizontal);
         void ButtonArrangeH_Click (object sender, RibbonControlEventArgs e) => ButtonArrange_Click(sender, false, true , Arrangement.LineHorizonal);
-
-        void MenuItemHAlign_Click(object sender, RibbonControlEventArgs e) => MnuHAlign_Click(sender, e);
-        void MenuItemVAlign_Click(object sender, RibbonControlEventArgs e) => MnuVAlign_Click(sender, e);
+        void MenuItemHAlign_Click (object sender, RibbonControlEventArgs e) => MnuHAlign_Click(sender, e);
+        void MenuItemVAlign_Click (object sender, RibbonControlEventArgs e) => MnuVAlign_Click(sender, e);
 
         void MnuHAlign_Click(object sender, RibbonControlEventArgs e)
         {
