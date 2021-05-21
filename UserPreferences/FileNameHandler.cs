@@ -70,7 +70,7 @@ namespace UserPreferences
 
         public bool SmallPatternIsMatch(string fileFullName) => _smallPattern.Match(fileFullName).Success;
         public bool RightPatternIsMatch(string fileFullName) => _rightPattern.Match(fileFullName).Success;
-        public bool FilePatternIsMatch (string fileFullName) => _filePattern .Match(fileFullName).Success;
+               bool FilePatternIsMatch (string fileFullName) => _filePattern .Match(fileFullName).Success;
 
         Regex RegexFromPatternList(string maskList)
         {

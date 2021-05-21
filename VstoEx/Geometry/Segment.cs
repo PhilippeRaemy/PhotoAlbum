@@ -2,9 +2,9 @@ namespace VstoEx.Geometry
 {
     public class Segment
     {
-        public float Start { get; }
-        public float End { get; }
-        public float Size => End - Start;
+        float Start { get; }
+        float End { get; }
+        float Size => End - Start;
 
         public Segment(float start, float end)
         {
@@ -20,7 +20,7 @@ namespace VstoEx.Geometry
             }
         }
 
-        public bool Contains(Segment other)
+        bool Contains(Segment other)
             => Start <= other.Start && End >= other.End;
 
         public bool Contains(float value)

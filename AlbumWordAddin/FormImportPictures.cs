@@ -57,22 +57,19 @@ namespace AlbumWordAddin
 
         void buttonSave_Click(object sender, EventArgs e)
         {
-            var userprefs = new PersistedUserPreferences
+            new PersistedUserPreferences
             {
-                FolderImportStart   = textStartFolder   .Text,
-                FolderImportEnd     = textEndFolder     .Text,
-                IncludeFiles        = textIncludeFiles  .Text,
+                FolderImportStart   = textStartFolder.Text,
+                FolderImportEnd     = textEndFolder.Text,
+                IncludeFiles        = textIncludeFiles.Text,
                 ExcludeFolders      = textExcludeFolders.Text,
-                NewDocumentTemplate = textTemplate      .Text
-            };
-            int maxPics;
-            userprefs.MaxPicturesPerFile =
-                int.TryParse(comboMaxPicsPerFile.SelectedItem?.ToString(), NumberStyles.Integer,
-                    CultureInfo.InvariantCulture, out maxPics)
+                NewDocumentTemplate = textTemplate.Text,
+                MaxPicturesPerFile  = int.TryParse(comboMaxPicsPerFile.SelectedItem?.ToString(), NumberStyles.Integer,
+                    CultureInfo.InvariantCulture, out var maxPics)
                     ? maxPics
-                    : -1;
-            userprefs.ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState == CheckState.Checked;
-            userprefs.Save();
+                    : -1,
+                ConfirmFileOverwrite = ChkConfirmOverwrite.CheckState == CheckState.Checked
+            }.Save();
             Close();
         }
 

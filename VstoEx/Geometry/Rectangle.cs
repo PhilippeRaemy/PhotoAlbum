@@ -50,7 +50,7 @@ namespace VstoEx.Geometry
         {
         }
 
-        public Rectangle(Point center, float width, float height)
+        Rectangle(Point center, float width, float height)
             : this(center.X - width / 2, center.Y - height / 2, width, height)
         {
         }
@@ -70,7 +70,7 @@ namespace VstoEx.Geometry
         public Rectangle Grow(float g)
             => Grow(g, g);
 
-        public Rectangle Grow(float w, float h)
+        Rectangle Grow(float w, float h)
             => new Rectangle(Left, Top, Width * w, Height * h);
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace VstoEx.Geometry
             return new Rectangle(center, Width * factor, Height * factor);
         }
 
-        public bool Contains(Rectangle other)
+        bool Contains(Rectangle other)
             => Left <= other.Left && Right  >= other.Right
                && Top  <= other.Top  && Bottom >= other.Bottom;
 

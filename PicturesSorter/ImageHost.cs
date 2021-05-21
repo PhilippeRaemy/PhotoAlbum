@@ -46,7 +46,7 @@ namespace PicturesSorter
 
         int _useCount;
 
-        public ImageHost(FileInfo fileInfo)
+        ImageHost(FileInfo fileInfo)
         {
             _images = new Image[3];
             _imageNamesGetters = new Func<FileInfo>[]
@@ -90,7 +90,7 @@ namespace PicturesSorter
             return MovePicture(di);
         }
 
-        public string MovePicture(DirectoryInfo destinationDirectoryInfo)
+        string MovePicture(DirectoryInfo destinationDirectoryInfo)
         {
             if (FileInfo == null
                 || !FileInfo.Exists

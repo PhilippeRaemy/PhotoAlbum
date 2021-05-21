@@ -60,11 +60,9 @@
 
         internal void DoPositionSelectedImages(string hAlign, string vAlign)
         {
-            HShape hShape;
-            if (Enum.TryParse(hAlign?.Replace("hAlign", string.Empty), true, out hShape))
+            if (Enum.TryParse(hAlign?.Replace("hAlign", string.Empty), true, out HShape hShape))
                 _positionerParms.HShape = hShape;
-            VShape vShape;
-            if (Enum.TryParse(vAlign?.Replace("vAlign", string.Empty), true, out vShape))
+            if (Enum.TryParse(vAlign?.Replace("vAlign", string.Empty), true, out VShape vShape))
                 _positionerParms.VShape = vShape;
             DoPositionSelectedImages(_positionerParms);
         }

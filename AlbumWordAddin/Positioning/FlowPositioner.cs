@@ -38,12 +38,12 @@
             var shaperH = ShaperH(hShape, rows, cols);
             var shaperV = ShaperV(vShape, rows, cols);
             var rects = rectangles.CheapToArray();
-            Func<int, int> rowNum = i => (i - i % cols) / cols;
-            Func<int, int> colNum = i => i % cols;
+            int RowNum(int i) => (i - i % cols) / cols;
+            int ColNum(int i) => i % cols;
 
             // prepare collections of groups of indexes by rows and by columns
-            var byRows = Enumerable.Range(0, rects.Length).GroupBy(rowNum).ToArray();
-            var byCols = Enumerable.Range(0, rects.Length).GroupBy(colNum).ToArray();
+            var byRows = Enumerable.Range(0, rects.Length).GroupBy(RowNum).ToArray();
+            var byCols = Enumerable.Range(0, rects.Length).GroupBy(ColNum).ToArray();
 
             // get the max horizontal and vertical scales by row and by column
             var hScales = byRows.Select(row => clientArea.Width  / row.Sum(r => rects[r].Width )).ToArray();
@@ -51,7 +51,7 @@
 
             // scale each input rectangle into it's final size, using minimum scaling factor
             var scaledRects = Enumerable.Range(0, rects.Length)
-                .Select(i => new[] {hScales[rowNum(i)], vScales[colNum(i)]}.Min())
+                .Select(i => new[] {hScales[RowNum(i)], vScales[ColNum(i)]}.Min())
                 .EquiZip(rects, (s, r) => r.Grow(s))
                 .ToArray();
 
@@ -61,7 +61,7 @@
 
             // distribute the available space using the shaping factors
             return Enumerable.Range(0, rects.Length)
-                .Select(i => new {Row = rowNum(i), Col = colNum(i), Rect = scaledRects[i]})
+                .Select(i => new {Row = RowNum(i), Col = ColNum(i), Rect = scaledRects[i]})
                 .Select(r => r.Rect.MoveTo(
                         byRows[r.Row].Take(r.Col).Sum(rr => scaledRects[rr].Width ) + availWidths [r.Row] * (r.Col  + shaperH(r.Row, r.Col)),
                         byCols[r.Col].Take(r.Row).Sum(rr => scaledRects[rr].Height) + availHeights[r.Col] * (r.Row  + shaperV(r.Row, r.Col))

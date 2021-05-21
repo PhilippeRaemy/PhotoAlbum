@@ -24,7 +24,7 @@
             var g = Graphics.FromImage(bmp);
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.DrawImage(image, 0, 0, size, size);
-            bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);;
+            bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
             Signature =  Enumerable.Range(0, size)
                 .SelectMany(x => Enumerable.Range(0, size)
                     .Select(y => (ushort) Math.Round(bmp.GetPixel(x, y).GetBrightness() * levels))
