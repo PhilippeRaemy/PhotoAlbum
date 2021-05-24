@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddin", "AlbumWordAddin\AlbumWordAddin.csproj", "{BD7257CC-26EE-4AB5-9702-F493572324E6}"
 EndProject
@@ -33,6 +33,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E9FEAC6-0756-425E-856C-095E160D42E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesComparer", "TestsPicturesComparer\TestsPicturesComparer.csproj", "{67532118-DE91-41C6-9BF9-861E5AF0B542}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureProcessor", "PictureProcessor\PictureProcessor.csproj", "{D56E918F-9ACE-484B-BC19-B996F50633C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +165,16 @@ Global
 		{67532118-DE91-41C6-9BF9-861E5AF0B542}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67532118-DE91-41C6-9BF9-861E5AF0B542}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{67532118-DE91-41C6-9BF9-861E5AF0B542}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
