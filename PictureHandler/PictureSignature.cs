@@ -7,15 +7,18 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
+    using System.Text;
 
     public class PictureSignature
     {
         readonly int _size;
+        readonly ushort _levels;
         public List<ushort> Signature { get; }
 
         public PictureSignature(FileInfo fileInfo, int size, ushort levels)
         {
             _size = size;
+            _levels = levels;
             var image = PictureHelper.ReadImageFromStream(fileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -32,6 +35,20 @@
                 .ToList();
         }
 
+        public override string ToString()
+        {
+            var (format, sep) = _levels <= 16 ? ("x1", false)
+                : _levels <= 256 ? ("x2", true)
+                : _levels <= 4096 ?("x3", true)
+                : ("x4", true);
+            var sb = new StringBuilder();
+            foreach (var i in Signature)
+            {
+                sb.Append(i.ToString(format));
+                if (sep) sb.Append("-");
+            }
+            return sb.ToString();
+        }
 
         public bool Equals(PictureSignature other, double tolerance) =>
             other != null &&

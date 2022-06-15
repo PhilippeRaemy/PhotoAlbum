@@ -14,10 +14,7 @@
 
         static PictureSignature TraceSignature(PictureSignature ps)
         {
-            var sb = new StringBuilder();
-            foreach (var i in ps.Signature)
-                sb.Append(i);
-            Trace.WriteLine(sb.ToString());
+            Trace.WriteLine(ps);
             return ps;
         }
 
