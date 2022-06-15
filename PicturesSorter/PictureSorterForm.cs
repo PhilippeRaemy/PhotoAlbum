@@ -450,9 +450,9 @@ namespace PicturesSorter
             {
                 var similars = fi.Select(tu => tu.Item1).Prepend(fi.Key).ToArray();
                 similars.Pipe(ofi => fileInfos.Remove(ofi));
-                yield return similars;
+                yield return similars.OrderBy(f => f.Name);
             }
-            yield return fileInfos;
+            yield return fileInfos.OrderBy(f => f.Name);
         }
 
         void SortFilesBySignatureToolStripMenuItem_Click(object sender, EventArgs e)
