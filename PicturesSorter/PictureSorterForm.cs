@@ -441,30 +441,18 @@ namespace PicturesSorter
 
         }
 
-        static IEnumerable<List<FileInfo>> GroupSimilar(
+        static IEnumerable<IEnumerable<FileInfo>> GroupSimilar(
             IEnumerable<(FileInfo, FileInfo, double)> similarities,
             HashSet<FileInfo> fileInfos
             )
         {
-            var similaritiesA = similarities as (FileInfo, FileInfo, double)[] ?? similarities.ToArray();
-            while (fileInfos.Any())
+            foreach(var fi in similarities.GroupBy(s => s.Item1))
             {
-                var fi = fileInfos.First();
-                var set = new HashSet<FileInfo>(new[] {fi});
-                fileInfos.Remove(fi);
-                var found = true;
-                while (found)
-                {
-                    found = false;
-                    foreach (var (_, otherFi, _) in similaritiesA.Where(s => s.Item1.Equals(fi)))
-                    {
-                        fileInfos.Remove(otherFi);
-                        set.Add(otherFi);
-                        found = true;
-                    }
-                }
-                yield return set.OrderBy(s => s.FullName).ToList();
+                var similars = fi.Select(tu => tu.Item1).Prepend(fi.Key).ToArray();
+                similars.Pipe(ofi => fileInfos.Remove(ofi));
+                yield return similars;
             }
+            yield return fileInfos;
         }
 
         void SortFilesBySignatureToolStripMenuItem_Click(object sender, EventArgs e)
@@ -475,4 +463,5 @@ namespace PicturesSorter
             OpenNextFolder(_currentDirectory, FolderDirection.Reopen, _sortBySignature);
         }
     }
+
 }
