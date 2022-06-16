@@ -466,6 +466,11 @@ namespace PicturesSorter
             _sortBySignature = menuItem.Checked;
             OpenNextFolder(_currentDirectory, FolderDirection.Reopen, _sortBySignature);
         }
+
+        private void searchForSimilarPhotosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

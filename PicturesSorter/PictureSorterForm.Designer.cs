@@ -84,6 +84,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.contextMenuStripPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.searchForSimilarPhotosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -114,7 +115,8 @@
             this.previousFolder,
             this.renameToolStripMenuItem,
             this.openInWindowsExplorerToolStripMenuItem,
-            this.sortFilesBySignatureToolStripMenuItem});
+            this.sortFilesBySignatureToolStripMenuItem,
+            this.searchForSimilarPhotosToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.fileToolStripMenuItem.Text = "F&older";
@@ -581,6 +583,13 @@
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDoubleClick);
             // 
+            // searchForSimilarPhotosToolStripMenuItem
+            // 
+            this.searchForSimilarPhotosToolStripMenuItem.Name = "searchForSimilarPhotosToolStripMenuItem";
+            this.searchForSimilarPhotosToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
+            this.searchForSimilarPhotosToolStripMenuItem.Text = "Search for similar photos";
+            this.searchForSimilarPhotosToolStripMenuItem.Click += new System.EventHandler(this.searchForSimilarPhotosToolStripMenuItem_Click);
+            // 
             // PictureSorterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -669,6 +678,7 @@
         private ToolStripMenuItem contextMenuStripPictureRotateRight;
         private ToolStripMenuItem contextMenuStripPictureMoveTo;
         private ToolStripMenuItem sortFilesBySignatureToolStripMenuItem;
+        private ToolStripMenuItem searchForSimilarPhotosToolStripMenuItem;
     }
 }
 
