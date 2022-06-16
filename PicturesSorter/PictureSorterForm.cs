@@ -185,6 +185,10 @@ namespace PicturesSorter
                 case Keys.D2:
                     ArchiveRightPicture();
                     break;
+                case Keys.Q: RotateLeftClock_Click (null, null); break;
+                case Keys.W: RotateRightClock_Click(null, null); break;
+                case Keys.A: RotateLeftAnti_Click  (null, null); break;
+                case Keys.S: RotateRightAnti_Click (null, null); break;
                 default:
                     return base.ProcessCmdKey(ref msg, keyData);
             }
