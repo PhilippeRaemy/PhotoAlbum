@@ -8,30 +8,36 @@
     using System.IO;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
     public class PictureSignature
     {
         readonly int _size;
         readonly ushort _levels;
-        public List<ushort> Signature { get; }
+        List<ushort> _signature = null;
+        FileInfo _fileInfo;
+        public List<ushort> Signature { get => _signature is null ? GetSignatureAsync().Result : _signature; }
 
         public PictureSignature(FileInfo fileInfo, int size, ushort levels)
         {
             _size = size;
             _levels = levels;
-            var image = PictureHelper.ReadImageFromStream(fileInfo);
+            _fileInfo = fileInfo;
+        }
+
+        public async Task<List<ushort>> GetSignatureAsync() {
+            var image = await PictureHelper.ReadImageFromStreamAsync(_fileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             // var bmp = new Bitmap(image, size, size);
-            var bmp = new Bitmap(size, size);
+            var bmp = new Bitmap(_size, _size);
             var g = Graphics.FromImage(bmp);
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(image, 0, 0, size, size);
+            g.DrawImage(image, 0, 0, _size, _size);
             bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-            Signature =  Enumerable.Range(0, size)
-                .SelectMany(x => Enumerable.Range(0, size)
-                    .Select(y => (ushort) Math.Round(bmp.GetPixel(x, y).GetBrightness() * levels))
-                )
+            return Enumerable.Range(0, _size)
+                .SelectMany(x => Enumerable.Range(0, _size)
+                    .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
                 .ToList();
         }
 
@@ -65,4 +71,5 @@
                 .Count(t => t) * 1.0 / _size / _size;
 
     }
+    
 }

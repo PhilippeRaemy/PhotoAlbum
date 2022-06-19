@@ -26,10 +26,12 @@ namespace PicturesSorter
             var files = directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories).ToArray();
             ProgressBar.Maximum = files.Length;
 
+
             var fileSignatures = files
-                .OrderByDescending(fi => fi.Length) // better imnages first
-                .Select(fi => new { FileInfo = fi, Signature = new PictureSignature(fi, 16, 4)})
+                .OrderByDescending(fi => fi.Length) // better images first
+                .Select((fi, i) => new { FileInfo = fi, Signature = new PictureSignature(fi, 16, 4)})
                 .Pipe(fi => ProgressBar.Value+=1)
+                .
                 .ToArray();
             // 
             // pictureBox1

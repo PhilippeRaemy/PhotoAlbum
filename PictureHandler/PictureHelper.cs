@@ -4,6 +4,7 @@ namespace PictureHandler
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
+    using System.Threading.Tasks;
 
     public static class PictureHelper
     {
@@ -16,5 +17,8 @@ namespace PictureHandler
                 return Image.FromStream(stream);
             }
         }
+
+        async public static Task<Image> ReadImageFromStreamAsync(FileInfo imageFullPathName)
+         => await new Task<Image>(() => ReadImageFromStream(imageFullPathName));
     }
 }
