@@ -9,14 +9,27 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Signature = System.Collections.Generic.List<ushort>;
 
-    public class PictureSignature
+    public class PictureSignatureComparer : IEqualityComparer<PictureSignature>
+    {
+        public bool Equals(PictureSignature x, PictureSignature y)
+         => x?.Equals(y) ?? false;
+
+        public int GetHashCode(PictureSignature obj)
+            => obj?.Signature?.GetHashCode() ?? int.MinValue;
+    }
+
+    public class PictureSignature: IEquatable<PictureSignature>
     {
         readonly int _size;
         readonly ushort _levels;
-        List<ushort> _signature = null;
+        Signature _signature = null;
         FileInfo _fileInfo;
-        public List<ushort> Signature { get => _signature is null ? GetSignatureAsync().Result : _signature; }
+        public FileInfo  FileInfo  { get => _fileInfo; }
+        public Signature Signature { get => _signature is null ? GetSignatureAsync().Result : _signature; }
+        public PictureBox PictureBox;
 
         public PictureSignature(FileInfo fileInfo, int size, ushort levels)
         {
@@ -25,7 +38,7 @@
             _fileInfo = fileInfo;
         }
 
-        public async Task<List<ushort>> GetSignatureAsync() {
+        public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feeback = null) {
             var image = await PictureHelper.ReadImageFromStreamAsync(_fileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -35,10 +48,12 @@
             g.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g.DrawImage(image, 0, 0, _size, _size);
             bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-            return Enumerable.Range(0, _size)
+            var results = Enumerable.Range(0, _size)
                 .SelectMany(x => Enumerable.Range(0, _size)
                     .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
                 .ToList();
+            feeback?.Invoke(this);
+            return results;
         }
 
         public override string ToString()
@@ -70,6 +85,10 @@
             : Signature.Zip(other.Signature, (a, b) => a == b)
                 .Count(t => t) * 1.0 / _size / _size;
 
+        public bool Equals(PictureSignature other)
+        {
+            return GetSimilarityWith(other) == 1;
+        }
     }
     
 }

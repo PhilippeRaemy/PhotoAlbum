@@ -8,7 +8,7 @@ namespace PictureHandler
 
     public static class PictureHelper
     {
-        public static Image ReadImageFromStream(FileInfo imageFullPathName)
+        public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
         {
             if (!imageFullPathName.Exists) return null;
             using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
@@ -19,6 +19,6 @@ namespace PictureHandler
         }
 
         async public static Task<Image> ReadImageFromStreamAsync(FileInfo imageFullPathName)
-         => await new Task<Image>(() => ReadImageFromStream(imageFullPathName));
+         => await new Task<Image>(() => ReadImageFromFileInfo(imageFullPathName));
     }
 }

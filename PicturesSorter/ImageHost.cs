@@ -26,7 +26,7 @@ namespace PicturesSorter
         Image GetImage(FileInfo imageFullPathName)
         {
             lock (this)
-                return PictureHelper.ReadImageFromStream(imageFullPathName);
+                return PictureHelper.ReadImageFromFileInfo(imageFullPathName);
         }
 
         /// <summary>
