@@ -27,9 +27,9 @@
         readonly ushort _levels;
         Signature _signature = null;
         FileInfo _fileInfo;
-        public FileInfo  FileInfo  { get => _fileInfo; }
-        public Signature Signature { get => _signature is null ? GetSignatureAsync().Result : _signature; }
-        public async Task<Signature> SignatureAsync() { return _signature is null ? await GetSignatureAsync() : _signature; }
+        public FileInfo  FileInfo => _fileInfo;
+        public Signature Signature => _signature ?? GetSignatureAsync().Result;
+        public async Task<Signature> SignatureAsync() { return _signature ?? await GetSignatureAsync(); }
         public PictureBox PictureBox;
 
         public PictureSignature(FileInfo fileInfo, int size, ushort levels)
@@ -39,7 +39,26 @@
             _fileInfo = fileInfo;
         }
 
-        public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feedback = null) {
+        public List<ushort> GetSignature(Action<PictureSignature> feedback = null)
+        {
+            var image = PictureHelper.ReadImageFromFileInfo(_fileInfo);
+            //if (image.Width > image.Height)
+            //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            // var bmp = new Bitmap(image, size, size);
+            var bmp = new Bitmap(_size, _size);
+            var g = Graphics.FromImage(bmp);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.DrawImage(image, 0, 0, _size, _size);
+            bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
+            var results = Enumerable.Range(0, _size)
+                .SelectMany(x => Enumerable.Range(0, _size)
+                    .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
+                .ToList();
+            feedback?.Invoke(this);
+            return results;
+        }
+        public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feedback = null)
+        {
             var image = await PictureHelper.ReadImageFromFileInfoAsync(_fileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
@@ -80,11 +99,12 @@
             );
 
         public double GetSimilarityWith(PictureSignature other)
-        {
-            var task = GetSimilarityWithAsync(other);
-            task.Wait();
-            return task.Result;
-        }
+            =>
+                other == null ? 0
+                : ReferenceEquals(this, other) ? 1
+                : _size != other._size ? 0
+                : Signature.Zip(other.Signature, (a, b) => a == b)
+                .Count(t => t) * 1.0 / _size / _size;
 
         public async Task<double> GetSimilarityWithAsync(PictureSignature other)
             =>
