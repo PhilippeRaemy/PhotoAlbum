@@ -25,23 +25,22 @@
     {
         readonly int _size;
         readonly ushort _levels;
-        Signature _signature = null;
-        FileInfo _fileInfo;
-        public FileInfo  FileInfo => _fileInfo;
-        public Signature Signature => _signature ?? GetSignatureAsync().Result;
+        Signature _signature;
+        public FileInfo FileInfo { get; }
+        public Signature Signature => _signature ?? GetSignature();
         public async Task<Signature> SignatureAsync() { return _signature ?? await GetSignatureAsync(); }
-        public PictureBox PictureBox;
+        public PictureBox _pictureBox;
 
         public PictureSignature(FileInfo fileInfo, int size, ushort levels)
         {
             _size = size;
             _levels = levels;
-            _fileInfo = fileInfo;
+            FileInfo = fileInfo;
         }
 
-        public List<ushort> GetSignature(Action<PictureSignature> feedback = null)
+        public Signature GetSignature(Action<PictureSignature> feedback = null)
         {
-            var image = PictureHelper.ReadImageFromFileInfo(_fileInfo);
+            var image = PictureHelper.ReadImageFromFileInfo(FileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             // var bmp = new Bitmap(image, size, size);
@@ -55,11 +54,13 @@
                     .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
                 .ToList();
             feedback?.Invoke(this);
+            _signature = results;
             return results;
         }
+
         public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feedback = null)
         {
-            var image = await PictureHelper.ReadImageFromFileInfoAsync(_fileInfo);
+            var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo);
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             // var bmp = new Bitmap(image, size, size);
@@ -73,6 +74,7 @@
                     .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
                 .ToList();
             feedback?.Invoke(this);
+            _signature = results;
             return results;
         }
 

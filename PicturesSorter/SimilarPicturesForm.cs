@@ -43,7 +43,7 @@ namespace PicturesSorter
                 if (s.GetSimilarityWith( signature) > .95)
                 {
                     SimilarSignatures[signature].Add(signature);
-                    signature.PictureBox = CreatePictureBox(SimilarSignatures[signature].Count() * PICTURE_WIDTH, s.PictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
+                    signature._pictureBox = CreatePictureBox(SimilarSignatures[signature].Count() * PICTURE_WIDTH, s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
                 }
                 return;
             }
@@ -52,8 +52,8 @@ namespace PicturesSorter
                 if (s.GetSimilarityWith(signature) > .95)
                 {
                     var top = SimilarSignatures.Count * PICTURE_WIDTH;
-                    s.PictureBox = CreatePictureBox(0, top, PICTURE_WIDTH, PICTURE_HEIGHT, s.FileInfo);
-                    signature.PictureBox = CreatePictureBox(PICTURE_WIDTH, top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
+                    s._pictureBox = CreatePictureBox(0, top, PICTURE_WIDTH, PICTURE_HEIGHT, s.FileInfo);
+                    signature._pictureBox = CreatePictureBox(PICTURE_WIDTH, top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
                     SimilarSignatures.Add(s, new[] { signature }.ToList());
                     return;
                 }

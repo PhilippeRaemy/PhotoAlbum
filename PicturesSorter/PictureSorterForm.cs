@@ -148,7 +148,7 @@ namespace PicturesSorter
             => new NodesTuple(idx?.Left.SafeStep(step1), idx?.Right.SafeStep(step2));
 
 /*
-        void LoadPicture(PictureBox pb, Label lbl, FileSystemInfo fi)
+        void LoadPicture(pictureBox pb, Label lbl, FileSystemInfo fi)
         {
             lbl.Text = fi.FullName;
             pb.SizeMode = PictureBoxSizeMode.Zoom;
