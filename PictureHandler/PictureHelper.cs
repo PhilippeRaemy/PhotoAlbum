@@ -1,6 +1,7 @@
 ﻿
 namespace PictureHandler
 {
+    using System;
     using System.Diagnostics;
     using System.Drawing;
     using System.IO;
@@ -18,7 +19,7 @@ namespace PictureHandler
             }
         }
 
-        async public static Task<Image> ReadImageFromStreamAsync(FileInfo imageFullPathName)
-         => await new Task<Image>(() => ReadImageFromFileInfo(imageFullPathName));
+        public static async Task<Image> ReadImageFromFileInfoAsync(FileInfo imageFullPathName) 
+            => await Task.Run(() => ReadImageFromFileInfo(imageFullPathName)).ConfigureAwait(false);
     }
 }

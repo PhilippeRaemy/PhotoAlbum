@@ -467,9 +467,14 @@ namespace PicturesSorter
             OpenNextFolder(_currentDirectory, FolderDirection.Reopen, _sortBySignature);
         }
 
-        private void searchForSimilarPhotosToolStripMenuItem_Click(object sender, EventArgs e)
+        void searchForSimilarPhotosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            var sims = new SimilarPicturesForm
+            {
+                Visible = true
+            };
+            sims.Focus();
+            sims.LoadPictures(_currentDirectory);
         }
     }
 

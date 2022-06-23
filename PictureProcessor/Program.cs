@@ -4,7 +4,7 @@
     using SimpleCommandlineParser;
     using System;
 
-    class Program
+    internal class Program
     {
         static string _rootPath;
         static bool _recurse;
