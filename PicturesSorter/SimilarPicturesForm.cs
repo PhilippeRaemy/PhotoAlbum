@@ -1,5 +1,4 @@
-﻿using MoreLinq;
-using PictureHandler;
+﻿using PictureHandler;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +25,9 @@ namespace PicturesSorter
         }
 
         readonly HashSet<PictureSignature> _distinctSignatures = new HashSet<PictureSignature>();
-        readonly Dictionary<PictureSignature, List<PictureSignature>> _similarSignatures = new Dictionary<PictureSignature, List<PictureSignature>>(new PictureSignatureComparer());
+
+        readonly Dictionary<PictureSignature, List<PictureSignature>> _similarSignatures =
+            new Dictionary<PictureSignature, List<PictureSignature>>(new PictureSignatureComparer());
 
         void IncrementProgress()
         {
@@ -41,24 +42,29 @@ namespace PicturesSorter
             IncrementProgress();
             foreach (var s in _similarSignatures.Keys)
             {
-                if (s.GetSimilarityWith( signature) > _similarityFactor)
+                if (s.GetSimilarityWith(signature) > _similarityFactor)
                 {
                     _similarSignatures[signature].Add(signature);
-                    signature._pictureBox = CreatePictureBox(_similarSignatures[signature].Count() * PICTURE_WIDTH, s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
+                    signature._pictureBox = CreatePictureBox(_similarSignatures[signature].Count() * PICTURE_WIDTH,
+                        s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
                 }
+
                 return;
             }
+
             foreach (var s in _distinctSignatures)
             {
                 if (s.GetSimilarityWith(signature) > _similarityFactor)
                 {
                     var top = _similarSignatures.Count * PICTURE_WIDTH;
                     s._pictureBox = CreatePictureBox(0, top, PICTURE_WIDTH, PICTURE_HEIGHT, s.FileInfo);
-                    signature._pictureBox = CreatePictureBox(PICTURE_WIDTH, top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
-                    _similarSignatures.Add(s, new[] { signature }.ToList());
+                    signature._pictureBox = CreatePictureBox(PICTURE_WIDTH, top, PICTURE_WIDTH, PICTURE_HEIGHT,
+                        signature.FileInfo);
+                    _similarSignatures.Add(s, new[] {signature}.ToList());
                     return;
                 }
             }
+
             _distinctSignatures.Add(signature);
         }
 
@@ -97,42 +103,60 @@ namespace PicturesSorter
 
         public void LoadPictures(DirectoryInfo directory)
         {
-            _similarityFactor = (double) similarityFactor.Value / 100;
-            _directory = directory;
-            if (directory is null)
+            using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
             {
-                Close();
-                return;
-            }
-
-            var files = new Queue<FileInfo>(
-                directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories).ToArray()
-                    .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
-
-            ProgressBar.Maximum = files.Count;
-
-            void LoadPictureThread()
-            {
-                FileInfo file;
-
-                while(true){
-                    lock (files)
-                    {
-                        if (files.Count == 0) return; // we're done!
-                        file = files.Dequeue();
-                    }
-
-                    var signature = new PictureSignature(file, 16, 4);
-                    signature.GetSignature(ReceiveSignature);
-                    lock (_signatures) _signatures.Add(signature);
+                _similarityFactor = (double) similarityFactor.Value / 100;
+                _directory = directory;
+                if (directory is null)
+                {
+                    Close();
+                    return;
                 }
-            }
 
-            var threads = Enumerable.Range(0, MAX_TASKS)
+                var files = new Queue<FileInfo>(
+                    directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories).ToArray()
+                        .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
+
+                ProgressBar.Maximum = files.Count;
+
+                void LoadPictureThread()
+                {
+                    FileInfo file;
+
+                    while (true)
+                    {
+                        lock (files)
+                        {
+                            if (files.Count == 0) return; // we're done!
+                            file = files.Dequeue();
+                        }
+
+                        var signature = new PictureSignature(file, 16, 4);
+                        signature.GetSignature(ReceiveSignature);
+                        lock (_signatures) _signatures.Add(signature);
+                    }
+                }
+
+                var threads = Enumerable.Range(0, MAX_TASKS)
                     .Select(_ => new Thread(LoadPictureThread));
 
-            foreach (var thread in threads) thread.Start();
+                foreach (var thread in threads) thread.Start();
 
+            }
+        }
+
+        void buttonGo_Click(object sender, EventArgs e)
+        {
+            using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
+            {
+                foreach (var control in PanelMain.Controls.Cast<Control>().ToArray())
+                    if (control is PictureBox)
+                        PanelMain.Controls.Remove(control);
+                _similarityFactor = (double)similarityFactor.Value / 100;
+                ProgressBar.Value = 0;
+                lock (_signatures)
+                    foreach (var signature in _signatures) ReceiveSignature(signature);
+            }
         }
     }
 }

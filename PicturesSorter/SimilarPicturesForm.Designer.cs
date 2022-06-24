@@ -30,6 +30,7 @@
         {
             this.PanelMain = new System.Windows.Forms.Panel();
             this.PanelHeader = new System.Windows.Forms.Panel();
+            this.buttonGo = new System.Windows.Forms.Button();
             this.similarityFactor = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.ProgressBar = new System.Windows.Forms.ProgressBar();
@@ -48,6 +49,7 @@
             // 
             // PanelHeader
             // 
+            this.PanelHeader.Controls.Add(this.buttonGo);
             this.PanelHeader.Controls.Add(this.similarityFactor);
             this.PanelHeader.Controls.Add(this.label1);
             this.PanelHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -55,6 +57,17 @@
             this.PanelHeader.Name = "PanelHeader";
             this.PanelHeader.Size = new System.Drawing.Size(800, 31);
             this.PanelHeader.TabIndex = 1;
+            // 
+            // buttonGo
+            // 
+            this.buttonGo.Dock = System.Windows.Forms.DockStyle.Right;
+            this.buttonGo.Location = new System.Drawing.Point(725, 0);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(75, 31);
+            this.buttonGo.TabIndex = 2;
+            this.buttonGo.Text = "Go";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
             // similarityFactor
             // 
@@ -115,5 +128,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown similarityFactor;
         private System.Windows.Forms.ProgressBar ProgressBar;
+        private System.Windows.Forms.Button buttonGo;
     }
 }
