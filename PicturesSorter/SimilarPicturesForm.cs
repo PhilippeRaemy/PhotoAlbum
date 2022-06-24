@@ -16,6 +16,7 @@ namespace PicturesSorter
         const int PICTURE_WIDTH = 50;
         const int PICTURE_HEIGHT = 50;
         const int MAX_TASKS = 1;
+        List<PictureSignature> _signatures = new List<PictureSignature>();
 
         DirectoryInfo _directory;
 
@@ -24,8 +25,8 @@ namespace PicturesSorter
             InitializeComponent();
         }
 
-        HashSet<PictureSignature> DistinctSignatures = new HashSet<PictureSignature>();
-        Dictionary<PictureSignature, List<PictureSignature>> SimilarSignatures = new Dictionary<PictureSignature, List<PictureSignature>>(new PictureSignatureComparer());
+        readonly HashSet<PictureSignature> _distinctSignatures = new HashSet<PictureSignature>();
+        readonly Dictionary<PictureSignature, List<PictureSignature>> _similarSignatures = new Dictionary<PictureSignature, List<PictureSignature>>(new PictureSignatureComparer());
 
         void IncrementProgress()
         {
@@ -38,27 +39,27 @@ namespace PicturesSorter
         void ReceiveSignature(PictureSignature signature)
         {
             IncrementProgress();
-            foreach (var s in SimilarSignatures.Keys)
+            foreach (var s in _similarSignatures.Keys)
             {
                 if (s.GetSimilarityWith( signature) > .95)
                 {
-                    SimilarSignatures[signature].Add(signature);
-                    signature._pictureBox = CreatePictureBox(SimilarSignatures[signature].Count() * PICTURE_WIDTH, s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
+                    _similarSignatures[signature].Add(signature);
+                    signature._pictureBox = CreatePictureBox(_similarSignatures[signature].Count() * PICTURE_WIDTH, s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
                 }
                 return;
             }
-            foreach (var s in DistinctSignatures)
+            foreach (var s in _distinctSignatures)
             {
                 if (s.GetSimilarityWith(signature) > .95)
                 {
-                    var top = SimilarSignatures.Count * PICTURE_WIDTH;
+                    var top = _similarSignatures.Count * PICTURE_WIDTH;
                     s._pictureBox = CreatePictureBox(0, top, PICTURE_WIDTH, PICTURE_HEIGHT, s.FileInfo);
                     signature._pictureBox = CreatePictureBox(PICTURE_WIDTH, top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
-                    SimilarSignatures.Add(s, new[] { signature }.ToList());
+                    _similarSignatures.Add(s, new[] { signature }.ToList());
                     return;
                 }
             }
-            DistinctSignatures.Add(signature);
+            _distinctSignatures.Add(signature);
         }
 
         PictureBox CreatePictureBox(int x, int y, int w, int h, FileInfo fileInfo, PictureBox ppb = null)
@@ -106,7 +107,6 @@ namespace PicturesSorter
             var files = new Queue<FileInfo>(
                 directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories).ToArray()
                     .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
-            var signatures = new List<List<ushort>>();
 
             ProgressBar.Maximum = files.Count;
 
@@ -121,8 +121,9 @@ namespace PicturesSorter
                         file = files.Dequeue();
                     }
 
-                    var signature = new PictureSignature(file, 16, 4).GetSignature(ReceiveSignature);
-                    lock (signatures) signatures.Add(signature);
+                    var signature = new PictureSignature(file, 16, 4);
+                    signature.GetSignature(ReceiveSignature);
+                    lock (_signatures) _signatures.Add(signature);
                 }
             }
 
