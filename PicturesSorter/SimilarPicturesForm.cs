@@ -7,12 +7,13 @@ using System.Windows.Forms;
 
 namespace PicturesSorter
 {
+    using System.Configuration;
     using System.Threading;
 
     public partial class SimilarPicturesForm : Form
     {
-        const int PICTURE_WIDTH = 50;
-        const int PICTURE_HEIGHT = 50;
+        const int PICTURE_WIDTH = 150;
+        const int PICTURE_HEIGHT = 150;
         const int MAX_TASKS = 1;
         List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
@@ -37,6 +38,14 @@ namespace PicturesSorter
                 ProgressBar.Value += 1;
         }
 
+        void SetLabelFileText(string text)
+        {
+            if (labelFile.InvokeRequired)
+                labelFile.Invoke(new Action(() => SetLabelFileText(text)));
+            else
+                labelFile.Text = text;
+        }
+
         void ReceiveSignature(PictureSignature signature)
         {
             IncrementProgress();
@@ -44,23 +53,28 @@ namespace PicturesSorter
             {
                 if (s.GetSimilarityWith(signature) > _similarityFactor)
                 {
-                    _similarSignatures[signature].Add(signature);
-                    signature._pictureBox = CreatePictureBox(_similarSignatures[signature].Count() * PICTURE_WIDTH,
+                    _similarSignatures[s].Add(signature);
+                    signature._pictureBox = CreatePictureBox(_similarSignatures[s].Count * PICTURE_WIDTH,
                         s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
+                    return;
                 }
 
-                return;
             }
 
-            foreach (var s in _distinctSignatures)
+            foreach (var s in _distinctSignatures.ToArray())
             {
                 if (s.GetSimilarityWith(signature) > _similarityFactor)
                 {
-                    var top = _similarSignatures.Count * PICTURE_WIDTH;
+                    var top = 0;
+                    var left = 0;
+                    top = _similarSignatures.Count * PICTURE_WIDTH;
                     s._pictureBox = CreatePictureBox(0, top, PICTURE_WIDTH, PICTURE_HEIGHT, s.FileInfo);
+                    top = s._pictureBox.Top;
+
                     signature._pictureBox = CreatePictureBox(PICTURE_WIDTH, top, PICTURE_WIDTH, PICTURE_HEIGHT,
                         signature.FileInfo);
                     _similarSignatures.Add(s, new[] {signature}.ToList());
+                    _distinctSignatures.Remove(s);
                     return;
                 }
             }
@@ -90,10 +104,20 @@ namespace PicturesSorter
             pb.Size = new System.Drawing.Size(w, h);
             pb.TabIndex = int.MaxValue;
             pb.TabStop = true;
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
             pb.Image = PictureHelper.ReadImageFromFileInfo(fileInfo);
+
+            pb.MouseHover += Pb_MouseHover(
+                $"{fileInfo.FullName}({fileInfo.Length / 1024 / 1024}Mb)[{pb.Image.Width}x{pb.Image.Height}]");
+
             PanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize) pb).EndInit();
             return pb;
+        }
+
+        EventHandler Pb_MouseHover(string text)
+        {
+            return (sender, args) => SetLabelFileText(text);
         }
 
         void SimilarPicturesForm_Load(object sender, EventArgs e)
@@ -147,6 +171,8 @@ namespace PicturesSorter
 
         void buttonGo_Click(object sender, EventArgs e)
         {
+            _distinctSignatures.Clear();
+            _similarSignatures.Clear();
             using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
             {
                 foreach (var control in PanelMain.Controls.Cast<Control>().ToArray())
@@ -155,8 +181,18 @@ namespace PicturesSorter
                 _similarityFactor = (double)similarityFactor.Value / 100;
                 ProgressBar.Value = 0;
                 lock (_signatures)
-                    foreach (var signature in _signatures) ReceiveSignature(signature);
+                    foreach (var signature in _signatures)
+                    {
+                        if (signature._pictureBox != null)
+                        {
+                            signature._pictureBox.Dispose();
+                            signature._pictureBox = null;
+                        }
+
+                        ReceiveSignature(signature);
+                    }
             }
         }
+
     }
 }

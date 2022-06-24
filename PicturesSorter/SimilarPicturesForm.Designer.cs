@@ -31,10 +31,13 @@
             this.PanelMain = new System.Windows.Forms.Panel();
             this.PanelHeader = new System.Windows.Forms.Panel();
             this.buttonGo = new System.Windows.Forms.Button();
+            this.ProgressBar = new System.Windows.Forms.ProgressBar();
+            this.labelFile = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.similarityFactor = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
-            this.ProgressBar = new System.Windows.Forms.ProgressBar();
             this.PanelHeader.SuspendLayout();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.similarityFactor)).BeginInit();
             this.SuspendLayout();
             // 
@@ -49,9 +52,9 @@
             // 
             // PanelHeader
             // 
+            this.PanelHeader.Controls.Add(this.labelFile);
             this.PanelHeader.Controls.Add(this.buttonGo);
-            this.PanelHeader.Controls.Add(this.similarityFactor);
-            this.PanelHeader.Controls.Add(this.label1);
+            this.PanelHeader.Controls.Add(this.panel1);
             this.PanelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelHeader.Location = new System.Drawing.Point(0, 0);
             this.PanelHeader.Name = "PanelHeader";
@@ -69,17 +72,46 @@
             this.buttonGo.UseVisualStyleBackColor = true;
             this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
+            // ProgressBar
+            // 
+            this.ProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ProgressBar.Location = new System.Drawing.Point(0, 435);
+            this.ProgressBar.Name = "ProgressBar";
+            this.ProgressBar.Size = new System.Drawing.Size(800, 15);
+            this.ProgressBar.TabIndex = 2;
+            // 
+            // labelFile
+            // 
+            this.labelFile.AutoEllipsis = true;
+            this.labelFile.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelFile.Location = new System.Drawing.Point(161, 0);
+            this.labelFile.Name = "labelFile";
+            this.labelFile.Size = new System.Drawing.Size(564, 31);
+            this.labelFile.TabIndex = 3;
+            this.labelFile.Text = "labelFile";
+            this.labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.similarityFactor);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(161, 31);
+            this.panel1.TabIndex = 4;
+            // 
             // similarityFactor
             // 
-            this.similarityFactor.Location = new System.Drawing.Point(68, 4);
+            this.similarityFactor.Location = new System.Drawing.Point(62, 3);
             this.similarityFactor.Minimum = new decimal(new int[] {
             75,
             0,
             0,
             0});
             this.similarityFactor.Name = "similarityFactor";
-            this.similarityFactor.Size = new System.Drawing.Size(49, 20);
-            this.similarityFactor.TabIndex = 1;
+            this.similarityFactor.Size = new System.Drawing.Size(88, 20);
+            this.similarityFactor.TabIndex = 3;
             this.similarityFactor.Value = new decimal(new int[] {
             95,
             0,
@@ -89,19 +121,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 6);
+            this.label1.Location = new System.Drawing.Point(6, 5);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Similarity:";
-            // 
-            // ProgressBar
-            // 
-            this.ProgressBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ProgressBar.Location = new System.Drawing.Point(0, 435);
-            this.ProgressBar.Name = "ProgressBar";
-            this.ProgressBar.Size = new System.Drawing.Size(800, 15);
-            this.ProgressBar.TabIndex = 2;
             // 
             // SimilarPicturesForm
             // 
@@ -115,7 +139,8 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.SimilarPicturesForm_Load);
             this.PanelHeader.ResumeLayout(false);
-            this.PanelHeader.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.similarityFactor)).EndInit();
             this.ResumeLayout(false);
 
@@ -125,9 +150,11 @@
 
         private System.Windows.Forms.Panel PanelMain;
         private System.Windows.Forms.Panel PanelHeader;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown similarityFactor;
         private System.Windows.Forms.ProgressBar ProgressBar;
         private System.Windows.Forms.Button buttonGo;
+        private System.Windows.Forms.Label labelFile;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown similarityFactor;
     }
 }

@@ -30,7 +30,7 @@
         public Signature Signature => _signature ?? GetSignature();
         public async Task<Signature> SignatureAsync() { return _signature ?? await GetSignatureAsync(); }
         public PictureBox _pictureBox;
-
+        
         public PictureSignature(FileInfo fileInfo, int size, ushort levels)
         {
             _size = size;
