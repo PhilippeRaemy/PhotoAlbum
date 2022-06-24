@@ -30,11 +30,11 @@
         {
             this.PanelMain = new System.Windows.Forms.Panel();
             this.PanelHeader = new System.Windows.Forms.Panel();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.similarityFactor = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.ProgressBar = new System.Windows.Forms.ProgressBar();
             this.PanelHeader.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.similarityFactor)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelMain
@@ -48,7 +48,7 @@
             // 
             // PanelHeader
             // 
-            this.PanelHeader.Controls.Add(this.numericUpDown1);
+            this.PanelHeader.Controls.Add(this.similarityFactor);
             this.PanelHeader.Controls.Add(this.label1);
             this.PanelHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.PanelHeader.Location = new System.Drawing.Point(0, 0);
@@ -56,18 +56,18 @@
             this.PanelHeader.Size = new System.Drawing.Size(800, 31);
             this.PanelHeader.TabIndex = 1;
             // 
-            // numericUpDown1
+            // similarityFactor
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(68, 4);
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.similarityFactor.Location = new System.Drawing.Point(68, 4);
+            this.similarityFactor.Minimum = new decimal(new int[] {
             75,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(49, 20);
-            this.numericUpDown1.TabIndex = 1;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.similarityFactor.Name = "similarityFactor";
+            this.similarityFactor.Size = new System.Drawing.Size(49, 20);
+            this.similarityFactor.TabIndex = 1;
+            this.similarityFactor.Value = new decimal(new int[] {
             95,
             0,
             0,
@@ -103,7 +103,7 @@
             this.Load += new System.EventHandler(this.SimilarPicturesForm_Load);
             this.PanelHeader.ResumeLayout(false);
             this.PanelHeader.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.similarityFactor)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -113,7 +113,7 @@
         private System.Windows.Forms.Panel PanelMain;
         private System.Windows.Forms.Panel PanelHeader;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown similarityFactor;
         private System.Windows.Forms.ProgressBar ProgressBar;
     }
 }

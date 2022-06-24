@@ -16,6 +16,7 @@ namespace PicturesSorter
         const int PICTURE_HEIGHT = 50;
         const int MAX_TASKS = 1;
         List<PictureSignature> _signatures = new List<PictureSignature>();
+        double _similarityFactor = .95;
 
         DirectoryInfo _directory;
 
@@ -40,7 +41,7 @@ namespace PicturesSorter
             IncrementProgress();
             foreach (var s in _similarSignatures.Keys)
             {
-                if (s.GetSimilarityWith( signature) > .95)
+                if (s.GetSimilarityWith( signature) > _similarityFactor)
                 {
                     _similarSignatures[signature].Add(signature);
                     signature._pictureBox = CreatePictureBox(_similarSignatures[signature].Count() * PICTURE_WIDTH, s._pictureBox.Top, PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo);
@@ -49,7 +50,7 @@ namespace PicturesSorter
             }
             foreach (var s in _distinctSignatures)
             {
-                if (s.GetSimilarityWith(signature) > .95)
+                if (s.GetSimilarityWith(signature) > _similarityFactor)
                 {
                     var top = _similarSignatures.Count * PICTURE_WIDTH;
                     s._pictureBox = CreatePictureBox(0, top, PICTURE_WIDTH, PICTURE_HEIGHT, s.FileInfo);
@@ -96,6 +97,7 @@ namespace PicturesSorter
 
         public void LoadPictures(DirectoryInfo directory)
         {
+            _similarityFactor = (double) similarityFactor.Value / 100;
             _directory = directory;
             if (directory is null)
             {
