@@ -31,10 +31,21 @@ namespace PicturesSorter
         enum Side { Left, Right}
 
         DirectoryInfo _currentDirectory;
+        readonly IEnumerable<FileInfo> _fileInfos = null;
+
         LinkedList<ImageHost> _currentFiles;
         NodesTuple _fileIndex;
 
-        public PictureSorterForm()
+        public PictureSorterForm() => PictureSorterFormInitialise();
+
+        public PictureSorterForm(IEnumerable<FileInfo> fileInfos)
+        {
+            _fileInfos = fileInfos;
+            PictureSorterFormInitialise();
+            nextFolder.Enabled = previousFolder.Enabled = false;
+        }
+
+        void PictureSorterFormInitialise()
         {
             InitializeComponent();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -53,11 +64,19 @@ namespace PicturesSorter
 
         void PictureSorterForm_Load(object sender, EventArgs e)
         {
-            OpenFolder();
+            if (_fileInfos != null)
+            {
+                var userPrefs = new PersistedUserPreferences();
+                var fileNameHandler = new FileNameHandler(userPrefs);
+                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), null, fileNameHandler,
+                    userPrefs.ShelfName, false);
+            }
+            else OpenFolder();
         }
 
         void PictureSorterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (_fileInfos != null) return;
             new PersistedUserPreferences {FolderImportStart = _currentDirectory.FullName}.Save();
         }
 
@@ -97,7 +116,7 @@ namespace PicturesSorter
             buttonUndo.Enabled = false;
             _currentDirectory = selectedPath;
             Text = _currentDirectory.FullName;
-            IEnumerable<FileInfo> files = _currentDirectory
+            var files = _fileInfos ?? _currentDirectory
                 .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
                 .Where(f => fileNameMatcher(f.Name))
                 .OrderBy(f => f.Name);
