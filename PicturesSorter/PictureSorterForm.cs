@@ -495,6 +495,14 @@ namespace PicturesSorter
             sims.Focus();
             sims.LoadPictures(_currentDirectory);
         }
+
+        void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newName = Microsoft.VisualBasic.Interaction.InputBox("Enter new directory name", "Rename Directory",
+                _currentDirectory.Name);
+            if (_currentDirectory.Name != newName && newName != string.Empty)
+                _currentDirectory.MoveTo(Path.Combine(_currentDirectory.Parent.FullName, newName));
+        }
     }
 
 }

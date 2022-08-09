@@ -151,6 +151,7 @@
             this.renameToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
             this.renameToolStripMenuItem.Size = new System.Drawing.Size(254, 22);
             this.renameToolStripMenuItem.Text = "Rena&me";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // openInWindowsExplorerToolStripMenuItem
             // 
