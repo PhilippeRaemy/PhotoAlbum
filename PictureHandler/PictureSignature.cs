@@ -21,6 +21,17 @@
             => obj?.Signature?.GetHashCode() ?? int.MinValue;
     }
 
+    public class SelectablePictureBox : PictureBox
+    {
+        public bool Selected
+        {
+            get => BorderStyle == BorderStyle.Fixed3D;
+            set => BorderStyle = value ? BorderStyle.Fixed3D : BorderStyle.None;
+        }
+
+        public void ToggleSelection() => BorderStyle = !Selected ? BorderStyle.Fixed3D : BorderStyle.None;
+    }
+
     public class PictureSignature: IEquatable<PictureSignature>
     {
         readonly int _size;
@@ -29,8 +40,31 @@
         public FileInfo FileInfo { get; }
         public Signature Signature => _signature ?? GetSignature();
         public async Task<Signature> SignatureAsync() { return _signature ?? await GetSignatureAsync(); }
-        public PictureBox _pictureBox;
+
+        SelectablePictureBox _pictureBox;
+        public SelectablePictureBox PictureBox
+        {
+            get => _pictureBox;
+            set
+            {
+                _pictureBox = value;
+                _pictureBox.Selected = _selected;
+            }
+        }
+
         public Point Location { get; private set; }
+        bool _selected;
+
+        public bool Selected
+        {
+            get => _pictureBox is null ? _selected : _pictureBox.Selected;
+            set
+            {
+                _selected = value;
+                if (_pictureBox is null) return;
+                _pictureBox.Selected = value;
+            }
+        }
 
         public PictureSignature SetLocation(int x, int y)
         {
@@ -38,10 +72,11 @@
             return this;
         }
 
-        public PictureSignature(FileInfo fileInfo, int size, ushort levels)
+        public PictureSignature(FileInfo fileInfo, int size, ushort levels, bool selected)
         {
             _size = size;
             _levels = levels;
+            _selected = selected;
             FileInfo = fileInfo;
         }
 

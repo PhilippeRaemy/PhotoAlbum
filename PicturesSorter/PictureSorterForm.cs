@@ -448,7 +448,7 @@ namespace PicturesSorter
         {
             var signatures =
                 files
-                    .ToDictionary(f => f, f => new PictureSignature(f, 16, 4));
+                    .ToDictionary(f => f, f => new PictureSignature(f, 16, 4, false));
             var similarities = signatures.Keys
                 .SelectMany(k => signatures.Keys
                     .Where(kk => string.Compare(k.FullName, kk.FullName, StringComparison.Ordinal) < 0)

@@ -19,12 +19,12 @@
         }
 
         [TestMethod]
-        public void BasicLoadSignature() => TraceSignature(new PictureSignature(new FileInfo(Jpg), 16, 4));
+        public void BasicLoadSignature() => TraceSignature(new PictureSignature(new FileInfo(Jpg), 16, 4, false));
 
         void CompareSignatureImpl(int size, double similarity, ushort levels)
         {
-            var sign = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, levels));
-            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, levels));
+            var sign = TraceSignature(new PictureSignature(new FileInfo(Jpg), size, levels, false));
+            var signSmall = TraceSignature(new PictureSignature(new FileInfo(JpgSmall), size, levels, false));
             Assert.IsTrue(sign.GetSimilarityWith(signSmall) >= similarity);
         }
 

@@ -9,6 +9,7 @@ namespace PicturesSorter
 {
     using System.Configuration;
     using System.Drawing;
+    using System.Runtime.Remoting;
     using System.Threading;
 
     public partial class SimilarPicturesForm : Form
@@ -55,19 +56,24 @@ namespace PicturesSorter
             var handled = false;
             lock (_similarSignatures)
             {
-                foreach (var s in _similarSignatures.Keys)
-                    if (s.GetSimilarityWith(signature) > _similarityFactor)
+                foreach (var s in _similarSignatures.Keys
+                             .Where(s => s.GetSimilarityWith(signature) > _similarityFactor))
+                {
+                    Console.WriteLine($"    Found similar with {s.FileInfo.Name}. Pre-existing.");
+                    _similarSignatures[s].Add(signature);
+                    var maxLength = _similarSignatures[s].Max(ss => ss.FileInfo.Length);
+                    actions.AddRange(
+                        from ss in _similarSignatures[s]
+                        select (Action)(() => ss.Selected = ss.FileInfo.Length < maxLength));
+
+                    actions.Add(() =>
                     {
-                        Console.WriteLine($"    Found similar with {s.FileInfo.Name}. Pre-existing.");
-                        _similarSignatures[s].Add(signature);
-                        actions.Add(() =>
-                        {
-                            signature._pictureBox = CreatePictureBox(
-                                signature.SetLocation(_similarSignatures[s].Count * PICTURE_WIDTH, s.Location.Y), 
-                                PICTURE_WIDTH, PICTURE_HEIGHT);
-                        });
-                        handled = true;
-                    }
+                        signature.PictureBox = CreatePictureBox(
+                            signature.SetLocation(_similarSignatures[s].Count * PICTURE_WIDTH, s.Location.Y), 
+                            PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo.Length < maxLength);
+                    });
+                    handled = true;
+                }
 
                 if(!handled)
                     foreach (var s in _distinctSignatures.ToArray())
@@ -78,13 +84,14 @@ namespace PicturesSorter
                             var top = _similarSignatures.Count * PICTURE_HEIGHT;
                             actions.Add(() =>
                             {
-                                s._pictureBox = CreatePictureBox(s.SetLocation(0, top), PICTURE_WIDTH, PICTURE_HEIGHT);
+                                s.PictureBox = CreatePictureBox(s.SetLocation(0, top), PICTURE_WIDTH, PICTURE_HEIGHT, 
+                                    s.FileInfo.Length < signature.FileInfo.Length);
                             });
 
                             actions.Add(() =>
                             {
-                                signature._pictureBox = CreatePictureBox(signature.SetLocation(PICTURE_WIDTH, top), PICTURE_WIDTH,
-                                    PICTURE_HEIGHT);
+                                signature.PictureBox = CreatePictureBox(signature.SetLocation(PICTURE_WIDTH, top), PICTURE_WIDTH,
+                                    PICTURE_HEIGHT, signature.FileInfo.Length < s.FileInfo.Length);
                             });
                             _similarSignatures.Add(s, new[] { signature }.ToList());
                             Console.WriteLine($"    {s.FileInfo.Name} removed from distincts.");
@@ -102,19 +109,19 @@ namespace PicturesSorter
             foreach (var action in actions) action.Invoke();
         }
 
-        PictureBox CreatePictureBox(PictureSignature signature, int w, int h, PictureBox ppb = null)
+        SelectablePictureBox CreatePictureBox(PictureSignature signature, int w, int h, bool selected, SelectablePictureBox ppb = null)
         {
-            var pb = ppb ?? new PictureBox();
+            var pb = ppb ?? new SelectablePictureBox();
             var fileInfo = signature.FileInfo;
             if (PanelMain.InvokeRequired)
             {
                 Console.WriteLine($"   Invoke creating picture at ({signature.Location}) for {fileInfo.Name}.");
-                PanelMain.Invoke(new Action(() => CreatePictureBox(signature, w, h, pb)));
+                PanelMain.Invoke(new Action(() => CreatePictureBox(signature, w, h, selected, pb)));
                 return pb;
             }
 
             Console.WriteLine($"   Creating picture at ({signature.Location}) for {fileInfo.Name}.");
-            pb = new PictureBox();
+            pb = new SelectablePictureBox();
 
             PanelMain.Controls.Add(pb);
 
@@ -123,28 +130,28 @@ namespace PicturesSorter
 
             pb.Location = signature.Location;
             pb.Name = "pictureBox_" + fileInfo.Name;
-            pb.Size = new System.Drawing.Size(w, h);
+            pb.Size = new Size(w, h);
             pb.TabIndex = int.MaxValue;
             pb.TabStop = true;
             pb.SizeMode = PictureBoxSizeMode.Zoom;
             pb.Image = PictureHelper.ReadImageFromFileInfo(fileInfo);
+            pb.BorderStyle = selected ? BorderStyle.Fixed3D : BorderStyle.None;
 
+            pb.Tag = fileInfo;
             pb.MouseHover += Pb_MouseHover(
-                $"{fileInfo.FullName}({fileInfo.Length / 1024 / 1024}Mb)[{pb.Image.Width}x{pb.Image.Height}]");
+                $"{fileInfo.FullName}({fileInfo.Length / 1024.0 / 1024.0:f2}Mb)[{pb.Image.Width}x{pb.Image.Height}]");
 
+            pb.Click += PictureBox_Click;
             PanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize) pb).EndInit();
             return pb;
         }
 
-        EventHandler Pb_MouseHover(string text)
-        {
-            return (sender, args) => SetLabelFileText(text);
-        }
+        void PictureBox_Click(object sender, EventArgs e) => (sender as SelectablePictureBox)?.ToggleSelection();
 
-        void SimilarPicturesForm_Load(object sender, EventArgs e)
-        {
-        }
+        EventHandler Pb_MouseHover(string text) => (sender, args) => SetLabelFileText(text);
+
+        void SimilarPicturesForm_Load(object sender, EventArgs e) { }
 
 
         public void LoadPictures(DirectoryInfo directory)
@@ -176,7 +183,7 @@ namespace PicturesSorter
                             file = files.Dequeue();
                         }
 
-                        var signature = new PictureSignature(file, 16, 4);
+                        var signature = new PictureSignature(file, 16, 4, false);
                         Console.WriteLine($"LoadPictureThread: {file.Name}");
                         signature.GetSignature(ReceiveSignature);
                         lock (_signatures) _signatures.Add(signature);
@@ -205,10 +212,10 @@ namespace PicturesSorter
                 lock (_signatures)
                     foreach (var signature in _signatures)
                     {
-                        if (signature._pictureBox != null)
+                        if (signature.PictureBox != null)
                         {
-                            signature._pictureBox.Dispose();
-                            signature._pictureBox = null;
+                            signature.PictureBox.Dispose();
+                            signature.PictureBox = null;
                         }
 
                         ReceiveSignature(signature);
