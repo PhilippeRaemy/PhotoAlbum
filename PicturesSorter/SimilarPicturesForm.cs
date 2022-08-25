@@ -7,9 +7,7 @@ using System.Windows.Forms;
 
 namespace PicturesSorter
 {
-    using System.Configuration;
     using System.Drawing;
-    using System.Runtime.Remoting;
     using System.Threading;
 
     public partial class SimilarPicturesForm : Form
@@ -17,7 +15,7 @@ namespace PicturesSorter
         const int PICTURE_WIDTH = 250;
         const int PICTURE_HEIGHT = 250;
         const int MAX_TASKS = 8;
-        List<PictureSignature> _signatures = new List<PictureSignature>();
+        readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
 
         DirectoryInfo _directory;
@@ -111,7 +109,7 @@ namespace PicturesSorter
 
         SelectablePictureBox CreatePictureBox(PictureSignature signature, int w, int h, bool selected, SelectablePictureBox ppb = null)
         {
-            var pb = ppb ?? new SelectablePictureBox();
+            var pb = ppb ?? new SelectablePictureBox(signature);
             var fileInfo = signature.FileInfo;
             if (PanelMain.InvokeRequired)
             {
@@ -121,7 +119,7 @@ namespace PicturesSorter
             }
 
             Console.WriteLine($"   Creating picture at ({signature.Location}) for {fileInfo.Name}.");
-            pb = new SelectablePictureBox();
+            pb = new SelectablePictureBox(signature);
 
             PanelMain.Controls.Add(pb);
 
@@ -217,11 +215,38 @@ namespace PicturesSorter
                             signature.PictureBox.Dispose();
                             signature.PictureBox = null;
                         }
-
-                        ReceiveSignature(signature);
+                        signature.FileInfo.Refresh();
+                        if (signature.FileInfo.Exists) ReceiveSignature(signature);
                     }
             }
         }
 
+        void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            Console.WriteLine($"{(e.Control ? "<ctrl>" : string.Empty)}{(e.Alt ? "<alt>" : string.Empty)}{(e.Shift ? "<shift>" : string.Empty)}{e.KeyCode}");
+            IEnumerable<SelectablePictureBox> GetPictureBoxes(Control control)
+            {
+                if (control is SelectablePictureBox pb) yield return pb;
+                foreach (Control child in control.Controls)
+                foreach (var sb in GetPictureBoxes(child))
+                    yield return sb;
+            }
+
+            if (e.KeyCode == Keys.Delete && !e.Alt && !e.Control && !e.Shift && !e.Handled)
+            {
+                var count = 0;
+                foreach (var pb in GetPictureBoxes((Control)sender))
+                {
+                    if (!pb.Selected) continue;
+                    pb.Image = null;
+                    pb.FileInfo.Delete();
+                    count++;
+                }
+                MessageBox.Show($"Delete key pressed. {count} pictures deleted.");
+            }
+
+            e.Handled = true;
+            e.SuppressKeyPress=true;
+        }
     }
 }

@@ -23,6 +23,15 @@
 
     public class SelectablePictureBox : PictureBox
     {
+        readonly PictureSignature _parentSignature;
+
+        public SelectablePictureBox(PictureSignature parentSignature) : base()
+        {
+            _parentSignature = parentSignature;
+        }
+
+        public FileInfo FileInfo => _parentSignature.FileInfo;
+
         public bool Selected
         {
             get => BorderStyle == BorderStyle.Fixed3D;
@@ -48,7 +57,8 @@
             set
             {
                 _pictureBox = value;
-                _pictureBox.Selected = _selected;
+                if(value != null)
+                    _pictureBox.Selected = _selected;
             }
         }
 
@@ -57,7 +67,7 @@
 
         public bool Selected
         {
-            get => _pictureBox is null ? _selected : _pictureBox.Selected;
+            get => _pictureBox?.Selected ?? _selected;
             set
             {
                 _selected = value;

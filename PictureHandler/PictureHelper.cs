@@ -11,6 +11,7 @@ namespace PictureHandler
     {
         public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
         {
+            imageFullPathName.Refresh();
             if (!imageFullPathName.Exists) return null;
             using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
             {

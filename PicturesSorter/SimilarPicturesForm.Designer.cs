@@ -135,9 +135,11 @@
             this.Controls.Add(this.PanelMain);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.PanelHeader);
+            this.KeyPreview = true;
             this.Name = "SimilarPicturesForm";
             this.Text = "Similar pictures";
             this.Load += new System.EventHandler(this.SimilarPicturesForm_Load);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SimilarPicturesForm_KeyUp);
             this.PanelHeader.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
