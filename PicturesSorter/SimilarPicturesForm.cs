@@ -21,10 +21,7 @@ namespace PicturesSorter
 
         DirectoryInfo _directory;
 
-        public SimilarPicturesForm()
-        {
-            InitializeComponent();
-        }
+        public SimilarPicturesForm() => InitializeComponent();
 
         readonly HashSet<PictureSignature> _distinctSignatures = new HashSet<PictureSignature>();
 
