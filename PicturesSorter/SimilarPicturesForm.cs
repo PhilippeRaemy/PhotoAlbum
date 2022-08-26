@@ -17,6 +17,7 @@ namespace PicturesSorter
         const int MAX_TASKS = 8;
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
+        bool _formIsAlive = true;
 
         DirectoryInfo _directory;
 
@@ -172,7 +173,7 @@ namespace PicturesSorter
 
                 void LoadPictureThread()
                 {
-                    while (true)
+                    while (_formIsAlive)
                     {
                         FileInfo file;
                         lock (files)
@@ -210,6 +211,7 @@ namespace PicturesSorter
                 lock (_signatures)
                     foreach (var signature in _signatures)
                     {
+                        if (!_formIsAlive) break;
                         if (signature.PictureBox != null)
                         {
                             signature.PictureBox.Dispose();
@@ -240,6 +242,8 @@ namespace PicturesSorter
                     if (!pb.Selected) continue;
                     pb.Image = null;
                     pb.FileInfo.Delete();
+                    pb.Parent.Controls.Remove(pb);
+
                     count++;
                 }
                 MessageBox.Show($"Delete key pressed. {count} pictures deleted.");
@@ -247,6 +251,11 @@ namespace PicturesSorter
 
             e.Handled = true;
             e.SuppressKeyPress=true;
+        }
+
+        void SimilarPicturesForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _formIsAlive = false;
         }
     }
 }

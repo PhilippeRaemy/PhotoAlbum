@@ -138,6 +138,7 @@
             this.KeyPreview = true;
             this.Name = "SimilarPicturesForm";
             this.Text = "Similar pictures";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SimilarPicturesForm_FormClosing);
             this.Load += new System.EventHandler(this.SimilarPicturesForm_Load);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SimilarPicturesForm_KeyUp);
             this.PanelHeader.ResumeLayout(false);
