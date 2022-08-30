@@ -35,11 +35,16 @@
         {
             _parentSignature = parentSignature;
             _pictureBox = new PictureBox();
+            _pictureBox.BackColor=Color.WhiteSmoke;
+            _pictureBox.Click += PictureBoxClick; ;
+            Click += PictureBoxClick;
             Controls.Add(_pictureBox);
             Resize += SelectablePictureBox_Resize;
         }
 
-        private void SelectablePictureBox_Resize(object sender, EventArgs e)
+        void PictureBoxClick(object sender, EventArgs e) => BorderStyle = !Selected ? BorderStyle.Fixed3D : BorderStyle.None;
+
+        void SelectablePictureBox_Resize(object sender, EventArgs e)
         {
             _pictureBox.Left = BORDER_WIDTH;
             _pictureBox.Top = BORDER_WIDTH;
@@ -62,8 +67,6 @@
             get => _pictureBox.Image;
             set => _pictureBox.Image = value;
         }
-
-        public void ToggleSelection() => BorderStyle = !Selected ? BorderStyle.Fixed3D : BorderStyle.None;
 
         public new void Dispose()
         {

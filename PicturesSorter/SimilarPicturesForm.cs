@@ -51,69 +51,99 @@ namespace PicturesSorter
                 (int)(percent * Math.Abs(hiResColor.B - lowResColor.B))
             );
 
-        void ReceiveSignature(PictureSignature signature)
+        void ReceiveSignature(PictureSignature newSignature)
         {
-            var lowResColor = Color.DarkRed;
-            var hiResColor = Color.Green;
+            var lowResColor = Color.Red;
+            var hiResColor = Color.FromArgb(0, 255, 0);
             var actions = new List<Action>();
-            Console.WriteLine($"Got {signature.FileInfo.FullName}");
+            Console.WriteLine($"Got {newSignature.FileInfo.FullName}");
             IncrementProgress();
             var handled = false;
             lock (_similarSignatures)
             {
+                // look for 2 or more similar pictures already displayed: adding 1
                 foreach (var s in _similarSignatures.Keys
-                             .Where(s => s.GetSimilarityWith(signature) > _similarityFactor))
+                             .Where(s => s.GetSimilarityWith(newSignature) > _similarityFactor))
                 {
                     Console.WriteLine($"    Found similar with {s.FileInfo.Name}. Pre-existing.");
-                    _similarSignatures[s].Add(signature);
+                    _similarSignatures[s].Add(newSignature);
                     var maxLength = _similarSignatures[s].Max(ss => ss.FileInfo.Length);
                     var minLength = _similarSignatures[s].Min(ss => ss.FileInfo.Length);
 
                     actions.Add(() =>
                     {
-                        signature.PictureBox = CreatePictureBox(
-                            signature.SetLocation(_similarSignatures[s].Count * PICTURE_WIDTH, s.Location.Y), 
-                            PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo.Length < maxLength);
-                        signature.PictureBox.BackColor = maxLength == minLength
-                            ? hiResColor
-                            : InterpolateColor(lowResColor, hiResColor,
-                                1d * (signature.FileInfo.Length - minLength) / (maxLength - minLength));
+                        newSignature.PictureBox = CreatePictureBox(
+                            newSignature.SetLocation(_similarSignatures[s].Count * PICTURE_WIDTH, s.Location.Y),
+                            PICTURE_WIDTH, PICTURE_HEIGHT, 
+                            newSignature.FileInfo.Length < maxLength, 
+                            maxLength == minLength
+                                ? hiResColor
+                                : InterpolateColor(lowResColor, hiResColor,
+                                    1d * (newSignature.FileInfo.Length - minLength) / (maxLength - minLength)));
                     });
                     actions.AddRange(
                         from ss in _similarSignatures[s]
-                        select (Action)(() => ss.Selected = ss.FileInfo.Length <= maxLength));
+                        select (Action)(() =>
+                        {
+                            ss.Selected = ss.FileInfo.Length <= maxLength;
+                            ss.PictureBox.BackColor = InterpolateColor(lowResColor, hiResColor,
+                                1d * (ss.FileInfo.Length - minLength) / (maxLength - minLength));
+                        }));
 
                     handled = true;
                 }
 
-                if(!handled)
-                    foreach (var s in _distinctSignatures.ToArray())
+                if(!handled) // look for one similar yet to be displayed picture: adding 2
+                    foreach (var previous in _distinctSignatures.ToArray())
                     {
-                        if (s.GetSimilarityWith(signature) > _similarityFactor)
+                        if (previous.GetSimilarityWith(newSignature) > _similarityFactor)
                         {
-                            Console.WriteLine($"    Found similar with {s.FileInfo.Name}. New.");
+                            Console.WriteLine($"    Found similar with {previous.FileInfo.Name}. New.");
                             var top = _similarSignatures.Count * PICTURE_HEIGHT;
+                            Color previousColor;
+                            Color newColor;
+                            var previousSelected = false;
+                            var newSelected = false;
+                            if (previous.FileInfo.Length < newSignature.FileInfo.Length)
+                            {
+                                previousSelected = true;
+                                previousColor = lowResColor;
+                                newColor = hiResColor;
+                            }
+                            else if (previous.FileInfo.Length > newSignature.FileInfo.Length)
+                            {
+                                newSelected = true;
+                                newColor = lowResColor;
+                                previousColor = hiResColor;
+                            }
+                            else // they are same size: we preselect the second one!
+                            {
+                                newSelected = true;
+                                newColor = hiResColor;
+                                previousColor = hiResColor;
+                            }
+
                             actions.Add(() =>
                             {
-                                s.PictureBox = CreatePictureBox(s.SetLocation(0, top), PICTURE_WIDTH, PICTURE_HEIGHT, 
-                                    s.FileInfo.Length < signature.FileInfo.Length);
+                                previous.PictureBox = CreatePictureBox(previous.SetLocation(0, top), 
+                                    PICTURE_WIDTH, PICTURE_HEIGHT, previousSelected, previousColor);
                             });
 
                             actions.Add(() =>
                             {
-                                signature.PictureBox = CreatePictureBox(signature.SetLocation(PICTURE_WIDTH, top), PICTURE_WIDTH,
-                                    PICTURE_HEIGHT, signature.FileInfo.Length < s.FileInfo.Length);
+                                newSignature.PictureBox = CreatePictureBox(newSignature.SetLocation(PICTURE_WIDTH, top),
+                                    PICTURE_WIDTH, PICTURE_HEIGHT, newSelected, newColor);
                             });
-                            _similarSignatures.Add(s, new[] { signature }.ToList());
-                            Console.WriteLine($"    {s.FileInfo.Name} removed from distincts.");
-                            _distinctSignatures.Remove(s);
+                            _similarSignatures.Add(previous, new[] { newSignature }.ToList());
+                            Console.WriteLine($"    {previous.FileInfo.Name} removed from distincts.");
+                            _distinctSignatures.Remove(previous);
                             handled = true;
                         }
                     }
-                if(!handled)
+                if(!handled) // this is a brand new signature
                 {
-                    Console.WriteLine($"    {signature.FileInfo.Name} added to distincts.");
-                    _distinctSignatures.Add(signature);
+                    Console.WriteLine($"    {newSignature.FileInfo.Name} added to distincts.");
+                    _distinctSignatures.Add(newSignature);
                 }
             }
 
@@ -121,14 +151,15 @@ namespace PicturesSorter
 
         }
 
-        SelectablePictureBox CreatePictureBox(PictureSignature signature, int w, int h, bool selected, SelectablePictureBox ppb = null)
+        SelectablePictureBox CreatePictureBox(PictureSignature signature, int w, int h, bool selected, Color backColor,
+            SelectablePictureBox ppb = null)
         {
             var pb = ppb ?? new SelectablePictureBox(signature);
             var fileInfo = signature.FileInfo;
             if (PanelMain.InvokeRequired)
             {
                 Console.WriteLine($"   Invoke creating picture at ({signature.Location}) for {fileInfo.Name}.");
-                PanelMain.Invoke(new Action(() => CreatePictureBox(signature, w, h, selected, pb)));
+                PanelMain.Invoke(new Action(() => CreatePictureBox(signature, w, h, selected, backColor, pb)));
                 return pb;
             }
 
@@ -148,18 +179,16 @@ namespace PicturesSorter
             pb.SizeMode = PictureBoxSizeMode.Zoom;
             pb.Image = PictureHelper.ReadImageFromFileInfo(fileInfo);
             pb.BorderStyle = selected ? BorderStyle.Fixed3D : BorderStyle.None;
+            pb.BackColor = backColor;
 
             pb.Tag = fileInfo;
             pb.MouseHover += Pb_MouseHover(
                 $"{fileInfo.FullName}({fileInfo.Length / 1024.0 / 1024.0:f2}Mb)[{pb.Image.Width}x{pb.Image.Height}]");
 
-            pb.Click += PictureBox_Click;
             PanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize) pb).EndInit();
             return pb;
         }
-
-        void PictureBox_Click(object sender, EventArgs e) => (sender as SelectablePictureBox)?.ToggleSelection();
 
         EventHandler Pb_MouseHover(string text) => (sender, args) => SetLabelFileText(text);
 
