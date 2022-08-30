@@ -36,14 +36,6 @@ namespace PicturesSorter
                 ProgressBar.Value += 1;
         }
 
-        void SetLabelFileText(string text)
-        {
-            if (labelFile.InvokeRequired)
-                labelFile.Invoke(new Action(() => SetLabelFileText(text)));
-            else
-                labelFile.Text = text;
-        }
-
         Color InterpolateColor(Color lowResColor, Color hiResColor, double percent)
             => Color.FromArgb(
                 (int)(percent * Math.Abs(hiResColor.R - lowResColor.R)),
@@ -154,7 +146,7 @@ namespace PicturesSorter
         SelectablePictureBox CreatePictureBox(PictureSignature signature, int w, int h, bool selected, Color backColor,
             SelectablePictureBox ppb = null)
         {
-            var pb = ppb ?? new SelectablePictureBox(signature);
+            var pb = ppb ?? new SelectablePictureBox(signature, labelFile);
             var fileInfo = signature.FileInfo;
             if (PanelMain.InvokeRequired)
             {
@@ -164,7 +156,7 @@ namespace PicturesSorter
             }
 
             Console.WriteLine($"   Creating picture at ({signature.Location}) for {fileInfo.Name}.");
-            pb = new SelectablePictureBox(signature);
+            pb = new SelectablePictureBox(signature, labelFile);
 
             PanelMain.Controls.Add(pb);
 
@@ -178,19 +170,15 @@ namespace PicturesSorter
             pb.TabStop = true;
             pb.SizeMode = PictureBoxSizeMode.Zoom;
             pb.Image = PictureHelper.ReadImageFromFileInfo(fileInfo);
-            pb.BorderStyle = selected ? BorderStyle.Fixed3D : BorderStyle.None;
+            pb.Selected = selected;
             pb.BackColor = backColor;
 
             pb.Tag = fileInfo;
-            pb.MouseHover += Pb_MouseHover(
-                $"{fileInfo.FullName}({fileInfo.Length / 1024.0 / 1024.0:f2}Mb)[{pb.Image.Width}x{pb.Image.Height}]");
 
             PanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize) pb).EndInit();
             return pb;
         }
-
-        EventHandler Pb_MouseHover(string text) => (sender, args) => SetLabelFileText(text);
 
         void SimilarPicturesForm_Load(object sender, EventArgs e) { }
 

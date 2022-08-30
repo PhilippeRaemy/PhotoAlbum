@@ -69,7 +69,6 @@
             this.labelFile.Name = "labelFile";
             this.labelFile.Size = new System.Drawing.Size(564, 31);
             this.labelFile.TabIndex = 3;
-            this.labelFile.Text = "labelFile";
             this.labelFile.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // buttonGo
