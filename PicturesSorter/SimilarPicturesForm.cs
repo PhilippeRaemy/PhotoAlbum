@@ -44,8 +44,17 @@ namespace PicturesSorter
                 labelFile.Text = text;
         }
 
+        Color InterpolateColor(Color lowResColor, Color hiResColor, double percent)
+            => Color.FromArgb(
+                (int)(percent * Math.Abs(hiResColor.R - lowResColor.R)),
+                (int)(percent * Math.Abs(hiResColor.G - lowResColor.G)),
+                (int)(percent * Math.Abs(hiResColor.B - lowResColor.B))
+            );
+
         void ReceiveSignature(PictureSignature signature)
         {
+            var lowResColor = Color.DarkRed;
+            var hiResColor = Color.Green;
             var actions = new List<Action>();
             Console.WriteLine($"Got {signature.FileInfo.FullName}");
             IncrementProgress();
@@ -58,16 +67,22 @@ namespace PicturesSorter
                     Console.WriteLine($"    Found similar with {s.FileInfo.Name}. Pre-existing.");
                     _similarSignatures[s].Add(signature);
                     var maxLength = _similarSignatures[s].Max(ss => ss.FileInfo.Length);
-                    actions.AddRange(
-                        from ss in _similarSignatures[s]
-                        select (Action)(() => ss.Selected = ss.FileInfo.Length < maxLength));
+                    var minLength = _similarSignatures[s].Min(ss => ss.FileInfo.Length);
 
                     actions.Add(() =>
                     {
                         signature.PictureBox = CreatePictureBox(
                             signature.SetLocation(_similarSignatures[s].Count * PICTURE_WIDTH, s.Location.Y), 
                             PICTURE_WIDTH, PICTURE_HEIGHT, signature.FileInfo.Length < maxLength);
+                        signature.PictureBox.BackColor = maxLength == minLength
+                            ? hiResColor
+                            : InterpolateColor(lowResColor, hiResColor,
+                                1d * (signature.FileInfo.Length - minLength) / (maxLength - minLength));
                     });
+                    actions.AddRange(
+                        from ss in _similarSignatures[s]
+                        select (Action)(() => ss.Selected = ss.FileInfo.Length <= maxLength));
+
                     handled = true;
                 }
 
@@ -103,6 +118,7 @@ namespace PicturesSorter
             }
 
             foreach (var action in actions) action.Invoke();
+
         }
 
         SelectablePictureBox CreatePictureBox(PictureSignature signature, int w, int h, bool selected, SelectablePictureBox ppb = null)

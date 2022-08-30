@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.Drawing.Imaging;
@@ -21,13 +22,29 @@
             => obj?.Signature?.GetHashCode() ?? int.MinValue;
     }
 
-    public class SelectablePictureBox : PictureBox
+    public class SelectablePictureBox : Panel, IDisposable, ISupportInitialize
     {
+        const int BORDER_WIDTH = 10;
         readonly PictureSignature _parentSignature;
 
-        public SelectablePictureBox(PictureSignature parentSignature) : base()
+        readonly PictureBox _pictureBox;
+
+
+
+        public SelectablePictureBox(PictureSignature parentSignature)
         {
             _parentSignature = parentSignature;
+            _pictureBox = new PictureBox();
+            Controls.Add(_pictureBox);
+            Resize += SelectablePictureBox_Resize;
+        }
+
+        private void SelectablePictureBox_Resize(object sender, EventArgs e)
+        {
+            _pictureBox.Left = BORDER_WIDTH;
+            _pictureBox.Top = BORDER_WIDTH;
+            _pictureBox.Width = ClientSize.Width - 2 * BORDER_WIDTH;
+            _pictureBox.Height = ClientSize.Height - 2 * BORDER_WIDTH;
         }
 
         public FileInfo FileInfo => _parentSignature.FileInfo;
@@ -38,7 +55,24 @@
             set => BorderStyle = value ? BorderStyle.Fixed3D : BorderStyle.None;
         }
 
+        public PictureBoxSizeMode SizeMode { get => _pictureBox.SizeMode; set => _pictureBox.SizeMode=value; }
+
+        public Image Image
+        {
+            get => _pictureBox.Image;
+            set => _pictureBox.Image = value;
+        }
+
         public void ToggleSelection() => BorderStyle = !Selected ? BorderStyle.Fixed3D : BorderStyle.None;
+
+        public new void Dispose()
+        {
+            base.Dispose();
+            _pictureBox?.Dispose();
+        }
+
+        public void BeginInit() => ((ISupportInitialize)_pictureBox).BeginInit();
+        public void EndInit() => ((ISupportInitialize)_pictureBox).EndInit();
     }
 
     public class PictureSignature: IEquatable<PictureSignature>
