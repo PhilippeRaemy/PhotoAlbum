@@ -35,7 +35,8 @@
             set
             {
                 var oldColor = base.BackColor;
-                base.BackColor = value;
+                if(InvokeRequired) Invoke(new Action(() => { base.BackColor = value; }));
+                else base.BackColor = value;
                 Console.WriteLine($"Setting color of {_parentSignature.FileInfo.Name} from {oldColor} to {base.BackColor}");
             }
         }
