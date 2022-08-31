@@ -59,6 +59,65 @@ namespace PicturesSorter
                     (int)(lowResColor.B + percent * (hiResColor.B - lowResColor.B))
                 );
 
+        void DisplaySignatures(Dictionary<PictureSignature, List<PictureSignature>> similarSignatures)
+        {
+            var lowResColor = Color.Red;
+            var hiResColor = Color.FromArgb(0, 255, 0);
+            // look for 2 or more similar pictures already displayed: adding 1
+            foreach (var g in similarSignatures.Values)
+            {
+                var maxLength = g.Max(ss => ss.FileInfo.Length);
+                var minLength = g.Min(ss => ss.FileInfo.Length);
+
+                foreach (var s in g.OrderByDescending(p => p.FileInfo.Length))
+                    s.PictureBox = CreatePictureBox(
+                        s.SetLocation((similarSignatures[s].Count - 1) * PICTURE_WIDTH, s.Location.Y),
+                        PICTURE_WIDTH, PICTURE_HEIGHT,
+                        s.FileInfo.Length < maxLength,
+                        maxLength == minLength
+                            ? hiResColor
+                            : InterpolateColor(lowResColor, hiResColor, minLength, maxLength,
+                                s.FileInfo));
+            }
+        }
+
+
+        void ReceiveSignatureNew(PictureSignature newSignature)
+        {
+            Console.WriteLine($"Got {newSignature.FileInfo.FullName}");
+            IncrementProgress();
+            var handled = false;
+            lock (_similarSignatures)
+            {
+                // look for 2 or more similar pictures already displayed: adding 1
+                foreach (var s in _similarSignatures.Keys
+                             .Where(s => s.GetSimilarityWith(newSignature) > _similarityFactor))
+                {
+                    Console.WriteLine($"    Found similar with {s.FileInfo.Name}. {_similarSignatures[s].Count} pre-existing.");
+                    _similarSignatures[s].Add(newSignature);
+                    handled = true;
+                }
+
+                if (!handled) // look for one similar yet to be displayed picture: adding 2
+                    foreach (var previous in _distinctSignatures.ToArray())
+                    {
+                        if (previous.GetSimilarityWith(newSignature) > _similarityFactor)
+                        {
+                            Console.WriteLine($"    Found similar with {previous.FileInfo.Name}. New.");
+                            _similarSignatures.Add(previous, new[] { previous, newSignature }.ToList());
+                            Console.WriteLine($"    {previous.FileInfo.Name} removed from distincts.");
+                            _distinctSignatures.Remove(previous);
+                            handled = true;
+                        }
+                    }
+                if (!handled) // this is a brand new signature
+                {
+                    Console.WriteLine($"    {newSignature.FileInfo.Name} added to distincts.");
+                    _distinctSignatures.Add(newSignature);
+                }
+            }
+        }
+
         void ReceiveSignature(PictureSignature newSignature)
         {
             var lowResColor = Color.Red;
