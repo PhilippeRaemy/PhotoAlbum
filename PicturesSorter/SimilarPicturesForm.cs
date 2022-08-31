@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace PicturesSorter
 {
+    using System.Diagnostics;
     using System.Drawing;
     using System.Threading;
 
@@ -36,12 +37,27 @@ namespace PicturesSorter
                 ProgressBar.Value += 1;
         }
 
+        Color InterpolateColor(Color lowResColor, Color hiResColor, long minLength, long maxLength, FileInfo fi)
+        {
+            var percent = Math.Abs(Math.Log(1d * fi.Length / minLength) / Math.Log(1d * maxLength / minLength));
+            Debug.Assert(percent >= 0 && percent <= 1);
+            var color = InterpolateColor(lowResColor, hiResColor,
+                maxLength == minLength ? 1
+                : fi.Length == minLength ? 0
+                : percent);
+            Console.WriteLine(
+                $"{fi.Name} : InterpolateColor({lowResColor}, {hiResColor}, {minLength}, {maxLength}, {fi.Length})[%={percent}]={color}");
+            return color;
+        }
+
         Color InterpolateColor(Color lowResColor, Color hiResColor, double percent)
-            => Color.FromArgb(
-                (int)(percent * Math.Abs(hiResColor.R - lowResColor.R)),
-                (int)(percent * Math.Abs(hiResColor.G - lowResColor.G)),
-                (int)(percent * Math.Abs(hiResColor.B - lowResColor.B))
-            );
+            => percent > 1 || percent < 0
+                ? throw new InvalidOperationException($"Invalid percentage {percent} in colors interpolation")
+                : Color.FromArgb(
+                    (int)(lowResColor.R + percent * (hiResColor.R - lowResColor.R)),
+                    (int)(lowResColor.G + percent * (hiResColor.G - lowResColor.G)),
+                    (int)(lowResColor.B + percent * (hiResColor.B - lowResColor.B))
+                );
 
         void ReceiveSignature(PictureSignature newSignature)
         {
@@ -57,7 +73,7 @@ namespace PicturesSorter
                 foreach (var s in _similarSignatures.Keys
                              .Where(s => s.GetSimilarityWith(newSignature) > _similarityFactor))
                 {
-                    Console.WriteLine($"    Found similar with {s.FileInfo.Name}. Pre-existing.");
+                    Console.WriteLine($"    Found similar with {s.FileInfo.Name}. {_similarSignatures[s].Count} pre-existing.");
                     _similarSignatures[s].Add(newSignature);
                     var maxLength = _similarSignatures[s].Max(ss => ss.FileInfo.Length);
                     var minLength = _similarSignatures[s].Min(ss => ss.FileInfo.Length);
@@ -65,21 +81,20 @@ namespace PicturesSorter
                     actions.Add(() =>
                     {
                         newSignature.PictureBox = CreatePictureBox(
-                            newSignature.SetLocation(_similarSignatures[s].Count * PICTURE_WIDTH, s.Location.Y),
-                            PICTURE_WIDTH, PICTURE_HEIGHT, 
-                            newSignature.FileInfo.Length < maxLength, 
+                            newSignature.SetLocation((_similarSignatures[s].Count-1) * PICTURE_WIDTH, s.Location.Y),
+                            PICTURE_WIDTH, PICTURE_HEIGHT,
+                            newSignature.FileInfo.Length < maxLength,
                             maxLength == minLength
                                 ? hiResColor
-                                : InterpolateColor(lowResColor, hiResColor,
-                                    1d * (newSignature.FileInfo.Length - minLength) / (maxLength - minLength)));
+                                : InterpolateColor(lowResColor, hiResColor, minLength, maxLength,
+                                    newSignature.FileInfo));
                     });
                     actions.AddRange(
                         from ss in _similarSignatures[s]
                         select (Action)(() =>
                         {
                             ss.Selected = ss.FileInfo.Length <= maxLength;
-                            ss.PictureBox.BackColor = InterpolateColor(lowResColor, hiResColor,
-                                1d * (ss.FileInfo.Length - minLength) / (maxLength - minLength));
+                            ss.PictureBox.BackColor = InterpolateColor(Color.Black, Color.Blue, minLength, maxLength, ss.FileInfo);
                         }));
 
                     handled = true;
@@ -126,10 +141,13 @@ namespace PicturesSorter
                                 newSignature.PictureBox = CreatePictureBox(newSignature.SetLocation(PICTURE_WIDTH, top),
                                     PICTURE_WIDTH, PICTURE_HEIGHT, newSelected, newColor);
                             });
-                            _similarSignatures.Add(previous, new[] { newSignature }.ToList());
+                            _similarSignatures.Add(previous, new[] {previous, newSignature }.ToList());
                             Console.WriteLine($"    {previous.FileInfo.Name} removed from distincts.");
                             _distinctSignatures.Remove(previous);
                             handled = true;
+
+                            Console.WriteLine($"{previous.FileInfo.Name} : Color = {previousColor}");
+                            Console.WriteLine($"{newSignature.FileInfo.Name} : Color = {newColor}");
                         }
                     }
                 if(!handled) // this is a brand new signature

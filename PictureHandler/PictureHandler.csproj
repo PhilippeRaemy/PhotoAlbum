@@ -52,6 +52,9 @@
     <Compile Include="PictureHelper.cs" />
     <Compile Include="PictureSignature.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectablePictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
