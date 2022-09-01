@@ -33,12 +33,7 @@
         public SelectablePictureBox PictureBox
         {
             get => _pictureBox;
-            set
-            {
-                _pictureBox = value;
-                if(value != null)
-                    _pictureBox.Selected = _selected;
-            }
+            set => _pictureBox = value;
         }
 
         public Point Location { get; private set; }

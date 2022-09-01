@@ -10,6 +10,8 @@ namespace PicturesSorter
     using System.Diagnostics;
     using System.Drawing;
     using System.Threading;
+    using System.Threading.Tasks;
+    using MoreLinq;
 
     public partial class SimilarPicturesForm : Form
     {
@@ -32,7 +34,7 @@ namespace PicturesSorter
         void IncrementProgress()
         {
             if (ProgressBar.InvokeRequired)
-                ProgressBar.Invoke(new Action(IncrementProgress));
+                new Task(()=> ProgressBar.Invoke(new Action(IncrementProgress))).Start();
             else
                 ProgressBar.Value += 1;
         }
@@ -64,20 +66,23 @@ namespace PicturesSorter
             var lowResColor = Color.Red;
             var hiResColor = Color.FromArgb(0, 255, 0);
             // look for 2 or more similar pictures already displayed: adding 1
+            var y = 0;
             foreach (var g in similarSignatures.Values)
             {
                 var maxLength = g.Max(ss => ss.FileInfo.Length);
                 var minLength = g.Min(ss => ss.FileInfo.Length);
 
+                var x = 0;
                 foreach (var s in g.OrderByDescending(p => p.FileInfo.Length))
                     s.PictureBox = CreatePictureBox(
-                        s.SetLocation((similarSignatures[s].Count - 1) * PICTURE_WIDTH, s.Location.Y),
+                        s.SetLocation(x++ * PICTURE_WIDTH, y * PICTURE_HEIGHT),
                         PICTURE_WIDTH, PICTURE_HEIGHT,
                         s.FileInfo.Length < maxLength,
                         maxLength == minLength
                             ? hiResColor
                             : InterpolateColor(lowResColor, hiResColor, minLength, maxLength,
                                 s.FileInfo));
+                y++;
             }
         }
 
@@ -232,7 +237,7 @@ namespace PicturesSorter
                 return pb;
             }
 
-            Console.WriteLine($"   Creating picture at ({signature.Location}) for {fileInfo.Name}.");
+            Console.WriteLine($"   Creating picture at ({signature.Location}) for {fileInfo.Name}. Selected : {selected}");
             pb = new SelectablePictureBox(signature, labelFile);
 
             PanelMain.Controls.Add(pb);
@@ -291,16 +296,20 @@ namespace PicturesSorter
 
                         var signature = new PictureSignature(file, 16, 4, false);
                         Console.WriteLine($"LoadPictureThread: {file.Name}");
-                        signature.GetSignature(ReceiveSignature);
+                        signature.GetSignature(ReceiveSignatureNew);
                         lock (_signatures) _signatures.Add(signature);
                     }
                 }
 
-                var threads = Enumerable.Range(0, MAX_TASKS)
-                    .Select(_ => new Thread(LoadPictureThread));
 
-                foreach (var thread in threads) thread.Start();
+                var tasks = Enumerable.Range(0, MAX_TASKS)
+                    .Select(_ => new Task(LoadPictureThread))
+                    .Pipe(s => s.Start())
+                    .ToArray();
 
+                Task.WaitAll(tasks);
+
+                DisplaySignatures(_similarSignatures);
             }
         }
 
@@ -311,7 +320,7 @@ namespace PicturesSorter
             using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
             {
                 foreach (var control in PanelMain.Controls.Cast<Control>().ToArray())
-                    if (control is PictureBox)
+                    if (control is Panel)
                         PanelMain.Controls.Remove(control);
                 _similarityFactor = (double)similarityFactor.Value / 100;
                 ProgressBar.Value = 0;
@@ -325,9 +334,10 @@ namespace PicturesSorter
                             signature.PictureBox = null;
                         }
                         signature.FileInfo.Refresh();
-                        if (signature.FileInfo.Exists) ReceiveSignature(signature);
+                        if (signature.FileInfo.Exists) ReceiveSignatureNew(signature);
                     }
             }
+            DisplaySignatures(_similarSignatures);
         }
 
         void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs e)
