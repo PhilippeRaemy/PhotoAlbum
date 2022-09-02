@@ -340,39 +340,58 @@ namespace PicturesSorter
             DisplaySignatures(_similarSignatures);
         }
 
-        void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs e)
+        static IEnumerable<SelectablePictureBox> GetSelectedPictureBoxes(object sender)
         {
-            Console.WriteLine($"{(e.Control ? "<ctrl>" : string.Empty)}{(e.Alt ? "<alt>" : string.Empty)}{(e.Shift ? "<shift>" : string.Empty)}{e.KeyCode}");
-            IEnumerable<SelectablePictureBox> GetPictureBoxes(Control control)
+            switch (sender)
             {
-                if (control is SelectablePictureBox pb) yield return pb;
-                foreach (Control child in control.Controls)
-                foreach (var sb in GetPictureBoxes(child))
-                    yield return sb;
-            }
-
-            if (e.KeyCode == Keys.Delete && !e.Alt && !e.Control && !e.Shift && !e.Handled)
-            {
-                var count = 0;
-                foreach (var pb in GetPictureBoxes((Control)sender))
+                case SelectablePictureBox pb:
+                    if (pb.Selected)
+                        yield return pb;
+                    break;
+                case Control control:
                 {
-                    if (!pb.Selected) continue;
-                    pb.Image = null;
-                    pb.FileInfo.Delete();
-                    pb.Parent.Controls.Remove(pb);
-
-                    count++;
+                    foreach (Control child in control.Controls)
+                    foreach (var sb in GetSelectedPictureBoxes(child))
+                        if (sb.Selected)
+                            yield return sb;
+                    break;
                 }
-                MessageBox.Show($"Delete key pressed. {count} pictures deleted.");
+            }
+        }
+
+        readonly Dictionary<Keys, Action<object, KeyEventArgs>> _keyMapping = new Dictionary<Keys, Action<object, KeyEventArgs>>
+        {
+            [Keys.Delete] = (s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
+            [Keys.Delete | Keys.Shift] = (s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
+        };
+
+        void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs evt)
+        {
+            var key = evt.KeyCode
+                      | (evt.Shift   ? Keys.Shift  : Keys.None)
+                      | (evt.Alt     ? Keys.Alt    : Keys.None)
+                      | (evt.Control ? Keys.Control: Keys.None)
+                ;
+            if (!_keyMapping.ContainsKey(key)) return;
+
+            _keyMapping[key](sender, evt);
+            evt.Handled = evt.SuppressKeyPress = true;
+        }
+
+        static void DeletePictures(IEnumerable<SelectablePictureBox> pictures)
+        {
+            var count = 0;
+            foreach (var pb in pictures)
+            {
+                pb.Image = null;
+                pb.FileInfo.Delete();
+                pb.Parent.Controls.Remove(pb);
+                count++;
             }
 
-            e.Handled = true;
-            e.SuppressKeyPress=true;
+            MessageBox.Show($"Delete key pressed. {count} pictures deleted.");
         }
 
-        void SimilarPicturesForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            _formIsAlive = false;
-        }
+        void SimilarPicturesForm_FormClosing(object sender, FormClosingEventArgs e) => _formIsAlive = false;
     }
 }
