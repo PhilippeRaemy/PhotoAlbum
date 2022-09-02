@@ -359,20 +359,20 @@ namespace PicturesSorter
             }
         }
 
-        readonly Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>> _keyMapping = new Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>>
-        {
-            [Keys.Delete] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
-            [Keys.Delete | Keys.Shift] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
-            [Keys.F5] = (f, s, e) => f.buttonGo_Click(s, e)
-        };
+        readonly Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>> _keyMapping =
+            new Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>>
+            {
+                [Keys.Delete] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
+                [Keys.Delete | Keys.Shift] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
+                [Keys.F5] = (f, s, e) => f.buttonGo_Click(s, e)
+            };
 
         void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs evt)
         {
-            var key = evt.KeyCode
-                      | (evt.Shift   ? Keys.Shift  : Keys.None)
-                      | (evt.Alt     ? Keys.Alt    : Keys.None)
-                      | (evt.Control ? Keys.Control: Keys.None)
-                ;
+            var key = evt.KeyCode |
+                      (evt.Shift   ? Keys.Shift   : Keys.None) |
+                      (evt.Alt     ? Keys.Alt     : Keys.None) |
+                      (evt.Control ? Keys.Control : Keys.None);
             if (!_keyMapping.ContainsKey(key)) return;
 
             _keyMapping[key](this, sender, evt);
