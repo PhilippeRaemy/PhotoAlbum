@@ -9,7 +9,7 @@ namespace PicturesSorter
 {
     using System.Diagnostics;
     using System.Drawing;
-    using System.Threading;
+    using System.Text;
     using System.Threading.Tasks;
     using MoreLinq;
 
@@ -21,8 +21,6 @@ namespace PicturesSorter
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
         bool _formIsAlive = true;
-
-        DirectoryInfo _directory;
 
         public SimilarPicturesForm() => InitializeComponent();
 
@@ -270,7 +268,6 @@ namespace PicturesSorter
             using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
             {
                 _similarityFactor = (double) similarityFactor.Value / 100;
-                _directory = directory;
                 if (directory is null)
                 {
                     Close();
@@ -362,7 +359,7 @@ namespace PicturesSorter
         readonly Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>> _keyMapping =
             new Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>>
             {
-                [Keys.Delete] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
+                [Keys.Delete] = (f, s, e) => StagePictures(GetSelectedPictureBoxes(s)),
                 [Keys.Delete | Keys.Shift] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
                 [Keys.F5] = (f, s, e) => f.buttonGo_Click(s, e)
             };
@@ -379,18 +376,50 @@ namespace PicturesSorter
             evt.Handled = evt.SuppressKeyPress = true;
         }
 
+        static void StagePictures(IEnumerable<SelectablePictureBox> pictures)
+            => DeletePicturesImpl(pictures, true);
+
         static void DeletePictures(IEnumerable<SelectablePictureBox> pictures)
+            => DeletePicturesImpl(pictures, false);
+
+        static void DeletePicturesImpl(IEnumerable<SelectablePictureBox> pictures, bool stage)
         {
             var count = 0;
+            var countErrors = 0;
+            var errorMessage = new StringBuilder();
+            var newLine = Environment.NewLine;
             foreach (var pb in pictures)
             {
-                pb.Image = null;
-                pb.FileInfo.Delete();
-                pb.Parent.Controls.Remove(pb);
-                count++;
+                pb.Image.Dispose();
+                try
+                {
+                    if (stage)
+                    {
+                        var stageDirectory = new DirectoryInfo(Path.Combine(pb.FileInfo.DirectoryName, "spare"));
+                        stageDirectory.Create();
+                        pb.FileInfo.MoveTo(stageDirectory.FullName);
+                    }
+                    else
+                    {
+                        pb.FileInfo.Delete();
+                    }
+
+                    pb.Parent.Controls.Remove(pb);
+                    count++;
+                }
+                catch (Exception e)
+                {
+                    errorMessage.Append($":{newLine}{pb.FileInfo?.FullName ?? "Unknown file"}: {e.Message}");
+                    countErrors++;
+                }
             }
 
-            MessageBox.Show($"Delete key pressed. {count} pictures deleted.");
+            MessageBox.Show(
+                $"{count} pictures {(stage ? "staged" : "deleted")}." +
+                (countErrors > 0
+                    ? $"{newLine}{countErrors} pictures couldn't be {(stage ? "staged" : "deleted")}:{newLine}"
+                    : errorMessage.ToString()),
+                "Deleting files");
         }
 
         void SimilarPicturesForm_FormClosing(object sender, FormClosingEventArgs e) => _formIsAlive = false;
