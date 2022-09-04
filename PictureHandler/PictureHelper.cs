@@ -16,7 +16,15 @@ namespace PictureHandler
             using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
             {
                 Trace.WriteLine($"Reading image from {imageFullPathName}");
-                return Image.FromStream(stream);
+                try
+                {
+                    return Image.FromStream(stream);
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine($"Reading image from {imageFullPathName} failed with {e}");
+                    return null;
+                }
             }
         }
 

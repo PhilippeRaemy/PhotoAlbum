@@ -417,8 +417,8 @@ namespace PicturesSorter
             MessageBox.Show(
                 $"{count} pictures {(stage ? "staged" : "deleted")}." +
                 (countErrors > 0
-                    ? $"{newLine}{countErrors} pictures couldn't be {(stage ? "staged" : "deleted")}:{newLine}"
-                    : errorMessage.ToString()),
+                    ? $"{newLine}{countErrors} pictures couldn't be {(stage ? "staged" : "deleted")}:{newLine}" + errorMessage.ToString()
+                    : string.Empty),
                 "Deleting files");
         }
 
