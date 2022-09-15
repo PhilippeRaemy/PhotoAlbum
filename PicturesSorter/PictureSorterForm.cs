@@ -220,7 +220,7 @@ namespace PicturesSorter
             switch (side)
             {
                 case Side.Left:
-                    _fileIndex = LoadPictures(_fileIndex, 1, 0);
+                    _fileIndex = LoadPictures(_fileIndex, -1, 0);
                     break;
                 case Side.Right:
                     _fileIndex = LoadPictures(_fileIndex, 0, 1);
