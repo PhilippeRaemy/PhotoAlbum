@@ -11,6 +11,7 @@ namespace PicturesSorter
     using System.Drawing;
     using System.IO;
     using System.Linq;
+    using System.Net.Mime;
     using System.Windows.Forms;
     using MoreLinq;
     using PictureHandler;
@@ -414,6 +415,25 @@ namespace PicturesSorter
                 _currentDirectory.Name);
             if (_currentDirectory.Name != newName && newName != string.Empty)
                 _currentDirectory.MoveTo(Path.Combine(_currentDirectory.Parent.FullName, newName));
+        }
+
+        void labelSimilarity_TextChanged(object sender, EventArgs e)
+        {
+            var tb = sender as TextBox;
+            if (tb is null) return;
+            if(!int.TryParse(tb.Text.Replace("%", string.Empty), out var value)) return;
+            if (value < 0 || value > 100)
+            {
+                tb.BackColor = tb.Parent.BackColor;
+                return;
+            }
+            var perc = 0.05 * (value-80); // colorize only the top 20% of similarity
+            tb.BackColor = Color.FromArgb(
+                (int)(Color.LightGreen.R * perc + Color.Red.R * (1 - perc)),
+                (int)(Color.LightGreen.G * perc + Color.Red.G * (1 - perc)),
+                (int)(Color.LightGreen.B * perc + Color.Red.B * (1 - perc))
+            );
+
         }
     }
 

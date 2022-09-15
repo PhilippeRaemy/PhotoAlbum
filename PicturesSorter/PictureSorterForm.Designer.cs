@@ -88,6 +88,7 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.labelSimilarity = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -621,11 +622,22 @@
             this.deleteRightToolStripMenuItem.Text = "Right";
             this.deleteRightToolStripMenuItem.Click += new System.EventHandler(this.deleteRightToolStripMenuItem_Click);
             // 
+            // labelSimilarity
+            // 
+            this.labelSimilarity.Location = new System.Drawing.Point(537, 91);
+            this.labelSimilarity.Name = "labelSimilarity";
+            this.labelSimilarity.Size = new System.Drawing.Size(33, 20);
+            this.labelSimilarity.TabIndex = 15;
+            this.labelSimilarity.Text = "%";
+            this.labelSimilarity.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelSimilarity.TextChanged += new System.EventHandler(this.labelSimilarity_TextChanged);
+            // 
             // PictureSorterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1119, 609);
+            this.Controls.Add(this.labelSimilarity);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panel1);
@@ -713,6 +725,7 @@
         private ToolStripMenuItem deleteToolStripMenuItem;
         private ToolStripMenuItem deleteLeftToolStripMenuItem;
         private ToolStripMenuItem deleteRightToolStripMenuItem;
+        private Label labelSimilarity;
     }
 }
 
