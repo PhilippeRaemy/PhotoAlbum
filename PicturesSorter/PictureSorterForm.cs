@@ -294,14 +294,13 @@ namespace PicturesSorter
                 userPrefs.ShelfName,
                 new FileInfo(shelvedFile.Item1)
             ) {Parent = _currentFiles};
+
             host.ShelvePicture();
             var nextNode = _currentFiles.First;
             while (nextNode != null
                && string.Compare(nextNode.Value.FileInfo.Name, host.FileInfo.Name, StringComparison.InvariantCultureIgnoreCase)<0
-            )
-            {
-                nextNode = nextNode.Next;
-            }
+            ) nextNode = nextNode.Next;
+
             NodesTuple displayLocation;
             if (nextNode == null)
             {
