@@ -7,6 +7,7 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
+    using System.Runtime.Remoting.Messaging;
     using System.Text;
     using System.Threading.Tasks;
     using Signature = System.Collections.Generic.List<ushort>;
@@ -67,6 +68,8 @@
         public Signature GetSignature(Action<PictureSignature> feedback = null)
         {
             var image = PictureHelper.ReadImageFromFileInfo(FileInfo);
+            if(image is null) return new Signature();
+
             //if (image.Width > image.Height)
             //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
             // var bmp = new Bitmap(image, size, size);

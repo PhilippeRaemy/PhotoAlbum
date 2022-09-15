@@ -85,6 +85,9 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.contextMenuStripPicture = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel5.SuspendLayout();
@@ -179,6 +182,7 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.archiveToolStripMenuItem,
+            this.deleteToolStripMenuItem,
             this.rotateToolStripMenuItem,
             this.moveToToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
@@ -191,7 +195,7 @@
             this.leftToolStripMenuItem,
             this.rightToolStripMenuItem});
             this.archiveToolStripMenuItem.Name = "archiveToolStripMenuItem";
-            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.archiveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.archiveToolStripMenuItem.Text = "Archive";
             // 
             // leftToolStripMenuItem
@@ -199,7 +203,7 @@
             this.leftToolStripMenuItem.Name = "leftToolStripMenuItem";
             this.leftToolStripMenuItem.ShortcutKeyDisplayString = "F1, 1";
             this.leftToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.leftToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.leftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.leftToolStripMenuItem.Text = "Left";
             this.leftToolStripMenuItem.Click += new System.EventHandler(this.archiveLeftToolStripMenuItem_Click);
             // 
@@ -208,7 +212,7 @@
             this.rightToolStripMenuItem.Name = "rightToolStripMenuItem";
             this.rightToolStripMenuItem.ShortcutKeyDisplayString = "F2, 2";
             this.rightToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
-            this.rightToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.rightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rightToolStripMenuItem.Text = "Right";
             this.rightToolStripMenuItem.Click += new System.EventHandler(this.archiveRightToolStripMenuItem_Click);
             // 
@@ -221,14 +225,14 @@
             this.RotateRightAnti});
             this.rotateToolStripMenuItem.Name = "rotateToolStripMenuItem";
             this.rotateToolStripMenuItem.ShortcutKeyDisplayString = "";
-            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.rotateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.rotateToolStripMenuItem.Text = "Rotate";
             // 
             // RotateLeftClock
             // 
             this.RotateLeftClock.Name = "RotateLeftClock";
             this.RotateLeftClock.ShortcutKeyDisplayString = "Q";
-            this.RotateLeftClock.Size = new System.Drawing.Size(151, 22);
+            this.RotateLeftClock.Size = new System.Drawing.Size(180, 22);
             this.RotateLeftClock.Text = "Left clock";
             this.RotateLeftClock.Click += new System.EventHandler(this.RotateLeftClock_Click);
             // 
@@ -236,7 +240,7 @@
             // 
             this.RotateLeftAnti.Name = "RotateLeftAnti";
             this.RotateLeftAnti.ShortcutKeyDisplayString = "A";
-            this.RotateLeftAnti.Size = new System.Drawing.Size(151, 22);
+            this.RotateLeftAnti.Size = new System.Drawing.Size(180, 22);
             this.RotateLeftAnti.Text = "Left anti";
             this.RotateLeftAnti.Click += new System.EventHandler(this.RotateLeftAnti_Click);
             // 
@@ -244,7 +248,7 @@
             // 
             this.RotateRightClock.Name = "RotateRightClock";
             this.RotateRightClock.ShortcutKeyDisplayString = "W";
-            this.RotateRightClock.Size = new System.Drawing.Size(151, 22);
+            this.RotateRightClock.Size = new System.Drawing.Size(180, 22);
             this.RotateRightClock.Text = "Right clock";
             this.RotateRightClock.Click += new System.EventHandler(this.RotateRightClock_Click);
             // 
@@ -252,7 +256,7 @@
             // 
             this.RotateRightAnti.Name = "RotateRightAnti";
             this.RotateRightAnti.ShortcutKeyDisplayString = "S";
-            this.RotateRightAnti.Size = new System.Drawing.Size(151, 22);
+            this.RotateRightAnti.Size = new System.Drawing.Size(180, 22);
             this.RotateRightAnti.Text = "Right anti";
             this.RotateRightAnti.Click += new System.EventHandler(this.RotateRightAnti_Click);
             // 
@@ -262,19 +266,19 @@
             this.moveLeftToToolStripMenuItem,
             this.moreRightToToolStripMenuItem});
             this.moveToToolStripMenuItem.Name = "moveToToolStripMenuItem";
-            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.moveToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.moveToToolStripMenuItem.Text = "&Move to...";
             // 
             // moveLeftToToolStripMenuItem
             // 
             this.moveLeftToToolStripMenuItem.Name = "moveLeftToToolStripMenuItem";
-            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.moveLeftToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.moveLeftToToolStripMenuItem.Text = "Move Left to ...";
             // 
             // moreRightToToolStripMenuItem
             // 
             this.moreRightToToolStripMenuItem.Name = "moreRightToToolStripMenuItem";
-            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.moreRightToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.moreRightToToolStripMenuItem.Text = "Move Right to ...";
             // 
             // viewToolStripMenuItem
@@ -591,6 +595,32 @@
             this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
             this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDoubleClick);
             // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteLeftToolStripMenuItem,
+            this.deleteRightToolStripMenuItem});
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            // 
+            // deleteLeftToolStripMenuItem
+            // 
+            this.deleteLeftToolStripMenuItem.Name = "deleteLeftToolStripMenuItem";
+            this.deleteLeftToolStripMenuItem.ShortcutKeyDisplayString = "";
+            this.deleteLeftToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F1)));
+            this.deleteLeftToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteLeftToolStripMenuItem.Text = "Left";
+            this.deleteLeftToolStripMenuItem.Click += new System.EventHandler(this.deleteLeftToolStripMenuItem_Click);
+            // 
+            // deleteRightToolStripMenuItem
+            // 
+            this.deleteRightToolStripMenuItem.Name = "deleteRightToolStripMenuItem";
+            this.deleteRightToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.F2)));
+            this.deleteRightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.deleteRightToolStripMenuItem.Text = "Right";
+            this.deleteRightToolStripMenuItem.Click += new System.EventHandler(this.deleteRightToolStripMenuItem_Click);
+            // 
             // PictureSorterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -680,6 +710,9 @@
         private ToolStripMenuItem contextMenuStripPictureMoveTo;
         private ToolStripMenuItem sortFilesBySignatureToolStripMenuItem;
         private ToolStripMenuItem searchForSimilarPhotosToolStripMenuItem;
+        private ToolStripMenuItem deleteToolStripMenuItem;
+        private ToolStripMenuItem deleteLeftToolStripMenuItem;
+        private ToolStripMenuItem deleteRightToolStripMenuItem;
     }
 }
 

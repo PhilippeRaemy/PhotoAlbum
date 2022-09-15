@@ -76,7 +76,7 @@ namespace PicturesSorter
         /// Shelve or unshelve a picture, depending on the name of the directory the picture is in.
         /// </summary>
         /// <returns>The path teh picture file is moved to</returns>
-        public string ShelvePicture()
+        public string ShelvePicture(bool delete = false)
         {
             if (FileInfo                  == null 
                 || !FileInfo.Exists
@@ -84,8 +84,14 @@ namespace PicturesSorter
                 || FileInfo.DirectoryName == null
             ) return null;
 
-            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase) 
-                ? FileInfo.Directory.Parent 
+            if (delete)
+            {
+                FileInfo.Delete();
+                return string.Empty;
+            }
+
+            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase)
+                ? FileInfo.Directory.Parent
                 : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
             return MovePicture(di);
         }

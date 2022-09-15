@@ -166,23 +166,7 @@ namespace PicturesSorter
         static NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2)
             => new NodesTuple(idx?.Left.SafeStep(step1), idx?.Right.SafeStep(step2));
 
-/*
-        void LoadPicture(pictureBox pb, Label lbl, FileSystemInfo fi)
-        {
-            lbl.Text = fi.FullName;
-            pb.SizeMode = PictureBoxSizeMode.Zoom;
-            using (var stream = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read))
-            {
-                pb.Image = Image.FromStream(stream);
-            }
-            pb.Refresh();
-        }
-*/
-
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            return ProcessCmdKeyImpl(ref msg, keyData);
-        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) => ProcessCmdKeyImpl(ref msg, keyData);
 
         bool ProcessCmdKeyImpl(ref Message msg, Keys keyData)
         {
@@ -214,73 +198,40 @@ namespace PicturesSorter
             return true;
         }
 
-        void ArchiveRightPicture()
-        {
-            _shelvedFiles.Push(Tuple.Create(_fileIndex.Right.Value.ShelvePicture(), Side.Right));
-            buttonUndo.Enabled = true;
-            ArchivePicture(_fileIndex.Right.Value, 0, 1);
-        }
+        void ArchiveRightPicture(bool delete = false) => ArchivePicture(delete, _fileIndex.Right);
+        void ArchiveLeftPicture(bool delete = false) => ArchivePicture(delete, _fileIndex.Left);
 
-        void ArchiveLeftPicture()
-        {
-            _shelvedFiles.Push(Tuple.Create(_fileIndex.Left.Value.ShelvePicture(), Side.Left));
-            buttonUndo.Enabled = true;
-            ArchivePicture(_fileIndex.Left.Value, -1, 0);
-        }
 
-        void ArchivePicture(ImageHost imageHost, int step1, int step2)
+        void ArchivePicture(bool delete, LinkedListNode<ImageHost> node)
         {
-            _fileIndex = LoadPictures(_fileIndex, step1, step2);
-            _currentFiles.Remove(imageHost);
-            imageHost.Dispose();
+            if (delete)
+                node.Value.ShelvePicture(true);
+            else
+            {
+                _shelvedFiles.Push(Tuple.Create(node.Value.ShelvePicture(), Side.Right));
+                buttonUndo.Enabled = true;
+            }
+
+            _fileIndex = LoadPictures(_fileIndex, 0, 1);
+            _currentFiles.Remove(node.Value);
+            node.Value.Dispose();
         }
 
         readonly Stack<Tuple<string, Side>> _shelvedFiles =new Stack<Tuple<string, Side>>();
         bool _sortBySignature;
 
-        void previousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, -1, -1);
-        }
+        void previousToolStripMenuItem_Click     (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, -1, -1);
+        void nextToolStripMenuItem_Click         (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 1, 1);
+        void leftPreviousToolStripMenuItem_Click (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, -1, 0);
+        void leftNextToolStripMenuItem_Click     (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 1, 0);
+        void rightNextToolStripMenuItem_Click    (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 0, 1);
+        void rightPreviousToolStripMenuItem_Click(object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 0, -1);
+        void archiveLeftToolStripMenuItem_Click  (object sender, EventArgs e) => ArchiveLeftPicture();
+        void archiveRightToolStripMenuItem_Click (object sender, EventArgs e) => ArchiveRightPicture();
+        void deleteLeftToolStripMenuItem_Click   (object sender, EventArgs e) => ArchiveLeftPicture(true);
+        void deleteRightToolStripMenuItem_Click  (object sender, EventArgs e) => ArchiveRightPicture(true);
 
-        void nextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 1, 1);
-        }
-
-        void leftPreviousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, -1, 0);
-        }
-        void leftNextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 1, 0);
-        }
-
-        void rightNextToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 0, 1);
-        }
-
-        void rightPreviousToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 0, -1);
-        }
-
-        void archiveLeftToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ArchiveLeftPicture();
-        }
-
-        void archiveRightToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ArchiveRightPicture();
-        }
-
-        void pickDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            OpenFolder();
-        }
+        void pickDirectoryToolStripMenuItem_Click(object sender, EventArgs e) => OpenFolder();
 
         void RotateLeftClock_Click(object sender, EventArgs e)
         {
@@ -306,15 +257,8 @@ namespace PicturesSorter
             _fileIndex.Right.Value.Render(pictureBox2, labelRight, force: true);
         }
 
-        void nextFolder_Click(object sender, EventArgs e)
-        {
-            OpenNextFolder(_currentDirectory, FolderDirection.Forward, _sortBySignature);
-        }
-
-        void previousFolder_Click(object sender, EventArgs e)
-        {
-            OpenNextFolder(_currentDirectory, FolderDirection.Backward, _sortBySignature);
-        }
+        void nextFolder_Click    (object sender, EventArgs e) => OpenNextFolder(_currentDirectory, FolderDirection.Forward, _sortBySignature);
+        void previousFolder_Click(object sender, EventArgs e) => OpenNextFolder(_currentDirectory, FolderDirection.Backward, _sortBySignature);
 
         void openInWindowsExplorerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -329,45 +273,14 @@ namespace PicturesSorter
             p.Start();
         }
 
-        void buttonNavigateLeftLeft_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, -1, 0);
-        }
-
-        void buttonNavigateRight_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 1, 0);
-        }
-
-        void buttonNavigateBothLeft_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, -1, -1);
-        }
-
-        void buttonNavigateBothRight_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 1, 1);
-        }
-
-        void buttonNavigateRightLeft_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 0, -1);
-        }
-
-        void buttonNavigateRightRight_Click(object sender, EventArgs e)
-        {
-            _fileIndex = LoadPictures(_fileIndex, 0, 1);
-        }
-
-        void buttonShelfRight_Click(object sender, EventArgs e)
-        {
-            ArchiveRightPicture();
-        }
-
-        void buttonShelfLeft_Click(object sender, EventArgs e)
-        {
-            ArchiveLeftPicture();
-        }
+        void buttonNavigateLeftLeft_Click  (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, -1, 0);
+        void buttonNavigateRight_Click     (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 1, 0);
+        void buttonNavigateBothLeft_Click  (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, -1, -1);
+        void buttonNavigateBothRight_Click (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 1, 1);
+        void buttonNavigateRightLeft_Click (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 0, -1);
+        void buttonNavigateRightRight_Click(object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, 0, 1);
+        void buttonShelfRight_Click        (object sender, EventArgs e) => ArchiveRightPicture();
+        void buttonShelfLeft_Click         (object sender, EventArgs e) => ArchiveLeftPicture();
 
         void buttonUndo_Click(object sender, EventArgs e)
         {
