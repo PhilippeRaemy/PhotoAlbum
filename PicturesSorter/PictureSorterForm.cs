@@ -153,14 +153,18 @@ namespace PicturesSorter
             var rc = SelectIndexes(idx, stepLeft, stepRight);
             if (rc.Left == null || rc.Right == null) return null;
             Trace.WriteLine($"LoadPictures({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name}, {stepLeft}, {stepRight}, {noRelease})");
-            rc.Left?.Value?.Render(pictureBox1, labelLeft);
-            rc.Right?.Value?.Render(pictureBox2, labelRight);
+            rc.Left.Value?.Render(pictureBox1, labelLeft);
+            rc.Right.Value?.Render(pictureBox2, labelRight);
             if (!noRelease)
             {
                 idx?.Left?.Value?.Release();
                 idx?.Right?.Value?.Release();
             }
             Trace.WriteLine($"LoadPictures returns({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name})");
+            var similarity = new PictureSignature(rc.Left.Value.FileInfo, 16, 4, false)
+                .GetSimilarityWith(
+                    new PictureSignature(rc.Right.Value.FileInfo, 16, 4, false));
+            labelSimilarity.Text = $"{100*similarity:f0}%";
             return rc;
         }
 
@@ -213,7 +217,17 @@ namespace PicturesSorter
                 buttonUndo.Enabled = true;
             }
 
-            _fileIndex = LoadPictures(_fileIndex, 0, 1);
+            switch (side)
+            {
+                case Side.Left:
+                    _fileIndex = LoadPictures(_fileIndex, 1, 0);
+                    break;
+                case Side.Right:
+                    _fileIndex = LoadPictures(_fileIndex, 0, 1);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(side), side, null);
+            }
             _currentFiles.Remove(node.Value);
             node.Value.Dispose();
         }
@@ -347,15 +361,8 @@ namespace PicturesSorter
             }
         }
 
-        void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            buttonShelfLeft_Click(sender, EventArgs.Empty);
-        }
-
-        void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            buttonShelfRight_Click(sender, EventArgs.Empty);
-        }
+        void pictureBox1_MouseDoubleClick(object sender, MouseEventArgs e) => buttonShelfLeft_Click(sender, EventArgs.Empty);
+        void pictureBox2_MouseDoubleClick(object sender, MouseEventArgs e) => buttonShelfRight_Click(sender, EventArgs.Empty);
 
         IEnumerable<FileInfo> EnumerateFilesBySignature(IEnumerable<FileInfo> files)
         {
@@ -419,7 +426,7 @@ namespace PicturesSorter
 
         void labelSimilarity_TextChanged(object sender, EventArgs e)
         {
-            var tb = sender as TextBox;
+            var tb = sender as Label;
             if (tb is null) return;
             if(!int.TryParse(tb.Text.Replace("%", string.Empty), out var value)) return;
             if (value < 0 || value > 100)
@@ -428,6 +435,7 @@ namespace PicturesSorter
                 return;
             }
             var perc = 0.05 * (value-80); // colorize only the top 20% of similarity
+            if (perc < 0) perc = 0;
             tb.BackColor = Color.FromArgb(
                 (int)(Color.LightGreen.R * perc + Color.Red.R * (1 - perc)),
                 (int)(Color.LightGreen.G * perc + Color.Red.G * (1 - perc)),
