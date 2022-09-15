@@ -198,17 +198,17 @@ namespace PicturesSorter
             return true;
         }
 
-        void ArchiveRightPicture(bool delete = false) => ArchivePicture(delete, _fileIndex.Right);
-        void ArchiveLeftPicture(bool delete = false) => ArchivePicture(delete, _fileIndex.Left);
+        void ArchiveRightPicture(bool delete = false) => ArchivePicture(delete, _fileIndex.Right, Side.Right);
+        void ArchiveLeftPicture(bool delete = false) => ArchivePicture(delete, _fileIndex.Left, Side.Left);
 
 
-        void ArchivePicture(bool delete, LinkedListNode<ImageHost> node)
+        void ArchivePicture(bool delete, LinkedListNode<ImageHost> node, Side side)
         {
             if (delete)
                 node.Value.ShelvePicture(true);
             else
             {
-                _shelvedFiles.Push(Tuple.Create(node.Value.ShelvePicture(), Side.Right));
+                _shelvedFiles.Push(Tuple.Create(node.Value.ShelvePicture(), side));
                 buttonUndo.Enabled = true;
             }
 
