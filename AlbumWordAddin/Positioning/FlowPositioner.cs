@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using MoreLinq;
     using VstoEx.Extensions;
     using VstoEx.Geometry;
+    using static MoreLinq.Extensions.EquiZipExtension;
 
     public class FlowPositioner : IPositioner
     {

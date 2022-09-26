@@ -61,6 +61,7 @@ namespace PicturesSorter
         {
             pictureBox1.Width = pictureBox2.Width = ClientRectangle.Width / 2;
             labelLeft.Width = labelRight.Width = ClientRectangle.Width / 2;
+            labelSimilarity.Left = (ClientRectangle.Width - labelSimilarity.Width) / 2;
         }
 
         void PictureSorterForm_Load(object sender, EventArgs e)
@@ -442,6 +443,15 @@ namespace PicturesSorter
                 (int)(Color.LightGreen.B * perc + Color.Red.B * (1 - perc))
             );
 
+        }
+
+        void twoScreensToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Screen.AllScreens.Length < 2) return;
+            Width = Screen.AllScreens.Take(2).Sum(s => s.WorkingArea.Width);
+            Height = Screen.AllScreens.Take(2).Min(s => s.WorkingArea.Height);
+            Top = 0;
+            Left = 0;
         }
     }
 
