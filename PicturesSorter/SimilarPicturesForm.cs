@@ -310,7 +310,7 @@ namespace PicturesSorter
             }
         }
 
-        void buttonGo_Click(object sender, EventArgs e)
+        public void buttonGo_Click(object sender, EventArgs e)
         {
             _distinctSignatures.Clear();
             _similarSignatures.Clear();
@@ -364,7 +364,7 @@ namespace PicturesSorter
                 [Keys.F5] = (f, s, e) => f.buttonGo_Click(s, e)
             };
 
-        void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs evt)
+        public void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs evt)
         {
             var key = evt.KeyCode |
                       (evt.Shift   ? Keys.Shift   : Keys.None) |
