@@ -66,13 +66,7 @@ namespace PicturesSorter
 
         void PictureSorterForm_Load(object sender, EventArgs e)
         {
-            if (_fileInfos != null)
-            {
-                var userPrefs = new PersistedUserPreferences();
-                var fileNameHandler = new FileNameHandler(userPrefs);
-                OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), null, fileNameHandler,
-                    userPrefs.ShelfName, false);
-            }
+            if (_fileInfos != null) OpenFolderImpl(null, false);
             else OpenFolder();
         }
 
@@ -85,17 +79,12 @@ namespace PicturesSorter
         void OpenFolder()
         {
             var userPrefs = new PersistedUserPreferences();
-            var fileNameHandler = new FileNameHandler(userPrefs);
             if (string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
             {
                 folderBrowserDialog.SelectedPath = userPrefs.FolderImportStart;
             }
             folderBrowserDialog.ShowDialog();
-            OpenFolderImpl(
-                n => fileNameHandler.FileMatch(n, includeSmalls: false),
-                new DirectoryInfo(folderBrowserDialog.SelectedPath), 
-                fileNameHandler, 
-                userPrefs.ShelfName, 
+            OpenFolderImpl(new DirectoryInfo(folderBrowserDialog.SelectedPath), 
                 _sortBySignature);
             userPrefs.Save();
         }
@@ -107,20 +96,23 @@ namespace PicturesSorter
                 : currentDirectory.WalkNextFolder(folderDirection);
             if (folder == null) return;
             var userPrefs = new PersistedUserPreferences();
-            var fileNameHandler = new FileNameHandler(userPrefs);
-            OpenFolderImpl(n => fileNameHandler.FileMatch(n, includeSmalls: false), folder, fileNameHandler, userPrefs.ShelfName, sortBySignature);
+            OpenFolderImpl(folder, sortBySignature);
             userPrefs.Save();
         }
 
-        void OpenFolderImpl(Func<string, bool> fileNameMatcher, DirectoryInfo selectedPath, FileNameHandler fileNameHandler, string shelf, bool sortBySignature)
+        void OpenFolderImpl(DirectoryInfo selectedPath, bool sortBySignature)
         {
+            var userPrefs = new PersistedUserPreferences();
+            var fileNameHandler = new FileNameHandler(userPrefs);
+            var shelf = userPrefs.ShelfName;
+            bool FileNameMatcher(string n) => fileNameHandler.FileMatch(n, includeSmalls: false);
             _shelvedFiles.Clear();
             buttonUndo.Enabled = false;
             _currentDirectory = selectedPath;
             Text = _currentDirectory.FullName;
             var files = _fileInfos ?? _currentDirectory
                 .EnumerateFiles("*", SearchOption.TopDirectoryOnly)
-                .Where(f => fileNameMatcher(f.Name))
+                .Where(f => FileNameMatcher(f.Name))
                 .OrderBy(f => f.Name);
             if (sortBySignature) files = EnumerateFilesBySignature(files);
 
@@ -409,12 +401,11 @@ namespace PicturesSorter
 
         void searchForSimilarPhotosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var sims = new SimilarPicturesForm
-            {
-                Visible = true
-            };
+            var sims = new SimilarPicturesForm();
             sims.Focus();
             sims.LoadPictures(_currentDirectory);
+            sims.ShowDialog();
+            OpenFolderImpl(_currentDirectory, _sortBySignature);
         }
 
         void renameToolStripMenuItem_Click(object sender, EventArgs e)
