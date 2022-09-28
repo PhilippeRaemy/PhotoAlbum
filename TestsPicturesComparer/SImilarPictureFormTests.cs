@@ -42,7 +42,8 @@
 
             form.LoadPictures(_testFolder);
             form.Show();
-            form.SimilarPicturesForm_KeyUp(null, new KeyEventArgs(Keys.Delete | Keys.Shift));
+            SimilarPicturesForm.MuteDialogs = true;
+            form.SimilarPicturesForm_KeyUp(form.PanelMain, new KeyEventArgs(Keys.Delete | Keys.Shift));
             form.buttonGo_Click(null, null);
             form.Close();
             foreach (var fileInfo in files)

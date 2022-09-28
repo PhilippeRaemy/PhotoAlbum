@@ -22,6 +22,8 @@ namespace PicturesSorter
         double _similarityFactor = .95;
         bool _formIsAlive = true;
 
+        public static bool MuteDialogs { get; set; }
+
         public SimilarPicturesForm() => InitializeComponent();
 
         readonly HashSet<PictureSignature> _distinctSignatures = new HashSet<PictureSignature>();
@@ -414,12 +416,14 @@ namespace PicturesSorter
                 }
             }
 
-            MessageBox.Show(
-                $"{count} pictures {(stage ? "staged" : "deleted")}." +
-                (countErrors > 0
-                    ? $"{newLine}{countErrors} pictures couldn't be {(stage ? "staged" : "deleted")}:{newLine}" + errorMessage.ToString()
-                    : string.Empty),
-                "Deleting files");
+
+            var message = $"{count} pictures {(stage ? "staged" : "deleted")}." +
+                        (countErrors > 0
+                            ? $"{newLine}{countErrors} pictures couldn't be {(stage ? "staged" : "deleted")}:{newLine}" + errorMessage.ToString()
+                            : string.Empty);
+            if(MuteDialogs)
+                Console.WriteLine(message);
+            else MessageBox.Show(message, "Deleting files");
         }
 
         void SimilarPicturesForm_FormClosing(object sender, FormClosingEventArgs e) => _formIsAlive = false;

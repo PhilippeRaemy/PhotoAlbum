@@ -150,7 +150,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel PanelMain;
+        public System.Windows.Forms.Panel PanelMain;
         private System.Windows.Forms.Panel PanelHeader;
         private System.Windows.Forms.ProgressBar ProgressBar;
         private System.Windows.Forms.Button buttonGo;
