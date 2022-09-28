@@ -35,7 +35,18 @@
         public void Cleanup() => _testFolder.Delete(true);
 
         [TestMethod]
-        public void TestForm()
+        public void TestDeletePictures()
+        {
+            TestDeletePictureImpl(Keys.Delete | Keys.Shift);
+        }
+
+        [TestMethod]
+        public void TestStagePictures()
+        {
+            TestDeletePictureImpl(Keys.Delete);
+        }
+
+        void TestDeletePictureImpl(Keys keyData)
         {
             var files = _testFolder.GetFiles();
             var form = new SimilarPicturesForm();
@@ -43,7 +54,7 @@
             form.LoadPictures(_testFolder);
             form.Show();
             SimilarPicturesForm.MuteDialogs = true;
-            form.SimilarPicturesForm_KeyUp(form.PanelMain, new KeyEventArgs(Keys.Delete | Keys.Shift));
+            form.SimilarPicturesForm_KeyUp(form.PanelMain, new KeyEventArgs(keyData));
             form.buttonGo_Click(null, null);
             form.Close();
             foreach (var fileInfo in files)
@@ -67,8 +78,8 @@
                         Assert.IsTrue(fileInfo.Exists);
                         break;
                 }
-
             }
+
             _testFolder.GetFiles().Pipe(Console.WriteLine);
             Trace.WriteLine("test done!");
         }

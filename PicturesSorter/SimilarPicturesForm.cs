@@ -397,7 +397,7 @@ namespace PicturesSorter
                     {
                         var stageDirectory = new DirectoryInfo(Path.Combine(pb.FileInfo.DirectoryName, "spare"));
                         stageDirectory.Create();
-                        pb.FileInfo.MoveTo(stageDirectory.FullName);
+                        pb.FileInfo.MoveTo(Path.Combine(stageDirectory.FullName, pb.FileInfo.Name));
                     }
                     else
                     {
