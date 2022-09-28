@@ -348,13 +348,11 @@ namespace PicturesSorter
                         yield return pb;
                     break;
                 case Control control:
-                {
-                    foreach (Control child in control.Controls)
+                    foreach (var child in control.Controls.Cast<Control>().ToArray())
                     foreach (var sb in GetSelectedPictureBoxes(child))
                         if (sb.Selected)
                             yield return sb;
                     break;
-                }
             }
         }
 
