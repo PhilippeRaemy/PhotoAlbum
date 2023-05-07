@@ -16,7 +16,7 @@ namespace PicturesSorter
     {
         const int PICTURE_WIDTH = 250;
         const int PICTURE_HEIGHT = 250;
-        const int MAX_TASKS = 8;
+        const int MAX_TASKS = 16;
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
         bool _formIsAlive = true;
@@ -37,8 +37,9 @@ namespace PicturesSorter
                 ProgressBar.Invoke(new Action(IncrementProgress));
             else
             {
-                ProgressBar.Value += 1;
                 labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
+                labelProgressBar.Update();
+                ProgressBar.Value += 1;
             }
         }
 
@@ -77,14 +78,17 @@ namespace PicturesSorter
 
                 var x = 0;
                 foreach (var s in g.OrderByDescending(p => p.FileInfo.Length))
+                {
                     s.PictureBox = CreatePictureBox(
-                        s.SetLocation(x++ * PICTURE_WIDTH, y * PICTURE_HEIGHT),
+                        s.SetLocation(x * PICTURE_WIDTH, y * PICTURE_HEIGHT),
                         PICTURE_WIDTH, PICTURE_HEIGHT,
-                        s.FileInfo.Length < maxLength,
+                        x>0 && s.FileInfo.Length <= maxLength,
                         maxLength == minLength
                             ? hiResColor
                             : InterpolateColor(lowResColor, hiResColor, minLength, maxLength,
                                 s.FileInfo));
+                    x++;
+                }
                 y++;
             }
         }
@@ -358,6 +362,7 @@ namespace PicturesSorter
                 _similarityFactor = (double)similarityFactor.Value / 100;
                 ProgressBar.Value = 0;
                 labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
+                labelProgressBar.Update();
 
                 lock (_signatures)
                 {
