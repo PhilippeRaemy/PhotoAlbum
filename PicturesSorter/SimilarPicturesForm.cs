@@ -18,7 +18,7 @@ namespace PicturesSorter
     {
         const int PICTURE_WIDTH = 250;
         const int PICTURE_HEIGHT = 250;
-        const int MAX_TASKS = 16;
+        const int MAX_TASKS = 8;
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
         bool _formIsAlive = true;
@@ -287,33 +287,50 @@ namespace PicturesSorter
 
                 ProgressBar.Maximum = files.Count;
                 var taskNum = 0;
+                var startTime = DateTime.Now;
 
-                void LoadPictureThread()
+                async Task LoadPictureThread()
                 {
                     int myTaskNum;
+                    int filesDone = 0;
                     lock (this) myTaskNum = taskNum++;
                     while (_formIsAlive)
                     {
                         FileInfo file;
                         lock (files)
                         {
-                            if (files.Count == 0) return; // we're done!
+                            if (files.Count == 0)
+                            {
+                                Console.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
+                                return; // we're done!
+                            }
+
                             file = files.Dequeue();
                         }
 
                         var signature = new PictureSignature(file, 16, 4, false);
-                        Console.WriteLine($"LoadPictureThread {taskNum:D2}: {file.FullName}");
-                        signature.GetSignature(ReceiveSignatureNew);
+                        Console.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now-startTime:g} : {file.FullName}");
+                        await signature.GetSignatureAsync(ReceiveSignatureNew);
                         lock (_signatures) _signatures.Add(signature);
+                        try
+                        {
+                            Console.WriteLine(
+                                $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {ProgressBar.Value / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
+                        }
+                        catch
+                        {
+                            // ignored division by zero
+                        }
                     }
                 }
 
                 var tasks = Enumerable.Range(0, MAX_TASKS)
-                    .Select(_ => new Task(LoadPictureThread))
-                    .Pipe(s => s.Start())
+                    .Select(_ => LoadPictureThread())
+                    // .Pipe(s => s.Start())
                     .ToArray();
                 await Task.WhenAll(tasks);
 
+                Task.WaitAll(tasks);
                 // var tasks = Enumerable.Range(0, MAX_TASKS)
                 //    .Select(_ => new Thread(LoadPictureThread))
                 //    .Pipe(s => s.Start())
@@ -323,15 +340,18 @@ namespace PicturesSorter
                 //     Task.Delay(500).Wait();
                 // }
                 // 
-
-                DisplaySignatures(_similarSignatures);
+                lock(_similarSignatures)
+                    DisplaySignatures(_similarSignatures);
             }
         }
 
         public void buttonGo_Click(object sender, EventArgs e)
         {
-            _distinctSignatures.Clear();
-            _similarSignatures.Clear();
+            lock(_similarSignatures)
+            {
+                _distinctSignatures.Clear();
+                _similarSignatures.Clear();
+            }
             using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
             {
                 foreach (var control in PanelMain.Controls.Cast<Control>().ToArray())
