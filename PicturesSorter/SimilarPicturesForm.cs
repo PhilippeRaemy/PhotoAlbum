@@ -10,6 +10,7 @@ namespace PicturesSorter
     using System.Diagnostics;
     using System.Drawing;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
     using MoreLinq;
 
@@ -17,7 +18,7 @@ namespace PicturesSorter
     {
         const int PICTURE_WIDTH = 250;
         const int PICTURE_HEIGHT = 250;
-        const int MAX_TASKS = 8;
+        const int MAX_TASKS = 16;
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
         bool _formIsAlive = true;
@@ -34,7 +35,8 @@ namespace PicturesSorter
         void IncrementProgress()
         {
             if (ProgressBar.InvokeRequired)
-                new Task(()=> ProgressBar.Invoke(new Action(IncrementProgress))).Start();
+                // new Task(() => ProgressBar.Invoke(new Action(IncrementProgress))).Start();
+                ProgressBar.Invoke(new Action(IncrementProgress));
             else
                 ProgressBar.Value += 1;
         }
@@ -117,7 +119,7 @@ namespace PicturesSorter
                     }
                 if (!handled) // this is a brand new signature
                 {
-                    Console.WriteLine($"    {newSignature.FileInfo.Name} added to distincts.");
+                    Console.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
                     _distinctSignatures.Add(newSignature);
                 }
             }
@@ -265,7 +267,7 @@ namespace PicturesSorter
         void SimilarPicturesForm_Load(object sender, EventArgs e) { }
 
 
-        public void LoadPictures(DirectoryInfo directory)
+        public async void LoadPictures(DirectoryInfo directory)
         {
             using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
             {
@@ -300,13 +302,21 @@ namespace PicturesSorter
                     }
                 }
 
-
                 var tasks = Enumerable.Range(0, MAX_TASKS)
                     .Select(_ => new Task(LoadPictureThread))
                     .Pipe(s => s.Start())
                     .ToArray();
+                await Task.WhenAll(tasks);
 
-                Task.WaitAll(tasks);
+                // var tasks = Enumerable.Range(0, MAX_TASKS)
+                //    .Select(_ => new Thread(LoadPictureThread))
+                //    .Pipe(s => s.Start())
+                //    .ToArray();
+                // while (tasks.Any(t => t.IsAlive))
+                // {
+                //     Task.Delay(500).Wait();
+                // }
+                // 
 
                 DisplaySignatures(_similarSignatures);
             }

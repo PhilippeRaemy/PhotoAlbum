@@ -7,7 +7,6 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-    using System.Runtime.Remoting.Messaging;
     using System.Text;
     using System.Threading.Tasks;
     using Signature = System.Collections.Generic.List<ushort>;
@@ -30,24 +29,19 @@
         public Signature Signature => _signature ?? GetSignature();
         public async Task<Signature> SignatureAsync() { return _signature ?? await GetSignatureAsync(); }
 
-        SelectablePictureBox _pictureBox;
-        public SelectablePictureBox PictureBox
-        {
-            get => _pictureBox;
-            set => _pictureBox = value;
-        }
+        public SelectablePictureBox PictureBox { get; set; }
 
         public Point Location { get; private set; }
         bool _selected;
 
         public bool Selected
         {
-            get => _pictureBox?.Selected ?? _selected;
+            get => PictureBox?.Selected ?? _selected;
             set
             {
                 _selected = value;
-                if (_pictureBox is null) return;
-                _pictureBox.Selected = value;
+                if (PictureBox is null) return;
+                PictureBox.Selected = value;
             }
         }
 
@@ -67,43 +61,49 @@
 
         public Signature GetSignature(Action<PictureSignature> feedback = null)
         {
-            var image = PictureHelper.ReadImageFromFileInfo(FileInfo);
-            if(image is null) return new Signature();
+            Signature results;
+            using (var image = PictureHelper.ReadImageFromFileInfo(FileInfo))
+            {
+                if (image is null) return new Signature();
 
-            //if (image.Width > image.Height)
-            //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            // var bmp = new Bitmap(image, size, size);
-            var bmp = new Bitmap(_size, _size);
-            var g = Graphics.FromImage(bmp);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(image, 0, 0, _size, _size);
-            bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-            var results = Enumerable.Range(0, _size)
-                .SelectMany(x => Enumerable.Range(0, _size)
-                    .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
-                .ToList();
-            feedback?.Invoke(this);
-            _signature = results;
+                //if (image.Width > image.Height)
+                //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                // var bmp = new Bitmap(image, size, size);
+                using(var bmp = new Bitmap(_size, _size))
+                using (var g = Graphics.FromImage(bmp))
+                {
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(image, 0, 0, _size, _size);
+                    bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
+                    results = Enumerable.Range(0, _size)
+                        .SelectMany(x => Enumerable.Range(0, _size)
+                            .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
+                        .ToList();
+                    feedback?.Invoke(this);
+                    _signature = results;
+                }
+            }
             return results;
         }
 
         public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feedback = null)
         {
-            var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo);
-            //if (image.Width > image.Height)
-            //    image.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            // var bmp = new Bitmap(image, size, size);
-            var bmp = new Bitmap(_size, _size);
-            var g = Graphics.FromImage(bmp);
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.DrawImage(image, 0, 0, _size, _size);
-            bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-            var results = Enumerable.Range(0, _size)
-                .SelectMany(x => Enumerable.Range(0, _size)
-                    .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
-                .ToList();
-            feedback?.Invoke(this);
-            _signature = results;
+            Signature results;
+            using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
+            using(var bmp = new Bitmap(_size, _size))
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(image, 0, 0, _size, _size);
+                bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
+                results = Enumerable.Range(0, _size)
+                    .SelectMany(x => Enumerable.Range(0, _size)
+                        .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
+                    .ToList();
+                feedback?.Invoke(this);
+                _signature = results;
+            }
+
             return results;
         }
 
