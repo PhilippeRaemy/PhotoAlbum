@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.similarityFactor = new System.Windows.Forms.NumericUpDown();
             this.ProgressBar = new System.Windows.Forms.ProgressBar();
+            this.labelProgressBar = new System.Windows.Forms.Label();
             this.PanelHeader.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.similarityFactor)).BeginInit();
@@ -126,11 +127,21 @@
             this.ProgressBar.Size = new System.Drawing.Size(800, 15);
             this.ProgressBar.TabIndex = 2;
             // 
+            // labelProgressBar
+            // 
+            this.labelProgressBar.AutoSize = true;
+            this.labelProgressBar.BackColor = System.Drawing.Color.Transparent;
+            this.labelProgressBar.Location = new System.Drawing.Point(12, 437);
+            this.labelProgressBar.Name = "labelProgressBar";
+            this.labelProgressBar.Size = new System.Drawing.Size(0, 13);
+            this.labelProgressBar.TabIndex = 4;
+            // 
             // SimilarPicturesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.labelProgressBar);
             this.Controls.Add(this.PanelMain);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.PanelHeader);
@@ -145,6 +156,7 @@
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.similarityFactor)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -158,5 +170,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown similarityFactor;
+        private System.Windows.Forms.Label labelProgressBar;
     }
 }

@@ -38,7 +38,10 @@ namespace PicturesSorter
                 // new Task(() => ProgressBar.Invoke(new Action(IncrementProgress))).Start();
                 ProgressBar.Invoke(new Action(IncrementProgress));
             else
+            {
                 ProgressBar.Value += 1;
+                labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
+            }
         }
 
         Color InterpolateColor(Color lowResColor, Color hiResColor, long minLength, long maxLength, FileInfo fi)
@@ -100,28 +103,28 @@ namespace PicturesSorter
                 foreach (var s in _similarSignatures.Keys
                              .Where(s => s.GetSimilarityWith(newSignature) > _similarityFactor))
                 {
-                    Console.WriteLine($"    Found similar with {s.FileInfo.Name}. {_similarSignatures[s].Count} pre-existing.");
+                    Console.WriteLine($"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
                     _similarSignatures[s].Add(newSignature);
                     handled = true;
                 }
 
                 if (!handled) // look for one similar yet to be displayed picture: adding 2
-                    foreach (var previous in _distinctSignatures.ToArray())
+                    foreach (var previous in _distinctSignatures
+                                 .Where(p => p.GetSimilarityWith(newSignature) > _similarityFactor)
+                                 .ToArray() // necessary to close the linq query before to modify the collection
+                             )
                     {
-                        if (previous.GetSimilarityWith(newSignature) > _similarityFactor)
-                        {
-                            Console.WriteLine($"    Found similar with {previous.FileInfo.Name}. New.");
-                            _similarSignatures.Add(previous, new[] { previous, newSignature }.ToList());
-                            Console.WriteLine($"    {previous.FileInfo.Name} removed from distincts.");
-                            _distinctSignatures.Remove(previous);
-                            handled = true;
-                        }
+                        Console.WriteLine($"    Found similar with {previous.FileInfo.FullName}. New.");
+                        _similarSignatures.Add(previous, new[] { previous, newSignature }.ToList());
+                        Console.WriteLine($"    {previous.FileInfo.FullName} removed from distincts.");
+                        _distinctSignatures.Remove(previous);
+                        handled = true;
                     }
-                if (!handled) // this is a brand new signature
-                {
-                    Console.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
-                    _distinctSignatures.Add(newSignature);
-                }
+
+                if (handled) return;
+
+                Console.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
+                _distinctSignatures.Add(newSignature);
             }
         }
 
@@ -283,9 +286,12 @@ namespace PicturesSorter
                         .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
 
                 ProgressBar.Maximum = files.Count;
+                var taskNum = 0;
 
                 void LoadPictureThread()
                 {
+                    int myTaskNum;
+                    lock (this) myTaskNum = taskNum++;
                     while (_formIsAlive)
                     {
                         FileInfo file;
@@ -296,7 +302,7 @@ namespace PicturesSorter
                         }
 
                         var signature = new PictureSignature(file, 16, 4, false);
-                        Console.WriteLine($"LoadPictureThread: {file.Name}");
+                        Console.WriteLine($"LoadPictureThread {taskNum:D2}: {file.FullName}");
                         signature.GetSignature(ReceiveSignatureNew);
                         lock (_signatures) _signatures.Add(signature);
                     }
@@ -333,6 +339,8 @@ namespace PicturesSorter
                         PanelMain.Controls.Remove(control);
                 _similarityFactor = (double)similarityFactor.Value / 100;
                 ProgressBar.Value = 0;
+                labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
+
                 lock (_signatures)
                     foreach (var signature in _signatures)
                     {
