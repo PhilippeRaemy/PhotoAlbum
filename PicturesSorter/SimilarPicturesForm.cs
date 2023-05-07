@@ -360,19 +360,23 @@ namespace PicturesSorter
                 labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
 
                 lock (_signatures)
-                    foreach (var signature in _signatures)
+                {
+                    ProgressBar.Maximum = _signatures.Count;
+                    foreach (var signature in _signatures.TakeWhile(signature => _formIsAlive))
                     {
-                        if (!_formIsAlive) break;
                         if (signature.PictureBox != null)
                         {
                             signature.PictureBox.Dispose();
                             signature.PictureBox = null;
                         }
+
                         signature.FileInfo.Refresh();
                         if (signature.FileInfo.Exists) ReceiveSignatureNew(signature);
                     }
+                }
             }
-            DisplaySignatures(_similarSignatures);
+            lock (_signatures)
+                DisplaySignatures(_similarSignatures);
         }
 
         static IEnumerable<SelectablePictureBox> GetSelectedPictureBoxes(object sender)
