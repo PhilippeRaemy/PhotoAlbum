@@ -11,7 +11,6 @@ namespace PicturesSorter
     using System.Drawing;
     using System.IO;
     using System.Linq;
-    using System.Net.Mime;
     using System.Windows.Forms;
     using MoreLinq;
     using PictureHandler;

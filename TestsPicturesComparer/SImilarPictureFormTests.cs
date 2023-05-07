@@ -3,13 +3,10 @@
     using System;
     using System.Diagnostics;
     using System.IO;
-    using System.Runtime.InteropServices;
-    using System.Text;
     using System.Windows.Forms;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using static MoreLinq.Extensions.PipeExtension;
     using static MoreLinq.Extensions.ForEachExtension;
-    using PictureHandler;
     using PicturesSorter;
 
     [TestClass]

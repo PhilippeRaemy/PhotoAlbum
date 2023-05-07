@@ -10,9 +10,7 @@ namespace PicturesSorter
     using System.Diagnostics;
     using System.Drawing;
     using System.Text;
-    using System.Threading;
     using System.Threading.Tasks;
-    using MoreLinq;
 
     public partial class SimilarPicturesForm : Form
     {
