@@ -19,7 +19,7 @@ namespace PicturesSorter
         FileNameHandler FileNameHandler { get; }
 
         Image[] _images;
-        Image Image => Images.First();
+        public Image Image => Images.First();
         readonly Func<FileInfo>[] _imageNamesGetters; 
         IEnumerable<Image> Images => _images.Select((im, i) => im ?? (_images[i] = GetImage(_imageNamesGetters[i]())));
 

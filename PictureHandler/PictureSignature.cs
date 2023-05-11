@@ -29,7 +29,15 @@
         Signature _flippedSignature;
 
         public FileInfo FileInfo { get; }
-        public Signature Signature => GetSignatureAsync().Result;
+        public Signature Signature
+        {
+            get
+            {
+                var sign = GetSignatureAsync();
+                sign.Wait();
+                return sign.Result;
+            }
+        }
 
         public Signature FlippedSignature => _flippedSignature ?? (_flippedSignature = Signature.Flip());
 
@@ -63,6 +71,14 @@
             FileInfo = fileInfo;
         }
 
+        public PictureSignature(Image image, int size, ushort levels, bool selected)
+        {
+            _size = size;
+            _levels = levels;
+            _selected = selected;
+            SetSignatureFromImage(image);
+        }
+
         /// <summary>
         /// Obtains asynchronously the signature of the picture, if it is not already cached
         /// </summary>
@@ -70,25 +86,27 @@
         /// <returns></returns>
         public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feedback = null)
         {
-            if(_signature is null)
-            {
+            if (_signature is null)
                 using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
-                using (var bmp = new Bitmap(_size, _size))
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(image, 0, 0, _size, _size);
-                    if (image.Width > image.Height) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    // bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-                    _signature = Enumerable.Range(0, _size)
-                        .SelectMany(x => Enumerable.Range(0, _size)
-                            .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
-                        .ToList();
-                    feedback?.Invoke(this);
-                }
-            }
-
+                    SetSignatureFromImage(image);
+            feedback?.Invoke(this);
             return _signature;
+        }
+
+        void SetSignatureFromImage(Image image)
+        {
+            using (var bmp = new Bitmap(_size, _size))
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(image, 0, 0, _size, _size);
+                if (image.Width > image.Height) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                // bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
+                _signature = Enumerable.Range(0, _size)
+                    .SelectMany(x => Enumerable.Range(0, _size)
+                        .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
+                    .ToList();
+            }
         }
 
         public override string ToString()
@@ -114,7 +132,11 @@
             );
 
         public double GetSimilarityWith(PictureSignature other)
-            => GetSimilarityWithAsync(other).Result;
+        {
+            var sim = GetSimilarityWithAsync(other);
+            sim.Wait();
+            return sim.Result;
+        }
 
         public async Task<double> GetSimilarityWithAsync(PictureSignature other)
         {
@@ -131,10 +153,8 @@
             }.Max();
         }
 
-        public bool Equals(PictureSignature other)
-        {
-            return GetSimilarityWith(other) >= .999;
-        }
+        public bool Equals(PictureSignature other) 
+            => GetSimilarityWith(other) >= .999;
     }
 
     public static class SignatureExtensions

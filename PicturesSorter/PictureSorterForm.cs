@@ -153,9 +153,9 @@ namespace PicturesSorter
                 idx?.Right?.Value?.Release();
             }
             Trace.WriteLine($"LoadPictures returns({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name})");
-            var similarity = new PictureSignature(rc.Left.Value.FileInfo, 16, 4, false)
+            var similarity = new PictureSignature(rc.Left.Value.Image, 16, 4, false)
                 .GetSimilarityWith(
-                    new PictureSignature(rc.Right.Value.FileInfo, 16, 4, false));
+                    new PictureSignature(rc.Right.Value.Image, 16, 4, false));
             labelSimilarity.Text = $"{100*similarity:f0}%";
             return rc;
         }
