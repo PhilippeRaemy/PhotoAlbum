@@ -284,7 +284,9 @@ namespace PicturesSorter
                 }
 
                 var files = new Queue<FileInfo>(
-                    directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories).ToArray()
+                    directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories)
+                        .Concat(directory.EnumerateFiles("*.jpeg", SearchOption.AllDirectories))
+                        .Concat(directory.EnumerateFiles("*.png", SearchOption.AllDirectories))
                         .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
 
                 ProgressBar.Maximum = files.Count;
