@@ -2,10 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data.SqlTypes;
     using System.Drawing;
     using System.Drawing.Drawing2D;
-    using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -88,7 +86,8 @@
         {
             if (_signature is null)
                 using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
-                    SetSignatureFromImage(image);
+                    if (image != null)
+                        SetSignatureFromImage(image);
             feedback?.Invoke(this);
             return _signature;
         }
