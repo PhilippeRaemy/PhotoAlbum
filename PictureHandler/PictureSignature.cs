@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Drawing;
     using System.Drawing.Drawing2D;
     using System.IO;
@@ -87,7 +88,15 @@
             if (_signature is null)
                 using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
                     if (image != null)
-                        SetSignatureFromImage(image);
+                        try
+                        {
+                            SetSignatureFromImage(image);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.Assert(false);
+                        }
+
             feedback?.Invoke(this);
             return _signature;
         }
