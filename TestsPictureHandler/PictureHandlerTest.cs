@@ -243,6 +243,8 @@ namespace TestsPictureHandler
     public class PictureHandlerTest
     {
         const string Jpg = @"Sample\Sample.jpg";
+        const string Webp = @"Sample\webpImage.webp";
+        const string WebpAsJpg = @"Sample\webpImageAsJpg.jpg";
 
         [TestMethod]
         public void ReadPictureMetadata()
@@ -250,10 +252,15 @@ namespace TestsPictureHandler
             var metadata = new JpegMetadataAdapter(Jpg)._metadata;
             TraceMetadata(metadata);
         }
-        [TestMethod]
-        public void ValidatePictureMetadata()
+
+
+        [DataRow(Jpg)]
+        [DataRow(Webp)]
+        [DataRow(WebpAsJpg)]
+        [DataTestMethod]
+        public void ValidatePictureMetadata(string path)
         {
-            ValidateMetadataImpl(Jpg, "Sample Title", "Sample Comments");
+            ValidateMetadataImpl(path, "Sample Title", "Sample Comments");
         }
 
         static void ValidateMetadataImpl(string jpg, string title, string comment)
