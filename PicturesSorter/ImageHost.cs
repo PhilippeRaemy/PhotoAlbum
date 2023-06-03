@@ -139,7 +139,7 @@ namespace PicturesSorter
 
         public void Render(PictureBox pictureBox, Label label, bool force = false)
         {
-            if (force || (string)label.Tag != FileInfo.FullName)
+            if (Image != null && force || (string)label.Tag != FileInfo.FullName)
             {
                 try
                 {

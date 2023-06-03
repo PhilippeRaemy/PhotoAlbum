@@ -20,6 +20,7 @@ namespace PicturesSorter
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
         bool _formIsAlive = true;
+        private readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
 
         public static bool MuteDialogs { get; set; }
 
@@ -314,7 +315,7 @@ namespace PicturesSorter
 
                         var signature = new PictureSignature(file, 16, 4, false);
                         Console.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now-startTime:g} : {file.FullName}");
-                        await signature.GetSignatureAsync(ReceiveSignatureNew);
+                        await signature.GetSignatureAsync(_loadPictureTimeout, ReceiveSignatureNew);
                         lock (_signatures) _signatures.Add(signature);
                         try
                         {

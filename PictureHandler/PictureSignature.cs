@@ -24,6 +24,7 @@
     {
         readonly int _size;
         readonly ushort _levels;
+        private readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
         Signature _signature;
         Signature _flippedSignature;
 
@@ -32,7 +33,7 @@
         {
             get
             {
-                var sign = GetSignatureAsync();
+                var sign = GetSignatureAsync(_loadPictureTimeout);
                 sign.Wait();
                 return sign.Result;
             }
@@ -78,12 +79,20 @@
             SetSignatureFromImage(image);
         }
 
+        public async Task<Signature> GetSignatureAsync(TimeSpan timeout, Action<PictureSignature> feedback = null) {
+            var task = GetSignatureAsync(feedback);
+            if(await Task.WhenAny(task, Task.Delay(timeout)) == task) return await task;
+            feedback?.Invoke(this);
+            return null;
+        }
+
+
         /// <summary>
         /// Obtains asynchronously the signature of the picture, if it is not already cached
         /// </summary>
         /// <param name="feedback"></param>
         /// <returns></returns>
-        public async Task<List<ushort>> GetSignatureAsync(Action<PictureSignature> feedback = null)
+        public async Task<Signature> GetSignatureAsync(Action<PictureSignature> feedback = null)
         {
             if (_signature is null)
                 using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
@@ -151,10 +160,13 @@
             if(other == null) return 0;
             if (ReferenceEquals(this, other)) return 1;
             if (_size != other._size) return 0;
-            var signature = GetSignatureAsync();
-            var otherSignature = other.GetSignatureAsync();
+            var signature = GetSignatureAsync(_loadPictureTimeout);
+            var otherSignature = other.GetSignatureAsync(_loadPictureTimeout);
             await Task.WhenAll(signature, otherSignature);
-            return new[]
+
+            return signature.Result is null || otherSignature.Result is null
+                ? 0
+                : new[]
             {
                 signature.Result.Zip(otherSignature.Result, (a, b) => a == b).Count(t => t) * 1.0 / _size / _size,
                 FlippedSignature.Zip(otherSignature.Result, (a, b) => a == b).Count(t => t) * 1.0 / _size / _size

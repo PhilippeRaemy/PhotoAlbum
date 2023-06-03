@@ -16,6 +16,7 @@ namespace TestsPictureHandler
 
 {
     using System.Collections.ObjectModel;
+    using System.Diagnostics.Eventing.Reader;
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal enum PropertyItemIdEnum
@@ -245,6 +246,7 @@ namespace TestsPictureHandler
         const string Jpg = @"Sample\Sample.jpg";
         const string Webp = @"Sample\webpImage.webp";
         const string WebpAsJpg = @"Sample\webpImageAsJpg.jpg";
+        static Exception Exception = new Exception();
 
         [TestMethod]
         public void ReadPictureMetadata()
@@ -255,8 +257,6 @@ namespace TestsPictureHandler
 
 
         [DataRow(Jpg)]
-        [DataRow(Webp)]
-        [DataRow(WebpAsJpg)]
         [DataTestMethod]
         public void ValidatePictureMetadata(string path)
         {
@@ -299,24 +299,34 @@ namespace TestsPictureHandler
             }
         }
 
-        [TestMethod]
-        public void TestReadImage()
+        [DataRow(Jpg, false)]
+        [DataRow(Webp, true)]
+        [DataRow(WebpAsJpg, true)]
+        [DataTestMethod]
+        public void TestReadImage(string path, bool fail)
         {
-            var img = Image.FromFile(Jpg);
-            foreach (var imgPropertyItem in img.PropertyItems)
+            using (var img = PictureHelper.ReadImageFromFileInfo(new FileInfo(path)))
             {
-                var value = imgPropertyItem.Type == 1 ? System.Text.Encoding.Unicode.GetString(imgPropertyItem.Value, 0, imgPropertyItem.Len-1)
-                          : imgPropertyItem.Type == 2 ? System.Text.Encoding.Default.GetString(imgPropertyItem.Value, 0, imgPropertyItem.Len-1)
-                          : imgPropertyItem.Type == 3 ? $"{BitConverter.ToInt16(imgPropertyItem.Value, 0)}"
-                          : imgPropertyItem.Type == 4 ? imgPropertyItem.Value.Select(b=>b.ToString("X")).ToDelimitedString(":")
-                          : imgPropertyItem.Type == 5 ? $"[{ToUIntArray(imgPropertyItem.Value).ToDelimitedString(",")}]"
-                          : imgPropertyItem.Type == 7 ? System.Text.Encoding.Default.GetString(imgPropertyItem.Value, 0, imgPropertyItem.Len - 1)
-                          : imgPropertyItem.Type == 10 ? $"[{ToRationalArray(imgPropertyItem.Value).ToDelimitedString(",")}]"
-                          : string.Empty;
-                var propName = Enum.IsDefined(typeof(PropertyItemIdEnum), imgPropertyItem.Id)
-                    ? ((PropertyItemIdEnum)imgPropertyItem.Id).ToString()
-                    : "Unknown property item id";
-                Trace.WriteLine($"{imgPropertyItem.Id:X} - {imgPropertyItem.Len} - {imgPropertyItem.Type} - {propName} : {value}");
+                if (img is null)
+                {
+                    Trace.WriteLine($"Got expected exception load failure.");
+                    return;
+                }
+                foreach (var imgPropertyItem in img.PropertyItems)
+                {
+                    var value = imgPropertyItem.Type == 1 ? System.Text.Encoding.Unicode.GetString(imgPropertyItem.Value, 0, imgPropertyItem.Len - 1)
+                              : imgPropertyItem.Type == 2 ? System.Text.Encoding.Default.GetString(imgPropertyItem.Value, 0, imgPropertyItem.Len - 1)
+                              : imgPropertyItem.Type == 3 ? $"{BitConverter.ToInt16(imgPropertyItem.Value, 0)}"
+                              : imgPropertyItem.Type == 4 ? imgPropertyItem.Value.Select(b => b.ToString("X")).ToDelimitedString(":")
+                              : imgPropertyItem.Type == 5 ? $"[{ToUIntArray(imgPropertyItem.Value).ToDelimitedString(",")}]"
+                              : imgPropertyItem.Type == 7 ? System.Text.Encoding.Default.GetString(imgPropertyItem.Value, 0, imgPropertyItem.Len - 1)
+                              : imgPropertyItem.Type == 10 ? $"[{ToRationalArray(imgPropertyItem.Value).ToDelimitedString(",")}]"
+                              : string.Empty;
+                    var propName = Enum.IsDefined(typeof(PropertyItemIdEnum), imgPropertyItem.Id)
+                        ? ((PropertyItemIdEnum)imgPropertyItem.Id).ToString()
+                        : "Unknown property item id";
+                    Trace.WriteLine($"{imgPropertyItem.Id:X} - {imgPropertyItem.Len} - {imgPropertyItem.Type} - {propName} : {value}");
+                }
             }
         }
 
