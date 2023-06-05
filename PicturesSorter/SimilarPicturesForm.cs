@@ -40,7 +40,8 @@ namespace PicturesSorter
             {
                 labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
                 labelProgressBar.Update();
-                ProgressBar.Value += 1;
+                if(ProgressBar.Value < ProgressBar.Maximum)
+                    ProgressBar.Value += 1;
             }
         }
 
