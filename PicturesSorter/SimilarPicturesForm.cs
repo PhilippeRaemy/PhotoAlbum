@@ -38,10 +38,10 @@ namespace PicturesSorter
                 ProgressBar.Invoke(new Action(IncrementProgress));
             else
             {
+                if (ProgressBar.Value < ProgressBar.Maximum)
+                    ProgressBar.Value += 1;
                 labelProgressBar.Text = $"{ProgressBar.Value}/{ProgressBar.Maximum}";
                 labelProgressBar.Update();
-                if(ProgressBar.Value < ProgressBar.Maximum)
-                    ProgressBar.Value += 1;
             }
         }
 
