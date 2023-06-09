@@ -408,9 +408,13 @@ namespace PicturesSorter
         readonly Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>> _keyMapping =
             new Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>>
             {
-                [Keys.Delete] = (f, s, e) => StagePictures(GetSelectedPictureBoxes(s)),
+                [Keys.Delete]              = (f, s, e) => StagePictures(GetSelectedPictureBoxes(s)),
                 [Keys.Delete | Keys.Shift] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),
-                [Keys.F5] = (f, s, e) => f.buttonGo_Click(s, e)
+                [Keys.F5]                  = (f, s, e) => f.buttonGo_Click(s, e),
+                [Keys.Escape]              = (f, s, e) => f.Close(),
+                [Keys.W | Keys.Control]    = (f, s, e) => f.Close(),
+                [Keys.F4 | Keys.Alt]       = (f, s, e) => f.Close(),
+
             };
 
         public void SimilarPicturesForm_KeyUp(object sender, KeyEventArgs evt)
