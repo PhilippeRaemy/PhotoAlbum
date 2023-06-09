@@ -84,7 +84,6 @@
             if (other.IsCompleted)
             {
                 Console.WriteLine($"{context} succeeded before timeout!");
-
                 return;
             }
             Console.WriteLine($"{context} Timed-out!");
@@ -94,7 +93,6 @@
         public async Task<Signature> GetSignatureAsync(TimeSpan timeout, Action<PictureSignature> feedback = null) {
             var task = GetSignatureAsync(feedback);
             if(await Task.WhenAny(task, Delay(timeout, task, $"GetSignatureAsync {FileInfo.FullName}" )) != task) return null;
-            feedback?.Invoke(this);
             return await task;
         }
 
