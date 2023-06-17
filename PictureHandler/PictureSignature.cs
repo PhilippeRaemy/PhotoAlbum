@@ -24,7 +24,7 @@
     {
         readonly int _size;
         readonly ushort _levels;
-        private readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
+        readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
         Signature _signature;
         Signature _flippedSignature;
 

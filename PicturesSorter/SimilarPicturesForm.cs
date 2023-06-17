@@ -20,7 +20,7 @@ namespace PicturesSorter
         readonly List<PictureSignature> _signatures = new List<PictureSignature>();
         double _similarityFactor = .95;
         bool _formIsAlive = true;
-        private readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
+        readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
 
         public static bool MuteDialogs { get; set; }
 

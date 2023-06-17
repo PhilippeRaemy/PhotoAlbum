@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Windows.Forms;
 
-    class StateKeeper:IDisposable
+    internal class StateKeeper:IDisposable
     {
         readonly Stack<Action> _unwindActions = new Stack<Action>();
 
