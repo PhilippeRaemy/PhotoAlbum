@@ -79,7 +79,7 @@ namespace PicturesSorter
                 var minLength = g.Min(ss => ss.FileInfo.Length);
 
                 var x = 0;
-                foreach (var s in g.OrderByDescending(p => p.FileInfo.Length).ThenBy(p => p.FileInfo.Name)
+                foreach (var s in g.OrderByDescending(p => p.FileInfo.Length).ThenBy(p => p.FileInfo.Name))
                 {
                     s.PictureBox = CreatePictureBox(
                         s.SetLocation(x * PICTURE_WIDTH, y * PICTURE_HEIGHT),
