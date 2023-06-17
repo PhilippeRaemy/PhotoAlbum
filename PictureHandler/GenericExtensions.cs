@@ -1,12 +1,12 @@
-namespace PicturesSorter
+namespace PictureHandler
 {
     using System.Collections.Generic;
-    using System.Drawing.Drawing2D;
     using System.Drawing;
+    using System.Drawing.Drawing2D;
     using System.Linq;
     using MoreLinq;
 
-    internal static class GenericExtensions
+    public static class GenericExtensions
     {
         static LinkedListNode<T> SafeNext<T>(this LinkedListNode<T> lln) => lln?.Next ?? lln?.List?.First;
         static LinkedListNode<T> SafePrev<T>(this LinkedListNode<T> lln) => lln?.Previous ?? lln?.List?.Last;
@@ -22,7 +22,7 @@ namespace PicturesSorter
             return theOne.Value == null ? -1 : theOne.Key;
         }
 
-        static Image Resize(this Image img, Size size)
+        public static Image Resize(this Image img, Size size)
         {
             var nPercentW = size.Width / (float)img.Width;
             var nPercentH = size.Height / (float)img.Height;

@@ -281,7 +281,7 @@ namespace TestsPictureHandler
             var metadata = adapter._metadata;
             metadata.Title = title;
             metadata.Comment = comment;
-            metadata.Keywords = new ReadOnlyCollection<string>((metadata.Keywords??Enumerable.Empty<string>()).Concat("New Keyword").Concat("And another").ToList());
+            metadata.Keywords = new ReadOnlyCollection<string>((metadata.Keywords??Enumerable.Empty<string>()).Append("New Keyword").Append("And another").ToList());
             const string anothersampleJpg = @"Sample\AnotherSample.jpg";
             adapter.SaveAs(anothersampleJpg);
             ValidateMetadataImpl(anothersampleJpg, title, comment);

@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Drawing;
     using System.IO;
     using System.Windows.Forms;
@@ -60,6 +61,7 @@
             _pictureBox.Top = BORDER_WIDTH;
             _pictureBox.Width = ClientSize.Width - 2 * BORDER_WIDTH;
             _pictureBox.Height = ClientSize.Height - 2 * BORDER_WIDTH;
+            Debug.Assert(_pictureBox?.Image is null);
         }
 
         public FileInfo FileInfo => _parentSignature.FileInfo;
@@ -75,7 +77,7 @@
         public Image Image
         {
             get => _pictureBox.Image;
-            set => _pictureBox.Image = value;
+            set => _pictureBox.Image = value.Resize(new Size(_pictureBox.Width, _pictureBox.Height));
         }
 
         public new void Dispose()
