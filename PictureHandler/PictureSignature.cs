@@ -106,6 +106,7 @@
         {
             if (_signature is null)
                 using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
+//                using (var image = PictureHelper.ReadImageFromFileInfo(FileInfo))
                     if (image != null)
                         try
                         {
@@ -117,6 +118,7 @@
                         }
 
             feedback?.Invoke(this);
+            Debug.Assert(_signature!=null);
             return _signature;
         }
 

@@ -9,17 +9,20 @@ namespace PictureHandler
 
     public static class PictureHelper
     {
-        public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
+        public static async Task<Image> ReadImageFromFileInfoAsync(FileInfo imageFullPathName)
         {
             if (imageFullPathName is null) return null;
             imageFullPathName.Refresh();
             if (!imageFullPathName.Exists) return null;
-            using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
+            using (var fStream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
+            using(var mStream = new MemoryStream())
             {
-                Trace.WriteLine($"Reading image from {imageFullPathName}");
+               Trace.WriteLine($"Reading image from {imageFullPathName}");
                 try
                 {
-                    return Image.FromStream(stream);
+                    await fStream.CopyToAsync(mStream);
+                    mStream.Seek(0, SeekOrigin.Begin);
+                    return await Task.Run(() => Image.FromStream(mStream));
                 }
                 catch (Exception e)
                 {
@@ -29,7 +32,11 @@ namespace PictureHandler
             }
         }
 
-        public static async Task<Image> ReadImageFromFileInfoAsync(FileInfo imageFullPathName) 
-            => await Task.Run(() => ReadImageFromFileInfo(imageFullPathName)).ConfigureAwait(false);
+        public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
+        {
+            var readImageFromFileInfoAsync = ReadImageFromFileInfoAsync(imageFullPathName);
+            readImageFromFileInfoAsync.Wait();
+            return readImageFromFileInfoAsync.Result;
+        }
     }
 }
