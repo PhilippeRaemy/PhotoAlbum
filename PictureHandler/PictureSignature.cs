@@ -92,7 +92,8 @@
 
         public async Task<Signature> GetSignatureAsync(TimeSpan timeout, Action<PictureSignature> feedback = null) {
             var task = GetSignatureAsync(feedback);
-            if(await Task.WhenAny(task, Delay(timeout, task, $"GetSignatureAsync {FileInfo.FullName}" )) != task) return null;
+            await task.ConfigureAwait(false);
+            if (await Task.WhenAny(task, Delay(timeout, task, $"GetSignatureAsync {FileInfo.FullName}" )) != task) return null;
             return await task;
         }
 
@@ -105,7 +106,7 @@
         public async Task<Signature> GetSignatureAsync(Action<PictureSignature> feedback = null)
         {
             if (_signature is null)
-                using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo))
+                using (var image = await PictureHelper.ReadImageFromFileInfoAsync(FileInfo).ConfigureAwait(false))
 //                using (var image = PictureHelper.ReadImageFromFileInfo(FileInfo))
                     if (image != null)
                         try
@@ -119,6 +120,7 @@
 
             feedback?.Invoke(this);
             Debug.Assert(_signature!=null);
+            Trace.WriteLine($"Signature for {FileInfo.Name} is {_signature}");
             return _signature;
         }
 

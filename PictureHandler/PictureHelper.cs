@@ -1,5 +1,4 @@
-﻿
-namespace PictureHandler
+﻿namespace PictureHandler
 {
     using System;
     using System.Diagnostics;
@@ -15,14 +14,14 @@ namespace PictureHandler
             imageFullPathName.Refresh();
             if (!imageFullPathName.Exists) return null;
             using (var fStream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
-            using(var mStream = new MemoryStream())
+            using (var mStream = new MemoryStream())
             {
-               Trace.WriteLine($"Reading image from {imageFullPathName}");
+                Trace.WriteLine($"Reading image from {imageFullPathName}");
                 try
                 {
-                    await fStream.CopyToAsync(mStream);
+                    await fStream.CopyToAsync(mStream).ConfigureAwait(false);
                     mStream.Seek(0, SeekOrigin.Begin);
-                    return await Task.Run(() => Image.FromStream(mStream));
+                    return await Task.Run(() => Image.FromStream(mStream)).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -35,6 +34,7 @@ namespace PictureHandler
         public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
         {
             var readImageFromFileInfoAsync = ReadImageFromFileInfoAsync(imageFullPathName);
+            readImageFromFileInfoAsync.ConfigureAwait(false);
             readImageFromFileInfoAsync.Wait();
             return readImageFromFileInfoAsync.Result;
         }
