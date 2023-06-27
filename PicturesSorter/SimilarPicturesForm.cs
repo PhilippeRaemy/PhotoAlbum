@@ -300,14 +300,14 @@ namespace PicturesSorter
                     int myTaskNum;
                     int filesDone = 0;
                     lock (this) myTaskNum = taskNum++;
-                    while (_formIsAlive)
+                    while (true)
                     {
                         FileInfo file;
                         lock (files)
                         {
                             if (files.Count == 0)
                             {
-                                Console.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
+                                Trace.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
                                 return; // we're done!
                             }
 
@@ -315,18 +315,23 @@ namespace PicturesSorter
                         }
 
                         var signature = new PictureSignature(file, 16, 4, false);
-                        Console.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now-startTime:g} : {file.FullName}");
-                        await signature.GetSignatureAsync(_loadPictureTimeout, ReceiveSignatureNew);
+                        Trace.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now-startTime:g} : {file.FullName}");
+                        var signatureTask = signature.GetSignatureAsync(_loadPictureTimeout, ReceiveSignatureNew);
+                        await signatureTask.ConfigureAwait(false);
+                        var signatureList = signatureTask.Result;
+                        Console.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName} Done. Signature is {string.Join(",", signatureList)}");
                         lock (_signatures) _signatures.Add(signature);
                         try
                         {
-                            Console.WriteLine(
+                            Trace.WriteLine(
                                 $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {ProgressBar.Value / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
                         }
                         catch
                         {
                             // ignored division by zero
                         }
+                        Trace.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : Form is alive : {_formIsAlive}.");
+                        if (!_formIsAlive) break;
                     }
                 }
 
