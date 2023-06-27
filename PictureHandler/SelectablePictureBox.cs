@@ -43,7 +43,10 @@
         }
 
         EventHandler Pb_MouseHover() => (sender, args) =>
-            SetLabelFileText($"{_parentSignature.FileInfo.FullName}({_parentSignature.FileInfo.Length / 1024.0 / 1024.0:f2}Mb)[{Image.Width}x{Image.Height}]");
+            SetLabelFileText(
+                Image is null 
+                    ? string.Empty
+                    : $"{_parentSignature.FileInfo.FullName}({_parentSignature.FileInfo.Length / 1024.0 / 1024.0:f2}Mb)[{Image.Width}x{Image.Height}]");
 
         void SetLabelFileText(string text)
         {
@@ -61,7 +64,7 @@
             _pictureBox.Top = BORDER_WIDTH;
             _pictureBox.Width = ClientSize.Width - 2 * BORDER_WIDTH;
             _pictureBox.Height = ClientSize.Height - 2 * BORDER_WIDTH;
-            Debug.Assert(_pictureBox?.Image is null);
+            // Debug.Assert(_pictureBox?.Image is null);
         }
 
         public FileInfo FileInfo => _parentSignature.FileInfo;
