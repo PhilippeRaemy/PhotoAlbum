@@ -27,7 +27,7 @@ namespace PictureHandler
             var nPercentW = size.Width / (float)img.Width;
             var nPercentH = size.Height / (float)img.Height;
             var nPercent = nPercentH < nPercentW ? nPercentH : nPercentW;
-            using (var b = new Bitmap((int)(img.Width * nPercent), (int)(img.Height * nPercent)))
+            var b = new Bitmap((int)(img.Width * nPercent), (int)(img.Height * nPercent));
             using (var g = Graphics.FromImage(b))
             {
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
