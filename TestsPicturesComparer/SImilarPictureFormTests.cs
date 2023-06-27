@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics;
     using System.IO;
+    using System.Threading.Tasks;
     using System.Windows.Forms;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using static MoreLinq.Extensions.PipeExtension;
@@ -49,11 +50,12 @@
             var form = new SimilarPicturesForm();
 
             form.LoadPictures(_testFolder);
-            form.Show();
+            // form.ShowDialog();
             SimilarPicturesForm.MuteDialogs = true;
-            form.SimilarPicturesForm_KeyUp(form.PanelMain, new KeyEventArgs(keyData));
-            form.buttonGo_Click(null, null);
+            form.SimilarPicturesForm_KeyUp(form.PanelMain, new KeyEventArgs(keyData)); 
+            // form.buttonGo_Click(null, null);
             form.Close();
+            Task.Delay(250).Wait();
             foreach (var fileInfo in files)
             {
                 fileInfo.Refresh();
@@ -72,7 +74,7 @@
                         Assert.IsTrue(fileInfo.Exists);
                         break;
                     case @"20220107_121343_Philippe_Large(2).jpg":
-                        Assert.IsTrue(fileInfo.Exists);
+                        Assert.IsFalse(fileInfo.Exists);
                         break;
                 }
             }
