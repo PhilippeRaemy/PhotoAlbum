@@ -17,7 +17,7 @@
             using (var fStream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
             using (var mStream = new MemoryStream())
             {
-                Trace.WriteLine($"Reading image from {imageFullPathName}");
+                Trace.WriteLine($"Reading image from {imageFullPathName.FullName}");
                 try
                 {
                     await fStream.CopyToAsync(mStream).ConfigureAwait(false);
@@ -27,39 +27,33 @@
                 catch (Exception e)
                 {
                     Trace.WriteLine($"Reading image from {imageFullPathName} failed with {e}");
-                    return null;
-                }
-            }
-        }
-
-
-        public class Program
-        {
-            public static void Main()
-            {
-                var imagePath = @"path_to_your_webp_image.webp";
-                var image = LoadWebP(imagePath);
-
-                // Now, you can use the image object as a System.Drawing.Image
-                // For demonstration purposes, save as PNG:
-                image.Save("output.png");
-            }
-
-            public static Image LoadWebP(string path)
-            {
-                using (var magickImage = new MagickImage(path))
-                {
-                    // Convert MagickImage to a memory stream in PNG format (or any other format)
-                    using (var ms = new MemoryStream())
+                    try
                     {
-                        magickImage.Write(ms, MagickFormat.Png);
-                        return Image.FromStream(ms);
+                        return LoadWebP(imageFullPathName.FullName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine($"Reading image from {imageFullPathName} failed with {ex}");
+                        return null;
                     }
                 }
             }
         }
 
-    public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
+        static Image LoadWebP(string path)
+        {
+            using (var magickImage = new MagickImage(path))
+            {
+                // Convert MagickImage to a memory stream in PNG format (or any other format)
+                using (var ms = new MemoryStream())
+                {
+                    magickImage.Write(ms, MagickFormat.Jpg);
+                    return Image.FromStream(ms);
+                }
+            }
+        }
+
+        public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
         {
             var readImageFromFileInfoAsync = ReadImageFromFileInfoAsync(imageFullPathName);
             readImageFromFileInfoAsync.ConfigureAwait(false);
