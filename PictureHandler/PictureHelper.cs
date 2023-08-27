@@ -5,6 +5,7 @@
     using System.Drawing;
     using System.IO;
     using System.Threading.Tasks;
+    using ImageMagick;
 
     public static class PictureHelper
     {
@@ -31,7 +32,34 @@
             }
         }
 
-        public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
+
+        public class Program
+        {
+            public static void Main()
+            {
+                var imagePath = @"path_to_your_webp_image.webp";
+                var image = LoadWebP(imagePath);
+
+                // Now, you can use the image object as a System.Drawing.Image
+                // For demonstration purposes, save as PNG:
+                image.Save("output.png");
+            }
+
+            public static Image LoadWebP(string path)
+            {
+                using (var magickImage = new MagickImage(path))
+                {
+                    // Convert MagickImage to a memory stream in PNG format (or any other format)
+                    using (var ms = new MemoryStream())
+                    {
+                        magickImage.Write(ms, MagickFormat.Png);
+                        return Image.FromStream(ms);
+                    }
+                }
+            }
+        }
+
+    public static Image ReadImageFromFileInfo(FileInfo imageFullPathName)
         {
             var readImageFromFileInfoAsync = ReadImageFromFileInfoAsync(imageFullPathName);
             readImageFromFileInfoAsync.ConfigureAwait(false);

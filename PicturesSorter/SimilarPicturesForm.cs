@@ -456,10 +456,12 @@ namespace PicturesSorter
                         var stageDirectory = new DirectoryInfo(Path.Combine(pb.FileInfo.DirectoryName, "spare"));
                         stageDirectory.Create();
                         pb.FileInfo.MoveTo(Path.Combine(stageDirectory.FullName, pb.FileInfo.Name));
+                        Trace.WriteLine($"{pb.FileInfo.Name} staged to {stageDirectory.FullName}");
                     }
                     else
                     {
-                        pb.FileInfo.Delete();
+                        pb.FileInfo.Delete(); 
+                        Trace.WriteLine($"{pb.FileInfo.Name} deleted");
                     }
 
                     pb.Parent.Controls.Remove(pb);
@@ -467,7 +469,9 @@ namespace PicturesSorter
                 }
                 catch (Exception e)
                 {
-                    errorMessage.Append($":{newLine}{pb.FileInfo?.FullName ?? "Unknown file"}: {e.Message}");
+                    var msg = $":{newLine}{pb.FileInfo?.FullName ?? "Unknown file"}: {e.Message}";
+                    Trace.TraceError(msg);
+                    errorMessage.Append(msg);
                     countErrors++;
                 }
             }

@@ -1,9 +1,4 @@
-﻿
-
-using FolderWalker;
-using UserPreferences;
-
-namespace PicturesSorter
+﻿namespace PicturesSorter
 {
     using System;
     using System.Collections.Generic;
@@ -12,8 +7,11 @@ namespace PicturesSorter
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using MoreLinq;
     using PictureHandler;
+    using FolderWalker;
+    using UserPreferences;
+    using static MoreLinq.Extensions.ForEachExtension;
+    using static MoreLinq.Extensions.PipeExtension;
 
     public partial class PictureSorterForm : Form
     {

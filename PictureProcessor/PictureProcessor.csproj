@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>PictureProcessor</RootNamespace>
     <AssemblyName>PictureProcessor</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,8 +38,8 @@
       <HintPath>..\packages\Mannex.3.0.0\lib\net45\Mannex.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
-      <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
+    <Reference Include="MoreLinq, Version=3.4.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.4.2\lib\net462\MoreLinq.dll</HintPath>
     </Reference>
     <Reference Include="SimpleCommandlineParser, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleCommandlineParser.1.2.0\lib\net472\SimpleCommandlineParser.dll</HintPath>

@@ -9,9 +9,9 @@ namespace AlbumWordAddin
     using Microsoft.Office.Tools.Ribbon;
     using Mannex.Text.RegularExpressions;
     using Microsoft.Office.Interop.Word;
-    using MoreLinq;
     using Positioning;
     using VstoEx.Extensions;
+    using static MoreLinq.Extensions.ForEachExtension;
 
     public partial class AlbumRibbon
     {

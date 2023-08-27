@@ -16,12 +16,14 @@ namespace AlbumWordAddin
     using System.Text.RegularExpressions;
     using Mannex.Collections.Generic;
     using Microsoft.Office.Core;
-    using MoreLinq;
     using Positioning;
     using VstoEx;
     using VstoEx.Extensions;
     using VstoEx.Progress;
     using Rectangle = VstoEx.Geometry.Rectangle;
+    using static MoreLinq.Extensions.ForEachExtension;
+    using static MoreLinq.Extensions.PipeExtension;
+    using static MoreLinq.Extensions.ToDelimitedStringExtension;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -612,7 +614,7 @@ namespace AlbumWordAddin
                     .ApplyPositions(
                         orderedRectangles
                             .Skip(1)
-                            .Concat(orderedRectangles.First())
+                            .Append(orderedRectangles.First())
                             .Select(r => r.R)
                         );
             }
@@ -663,6 +665,12 @@ namespace AlbumWordAddin
         public void TogglePositioner(bool useFlow)
         {
             _positionManager.UsePositioner(useFlow ? EnumPositioner.FlowPositioner : EnumPositioner.GridPositioner);
+        }
+
+        public static int BestSquare(int shapesCount)
+        {
+            var edge = (int)Math.Floor(Math.Sqrt(shapesCount));
+            return edge * edge < shapesCount ? edge + 1 : edge;
         }
     }
 }
