@@ -1,9 +1,9 @@
-namespace AlbumWordAddin
-{
-    using System;
-    using System.Text.RegularExpressions;
-    using MoreLinq;
+using System;
+using System.Text.RegularExpressions;
+using MoreLinq;
 
+namespace UserPreferences
+{
     public class FileNameHandler
     {
         readonly Regex _filePattern;
@@ -14,10 +14,15 @@ namespace AlbumWordAddin
         readonly Func<string, string> _largeFileNameMaker;
         readonly Func<string, string> _rightFileNameMaker;
 
-        public FileNameHandler(UserPreferences.UserPreferences userPrefs)
+        public FileNameHandler(UserPreferences userPrefs)
         {
             var smallFileNameMakerRe = new Regex(@"\.(jpg|jpeg)$", RegexOptions.IgnoreCase);
-            _filePattern = RegexFromPatternList(userPrefs.IncludeFiles);
+            var includeFiles =
+                userPrefs.IncludeFiles is null ||
+                userPrefs.IncludeFiles.Trim() == string.Empty
+                    ? "*.jpg;*.jpeg"
+                    : userPrefs.IncludeFiles;
+            _filePattern = RegexFromPatternList(includeFiles);
             _excludePattern = string.IsNullOrWhiteSpace(userPrefs.ExcludeFolders) ? null : RegexFromPatternList(userPrefs.ExcludeFolders);
             _smallPattern = new Regex(@"\.small\.((jpeg)|(jpg))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             _rightPattern = new Regex(@"\.right\.((jpeg)|(jpg))$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -65,7 +70,7 @@ namespace AlbumWordAddin
 
         public bool SmallPatternIsMatch(string fileFullName) => _smallPattern.Match(fileFullName).Success;
         public bool RightPatternIsMatch(string fileFullName) => _rightPattern.Match(fileFullName).Success;
-        public bool FilePatternIsMatch (string fileFullName) => _filePattern .Match(fileFullName).Success;
+               bool FilePatternIsMatch (string fileFullName) => _filePattern .Match(fileFullName).Success;
 
         Regex RegexFromPatternList(string maskList)
         {

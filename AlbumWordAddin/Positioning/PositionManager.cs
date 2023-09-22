@@ -10,9 +10,15 @@
 
     public class PositionManager
     {
-        readonly Positioner.Parms _positionerParms = new Positioner.Parms();
+        readonly PositionerParms _positionerParms = new PositionerParms();
+        IPositioner _positioner;
         static Document ActiveDocument => Globals.Factory.GetVstoObject(Globals.ThisAddIn.Application.ActiveDocument);
         static Microsoft.Office.Interop.Word.Application Application => ActiveDocument.Application;
+
+        public PositionManager()
+        {
+            _positioner = new GridPositioner();
+        }
 
         internal void DoPositionSelectedImages(Arrangement arrangement, int spacing, int margin)
         {
@@ -54,11 +60,9 @@
 
         internal void DoPositionSelectedImages(string hAlign, string vAlign)
         {
-            HShape hShape;
-            if (Enum.TryParse(hAlign?.Replace("hAlign", string.Empty), true, out hShape))
+            if (Enum.TryParse(hAlign?.Replace("hAlign", string.Empty), true, out HShape hShape))
                 _positionerParms.HShape = hShape;
-            VShape vShape;
-            if (Enum.TryParse(vAlign?.Replace("vAlign", string.Empty), true, out vShape))
+            if (Enum.TryParse(vAlign?.Replace("vAlign", string.Empty), true, out VShape vShape))
                 _positionerParms.VShape = vShape;
             DoPositionSelectedImages(_positionerParms);
         }
@@ -70,7 +74,7 @@
             DoPositionSelectedImages(_positionerParms);
         }
 
-        void DoPositionSelectedImages(Positioner.Parms positionerParms)
+        void DoPositionSelectedImages(PositionerParms positionerParms)
         {
             var selectedShapes = Globals.ThisAddIn.SelectedShapes();
             if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
@@ -95,7 +99,7 @@
             }
             var clientArea = new Rectangle(0, 0, shapes[0].Anchor.PageSetup.PageWidth,
                 shapes[0].Anchor.PageSetup.PageHeight);
-            var positions = Positioner.DoPosition(positionerParms, clientArea, shapes.ToRectangles());
+            var positions = _positioner.DoPosition(positionerParms, clientArea, shapes.ToRectangles());
 
             using (Application.StatePreserver().FreezeScreenUpdating())
                 shapes.ApplyPositions(positions);
@@ -119,6 +123,21 @@
                     sh.RelativeVerticalPosition   = Microsoft.Office.Interop.Word.WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
                 }
             );
+        }
+
+        public void UsePositioner(EnumPositioner flowPositioner)
+        {
+            switch (flowPositioner)
+            {
+                case EnumPositioner.FlowPositioner:
+                    _positioner = new FlowPositioner();
+                    break;
+                case EnumPositioner.GridPositioner:
+                    _positioner = new GridPositioner();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(flowPositioner), flowPositioner, null);
+            }
         }
     }
 }

@@ -6,32 +6,39 @@ namespace VstoEx.Geometry
     using System.Linq;
     using Microsoft.Office.Interop.Word;
 
-    public class Rectangle
+    public class Rectangle : IEquatable<Rectangle>
     {
-        public float Left   { get; }
-        public float Top    { get; }
-        public float Width  { get; }
+        public const float Epsilon = 0.000001f;
+        
+        public float Left { get; }
+        public float Top { get; }
+        public float Width { get; }
         public float Height { get; }
 
         public float Right => Left + Width;
         public float Bottom => Top + Height;
         public float Area => Width * Height;
 
-        public Point TopLeft     => new Point(Left , Top);
-        public Point TopRight    => new Point(Right, Top);
-        public Point BottomLeft  => new Point(Left , Bottom);
+        public Point TopLeft => new Point(Left, Top);
+        public Point TopRight => new Point(Right, Top);
+        public Point BottomLeft => new Point(Left, Bottom);
         public Point BottomRight => new Point(Right, Bottom);
-        public Point Center      => new Point(Left + Width / 2, Top + Height / 2);
+
+        public Point Center => new Point(Left + Width / 2, Top + Height / 2);
+
+        public Rectangle CenterOn(Rectangle other)
+            => CenterOn(other.Center);
+
+        public Rectangle CenterOn(Point point)
+            => MoveBy(point.X - (Left + Width / 2), point.Y - (Top + Height / 2));
 
         public Segment HorizontalSegment => new Segment(Left, Right );
         public Segment VerticalSegment   => new Segment(Top , Bottom);
 
-        const float Epsilon = .000001f;
-
         public Rectangle(float left, float top, float width, float height)
         {
-            if (width < float.Epsilon) throw new InvalidOperationException("Rectangle cannot have negative or zero width.");
-            if (height < float.Epsilon) throw new InvalidOperationException("Rectangle cannot have negative or zero height.");
+            if (width < 0) throw new InvalidOperationException("Rectangle cannot have negative width.");
+            if (height < 0) throw new InvalidOperationException("Rectangle cannot have negative height.");
             Left = left;
             Top = top;
             Width = width;
@@ -43,7 +50,7 @@ namespace VstoEx.Geometry
         {
         }
 
-        public Rectangle(Point center, float width, float height)
+        Rectangle(Point center, float width, float height)
             : this(center.X - width / 2, center.Y - height / 2, width, height)
         {
         }
@@ -54,19 +61,33 @@ namespace VstoEx.Geometry
         public Rectangle MoveBy(float x, float y)
             => new Rectangle(Left + x, Top + y, Width, Height);
 
+        public Rectangle MoveBy(Point offset)
+            => MoveBy(offset.X, offset.Y);
+
         public Rectangle MoveTo(float x, float y)
             => new Rectangle(x, y, Width, Height);
 
         public Rectangle Grow(float g)
             => Grow(g, g);
 
-        public Rectangle Grow(float w, float h)
+        Rectangle Grow(float w, float h)
             => new Rectangle(Left, Top, Width * w, Height * h);
 
-        public Rectangle Scale(float scale)
-            => Scale(scale, scale);
+        /// <summary>
+        /// Scale all corner points of a rectangle linearly (from point [0, 0] )
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
+        public Rectangle LinearScale(float scale)
+            => LinearScale(scale, scale);
 
-        public Rectangle Scale(float scaleX, float scaleY)
+        /// <summary>
+        /// Scale all corner points of a rectangle linearly (from point [0, 0] )
+        /// </summary>
+        /// <param name="scaleX"></param>
+        /// <param name="scaleY"></param>
+        /// <returns></returns>
+        public Rectangle LinearScale(float scaleX, float scaleY)
             => new Rectangle(Left * scaleX, Top * scaleY, Width * scaleX, Height * scaleY);
 
         /// <summary>
@@ -84,7 +105,7 @@ namespace VstoEx.Geometry
         }
 
         public Rectangle FitIn(Rectangle other, float fitLeftPerc, float fitTopPerc, float absoluteSpacing) {
-            if (Math.Abs(absoluteSpacing) > Epsilon)
+            if (Math.Abs(absoluteSpacing) > float.Epsilon)
             {
                 other=new Rectangle(other.Left + absoluteSpacing, other.Top + absoluteSpacing, other.Width - 2 * absoluteSpacing, other.Height - 2 * absoluteSpacing);   
             }
@@ -132,36 +153,57 @@ namespace VstoEx.Geometry
             return new Rectangle(center, Width * factor, Height * factor);
         }
 
-        public bool Contains(Rectangle other)
+        bool Contains(Rectangle other)
             => Left <= other.Left && Right  >= other.Right
                && Top  <= other.Top  && Bottom >= other.Bottom;
 
         public bool IsContainedIn(Rectangle other)
             => other.Contains(this);
 
-        public float HorizontalDistanceTo(Rectangle other)
-            => HorizontalSegment.DistanceTo(other.HorizontalSegment);
+        /// <summary>
+        /// Returns a tuple indicating if the distance makes sense or not, and the actual distance
+        /// (the horizontal distance does not make sense if the two rectangles do not overlap on the y-axis)
+        /// It the two rectangles do not overlap on the y-axis the distance is float.MaxValue
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public (bool success, float distance) HorizontalDistanceTo(Rectangle other)
+            => VerticalSegment.OverlapsAbsolute(other.VerticalSegment)
+                ? (true , Math.Abs(Center.X - other.Center.X) - (Width + other.Width) / 2)
+                : (false, float.MaxValue);
 
-        public float VerticalDistanceTo(Rectangle other)
-            => VerticalSegment.DistanceTo(other.VerticalSegment);
+        /// <summary>
+        /// Returns a tuple indicating if the distance makes sense or not, and the actual distance
+        /// (the vertical distance does not make sense if the two rectangles do not overlap on the x-axis)
+        /// It the two rectangles do not overlap on the x-axis the distance is float.MaxValue
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public (bool success, float distance) VerticalDistanceTo(Rectangle other)
+            => HorizontalSegment.OverlapsAbsolute(other.HorizontalSegment)
+                ? (true , Math.Abs(Center.Y - other.Center.Y) - (Height+ other.Height) / 2)
+                : (false, float.NaN);
 
         public override string ToString()
             => $"[{Left},{Top}]..[{Left + Width},{Top + Height}] ({Width}x{Height})";
 
         public override bool Equals(object obj)
         {
-            var other = obj as Rectangle;
-            if (other == null) return false;
-            return Math.Abs(Left   - other.Left  ) < Epsilon
-                   && Math.Abs(Top    - other.Top   ) < Epsilon
-                   && Math.Abs(Width  - other.Width ) < Epsilon
-                   && Math.Abs(Height - other.Height) < Epsilon
-                ;
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Rectangle) obj);
         }
         public override int GetHashCode()
         {
-            // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
-            return base.GetHashCode();
+            unchecked
+            {
+                var hashCode = Left.GetHashCode();
+                hashCode = (hashCode * 397) ^ Top.GetHashCode();
+                hashCode = (hashCode * 397) ^ Width.GetHashCode();
+                hashCode = (hashCode * 397) ^ Height.GetHashCode();
+                return hashCode;
+            }
         }
 
         public float AverageDistance(Rectangle other)
@@ -173,6 +215,16 @@ namespace VstoEx.Geometry
                 other.Bottom - Bottom,
                 Left - other.Left
             }.Average();
+        }
+
+        public bool Equals(Rectangle other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Math.Abs(Left  -other.Left)  < Epsilon
+                && Math.Abs(Top   -other.Top)   < Epsilon
+                && Math.Abs(Width -other.Width) < Epsilon
+                && Math.Abs(Height-other.Height)< Epsilon;
         }
     }
 }

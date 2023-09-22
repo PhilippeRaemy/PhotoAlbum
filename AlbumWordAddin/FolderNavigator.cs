@@ -1,11 +1,13 @@
-﻿namespace AlbumWordAddin
+﻿using FolderWalker;
+using UserPreferences;
+
+namespace AlbumWordAddin
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
     using System.Linq;
-    using FolderExtensions;
     using VstoEx.Progress;
 
     public class FolderNavigator

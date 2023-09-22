@@ -1,8 +1,8 @@
-namespace AlbumWordAddin.UserPreferences
-{
-    using System;
-    using System.IO;
+using System;
+using System.IO;
 
+namespace UserPreferences
+{
     public class PersistedUserPreferences: UserPreferences
     {
         static UserPreferences _userPreferences;
@@ -41,11 +41,11 @@ namespace AlbumWordAddin.UserPreferences
 
         public void Save()
         {
-            if (!Modified) return;
+            if (!_modified) return;
             var writer = new StreamWriter(PrefFileName);
             writer.Write(CopyUserPreferences(this, _userPreferences).Serialize());
             writer.Close();
-            Modified = false;
+            _modified = false;
         }
     }
 }

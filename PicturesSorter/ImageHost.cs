@@ -1,3 +1,6 @@
+using UserPreferences;
+
+
 namespace PicturesSorter
 {
     using System;
@@ -8,8 +11,8 @@ namespace PicturesSorter
     using System.IO;
     using System.Linq;
     using System.Windows.Forms;
-    using AlbumWordAddin;
     using MoreLinq;
+    using PictureHandler;
 
     internal class ImageHost : IDisposable {
 
@@ -17,21 +20,14 @@ namespace PicturesSorter
         FileNameHandler FileNameHandler { get; }
 
         Image[] _images;
-        Image Image => Images.First();
+        public Image Image => Images.First();
         readonly Func<FileInfo>[] _imageNamesGetters; 
         IEnumerable<Image> Images => _images.Select((im, i) => im ?? (_images[i] = GetImage(_imageNamesGetters[i]())));
 
         Image GetImage(FileInfo imageFullPathName)
         {
-            if (!imageFullPathName.Exists) return null;
             lock (this)
-            {
-                using (var stream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
-                {
-                    Trace.WriteLine($"ImageHost reading from {FullName}");
-                    return Image.FromStream(stream);
-                }
-            }
+                return PictureHelper.ReadImageFromFileInfo(imageFullPathName);
         }
 
         /// <summary>
@@ -51,18 +47,22 @@ namespace PicturesSorter
 
         int _useCount;
 
-        public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo)
+        ImageHost(FileInfo fileInfo)
         {
             _images = new Image[3];
             _imageNamesGetters = new Func<FileInfo>[]
             {
                 () => FileInfo,
-                () => GetSmallFile(),
-                () => GetRightFile()
+                GetSmallFile,
+                GetRightFile
             };
+            FileInfo = fileInfo;
+        }
+
+        public ImageHost(FileNameHandler fileNameHandler, string shelfName, FileInfo fileInfo) : this(fileInfo)
+        {
             FileNameHandler = fileNameHandler;
             ShelfName = shelfName;
-            FileInfo = fileInfo;
         }
 
         public void Release()
@@ -77,7 +77,7 @@ namespace PicturesSorter
         /// Shelve or unshelve a picture, depending on the name of the directory the picture is in.
         /// </summary>
         /// <returns>The path teh picture file is moved to</returns>
-        public string ShelvePicture()
+        public string ShelvePicture(bool delete = false)
         {
             if (FileInfo                  == null 
                 || !FileInfo.Exists
@@ -85,13 +85,19 @@ namespace PicturesSorter
                 || FileInfo.DirectoryName == null
             ) return null;
 
-            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase) 
-                ? FileInfo.Directory.Parent 
+            if (delete)
+            {
+                FileInfo.Delete();
+                return string.Empty;
+            }
+
+            var di = string.Equals(FileInfo.Directory.Name, ShelfName, StringComparison.InvariantCultureIgnoreCase)
+                ? FileInfo.Directory.Parent
                 : new DirectoryInfo(Path.Combine(FileInfo.DirectoryName, ShelfName));
             return MovePicture(di);
         }
 
-        public string MovePicture(DirectoryInfo destinationDirectoryInfo)
+        string MovePicture(DirectoryInfo destinationDirectoryInfo)
         {
             if (FileInfo == null
                 || !FileInfo.Exists
@@ -123,7 +129,7 @@ namespace PicturesSorter
 
         public void Dispose()
         {
-            Trace.WriteLine($"IMageHost disposing of {FileInfo.FullName}");
+            Trace.WriteLine($"ImageHost disposing of {FileInfo.FullName}");
 
             for (var i = 0; i < _images.Length; i++)
             {
@@ -134,7 +140,7 @@ namespace PicturesSorter
 
         public void Render(PictureBox pictureBox, Label label, bool force = false)
         {
-            if (force || (string)label.Tag != FileInfo.FullName)
+            if (Image != null && force || (string)label.Tag != FileInfo.FullName)
             {
                 try
                 {
@@ -176,6 +182,7 @@ namespace PicturesSorter
 
         string FormatLength(float fileInfoLength, string[] unit)
             => fileInfoLength < 1024 || unit.Length == 1
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 ? fileInfoLength > 100 || Math.Round(fileInfoLength, 0) == Math.Round(fileInfoLength, 1)
                     ? $"{fileInfoLength:f0}{unit[0]}"
                     : $"{fileInfoLength:f1}{unit[0]}"

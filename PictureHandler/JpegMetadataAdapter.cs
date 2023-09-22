@@ -12,24 +12,21 @@ namespace PictureHandler
     {
         readonly string _path;
         readonly BitmapFrame _frame;
-        public readonly BitmapMetadata Metadata;
+        public readonly BitmapMetadata _metadata;
 
         public JpegMetadataAdapter(string path)
         {
             _path = path;
             _frame = getBitmapFrame(path);
-            Metadata = (BitmapMetadata)_frame.Metadata?.Clone();
+            _metadata = (BitmapMetadata)_frame.Metadata?.Clone();
         }
 
-        public void Save()
-        {
-            SaveAs(_path);
-        }
+        public void Save() => SaveAs(_path);
 
         public void SaveAs(string path)
         {
             var encoder = new JpegBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(_frame, _frame.Thumbnail, Metadata, _frame.ColorContexts));
+            encoder.Frames.Add(BitmapFrame.Create(_frame, _frame.Thumbnail, _metadata, _frame.ColorContexts));
             using (Stream stream = File.Open(path, FileMode.Create, FileAccess.ReadWrite))
             {
                 encoder.Save(stream);

@@ -1,10 +1,10 @@
-﻿namespace AlbumWordAddin.UserPreferences
-{
-    using System;
-    using System.IO;
-    using System.Xml;
-    using System.Xml.Serialization;
+﻿using System;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
+namespace UserPreferences
+{
     [XmlRoot("UserPreferences")]
     public class UserPreferences
     {
@@ -13,7 +13,7 @@
         int _maxPicturesPerFile;
         int _margin;
         int _spacing;
-        protected bool Modified;
+        protected bool _modified;
         bool _confirmFileOverwrite;
         string _includeFiles;
         string _excludeFolders;
@@ -23,71 +23,71 @@
         [XmlElement("FolderImportStart")]
         public string FolderImportStart
         {
-            get { return _folderImportStart; }
-            set { Modified = true; _folderImportStart = value; }
+            get => _folderImportStart;
+            set { _modified = true; _folderImportStart = value; }
         }
 
         [XmlElement("FolderImportEnd")]
         public string FolderImportEnd
         {
-            get { return _folderImportEnd; }
-            set { Modified = true; _folderImportEnd = value; }
+            get => _folderImportEnd;
+            set { _modified = true; _folderImportEnd = value; }
         }
 
         [XmlElement("MaxPicturesPerFile")]
         public int MaxPicturesPerFile
         {
-            get { return _maxPicturesPerFile; }
-            set { Modified = true; _maxPicturesPerFile = value; }
+            get => _maxPicturesPerFile;
+            set { _modified = true; _maxPicturesPerFile = value; }
         }
 
         [XmlElement("Margin")]
         public int Margin
         {
-            get { return _margin; }
-            set { Modified = true; _margin = value; }
+            get => _margin;
+            set { _modified = true; _margin = value; }
         }
 
         [XmlElement("Spacing")]
         public int Spacing
         {
-            get { return _spacing; }
-            set { Modified = true; _spacing = value; }
+            get => _spacing;
+            set { _modified = true; _spacing = value; }
         }
 
         [XmlElement("ConfirmFileOverwrite")]
         public bool ConfirmFileOverwrite
         {
-            get { return _confirmFileOverwrite; }
-            set { Modified = true; _confirmFileOverwrite = value; }
+            get => _confirmFileOverwrite;
+            set { _modified = true; _confirmFileOverwrite = value; }
         }
 
         [XmlElement("IncludeFiles")]
         public string IncludeFiles
         {
-            get { return _includeFiles; }
-            set { Modified = true; _includeFiles = value; }
+            get => _includeFiles;
+            set { _modified = true; _includeFiles = value; }
         }
 
         [XmlElement("ExcludeFolders")]
         public string ExcludeFolders
         {
-            get { return _excludeFolders; }
-            set { Modified = true; _excludeFolders = value; }
+            get => _excludeFolders;
+            set { _modified = true; _excludeFolders = value; }
         }
 
         [XmlElement("NewDocumentTemplate")]
         public string NewDocumentTemplate
         {
-            get { return _newDocumentTemplate; }
-            set { Modified = true; _newDocumentTemplate = value; }
+            get => _newDocumentTemplate;
+            set { _modified = true; _newDocumentTemplate = value; }
         }
 
         [XmlElement("ShelfName")]
         public string ShelfName
         {
-            get { return _shelfName ?? "spare"; }
-            set { Modified = true; _shelfName = value; }
+            get => _shelfName ?? "spare";
+            set { _modified = true; _shelfName = value; }
         }
     }
 

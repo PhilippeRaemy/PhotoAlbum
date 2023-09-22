@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddin", "AlbumWordAddin\AlbumWordAddin.csproj", "{BD7257CC-26EE-4AB5-9702-F493572324E6}"
 EndProject
@@ -18,19 +18,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicturesSorterTests", "PictureSorterTests\PicturesSorterTests.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesSorter", "TestsPictureSorter\TestsPicturesSorter.csproj", "{0B9106E8-B945-4572-A200-CDB0CF3A9BEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandlerTest", "PictureHandlerTest\PictureHandlerTest.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPictureHandler", "TestsPictureHandler\TestsPictureHandler.csproj", "{82BAB931-BCA6-43F0-8B15-44E443B20033}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureHandler", "PictureHandler\PictureHandler.csproj", "{559CDF0D-F38C-48BF-8ADE-AB32B2098134}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddinTests", "AlbumWordAddinTests\AlbumWordAddinTests.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsAlbumWordAddin", "TestsAlbumWordAddin\TestsAlbumWordAddin.csproj", "{14EDE71B-6E54-4791-81C4-8985FBF0AA87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VstoExTests", "VstoExTests\VstoExTests.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
-EndProject
-Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "AlbumWordAddinSetup", "AlbumWordAddinSetup\AlbumWordAddinSetup.isproj", "{1A839E06-B174-4D13-9330-2F33BE2D0386}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsVstoEx", "TestsVstoEx\TestsVstoEx.csproj", "{99F4B6F3-B319-4A27-868D-2B21C36786EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Folders", "FolderWalker\Folders.csproj", "{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E9FEAC6-0756-425E-856C-095E160D42E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesComparer", "TestsPicturesComparer\TestsPicturesComparer.csproj", "{67532118-DE91-41C6-9BF9-861E5AF0B542}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureProcessor", "PictureProcessor\PictureProcessor.csproj", "{D56E918F-9ACE-484B-BC19-B996F50633C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,16 +145,6 @@ Global
 		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{99F4B6F3-B319-4A27-868D-2B21C36786EE}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.CD_ROM|Any CPU.Build.0 = CD_ROM
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Debug|Any CPU.ActiveCfg = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Debug|Any CPU.Build.0 = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.DVD-5|Any CPU.ActiveCfg = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.DVD-5|Any CPU.Build.0 = DVD-5
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Release|Any CPU.ActiveCfg = SingleImage
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.Release|Any CPU.Build.0 = SingleImage
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.SingleImage|Any CPU.ActiveCfg = SingleImage
-		{1A839E06-B174-4D13-9330-2F33BE2D0386}.SingleImage|Any CPU.Build.0 = SingleImage
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -161,8 +155,38 @@ Global
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{67532118-DE91-41C6-9BF9-861E5AF0B542}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{D56E918F-9ACE-484B-BC19-B996F50633C9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0B9106E8-B945-4572-A200-CDB0CF3A9BEC} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{82BAB931-BCA6-43F0-8B15-44E443B20033} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{14EDE71B-6E54-4791-81C4-8985FBF0AA87} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{99F4B6F3-B319-4A27-868D-2B21C36786EE} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+		{67532118-DE91-41C6-9BF9-861E5AF0B542} = {8E9FEAC6-0756-425E-856C-095E160D42E5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE7834BF-9E12-4154-BB27-D3957BE7BC65}
 	EndGlobalSection
 EndGlobal
