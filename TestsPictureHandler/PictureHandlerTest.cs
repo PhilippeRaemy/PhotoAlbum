@@ -15,8 +15,6 @@ namespace TestsPictureHandler
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using PictureHandler;
     using System.Collections.ObjectModel;
-    using System.Diagnostics.Eventing.Reader;
-
     using static MoreLinq.Extensions.IndexExtension;
     using static MoreLinq.Extensions.ToDelimitedStringExtension;
 
