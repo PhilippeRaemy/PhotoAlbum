@@ -3,10 +3,14 @@
     using System.Globalization;
     using SimpleCommandlineParser;
     using System;
+    using System.IO;
+    using System.Threading;
+    using System.Windows.Forms;
+    using PicturesSorter;
 
     internal class Program
     {
-        static string _rootPath = ".";
+        static DirectoryInfo _rootPath = new DirectoryInfo(Directory.GetCurrentDirectory());
         static bool _recurse;
         static bool _deduplicate;
         static bool _dryrun;
@@ -21,7 +25,7 @@
                 .AddHelpSwitch()
                 .WithErrorWriter(Console.Error.WriteLine)
                 .WithHelpWriter(Console.WriteLine)
-                .AddOptionalStringParameter("RootPath", a => _rootPath = a, "The path from which to explore pictures", ".")
+                .AddOptionalStringParameter("RootPath", RootPath, "The path from which to explore pictures", ".")
                 .AddSwitch("Recurse", () => _recurse = true, "Explore subfolders")
                 .AddSwitch("DryRun", () => _dryrun = true, "Only display work at hand")
                 .AddSwitch("Deduplicate", () => _deduplicate = true, "Deduplicate pictures")
@@ -40,14 +44,32 @@
             return 0;
         }
 
-        static void ShowGui(string rootPath, bool recurse, int similarity)
+        static void RootPath(string a)
+        {
+            _rootPath = new DirectoryInfo(a);
+            if(!_rootPath.Exists) throw new DirectoryNotFoundException(a);
+        }
+
+        static void ShowGui(DirectoryInfo rootPath, bool recurse, int similarity)
+        {
+            var sims = new SimilarPicturesForm();
+            sims.LoadPictures(rootPath);
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.ThreadException += Application_ThreadException;
+            Application.Run(sims);
+        }
+
+        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool noRecycle, bool dryrun, bool verbose, int similarity)
         {
             throw new NotImplementedException();
         }
 
-        static void DeduplicatePictures(string rootPath, bool recurse, bool noRecycle, bool dryrun, bool verbose, int similarity)
+        static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
     }
 }
