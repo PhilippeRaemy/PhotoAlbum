@@ -118,6 +118,7 @@
                             Debug.Assert(false);
                         }
 
+            if (_signature is null) return null;
             feedback?.Invoke(this);
             Debug.Assert(_signature!=null);
             Trace.WriteLine($"Signature for {FileInfo.Name} is {_signature}");
