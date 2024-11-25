@@ -10,6 +10,7 @@ namespace Tracer
         static bool _tracing;
         static Tracer()
         {
+            Trace.Listeners.Add(new ConsoleTraceListener());
             if (Trace.Listeners != null && Trace.Listeners.Cast<TraceListener>().Any()){
                 _tracing = true;
             }

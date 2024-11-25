@@ -84,7 +84,7 @@
                     await signatureTask.ConfigureAwait(false);
                     var signatureList = signatureTask.Result;
                     Tracer.WriteLine(() => 
-                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName} Done. Signature is {string.Join(",", signatureList)}");
+                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");
                     lock (_signatures) _signatures.Add(signature);
                     try
                     {
