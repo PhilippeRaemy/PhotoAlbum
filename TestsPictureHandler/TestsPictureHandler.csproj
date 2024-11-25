@@ -78,6 +78,10 @@
       <Project>{559cdf0d-f38c-48bf-8ade-ab32b2098134}</Project>
       <Name>PictureHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tracer\Tracer.csproj">
+      <Project>{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}</Project>
+      <Name>Tracer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

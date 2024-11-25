@@ -10,6 +10,7 @@ namespace PicturesSorter
     using System.Diagnostics;
     using System.Drawing;
     using System.Text;
+    using Tracer;
 
     public partial class SimilarPicturesForm : Form
     {
@@ -47,7 +48,7 @@ namespace PicturesSorter
                 maxLength == minLength ? 1
                 : fi.Length == minLength ? 0
                 : percent);
-            Console.WriteLine(
+            Tracer.WriteLine(() => 
                 $"{fi.Name} : InterpolateColor({lowResColor}, {hiResColor}, {minLength}, {maxLength}, {fi.Length})[%={percent}]={color}");
             return color;
         }
@@ -98,12 +99,12 @@ namespace PicturesSorter
             var fileInfo = signature.FileInfo;
             if (PanelMain.InvokeRequired)
             {
-                Console.WriteLine($"   Invoke creating picture at ({signature.Location}) for {fileInfo.Name}.");
+                Tracer.WriteLine(() => $"   Invoke creating picture at ({signature.Location}) for {fileInfo.Name}.");
                 PanelMain.Invoke(new Action(() => CreatePictureBox(signature, w, h, selected, backColor, pb)));
                 return pb;
             }
 
-            Console.WriteLine(
+            Tracer.WriteLine(() => 
                 $"   Creating picture at ({signature.Location}) for {fileInfo.Name}. Selected : {selected}");
             pb = new SelectablePictureBox(signature, labelFile);
 
@@ -136,22 +137,30 @@ namespace PicturesSorter
 
         public async void LoadPictures(DirectoryInfo directory)
         {
-            using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
+            try
             {
-                _similarPicturesHandler = new SimilarPicturesHandler
+                using (new StateKeeper().Hourglass(this).Disable(similarityFactor).Disable(buttonGo))
                 {
-                    Directory = directory,
-                    SimilarityFactor = (double)similarityFactor.Value / 100,
-                    LoadPictureTimeout = _loadPictureTimeout,
-                    MaxTasks = MAX_TASKS,
-                    CloseAction = Close,
-                    SetProgressMaxAction = max => ProgressBar.Maximum = max,
-                    IncrementProgressAction = IncrementProgress,
-                    KeepGoingFunc = () => _formIsAlive
-                };
-                var similarSignatures = await _similarPicturesHandler.LoadPictures();
+                    _similarPicturesHandler = new SimilarPicturesHandler
+                    {
+                        Directory = directory,
+                        SimilarityFactor = (double)similarityFactor.Value / 100,
+                        LoadPictureTimeout = _loadPictureTimeout,
+                        MaxTasks = MAX_TASKS,
+                        CloseAction = Close,
+                        SetProgressMaxAction = max => ProgressBar.Maximum = max,
+                        IncrementProgressAction = IncrementProgress,
+                        KeepGoingFunc = () => _formIsAlive
+                    };
+                    var similarSignatures = await _similarPicturesHandler.LoadPictures();
 
-                DisplaySignatures(similarSignatures);
+                    DisplaySignatures(similarSignatures);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Console.WriteLine(ex.StackTrace);
             }
         }
 
@@ -240,12 +249,12 @@ namespace PicturesSorter
                         var stageDirectory = new DirectoryInfo(Path.Combine(pb.FileInfo.DirectoryName, "spare"));
                         stageDirectory.Create();
                         pb.FileInfo.MoveTo(Path.Combine(stageDirectory.FullName, pb.FileInfo.Name));
-                        Trace.WriteLine($"{pb.FileInfo.Name} staged to {stageDirectory.FullName}");
+                        Tracer.WriteLine(() => $"{pb.FileInfo.Name} staged to {stageDirectory.FullName}");
                     }
                     else
                     {
                         pb.FileInfo.Delete();
-                        Trace.WriteLine($"{pb.FileInfo.Name} deleted");
+                        Tracer.WriteLine(() => $"{pb.FileInfo.Name} deleted");
                     }
 
                     pb.Parent.Controls.Remove(pb);

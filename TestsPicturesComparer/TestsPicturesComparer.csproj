@@ -103,6 +103,10 @@
       <Project>{7dd760cb-1e03-4dfb-8af6-2825bcdbf6f2}</Project>
       <Name>PicturesSorter</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tracer\Tracer.csproj">
+      <Project>{7b1b73db-b499-4f26-9db5-03d31f5823c8}</Project>
+      <Name>Tracer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

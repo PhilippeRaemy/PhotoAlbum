@@ -12,6 +12,7 @@
     using UserPreferences;
     using static MoreLinq.Extensions.ForEachExtension;
     using static MoreLinq.Extensions.PipeExtension;
+    using Tracer;
 
     public partial class PictureSorterForm : Form
     {
@@ -142,7 +143,7 @@
         {
             var rc = SelectIndexes(idx, stepLeft, stepRight);
             if (rc.Left == null || rc.Right == null) return null;
-            Trace.WriteLine($"LoadPictures({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name}, {stepLeft}, {stepRight}, {noRelease})");
+            Tracer.WriteLine(() => $"LoadPictures({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name}, {stepLeft}, {stepRight}, {noRelease})");
             rc.Left.Value?.Render(pictureBox1, labelLeft);
             rc.Right.Value?.Render(pictureBox2, labelRight);
             if (!noRelease)
@@ -150,7 +151,7 @@
                 idx?.Left?.Value?.Release();
                 idx?.Right?.Value?.Release();
             }
-            Trace.WriteLine($"LoadPictures returns({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name})");
+            Tracer.WriteLine(() => $"LoadPictures returns({rc.Left.Value.FileInfo.Name}, {rc.Right.Value.FileInfo.Name})");
             var similarity = new PictureSignature(rc.Left.Value.Image, 16, 4, false)
                 .GetSimilarityWith(
                     new PictureSignature(rc.Right.Value.Image, 16, 4, false));

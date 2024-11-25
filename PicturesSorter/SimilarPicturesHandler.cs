@@ -7,6 +7,7 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using Tracer;
 
     public class SimilarPicturesHandler
     {
@@ -69,7 +70,7 @@
                     {
                         if (files.Count == 0)
                         {
-                            Trace.WriteLine(
+                            Tracer.WriteLine(() => 
                                 $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
                             return; // we're done!
                         }
@@ -78,16 +79,16 @@
                     }
 
                     var signature = new PictureSignature(file, 16, 4, false);
-                    Trace.WriteLine($"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
+                    Tracer.WriteLine(() => $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
                     var signatureTask = signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignatureNew);
                     await signatureTask.ConfigureAwait(false);
                     var signatureList = signatureTask.Result;
-                    Console.WriteLine(
+                    Tracer.WriteLine(() => 
                         $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName} Done. Signature is {string.Join(",", signatureList)}");
                     lock (_signatures) _signatures.Add(signature);
                     try
                     {
-                        Trace.WriteLine(
+                        Tracer.WriteLine(() => 
                             $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
                     }
                     catch
@@ -95,7 +96,7 @@
                         // ignored division by zero
                     }
                     var formIsAlive = KeepGoingFunc?.Invoke() ?? true;
-                    Trace.WriteLine(
+                    Tracer.WriteLine(() => 
                         $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : Form is alive : {formIsAlive}.");
                     if (!formIsAlive) break;
                 }
@@ -142,7 +143,7 @@
 
         void ReceiveSignatureNew(PictureSignature newSignature)
         {
-            Console.WriteLine($"Got {newSignature.FileInfo.FullName}");
+            Tracer.WriteLine(() => $"Got {newSignature.FileInfo.FullName}");
             _countDone += 1;
             IncrementProgressAction?.Invoke();
             var handled = false;
@@ -152,7 +153,7 @@
                 foreach (var s in _similarSignatures.Keys
                              .Where(s => s.GetSimilarityWith(newSignature) > SimilarityFactor))
                 {
-                    Console.WriteLine($"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
+                    Tracer.WriteLine(() => $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
                     _similarSignatures[s].Add(newSignature);
                     handled = true;
                 }
@@ -163,9 +164,9 @@
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        Console.WriteLine($"    Found similar with {previous.FileInfo.FullName}. New.");
+                        Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
                         _similarSignatures.Add(previous, new[] { previous, newSignature }.ToList());
-                        Console.WriteLine($"    {previous.FileInfo.FullName} removed from distincts.");
+                        Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
                         _distinctSignatures.Remove(previous);
                         handled = true;
                     }

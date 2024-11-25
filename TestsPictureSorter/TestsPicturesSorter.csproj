@@ -71,6 +71,10 @@
       <Project>{E1F84E76-798A-40C1-AFFE-3C0C92DF20A6}</Project>
       <Name>Folders</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tracer\Tracer.csproj">
+      <Project>{7b1b73db-b499-4f26-9db5-03d31f5823c8}</Project>
+      <Name>Tracer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

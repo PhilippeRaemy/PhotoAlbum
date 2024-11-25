@@ -35,7 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>PicturesSorter.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>PictureSorter.ico</ApplicationIcon>
@@ -114,6 +115,10 @@
     <ProjectReference Include="..\PictureHandler\PictureHandler.csproj">
       <Project>{559cdf0d-f38c-48bf-8ade-ab32b2098134}</Project>
       <Name>PictureHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tracer\Tracer.csproj">
+      <Project>{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}</Project>
+      <Name>Tracer</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserPreferences\UserPreferences.csproj">
       <Project>{73c2e5ff-e033-457f-9008-78739b616229}</Project>

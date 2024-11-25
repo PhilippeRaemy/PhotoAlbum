@@ -9,6 +9,7 @@
     using static MoreLinq.Extensions.PipeExtension;
     using static MoreLinq.Extensions.ForEachExtension;
     using PicturesSorter;
+    using Tracer;
 
     [TestClass]
     public class SimilarPictureFormTests
@@ -80,7 +81,7 @@
             }
 
             _testFolder.GetFiles().Pipe(Console.WriteLine);
-            Trace.WriteLine("test done!");
+            Tracer.WriteLine(() => "test done!");
         }
     }
 }

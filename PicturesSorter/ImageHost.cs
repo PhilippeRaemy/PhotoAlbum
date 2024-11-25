@@ -13,7 +13,7 @@ namespace PicturesSorter
     using System.Windows.Forms;
     using MoreLinq;
     using PictureHandler;
-
+    using Tracer;
     internal class ImageHost : IDisposable {
 
         string ShelfName { get; }
@@ -67,7 +67,7 @@ namespace PicturesSorter
 
         public void Release()
         {
-            Trace.WriteLine($"ImageHost releasing. _useCount={_useCount-1}: {FileInfo.FullName}");
+            Tracer.WriteLine(() => $"ImageHost releasing. _useCount={_useCount-1}: {FileInfo.FullName}");
             if (--_useCount > 0) return;
             Dispose();
             _useCount = 0;
@@ -129,7 +129,7 @@ namespace PicturesSorter
 
         public void Dispose()
         {
-            Trace.WriteLine($"ImageHost disposing of {FileInfo.FullName}");
+            Tracer.WriteLine(() => $"ImageHost disposing of {FileInfo.FullName}");
 
             for (var i = 0; i < _images.Length; i++)
             {
@@ -150,7 +150,7 @@ namespace PicturesSorter
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine($"ImageHost Render error: {e}. _useCount={_useCount}: {FileInfo.FullName}");
+                    Tracer.WriteLine(() => $"ImageHost Render error: {e}. _useCount={_useCount}: {FileInfo.FullName}");
                     var host = pictureBox.Parent;
                     var bogusPic = pictureBox;
                     host.Controls.Remove(bogusPic);
@@ -166,13 +166,13 @@ namespace PicturesSorter
                     }
                     pictureBox.Image = Image;
                     pictureBox.Refresh();
-                    Trace.WriteLine($"ImageHost has replaced pictureBox. {FileInfo.FullName}");
+                    Tracer.WriteLine(() => $"ImageHost has replaced pictureBox. {FileInfo.FullName}");
                 }
             }
             // ReSharper disable once LocalizableElement
             label.Text = $"{FileInfo.Name} - {1 + Parent.IndexOf(this)}/{Parent.Count} - {FileInfo.LastWriteTime:g} - {FormatLength(FileInfo.Length)}";
             _useCount++;
-            Trace.WriteLine($"ImageHost Render. _useCount={_useCount}: {FileInfo.FullName}");
+            Tracer.WriteLine(() => $"ImageHost Render. _useCount={_useCount}: {FileInfo.FullName}");
         }
 
         string FormatLength(long fileInfoLength) =>

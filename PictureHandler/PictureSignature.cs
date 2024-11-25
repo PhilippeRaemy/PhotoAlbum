@@ -10,6 +10,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Signature = System.Collections.Generic.List<ushort>;
+    using Tracer;
 
     public class PictureSignatureComparer : IEqualityComparer<PictureSignature>
     {

@@ -6,6 +6,7 @@
     using System.IO;
     using System.Threading.Tasks;
     using ImageMagick;
+    using Tracer;
 
     public static class PictureHelper
     {
@@ -17,7 +18,7 @@
             using (var fStream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
             using (var mStream = new MemoryStream())
             {
-                Trace.WriteLine($"Reading image from {imageFullPathName.FullName}");
+                Tracer.WriteLine(() => $"Reading image from {imageFullPathName.FullName}");
                 try
                 {
                     await fStream.CopyToAsync(mStream).ConfigureAwait(false);
@@ -26,14 +27,14 @@
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine($"Reading image from {imageFullPathName} failed with {e}");
+                    Tracer.WriteLine(() => $"Reading image from {imageFullPathName} failed with {e}");
                     try
                     {
                         return LoadWebP(imageFullPathName.FullName);
                     }
                     catch (Exception ex)
                     {
-                        Trace.WriteLine($"Reading image from {imageFullPathName} failed with {ex}");
+                        Tracer.WriteLine(() => $"Reading image from {imageFullPathName} failed with {ex}");
                         return null;
                     }
                 }

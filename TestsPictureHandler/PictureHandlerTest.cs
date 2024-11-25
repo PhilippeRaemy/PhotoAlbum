@@ -17,6 +17,7 @@ namespace TestsPictureHandler
     using System.Collections.ObjectModel;
     using static MoreLinq.Extensions.IndexExtension;
     using static MoreLinq.Extensions.ToDelimitedStringExtension;
+    using Tracer;
 
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal enum PropertyItemIdEnum
@@ -293,9 +294,9 @@ namespace TestsPictureHandler
             {
                 if ((prop.GetValue(metadata) is ReadOnlyCollection<string> collection))
                 {
-                    Trace.WriteLine($"{prop.Name} : [{collection.ToDelimitedString(", ")}]");
+                    Tracer.WriteLine(() => $"{prop.Name} : [{collection.ToDelimitedString(", ")}]");
                 }
-                else Trace.WriteLine($"{prop.Name} : {prop.GetValue(metadata)}");
+                else Tracer.WriteLine(() => $"{prop.Name} : {prop.GetValue(metadata)}");
             }
         }
 
@@ -309,7 +310,7 @@ namespace TestsPictureHandler
             {
                 if (img is null)
                 {
-                    Trace.WriteLine($"Got expected exception load failure.");
+                    Tracer.WriteLine(() => $"Got expected exception load failure.");
                     return;
                 }
                 foreach (var imgPropertyItem in img.PropertyItems)
@@ -325,7 +326,7 @@ namespace TestsPictureHandler
                     var propName = Enum.IsDefined(typeof(PropertyItemIdEnum), imgPropertyItem.Id)
                         ? ((PropertyItemIdEnum)imgPropertyItem.Id).ToString()
                         : "Unknown property item id";
-                    Trace.WriteLine($"{imgPropertyItem.Id:X} - {imgPropertyItem.Len} - {imgPropertyItem.Type} - {propName} : {value}");
+                    Tracer.WriteLine(() => $"{imgPropertyItem.Id:X} - {imgPropertyItem.Len} - {imgPropertyItem.Type} - {propName} : {value}");
                 }
             }
         }
@@ -358,7 +359,7 @@ namespace TestsPictureHandler
                 img.RotateFlip(rotateFlipType);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 var newFileName = Path.Combine(fi.DirectoryName, $"{fi.Name}-{rotateFlipType}{fi.Extension}");
-                Trace.WriteLine(newFileName);
+                Tracer.WriteLine(() => newFileName);
                 img.Save(newFileName, ImageFormat.Jpeg);
             }
         }
