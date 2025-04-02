@@ -52,8 +52,10 @@
 
         static void ShowGui(DirectoryInfo rootPath, bool recurse, int similarity)
         {
-            var sims = new SimilarPicturesForm();
-            sims.LoadPictures(rootPath);
+            var sims = new SimilarPicturesForm(); 
+            var t = sims.LoadPictures(rootPath);
+            t.ConfigureAwait(false);
+            t.Wait();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

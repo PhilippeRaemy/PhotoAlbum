@@ -135,7 +135,8 @@ namespace PicturesSorter
         }
 
 
-        public async void LoadPictures(DirectoryInfo directory)
+        public async System.Threading.Tasks.Task<Dictionary<PictureSignature, List<PictureSignature>>> 
+            LoadPictures(DirectoryInfo directory, bool silent = false)
         {
             try
             {
@@ -152,15 +153,18 @@ namespace PicturesSorter
                         IncrementProgressAction = IncrementProgress,
                         KeepGoingFunc = () => _formIsAlive
                     };
-                    var similarSignatures = await _similarPicturesHandler.LoadPictures();
+                    var similarSignatures = await _similarPicturesHandler.LoadPictures(silent);
 
-                    DisplaySignatures(similarSignatures);
+                    if (!silent)
+                        DisplaySignatures(similarSignatures);
+                    return similarSignatures;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 Console.WriteLine(ex.StackTrace);
+                return null;
             }
         }
 

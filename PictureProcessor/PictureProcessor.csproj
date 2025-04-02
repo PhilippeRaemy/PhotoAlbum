@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>PictureProcessor</RootNamespace>
     <AssemblyName>PictureProcessor</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -67,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PictureHandler\PictureHandler.csproj">
+      <Project>{559CDF0D-F38C-48BF-8ADE-AB32B2098134}</Project>
+      <Name>PictureHandler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PicturesSorter\PicturesSorter.csproj">
       <Project>{7DD760CB-1E03-4DFB-8AF6-2825BCDBF6F2}</Project>
       <Name>PicturesSorter</Name>

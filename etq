@@ -1,0 +1,30 @@
+* 0e08734 [32m22-09-26 23:16[m [33m[Philippe][m [m[33m ([m[1;36mHEAD -> [m[1;32mUsePanels[m[33m)[m[m Add
+* 46d9eef [32m22-09-15 21:58[m [33m[Philippe][m [m[33m ([m[1;31morigin/UsePanels[m[33m)[m[m Fix step in ArchivePicture
+* 256f19a [32m22-09-15 21:52[m [33m[Philippe][m [m[m Implement similarity label value setting
+* b39f661 [32m22-09-15 21:26[m [33m[Philippe][m [m[m Add labelSimilarity with coloring
+* 6455a68 [32m22-09-15 21:13[m [33m[Philippe][m [m[m coding style
+* b688bad [32m22-09-15 21:08[m [33m[Philippe][m [m[m Implement hard delete - use expression bodies
+* b7617e1 [32m22-09-15 21:08[m [33m[Philippe][m [m[m Implement hard delete - use expression bodies
+* 5a5e983 [32m22-09-04 10:43[m [33m[Philippe][m [m[m Mis-named files cause invalid stream errors
+* bc2b2c9 [32m22-09-02 12:46[m [33m[Philippe][m [m[m Refactor DeletePictures
+* 88570c2 [32m22-09-02 08:48[m [33m[Philippe][m [m[m Code formatting
+* 210ea0f [32m22-09-02 08:46[m [33m[Philippe][m [m[m Allow for _keyMapping to use static and non-static methods
+* 6a55f2b [32m22-09-02 08:07[m [33m[Philippe][m [m[m Refactor SimilarPicturesForm_KeyUp
+* cfac1f0 [32m22-09-01 21:35[m [33m[Philippe][m [m[m Fixed colors and sync issues in SimilarPictures
+* e2fe41e [32m22-08-31 23:30[m [33m[Philippe][m [m[m Separate creation of the similar signatures structure and the display
+* 02de7fa [32m22-08-31 23:26[m [33m[Philippe][m [m[m Check if InvoqueRequired for setting panel backcolor
+* c0adf32 [32m22-08-31 22:25[m [33m[Philippe][m [m[m Put SelectablePictureBox in its own file
+* 7866453 [32m22-08-30 10:11[m [33m[Philippe][m [m[m Fix Selection
+* 072c891 [32m22-08-30 09:45[m [33m[Philippe][m [m[m WIP: colored frames
+* f1b5fde [32m22-08-30 09:26[m [33m[Philippe][m [m[m Fix border color for pairs of similar photos
+* 32a7507 [32m22-08-26 09:09[m [33m[Philippe][m [m[33m ([m[1;32mRefactorPositioner[m[33m)[m[m Coding style
+* f06e7ae [32m22-08-26 09:08[m [33m[Philippe][m [m[m Stop load when the form is closed
+* 01183e5 [32m22-08-25 22:45[m [33m[Philippe][m [m[33m ([m[1;31morigin/RefactorPositioner[m[33m)[m[m Use Delete key to delete selected pictures amongst similar
+* e9a1553 [32m22-08-15 23:05[m [33m[Philippe][m [m[m Handle selectable pictureboxes
+* e01a7df [32m22-08-09 21:23[m [33m[Philippe][m [m[m Implement rename folder
+* 4ababf4 [32m22-06-30 21:35[m [33m[Philippe][m [m[m Feed in a list of files at creation.
+* bd75f5a [32m22-06-30 21:35[m [33m[Philippe][m [m[m Handle location as a separate field from the picturebox location
+* 3fd4c27 [32m22-06-24 19:23[m [33m[Philippe][m [m[m Fix display of picture boxes
+* 6bd62d8 [32m22-06-24 09:04[m [33m[Philippe][m [m[m Add buttonGo and implement
+* 26252ee [32m22-06-24 09:04[m [33m[Philippe][m [m[m Add StateKeeper class
+* 886e77b [32m22-06-24 08:43[m [33m[Philippe][m [m[m use similarity factor from the form

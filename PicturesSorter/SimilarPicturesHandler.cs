@@ -40,7 +40,7 @@
         int _countDone;
 
 
-        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures()
+        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool silent)
         {
             if (Directory is null)
             {
@@ -63,6 +63,8 @@
                 int myTaskNum;
                 int filesDone = 0;
                 lock (this) myTaskNum = taskNum++;
+                Tracer.WriteLine(() =>
+                    $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} :  Starting...");
                 while (true)
                 {
                     FileInfo file;
@@ -102,7 +104,7 @@
                 }
             }
 
-            var tasks = Enumerable.Range(0, MaxTasks)
+            var tasks = Enumerable.Range(0, new[]{MaxTasks, files.Count}.Min())
                 .Select(_ => LoadPictureThread())
                 // .Pipe(s => s.Start())
                 .ToArray();
