@@ -19,8 +19,10 @@
         public Action<int> SetProgressMaxAction { get; set; }
         public Action IncrementProgressAction { get; set; }
         public Func<bool> KeepGoingFunc { get; set; }
+        public bool Verbose { get; set; }
 
         readonly List<PictureSignature> _signatures = new();
+
         public int SignatureCount
         {
             get
@@ -40,7 +42,7 @@
         int _countDone;
 
 
-        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool verbose)
+        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures()
         {
             if (Directory is null)
             {
@@ -63,8 +65,9 @@
                 int myTaskNum;
                 int filesDone = 0;
                 lock (this) myTaskNum = taskNum++;
-                Tracer.WriteLine(() =>
-                    $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} :  Starting...");
+                if (Verbose)
+                    Tracer.WriteLine(() =>
+                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} :  Starting...");
                 while (true)
                 {
                     FileInfo file;
@@ -72,8 +75,9 @@
                     {
                         if (files.Count == 0)
                         {
-                            Tracer.WriteLine(() => 
-                                $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
+                            if (Verbose)
+                                Tracer.WriteLine(() =>
+                                    $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
                             return; // we're done!
                         }
 
@@ -81,30 +85,36 @@
                     }
 
                     var signature = new PictureSignature(file, 16, 4, false);
-                    Tracer.WriteLine(() => $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
+                    if (Verbose)
+                        Tracer.WriteLine(() =>
+                            $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
                     var signatureTask = signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignatureNew);
                     await signatureTask.ConfigureAwait(false);
                     var signatureList = signatureTask.Result;
-                    Tracer.WriteLine(() => 
-                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");
+                    if (Verbose)
+                        Tracer.WriteLine(() =>
+                            $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");
                     lock (_signatures) _signatures.Add(signature);
-                    try
-                    {
-                        Tracer.WriteLine(() => 
-                            $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
-                    }
-                    catch
-                    {
-                        // ignored division by zero
-                    }
+                    if (Verbose)
+                        try
+                        {
+                            Tracer.WriteLine(() =>
+                                $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
+                        }
+                        catch
+                        {
+                            // ignored division by zero
+                        }
+
                     var formIsAlive = KeepGoingFunc?.Invoke() ?? true;
-                    Tracer.WriteLine(() => 
-                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : Form is alive : {formIsAlive}.");
+                    if (Verbose)
+                        Tracer.WriteLine(() =>
+                            $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : Form is alive : {formIsAlive}.");
                     if (!formIsAlive) break;
                 }
             }
 
-            var tasks = Enumerable.Range(0, new[]{MaxTasks, files.Count}.Min())
+            var tasks = Enumerable.Range(0, new[] { MaxTasks, files.Count }.Min())
                 .Select(_ => LoadPictureThread())
                 // .Pipe(s => s.Start())
                 .ToArray();
@@ -128,7 +138,7 @@
             _similarSignatures.Clear();
             lock (_signatures)
             {
-                foreach (var signature in _signatures.TakeWhile(signature => KeepGoingFunc?.Invoke()??true))
+                foreach (var signature in _signatures.TakeWhile(signature => KeepGoingFunc?.Invoke() ?? true))
                 {
                     if (signature.PictureBox != null)
                     {
@@ -140,12 +150,13 @@
                     if (signature.FileInfo.Exists) ReceiveSignatureNew(signature);
                 }
             }
+
             return _similarSignatures;
         }
 
         void ReceiveSignatureNew(PictureSignature newSignature)
         {
-            Tracer.WriteLine(() => $"Got {newSignature.FileInfo.FullName}");
+            if (Verbose) Tracer.WriteLine(() => $"Got {newSignature.FileInfo.FullName}");
             _countDone += 1;
             IncrementProgressAction?.Invoke();
             var handled = false;
@@ -155,7 +166,9 @@
                 foreach (var s in _similarSignatures.Keys
                              .Where(s => s.GetSimilarityWith(newSignature) > SimilarityFactor))
                 {
-                    Tracer.WriteLine(() => $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
+                    if (Verbose)
+                        Tracer.WriteLine(() =>
+                            $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
                     _similarSignatures[s].Add(newSignature);
                     handled = true;
                 }
@@ -166,19 +179,20 @@
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
+                        if (Verbose)
+                            Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
                         _similarSignatures.Add(previous, new[] { previous, newSignature }.ToList());
-                        Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
+                        if (Verbose)
+                            Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
                         _distinctSignatures.Remove(previous);
                         handled = true;
                     }
 
                 if (handled) return;
 
-                Console.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
+                if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
                 _distinctSignatures.Add(newSignature);
             }
         }
-
     }
 }

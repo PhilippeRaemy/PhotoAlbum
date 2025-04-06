@@ -153,7 +153,7 @@ namespace PicturesSorter
                         IncrementProgressAction = IncrementProgress,
                         KeepGoingFunc = () => _formIsAlive
                     };
-                    var similarSignatures = await _similarPicturesHandler.LoadPictures(silent);
+                    var similarSignatures = await _similarPicturesHandler.LoadPictures();
 
                     if (!silent)
                         DisplaySignatures(similarSignatures);

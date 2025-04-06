@@ -84,9 +84,10 @@
                 CloseAction = null,
                 SetProgressMaxAction = null,
                 IncrementProgressAction = null,
-                KeepGoingFunc = null
+                KeepGoingFunc = null,
+                Verbose = verbose
             };
-            var similarSignatures = await _similarPicturesHandler.LoadPictures(verbose);
+            var similarSignatures = await _similarPicturesHandler.LoadPictures();
 
         }
 
