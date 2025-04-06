@@ -84,6 +84,7 @@
                 SetProgressMaxAction = null,
                 IncrementProgressAction = null,
                 KeepGoingFunc = null,
+                NoRecycle = noRecycle, 
                 Verbose = verbose
             };
             var similarSignatures = await _similarPicturesHandler.LoadPictures(recurse);

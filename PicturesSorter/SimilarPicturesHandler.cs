@@ -31,6 +31,7 @@ namespace PicturesSorter
         public bool ImmediatelyRemoveDuplicate { get; set; }
         public FilePreferenceEnum FilePreference { get; set; }
         public bool RemoveOnlyInSameFolder { get; set; }
+        public bool NoRecycle { get; set; }
 
         readonly List<PictureSignature> _signatures = new();
 
@@ -44,6 +45,7 @@ namespace PicturesSorter
                 }
             }
         }
+
 
         readonly HashSet<PictureSignature> _distinctSignatures = new();
 
