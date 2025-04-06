@@ -102,7 +102,7 @@ namespace PicturesSorter
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
-                    var signatureTask = signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignatureNew);
+                    var signatureTask = signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignature);
                     await signatureTask.ConfigureAwait(false);
                     var signatureList = signatureTask.Result;
                     if (Verbose)
@@ -161,14 +161,14 @@ namespace PicturesSorter
                     }
 
                     signature.FileInfo.Refresh();
-                    if (signature.FileInfo.Exists) ReceiveSignatureNew(signature);
+                    if (signature.FileInfo.Exists) ReceiveSignature(signature);
                 }
             }
 
             return _similarSignatures;
         }
 
-        void ReceiveSignatureNew(PictureSignature newSignature)
+        void ReceiveSignature(PictureSignature newSignature)
         {
             if (Verbose) Tracer.WriteLine(() => $"Got {newSignature.FileInfo.FullName}");
             _countDone += 1;
