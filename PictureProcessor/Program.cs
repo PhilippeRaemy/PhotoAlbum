@@ -8,7 +8,7 @@
     using System.Windows.Forms;
     using PicturesSorter;
 
-    internal class Program
+    public static class Program
     {
         static DirectoryInfo _rootPath = new DirectoryInfo(Directory.GetCurrentDirectory());
         static bool _recurse;
@@ -21,7 +21,7 @@
         static int _timeoutSeconds=30;
         static int _maxTasks=4;
 
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
             var parser = new Parser()
                 .AddHelpSwitch()
@@ -86,7 +86,7 @@
                 KeepGoingFunc = null,
                 Verbose = verbose
             };
-            var similarSignatures = await _similarPicturesHandler.LoadPictures();
+            var similarSignatures = await _similarPicturesHandler.LoadPictures(recurse);
 
         }
 

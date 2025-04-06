@@ -53,7 +53,7 @@ namespace PicturesSorter
         int _countDone;
 
 
-        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures()
+        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool recurse = true)
         {
             if (Directory is null)
             {
@@ -61,10 +61,11 @@ namespace PicturesSorter
                 return new Dictionary<PictureSignature, List<PictureSignature>>();
             }
 
+            var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             var files = new Queue<FileInfo>(
-                Directory.EnumerateFiles("*.jpg", SearchOption.AllDirectories)
-                    .Concat(Directory.EnumerateFiles("*.jpeg", SearchOption.AllDirectories))
-                    .Concat(Directory.EnumerateFiles("*.png", SearchOption.AllDirectories))
+                Directory.EnumerateFiles("*.jpg", searchOption)
+                    .Concat(Directory.EnumerateFiles("*.jpeg", searchOption))
+                    .Concat(Directory.EnumerateFiles("*.png", searchOption))
                     .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
 
             SetProgressMaxAction?.Invoke(files.Count);

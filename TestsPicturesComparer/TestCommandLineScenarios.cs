@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using MoreLinq;
+using PictureProcessor;
 
 namespace TestsPicturesComparer
 {
@@ -28,5 +31,16 @@ namespace TestsPicturesComparer
             public void Dispose() => TempFolder.Delete(true);
         }
 
+        [TestMethod]
+        public void TestCommandLineDeduplicate()
+        {
+            using (var fFix = new FileFixtures())
+            {
+                Program.Main(new[]
+                {
+                    "RootPath", fFix.TempFolder.FullName
+                });
+            }
+        }
     }
 }

@@ -100,6 +100,10 @@
       <Project>{559CDF0D-F38C-48BF-8ADE-AB32B2098134}</Project>
       <Name>PictureHandler</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PictureProcessor\PictureProcessor.csproj">
+      <Project>{d56e918f-9ace-484b-bc19-b996f50633c9}</Project>
+      <Name>PictureProcessor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PicturesSorter\PicturesSorter.csproj">
       <Project>{7dd760cb-1e03-4dfb-8af6-2825bcdbf6f2}</Project>
       <Name>PicturesSorter</Name>
