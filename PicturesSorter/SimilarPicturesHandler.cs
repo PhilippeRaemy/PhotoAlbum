@@ -1,4 +1,6 @@
-﻿namespace PicturesSorter
+﻿using Microsoft.VisualBasic;
+
+namespace PicturesSorter
 {
     using PictureHandler;
     using System;
@@ -178,9 +180,8 @@
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
-                    var (nSign, pSign) = ImmediatelyRemoveDuplicate
-                        ? RemoveDuplicate(newSignature, s, FilePreference, RemoveOnlyInSameFolder)
-                        : (newSignature, s);
+                    var (nSign, pSign) = RemoveDuplicate(newSignature, s, ImmediatelyRemoveDuplicate, FilePreference,
+                        RemoveOnlyInSameFolder);
                     if (nSign is null)
                     {
                         // do nothing, means we've discarded the new coming signature
@@ -202,11 +203,10 @@
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        var (nSign, pSign) = ImmediatelyRemoveDuplicate
-                            ? RemoveDuplicate(newSignature, previous, FilePreference, RemoveOnlyInSameFolder)
-                            : (newSignature, previous);
+                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, ImmediatelyRemoveDuplicate,
+                            FilePreference, RemoveOnlyInSameFolder);
                         if (Verbose)
-                                Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
+                            Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
                         if (nSign is null) break; // do nothing: that new picture has been discarded
                         _distinctSignatures.Remove(previous);
                         if (pSign is not null)
@@ -226,10 +226,25 @@
             }
         }
 
-        (PictureSignature newSignature, PictureSignature previous) RemoveDuplicate(PictureSignature newSignature,
-            PictureSignature previous, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
+        static (PictureSignature, PictureSignature) RemoveDuplicate(
+            PictureSignature nSign, PictureSignature pSign,
+            bool immediatelyRemoveDuplicate, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
         {
-            return (newSignature, previous);
+            if (!immediatelyRemoveDuplicate
+                || removeOnlyInSameFolder && pSign.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName)
+                return (nSign, pSign);
+            return filePreference switch
+            {
+                FilePreferenceEnum.Larger
+                    => nSign.FileInfo.Length > pSign.FileInfo.Length
+                        ? (nSign, null)
+                        : (null, pSign),
+                FilePreferenceEnum.Older
+                    => nSign.FileInfo.CreationTimeUtc < pSign.FileInfo.CreationTimeUtc
+                        ? (nSign, null)
+                        : (null, pSign),
+                _ => throw new ArgumentOutOfRangeException(nameof(filePreference), filePreference, null)
+            };
         }
     }
 }
