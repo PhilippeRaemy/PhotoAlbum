@@ -178,7 +178,21 @@
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
-                    _similarSignatures[s].Add(newSignature);
+                    var (nSign, pSign) = ImmediatelyRemoveDuplicate
+                        ? RemoveDuplicate(newSignature, s, FilePreference, RemoveOnlyInSameFolder)
+                        : (newSignature, s);
+                    if (nSign is null)
+                    {
+                        // do nothing, means we've discarded the new coming signature
+                    }
+                    else if (pSign is null) //nSign is better than pSign, and we've discarded pSign
+                    {
+                        _similarSignatures[nSign] = _similarSignatures[s];
+                        _similarSignatures.Remove(s);
+                    }
+                    else
+                        _similarSignatures[s].Add(nSign);
+
                     handled = true;
                 }
 
@@ -188,20 +202,21 @@
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        if (ImmediatelyRemoveDuplicate)
-                        {
-                            RemoveDuplicate(newSignature, previous, FilePreference, RemoveOnlyInSameFolder);
-                        } else
-
-                        {
-                            if (Verbose)
+                        var (nSign, pSign) = ImmediatelyRemoveDuplicate
+                            ? RemoveDuplicate(newSignature, previous, FilePreference, RemoveOnlyInSameFolder)
+                            : (newSignature, previous);
+                        if (Verbose)
                                 Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
+                        if (nSign is null) break; // do nothing: that new picture has been discarded
+                        _distinctSignatures.Remove(previous);
+                        if (pSign is not null)
+                        {
                             _similarSignatures.Add(previous, [previous, newSignature]);
                             if (Verbose)
                                 Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
-                            _distinctSignatures.Remove(previous);
-                            handled = true;
                         }
+
+                        handled = true;
                     }
 
                 if (handled) return;
@@ -211,9 +226,10 @@
             }
         }
 
-        void RemoveDuplicate(PictureSignature newSignature, PictureSignature previous, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
+        (PictureSignature newSignature, PictureSignature previous) RemoveDuplicate(PictureSignature newSignature,
+            PictureSignature previous, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
         {
-            throw new NotImplementedException();
+            return (newSignature, previous);
         }
     }
 }
