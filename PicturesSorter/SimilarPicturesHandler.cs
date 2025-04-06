@@ -3,11 +3,17 @@
     using PictureHandler;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using Tracer;
+
+    public enum FilePreferenceEnum
+    {
+        Larger,
+        Older
+    }
+
 
     public class SimilarPicturesHandler
     {
@@ -20,6 +26,9 @@
         public Action IncrementProgressAction { get; set; }
         public Func<bool> KeepGoingFunc { get; set; }
         public bool Verbose { get; set; }
+        public bool ImmediatelyRemoveDuplicate { get; set; }
+        public FilePreferenceEnum FilePreference { get; set; }
+        public bool RemoveOnlyInSameFolder { get; set; }
 
         readonly List<PictureSignature> _signatures = new();
 
@@ -179,13 +188,20 @@
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        if (Verbose)
-                            Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
-                        _similarSignatures.Add(previous, new[] { previous, newSignature }.ToList());
-                        if (Verbose)
-                            Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
-                        _distinctSignatures.Remove(previous);
-                        handled = true;
+                        if (ImmediatelyRemoveDuplicate)
+                        {
+                            RemoveDuplicate(newSignature, previous, FilePreference, RemoveOnlyInSameFolder);
+                        } else
+
+                        {
+                            if (Verbose)
+                                Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
+                            _similarSignatures.Add(previous, [previous, newSignature]);
+                            if (Verbose)
+                                Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
+                            _distinctSignatures.Remove(previous);
+                            handled = true;
+                        }
                     }
 
                 if (handled) return;
@@ -193,6 +209,11 @@
                 if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
                 _distinctSignatures.Add(newSignature);
             }
+        }
+
+        void RemoveDuplicate(PictureSignature newSignature, PictureSignature previous, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
+        {
+            throw new NotImplementedException();
         }
     }
 }
