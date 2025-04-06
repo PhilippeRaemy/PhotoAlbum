@@ -61,6 +61,7 @@
     <Compile Include="SimilarPictureFormTests.cs" />
     <Compile Include="SignatureTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCommandLineScenarios.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

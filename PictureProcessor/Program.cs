@@ -7,7 +7,6 @@
     using System.Threading;
     using System.Windows.Forms;
     using PicturesSorter;
-    using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
     internal class Program
     {
