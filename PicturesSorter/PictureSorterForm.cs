@@ -159,8 +159,8 @@
             return rc;
         }
 
-        static NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2)
-            => new NodesTuple(idx?.Left.SafeStep(step1), idx?.Right.SafeStep(step2));
+        static NodesTuple SelectIndexes(NodesTuple idx, int step1, int step2) =>
+            new(idx?.Left.SafeStep(step1), idx?.Right.SafeStep(step2));
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) => ProcessCmdKeyImpl(ref msg, keyData);
 
@@ -223,7 +223,7 @@
             node.Value.Dispose();
         }
 
-        readonly Stack<Tuple<string, Side>> _shelvedFiles =new Stack<Tuple<string, Side>>();
+        readonly Stack<Tuple<string, Side>> _shelvedFiles =new();
         bool _sortBySignature;
 
         void previousToolStripMenuItem_Click     (object sender, EventArgs e) => _fileIndex = LoadPictures(_fileIndex, -1, -1);

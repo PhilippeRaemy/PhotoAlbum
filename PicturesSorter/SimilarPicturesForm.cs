@@ -207,7 +207,7 @@ namespace PicturesSorter
         }
 
         readonly Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>> _keyMapping =
-            new Dictionary<Keys, Action<SimilarPicturesForm, object, KeyEventArgs>>
+            new()
             {
                 [Keys.Delete] = (f, s, e) => StagePictures(GetSelectedPictureBoxes(s)),
                 [Keys.Delete | Keys.Shift] = (f, s, e) => DeletePictures(GetSelectedPictureBoxes(s)),

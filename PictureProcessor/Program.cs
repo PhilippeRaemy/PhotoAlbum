@@ -86,7 +86,7 @@
                 IncrementProgressAction = null,
                 KeepGoingFunc = null
             };
-            var similarSignatures = await _similarPicturesHandler.LoadPictures(!verbose);
+            var similarSignatures = await _similarPicturesHandler.LoadPictures(verbose);
 
         }
 

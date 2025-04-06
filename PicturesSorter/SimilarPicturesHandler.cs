@@ -20,7 +20,7 @@
         public Action IncrementProgressAction { get; set; }
         public Func<bool> KeepGoingFunc { get; set; }
 
-        readonly List<PictureSignature> _signatures = new List<PictureSignature>();
+        readonly List<PictureSignature> _signatures = new();
         public int SignatureCount
         {
             get
@@ -32,15 +32,15 @@
             }
         }
 
-        readonly HashSet<PictureSignature> _distinctSignatures = new HashSet<PictureSignature>();
+        readonly HashSet<PictureSignature> _distinctSignatures = new();
 
         readonly Dictionary<PictureSignature, List<PictureSignature>> _similarSignatures =
-            new Dictionary<PictureSignature, List<PictureSignature>>(new PictureSignatureComparer());
+            new(new PictureSignatureComparer());
 
         int _countDone;
 
 
-        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool silent)
+        public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool verbose)
         {
             if (Directory is null)
             {
