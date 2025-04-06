@@ -7,6 +7,7 @@
     using System.Threading;
     using System.Windows.Forms;
     using PicturesSorter;
+    using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
     internal class Program
     {
@@ -18,6 +19,8 @@
         static bool _verbose;
         static bool _gui;
         static int _similarity=99;
+        static int _timeoutSeconds=30;
+        static int _maxTasks=4;
 
         static int Main(string[] args)
         {
@@ -32,6 +35,10 @@
                 .AddSwitch("NoRecycleBin", () => _noRecycle = true, "Deduplicate pictures")
                 .AddSwitch("Verbose", () => _verbose = true, "Produce verbose console output")
                 .AddSwitch("GUI", () => _gui= true, "Show graphical use interface")
+                .AddOptionalIntegerParameter("Timeout", a => _timeoutSeconds = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
+                    "Timeout for loading a picture", "30")
+                .AddOptionalIntegerParameter("MaxTasks", a => _maxTasks = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
+                    "Maximum of parallel tasks", "4")
                 .AddOptionalIntegerParameter("Similarity", a => _similarity = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
                     "similarity factor for deduplicate", "99")
                 .AddSwitch("Verbose", () => _verbose = true, "Produce verbose output")
@@ -40,7 +47,10 @@
             if (_gui)
                 ShowGui(_rootPath, _recurse, _similarity);
             else if (_deduplicate)
-                DeduplicatePictures(_rootPath, _recurse, _noRecycle, _dryrun, _verbose, _similarity);
+            {
+                DeduplicatePictures(_rootPath, _recurse, _noRecycle, _dryrun, _verbose, _similarity, _timeoutSeconds, _maxTasks);
+            }
+
             return 0;
         }
 
@@ -63,9 +73,21 @@
             Application.Run(sims);
         }
 
-        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool noRecycle, bool dryrun, bool verbose, int similarity)
+        static async void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool noRecycle, bool dryrun, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
         {
-            throw new NotImplementedException();
+            var _similarPicturesHandler = new SimilarPicturesHandler
+            {
+                Directory = rootPath,
+                SimilarityFactor = (double)similarity / 100,
+                LoadPictureTimeout = TimeSpan.FromSeconds(timeoutSeconds),
+                MaxTasks = maxTasks,
+                CloseAction = null,
+                SetProgressMaxAction = null,
+                IncrementProgressAction = null,
+                KeepGoingFunc = null
+            };
+            var similarSignatures = await _similarPicturesHandler.LoadPictures(!verbose);
+
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
