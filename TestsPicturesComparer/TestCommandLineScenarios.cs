@@ -2,13 +2,12 @@
 using System.IO;
 using System.Runtime.Remoting.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using MoreLinq;
 using PictureProcessor;
 
 namespace TestsPicturesComparer
 {
-    internal class TestCommandLineScenarios
+    [TestClass]
+    public class TestCommandLineScenarios
     {
         internal class FileFixtures : IDisposable
         {
@@ -18,7 +17,7 @@ namespace TestsPicturesComparer
             {
                 TempFolder = new DirectoryInfo(Guid.NewGuid().ToString());
                 TempFolder.Create();
-                foreach (var sample in new[] { "Sample", "MultiSample" })
+                foreach (var sample in new[] { "Sample", "MultiSamples" })
                 {
                     var origFolder = new DirectoryInfo(sample);
                     var subFolder = new DirectoryInfo(Path.Combine(TempFolder.FullName, sample));
@@ -38,7 +37,11 @@ namespace TestsPicturesComparer
             {
                 Program.Main(new[]
                 {
-                    "RootPath", fFix.TempFolder.FullName
+                    $"--RootPath={fFix.TempFolder.FullName}",
+                    "--deduplicate",
+                    "--recurse",
+                    "--NoRecycleBin",
+                    "--verbose"
                 });
             }
         }

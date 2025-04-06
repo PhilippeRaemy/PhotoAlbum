@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic;
+﻿using System.ComponentModel;
+using Microsoft.VisualBasic;
 
 namespace PicturesSorter
 {
@@ -57,6 +58,8 @@ namespace PicturesSorter
 
         public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool recurse = true)
         {
+            var extensions = new []{"jpg", "jpeg", "png"}
+            ;
             if (Directory is null)
             {
                 CloseAction?.Invoke();
@@ -65,9 +68,8 @@ namespace PicturesSorter
 
             var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
             var files = new Queue<FileInfo>(
-                Directory.EnumerateFiles("*.jpg", searchOption)
-                    .Concat(Directory.EnumerateFiles("*.jpeg", searchOption))
-                    .Concat(Directory.EnumerateFiles("*.png", searchOption))
+                Directory.EnumerateFiles("*", searchOption)
+                    .Where(fi => extensions.Contains(fi.Extension, StringComparer.InvariantCultureIgnoreCase))
                     .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
 
             SetProgressMaxAction?.Invoke(files.Count);
@@ -102,9 +104,7 @@ namespace PicturesSorter
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
-                    var signatureTask = signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignature);
-                    await signatureTask.ConfigureAwait(false);
-                    var signatureList = signatureTask.Result;
+                    var signatureList = await signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignature).ConfigureAwait(false);
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");

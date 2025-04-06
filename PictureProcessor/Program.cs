@@ -40,7 +40,6 @@
                     "Maximum of parallel tasks", "4")
                 .AddOptionalIntegerParameter("Similarity", a => _similarity = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
                     "similarity factor for deduplicate", "99")
-                .AddSwitch("Verbose", () => _verbose = true, "Produce verbose output")
                 .Run(args);
             if(_verbose) parser.EchoParameters();
             if (_gui)

@@ -10,35 +10,38 @@
 
     public static class PictureHelper
     {
-        public static async Task<Image> ReadImageFromFileInfoAsync(FileInfo imageFullPathName)
+        public static async Task<Image> ReadImageFromFileInfoAsync(FileInfo file)
         {
-            if (imageFullPathName is null) return null;
-            imageFullPathName.Refresh();
-            if (!imageFullPathName.Exists) return null;
-            using (var fStream = new FileStream(imageFullPathName.FullName, FileMode.Open, FileAccess.Read))
+            if (file is null) return null;
+            file.Refresh();
+            if (!file.Exists) return null;
+            Tracer.WriteLine(() => $"Reading image from {file.FullName}");
+            Image image=null;
             using (var mStream = new MemoryStream())
             {
-                Tracer.WriteLine(() => $"Reading image from {imageFullPathName.FullName}");
+                // we want to make sure the file stream is closed before we return the image
+                using (var fStream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read))
+                    await fStream.CopyToAsync(mStream).ConfigureAwait(false);
+                /* TODO : determine if we could load all images through LoadWebP */
                 try
                 {
-                    await fStream.CopyToAsync(mStream).ConfigureAwait(false);
                     mStream.Seek(0, SeekOrigin.Begin);
-                    return await Task.Run(() => Image.FromStream(mStream)).ConfigureAwait(false);
+                    image = Image.FromStream(mStream);
                 }
                 catch (Exception e)
                 {
-                    Tracer.WriteLine(() => $"Reading image from {imageFullPathName} failed with {e}");
+                    Tracer.WriteLine(() => $"Reading image from {file} failed with {e}");
                     try
                     {
-                        return LoadWebP(imageFullPathName.FullName);
+                        image = LoadWebP(file.FullName);
                     }
                     catch (Exception ex)
                     {
-                        Tracer.WriteLine(() => $"Reading image from {imageFullPathName} failed with {ex}");
-                        return null;
+                        Tracer.WriteLine(() => $"Reading image from {file} failed with {ex}");
                     }
                 }
             }
+            return image;
         }
 
         static Image LoadWebP(string path)
