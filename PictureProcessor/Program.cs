@@ -71,7 +71,7 @@
             Application.Run(sims);
         }
 
-        static async void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool noRecycle, bool dryrun, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
+        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool noRecycle, bool dryrun, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
         {
             var _similarPicturesHandler = new SimilarPicturesHandler
             {
@@ -86,7 +86,7 @@
                 NoRecycle = noRecycle, 
                 Verbose = verbose
             };
-            var similarSignatures = await _similarPicturesHandler.LoadPictures(recurse);
+            _similarPicturesHandler.LoadPictures(recurse).Wait();
 
         }
 

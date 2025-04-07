@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using Microsoft.VisualBasic;
+﻿using Shell32;
 
 namespace PicturesSorter
 {
@@ -33,8 +32,11 @@ namespace PicturesSorter
         public FilePreferenceEnum FilePreference { get; set; }
         public bool RemoveOnlyInSameFolder { get; set; }
         public bool NoRecycle { get; set; }
+        static Folder _recyclingBin;
 
         readonly List<PictureSignature> _signatures = new();
+
+        public SimilarPicturesHandler() => _recyclingBin = new Shell().NameSpace(10);
 
         public int SignatureCount
         {
@@ -58,8 +60,7 @@ namespace PicturesSorter
 
         public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool recurse = true)
         {
-            var extensions = new []{"jpg", "jpeg", "png"}
-            ;
+            var extensions = new[] { ".jpg", ".jpeg", ".png" };
             if (Directory is null)
             {
                 CloseAction?.Invoke();
@@ -104,7 +105,8 @@ namespace PicturesSorter
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
-                    var signatureList = await signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignature).ConfigureAwait(false);
+                    var signatureList = await signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignature)
+                        .ConfigureAwait(false);
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");
@@ -224,30 +226,37 @@ namespace PicturesSorter
 
                 if (handled) return;
 
-                if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
                 _distinctSignatures.Add(newSignature);
+                if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
             }
         }
 
-        static (PictureSignature, PictureSignature) RemoveDuplicate(
+        (PictureSignature, PictureSignature) RemoveDuplicate(
             PictureSignature nSign, PictureSignature pSign,
-            bool immediatelyRemoveDuplicate, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
+            bool permanentlyDelete, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
         {
-            if (!immediatelyRemoveDuplicate
+            if (!permanentlyDelete
                 || removeOnlyInSameFolder && pSign.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName)
                 return (nSign, pSign);
-            return filePreference switch
+            (nSign, pSign) = filePreference switch
             {
                 FilePreferenceEnum.Larger
                     => nSign.FileInfo.Length > pSign.FileInfo.Length
-                        ? (nSign, null)
-                        : (null, pSign),
+                        ? (nSign, default(PictureSignature))
+                        : (default(PictureSignature), pSign),
                 FilePreferenceEnum.Older
                     => nSign.FileInfo.CreationTimeUtc < pSign.FileInfo.CreationTimeUtc
-                        ? (nSign, null)
-                        : (null, pSign),
+                        ? (nSign, default)
+                        : (default, pSign),
                 _ => throw new ArgumentOutOfRangeException(nameof(filePreference), filePreference, null)
             };
+            // one of them has to be deleted
+            if (NoRecycle)
+                (nSign ?? pSign).FileInfo.Delete();
+            else
+                _recyclingBin.MoveHere((nSign ?? pSign).FileInfo.FullName);
+
+            return (nSign, pSign);
         }
     }
 }
