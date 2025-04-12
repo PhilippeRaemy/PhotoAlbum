@@ -28,10 +28,10 @@ namespace PicturesSorter
         public Action IncrementProgressAction { get; set; }
         public Func<bool> KeepGoingFunc { get; set; }
         public bool Verbose { get; set; }
-        public bool ImmediatelyRemoveDuplicate { get; set; }
         public FilePreferenceEnum FilePreference { get; set; }
-        public bool RemoveOnlyInSameFolder { get; set; }
-        public bool NoRecycle { get; set; }
+        public bool ByFolder { get; set; }
+        public bool Delete { get; set; }
+        public bool DryRun { get; set; }
         static Folder _recyclingBin;
 
         readonly List<PictureSignature> _signatures = new();
@@ -176,6 +176,7 @@ namespace PicturesSorter
             _countDone += 1;
             IncrementProgressAction?.Invoke();
             var handled = false;
+            var logger = new Action<string>(s => Tracer.WriteLine(() => s));
             lock (_similarSignatures)
             {
                 // look for 2 or more similar pictures already displayed: adding 1
@@ -185,8 +186,7 @@ namespace PicturesSorter
                     if (Verbose)
                         Tracer.WriteLine(() =>
                             $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
-                    var (nSign, pSign) = RemoveDuplicate(newSignature, s, ImmediatelyRemoveDuplicate, FilePreference,
-                        RemoveOnlyInSameFolder);
+                    var (nSign, pSign) = RemoveDuplicate(newSignature, s, Delete, FilePreference, ByFolder, logger);
                     if (nSign is null)
                     {
                         // do nothing, means we've discarded the new coming signature
@@ -208,8 +208,7 @@ namespace PicturesSorter
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, ImmediatelyRemoveDuplicate,
-                            FilePreference, RemoveOnlyInSameFolder);
+                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, Delete, FilePreference, ByFolder, logger);
                         if (Verbose)
                             Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
                         if (nSign is null) break; // do nothing: that new picture has been discarded
@@ -218,7 +217,7 @@ namespace PicturesSorter
                         {
                             _similarSignatures.Add(previous, [previous, newSignature]);
                             if (Verbose)
-                                Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from distincts.");
+                                Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.");
                         }
 
                         handled = true;
@@ -227,16 +226,15 @@ namespace PicturesSorter
                 if (handled) return;
 
                 _distinctSignatures.Add(newSignature);
-                if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to distincts.");
+                if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to the list of distinct pictures.");
             }
         }
 
         (PictureSignature, PictureSignature) RemoveDuplicate(
             PictureSignature nSign, PictureSignature pSign,
-            bool permanentlyDelete, FilePreferenceEnum filePreference, bool removeOnlyInSameFolder)
+            bool delete, FilePreferenceEnum filePreference, bool byFolder, Action<string> logger)
         {
-            if (!permanentlyDelete
-                || removeOnlyInSameFolder && pSign.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName)
+            if (byFolder && pSign.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName)
                 return (nSign, pSign);
             (nSign, pSign) = filePreference switch
             {
@@ -251,10 +249,19 @@ namespace PicturesSorter
                 _ => throw new ArgumentOutOfRangeException(nameof(filePreference), filePreference, null)
             };
             // one of them has to be deleted
-            if (NoRecycle)
-                (nSign ?? pSign).FileInfo.Delete();
+            var toBeDeleted = (nSign ?? pSign).FileInfo;
+            if (DryRun)
+                logger?.Invoke($"{toBeDeleted.FullName} would be {(delete ? "deleted" : "recycled")}");
+            else if (delete)
+            {
+                toBeDeleted.Delete();
+                logger?.Invoke($"{toBeDeleted.FullName} has been deleted");
+            }
             else
-                _recyclingBin.MoveHere((nSign ?? pSign).FileInfo.FullName);
+            {
+                _recyclingBin.MoveHere(toBeDeleted.FullName);
+                logger?.Invoke($"{toBeDeleted.FullName} has been recycled");
+            }
 
             return (nSign, pSign);
         }
