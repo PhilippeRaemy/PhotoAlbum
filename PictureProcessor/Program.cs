@@ -7,6 +7,7 @@
     using System.Threading;
     using System.Windows.Forms;
     using PicturesSorter;
+    using System.Diagnostics;
 
     public static class Program
     {
@@ -27,13 +28,14 @@
                 .AddHelpSwitch()
                 .WithErrorWriter(Console.Error.WriteLine)
                 .WithHelpWriter(Console.WriteLine)
-                .AddOptionalStringParameter("RootPath", RootPath, "The path from which to explore pictures", ".")
+                .AddStringParameter("RootPath", RootPath, "The path from which to explore pictures", ".")
                 .AddSwitch("Recurse", () => _recurse = true, "Explore subfolders")
                 .AddSwitch("DryRun", () => _dryrun = true, "Only display work at hand")
                 .AddSwitch("Deduplicate", () => _deduplicate = true, "Deduplicate pictures")
                 .AddSwitch("Delete", () => _delete = true, "Permanently delete duplicate pictures (if --Deduplicate is specified")
                 .AddSwitch("Verbose", () => _verbose = true, "Produce verbose console output")
-                .AddSwitch("GUI", () => _gui= true, "Show graphical use interface")
+                .AddSwitch("GUI", () => _gui = true, "Show graphical use interface")
+                .AddSwitch("Debug", () => Debugger.Break(), "Start interactive debugging")
                 .AddOptionalIntegerParameter("Timeout", a => _timeoutSeconds = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
                     "Timeout for loading a picture", "30")
                 .AddOptionalIntegerParameter("MaxTasks", a => _maxTasks = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
