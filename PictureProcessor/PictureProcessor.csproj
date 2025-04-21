@@ -42,8 +42,8 @@
     <Reference Include="MoreLinq, Version=4.4.0.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
       <HintPath>..\packages\morelinq.4.4.0\lib\netstandard2.0\MoreLinq.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleCommandlineParser, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleCommandlineParser.1.4.1\lib\net48\SimpleCommandlineParser.dll</HintPath>
+    <Reference Include="SimpleCommandlineParser, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleCommandlineParser.1.4.2\lib\net48\SimpleCommandlineParser.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

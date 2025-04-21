@@ -25,7 +25,7 @@
                 .AddHelpSwitch()
                 .WithErrorWriter(Console.Error.WriteLine)
                 .WithHelpWriter(Console.WriteLine)
-                .AddStringParameter("", a => _command = a, "Command to be run. Available commands are `gui` and `deduplicate`.")
+                .AddStringParameter("Command", a => _command = a, "Command to be run. Available commands are `gui` and `deduplicate`.")
                 .AddStringParameter("RootPath", RootPath, "The path from which to explore pictures", ".")
                 .AddSwitch("Recurse", () => _recurse = true, "Explore subfolders")
                 .AddSwitch("DryRun", () => _dryRun = true, "Only display work at hand")
