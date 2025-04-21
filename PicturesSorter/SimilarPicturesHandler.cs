@@ -1,7 +1,7 @@
-﻿using Shell32;
-
+﻿
 namespace PicturesSorter
 {
+    using Microsoft.VisualBasic.FileIO;
     using PictureHandler;
     using System;
     using System.Collections.Generic;
@@ -32,11 +32,8 @@ namespace PicturesSorter
         public bool ByFolder { get; set; }
         public bool Delete { get; set; }
         public bool DryRun { get; set; }
-        static Folder _recyclingBin;
 
         readonly List<PictureSignature> _signatures = new();
-
-        public SimilarPicturesHandler() => _recyclingBin = new Shell().NameSpace(10);
 
         public int SignatureCount
         {
@@ -67,7 +64,7 @@ namespace PicturesSorter
                 return new Dictionary<PictureSignature, List<PictureSignature>>();
             }
 
-            var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+            var searchOption = recurse ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly;
             var files = new Queue<FileInfo>(
                 Directory.EnumerateFiles("*", searchOption)
                     .Where(fi => extensions.Contains(fi.Extension, StringComparer.InvariantCultureIgnoreCase))
@@ -259,7 +256,7 @@ namespace PicturesSorter
             }
             else
             {
-                _recyclingBin.MoveHere(toBeDeleted.FullName);
+                FileSystem.DeleteFile(toBeDeleted.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
                 logger?.Invoke($"{toBeDeleted.FullName} has been recycled");
             }
 
