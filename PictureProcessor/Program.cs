@@ -1,54 +1,56 @@
 ﻿namespace PictureProcessor
 {
-    using System.Globalization;
     using SimpleCommandlineParser;
     using System;
     using System.IO;
     using System.Threading;
     using System.Windows.Forms;
     using PicturesSorter;
-    using System.Diagnostics;
 
     public static class Program
     {
         static DirectoryInfo _rootPath = new DirectoryInfo(Directory.GetCurrentDirectory());
         static bool _recurse;
-        static bool _deduplicate;
-        static bool _dryrun;
+        static bool _dryRun;
         static bool _delete;
         static bool _verbose;
-        static bool _gui;
         static int _similarity=99;
         static int _timeoutSeconds=30;
         static int _maxTasks=4;
+        static string _command;
 
         public static int Main(string[] args)
         {
-            var parser = new Parser()
+            var parser = new Parser("PictureProcessor", "Command line picture processor")
                 .AddHelpSwitch()
                 .WithErrorWriter(Console.Error.WriteLine)
                 .WithHelpWriter(Console.WriteLine)
+                .AddStringParameter("", a => _command = a, "Command to be run. Available commands are `gui` and `deduplicate`.")
                 .AddStringParameter("RootPath", RootPath, "The path from which to explore pictures", ".")
                 .AddSwitch("Recurse", () => _recurse = true, "Explore subfolders")
-                .AddSwitch("DryRun", () => _dryrun = true, "Only display work at hand")
-                .AddSwitch("Deduplicate", () => _deduplicate = true, "Deduplicate pictures")
+                .AddSwitch("DryRun", () => _dryRun = true, "Only display work at hand")
                 .AddSwitch("Delete", () => _delete = true, "Permanently delete duplicate pictures (if --Deduplicate is specified")
                 .AddSwitch("Verbose", () => _verbose = true, "Produce verbose console output")
-                .AddSwitch("GUI", () => _gui = true, "Show graphical use interface")
-                .AddSwitch("Debug", () => Debugger.Break(), "Start interactive debugging")
-                .AddOptionalIntegerParameter("Timeout", a => _timeoutSeconds = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
+                .AddOptionalIntegerParameter("Timeout", a => _timeoutSeconds = a,
                     "Timeout for loading a picture", "30")
-                .AddOptionalIntegerParameter("MaxTasks", a => _maxTasks = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
+                .AddOptionalIntegerParameter("MaxTasks", a => _maxTasks = a,
                     "Maximum of parallel tasks", "4")
-                .AddOptionalIntegerParameter("Similarity", a => _similarity = int.Parse(a, NumberStyles.Integer, CultureInfo.InvariantCulture),
+                .AddOptionalIntegerParameter("Similarity", a => _similarity = a,
                     "similarity factor for deduplicate", "99")
                 .Run(args);
             if(_verbose) parser.EchoParameters();
-            if (_gui)
-                ShowGui(_rootPath, _recurse, _similarity);
-            else if (_deduplicate)
+            switch (_command?.ToLowerInvariant())
             {
-                DeduplicatePictures(_rootPath, _recurse, _delete, _dryrun, _verbose, _similarity, _timeoutSeconds, _maxTasks);
+                case "gui":
+                    ShowGui(_rootPath, _recurse, _similarity);
+                    break;
+                case "deduplicate":
+                    DeduplicatePictures(_rootPath, _recurse, _delete, _dryRun, _verbose, _similarity, _timeoutSeconds, _maxTasks);
+                    break;
+                default:
+                    Console.WriteLine("Unknown command: " + _command);
+                    Console.WriteLine("Available commands are `gui` and `deduplicate`.");
+                    return -1;
             }
 
             return 0;
@@ -73,9 +75,9 @@
             Application.Run(sims);
         }
 
-        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool delete, bool dryrun, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
+        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool delete, bool dryRun, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
         {
-            var _similarPicturesHandler = new SimilarPicturesHandler
+            var similarPicturesHandler = new SimilarPicturesHandler
             {
                 Directory = rootPath,
                 SimilarityFactor = (double)similarity / 100,
@@ -86,10 +88,10 @@
                 IncrementProgressAction = null,
                 KeepGoingFunc = null,
                 Delete = delete,
-                DryRun = dryrun,
+                DryRun = dryRun,
                 Verbose = verbose
             };
-            _similarPicturesHandler.LoadPictures(recurse).Wait();
+            similarPicturesHandler.LoadPictures(recurse).Wait();
 
         }
 
