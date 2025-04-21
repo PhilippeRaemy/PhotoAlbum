@@ -7,7 +7,7 @@
 
     internal class StateKeeper:IDisposable
     {
-        readonly Stack<Action> _unwindActions = new Stack<Action>();
+        readonly Stack<Action> _unwindActions = new();
 
         public StateKeeper Hourglass(Form form)
         {

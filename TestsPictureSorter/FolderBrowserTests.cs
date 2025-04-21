@@ -1,14 +1,15 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using FolderWalker;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreLinq;
-
-namespace TestsPicturesSorter
+﻿namespace TestsPicturesSorter
 {
+    using System;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using FolderWalker;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MoreLinq;
+    using Tracer;
+
     [TestClass]
     public class FolderBrowserTests
     {
@@ -35,13 +36,13 @@ namespace TestsPicturesSorter
                 @"B\1\a",
                 @"B\1\a\x",
             };
-            _tree.OrderBy(n=>n).Pipe(d => Trace.WriteLine($"Init: {d}")).ForEach(n=> new DirectoryInfo(Path.Combine(_root.FullName, n)).Create());
+            _tree.OrderBy(n=>n).Pipe(d => Tracer.WriteLine(() => $"Init: {d}")).ForEach(n=> new DirectoryInfo(Path.Combine(_root.FullName, n)).Create());
         }
 
         [TestCleanup]
         void TestCleanup()
         {
-            _tree.OrderByDescending(n => n).Pipe(d=>Trace.WriteLine($"Cleanup: {d}")).ForEach(n => new DirectoryInfo(Path.Combine(_root.FullName, n)).Delete());
+            _tree.OrderByDescending(n => n).Pipe(d=>Tracer.WriteLine(() => $"Cleanup: {d}")).ForEach(n => new DirectoryInfo(Path.Combine(_root.FullName, n)).Delete());
         }
 
         [TestMethod]
@@ -58,7 +59,7 @@ namespace TestsPicturesSorter
             var nextDi = _root;
             foreach (var di in tree)
             {
-                Trace.WriteLine(di.FullName);
+                Tracer.WriteLine(() => di.FullName);
                 nextDi = nextDi.WalkNextFolder(FolderDirection.Forward);
                 Assert.AreEqual(di.FullName, nextDi.FullName);
             }
@@ -73,12 +74,12 @@ namespace TestsPicturesSorter
                     FileAttributes.System
                     )) == 0)
                 .OrderByDescending(d => d.FullName)
-                .Pipe(d => Trace.WriteLine(d.FullName))
+                .Pipe(d => Tracer.WriteLine(() => d.FullName))
                 .ToArray();
             var nextDi = tree.First();
             foreach (var di in tree.Skip(1))
             {
-                Trace.WriteLine(di.FullName);
+                Tracer.WriteLine(() => di.FullName);
                 nextDi = nextDi.WalkNextFolder(FolderDirection.Backward);
                 Assert.AreEqual(di.FullName, nextDi.FullName);
             }

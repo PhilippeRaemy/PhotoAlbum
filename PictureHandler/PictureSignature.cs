@@ -10,6 +10,7 @@
     using System.Text;
     using System.Threading.Tasks;
     using Signature = System.Collections.Generic.List<ushort>;
+    using Tracer;
 
     public class PictureSignatureComparer : IEqualityComparer<PictureSignature>
     {
@@ -93,7 +94,7 @@
         public async Task<Signature> GetSignatureAsync(TimeSpan timeout, Action<PictureSignature> feedback = null) {
             var task = GetSignatureAsync(feedback);
             await task.ConfigureAwait(false);
-            if (await Task.WhenAny(task, Delay(timeout, task, $"GetSignatureAsync {FileInfo.FullName}" )) != task) return null;
+            if (await Task.WhenAny(task, Delay(timeout, task, $"GetSignatureAsync {FileInfo.FullName}" )) != task) return default;
             return await task;
         }
 
@@ -118,9 +119,10 @@
                             Debug.Assert(false);
                         }
 
+            if (_signature is null) return null;
             feedback?.Invoke(this);
             Debug.Assert(_signature!=null);
-            Trace.WriteLine($"Signature for {FileInfo.Name} is {_signature}");
+            Tracer.WriteLine(() => $"Signature for {FileInfo.Name} is {_signature}");
             return _signature;
         }
 

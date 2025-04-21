@@ -4,6 +4,7 @@
     using System.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using PictureHandler;
+    using Tracer;
 
     [TestClass]
     public class SignatureTests
@@ -13,7 +14,7 @@
 
         static PictureSignature TraceSignature(PictureSignature ps)
         {
-            Trace.WriteLine(ps);
+            Tracer.WriteLine(() => ps.ToString());
             return ps;
         }
 

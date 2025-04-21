@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29509.3
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlbumWordAddin", "AlbumWordAddin\AlbumWordAddin.csproj", "{BD7257CC-26EE-4AB5-9702-F493572324E6}"
 EndProject
@@ -35,6 +35,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsPicturesComparer", "TestsPicturesComparer\TestsPicturesComparer.csproj", "{67532118-DE91-41C6-9BF9-861E5AF0B542}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PictureProcessor", "PictureProcessor\PictureProcessor.csproj", "{D56E918F-9ACE-484B-BC19-B996F50633C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tracer", "Tracer\Tracer.csproj", "{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -175,6 +177,16 @@ Global
 		{D56E918F-9ACE-484B-BC19-B996F50633C9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D56E918F-9ACE-484B-BC19-B996F50633C9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{D56E918F-9ACE-484B-BC19-B996F50633C9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.CD_ROM|Any CPU.Build.0 = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1B73DB-B499-4F26-9DB5-03D31F5823C8}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

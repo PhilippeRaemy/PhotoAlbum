@@ -1,5 +1,4 @@
-﻿using UserPreferences;
-
+﻿
 namespace AlbumWordAddin
 {
     using System;
@@ -24,6 +23,8 @@ namespace AlbumWordAddin
     using static MoreLinq.Extensions.ForEachExtension;
     using static MoreLinq.Extensions.PipeExtension;
     using static MoreLinq.Extensions.ToDelimitedStringExtension;
+    using UserPreferences;
+    using Tracer;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     [SuppressMessage("ReSharper", "LocalizableElement")]
@@ -344,7 +345,7 @@ namespace AlbumWordAddin
                         = dualFile.DualExists ? dualFile.DualFileInfo.FullName
                         : dualFile.Exists     ? dualFile.FileInfo.FullName
                         : shape.LinkFormat.SourceFullName;
-                    Trace.WriteLine($"{trace}{shape.LinkFormat.SourceFullName}.");
+                    Tracer.WriteLine(() => $"{trace}{shape.LinkFormat.SourceFullName}.");
                 }
             }
         }
