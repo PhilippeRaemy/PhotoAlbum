@@ -1,4 +1,7 @@
-﻿namespace PicturesSorter
+﻿using System.Diagnostics;
+using MoreLinq.Extensions;
+
+namespace PicturesSorter
 {
     using Microsoft.VisualBasic.FileIO;
     using PictureHandler;
@@ -15,6 +18,13 @@
         Older
     }
 
+    public enum DeduplicateResultsEnum
+    {
+        KeepNone,
+        KeepOld,
+        KeepNew,
+        KeepBoth
+    }
 
     public class SimilarPicturesHandler
     {
@@ -107,8 +117,9 @@
                     lock (_signatures) _signatures.Add(signature);
                     try
                     {
-                        Tracer.WriteDebug(() =>
-                            $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
+                        var message = $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}";
+                        ConsoleTitle.Set(message);
+                        Tracer.WriteDebug(() => message);
                     }
                     catch
                     {
@@ -164,7 +175,7 @@
 
         void ReceiveSignature(PictureSignature newSignature)
         {
-            Tracer.WriteInfo(() => $"Got {newSignature.FileInfo.FullName}");
+            Tracer.WriteDebug($"Processing {newSignature.FileInfo.FullName}");
             _countDone += 1;
             IncrementProgressAction?.Invoke();
             var handled = false;
@@ -177,19 +188,26 @@
                 {
                     Tracer.WriteInfo(() =>
                         $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
-                    var (nSign, pSign) = RemoveDuplicate(newSignature, s, Delete, FilePreference, ByFolder, logger);
-                    if (nSign is null)
+                    switch (RemoveDuplicate(newSignature, s, Delete, FilePreference, ByFolder, logger))
                     {
-                        // do nothing, means we've discarded the new coming signature
+                        case DeduplicateResultsEnum.KeepNone:
+                            Debug.Assert(false, "It's not possible that deduplicate discards boh files!");
+                            break;
+                        case DeduplicateResultsEnum.KeepOld:
+                            // do nothing, means we've discarded the new coming signature
+                            break;
+                        case DeduplicateResultsEnum.KeepNew:
+                            // nSign is better than pSign, and we've discarded pSign
+                            // we need to 
+                            _similarSignatures[newSignature] = _similarSignatures[s];
+                            _similarSignatures[newSignature].Remove(s);
+                            break;
+                        case DeduplicateResultsEnum.KeepBoth:
+                            _similarSignatures[s].Append(newSignature);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
-                    else if (pSign is null) //nSign is better than pSign, and we've discarded pSign
-                    {
-                        _similarSignatures[nSign] = _similarSignatures[s];
-                        _similarSignatures.Remove(s);
-                    }
-                    else
-                        _similarSignatures[s].Add(nSign);
-
                     handled = true;
                 }
 
@@ -207,7 +225,7 @@
                         if (pSign is not null)
                         {
                             _similarSignatures.Add(previous, [previous, newSignature]);
-                            Tracer.WriteInfo(() =>
+                            Tracer.WriteDebug(() =>
                                 $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.");
                         }
 
@@ -217,30 +235,62 @@
                 if (handled) return;
 
                 _distinctSignatures.Add(newSignature);
-                Tracer.WriteInfo($"    {newSignature.FileInfo.FullName} added to the list of distinct pictures.");
+                Tracer.WriteDebug($"    {newSignature.FileInfo.FullName} added to the list of distinct pictures.");
             }
         }
 
-        (PictureSignature, PictureSignature) RemoveDuplicate(
+        /// <summary>
+        /// RemoveDuplicate returns a tuple with the two pictures that need to be kept. If one is null, then it means that it's been discarded
+        /// </summary>
+        /// <param name="nSign"></param>
+        /// <param name="pSign"></param>
+        /// <param name="delete"></param>
+        /// <param name="filePreference"></param>
+        /// <param name="byFolder"></param>
+        /// <param name="logger"></param>
+        /// <returns>(nSign, pSign), in order, possibly </returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        ///  TODO: separate the comparison logic and handle the previously existing signatures as a list: we might have several similar pictures but in different folders!
+        DeduplicateResultsEnum RemoveDuplicate(
             PictureSignature nSign, PictureSignature pSign,
             bool delete, FilePreferenceEnum filePreference, bool byFolder, Action<string> logger)
         {
+            DeduplicateResultsEnum results;
+            nSign.FileInfo.Refresh();
+            pSign.FileInfo.Refresh();
+            if (!nSign.FileInfo.Exists || !pSign.FileInfo.Exists)
+            {
+#if DEBUG
+                logger?.Invoke("One of the pictures file does not exist anymore!?!");
+                Debugger.Break();
+#endif
+                return nSign.FileInfo.Exists ? DeduplicateResultsEnum.KeepNew
+                    : pSign.FileInfo.Exists ? DeduplicateResultsEnum.KeepOld
+                    : DeduplicateResultsEnum.KeepNone;
+            }
+
             if (byFolder && pSign.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName)
-                return (nSign, pSign);
-            (nSign, pSign) = filePreference switch
+                return DeduplicateResultsEnum.KeepBoth;
+            results = filePreference switch
             {
                 FilePreferenceEnum.Larger
                     => nSign.FileInfo.Length > pSign.FileInfo.Length
-                        ? (nSign, default(PictureSignature))
-                        : (default(PictureSignature), pSign),
+                        ? DeduplicateResultsEnum.KeepNew
+                        : DeduplicateResultsEnum.KeepOld,
                 FilePreferenceEnum.Older
                     => nSign.FileInfo.CreationTimeUtc < pSign.FileInfo.CreationTimeUtc
-                        ? (nSign, default)
-                        : (default, pSign),
+                        ? DeduplicateResultsEnum.KeepNew
+                        : DeduplicateResultsEnum.KeepOld,
                 _ => throw new ArgumentOutOfRangeException(nameof(filePreference), filePreference, null)
             };
             // one of them has to be deleted
-            var toBeDeleted = (nSign ?? pSign).FileInfo;
+            var toBeDeleted = (results == DeduplicateResultsEnum.KeepNew ? nSign  : pSign).FileInfo;
+            toBeDeleted.Refresh();
+            if (!toBeDeleted.Exists)
+            {
+                logger?.Invoke($"{toBeDeleted.FullName} does not exist anymore");
+                return results;
+            }
             if (DryRun)
                 logger?.Invoke($"{toBeDeleted.FullName} would be {(delete ? "deleted" : "recycled")}");
             else if (delete)
@@ -254,7 +304,7 @@
                 logger?.Invoke($"{toBeDeleted.FullName} has been recycled");
             }
 
-            return (nSign, pSign);
+            return results;
         }
     }
 }

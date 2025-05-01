@@ -5,6 +5,21 @@ using System.Linq;
 
 namespace Tracer
 {
+    public static class ConsoleTitle
+    {
+        static readonly ConsoleTitlePreserver ConsoleTitlePreserver;
+        static ConsoleTitle() => ConsoleTitlePreserver = new ConsoleTitlePreserver();
+        public static void Set(string title) => Console.Title = title;
+    }
+
+    class ConsoleTitlePreserver
+    {
+        static readonly string Title;
+
+        static ConsoleTitlePreserver() => Title = Console.Title;
+        ~ConsoleTitlePreserver() => Console.Title = Title;
+    }
+
     public static class Tracer
     {
         static bool _tracing;

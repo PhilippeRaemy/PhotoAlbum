@@ -128,19 +128,19 @@
 
         void SetSignatureFromImage(Image image)
         {
-            if(image != null)
-                using (var bmp = new Bitmap(_size, _size))
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    g.DrawImage(image, 0, 0, _size, _size);
-                    if (image.Width > image.Height) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    // bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-                    _signature = Enumerable.Range(0, _size)
-                        .SelectMany(x => Enumerable.Range(0, _size)
-                            .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
-                        .ToList();
-                }
+            if (image == null) return;
+            using (var bmp = new Bitmap(_size, _size))
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                g.DrawImage(image, 0, 0, _size, _size);
+                if (image.Width > image.Height) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                // bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
+                _signature = Enumerable.Range(0, _size)
+                    .SelectMany(x => Enumerable.Range(0, _size)
+                        .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
+                    .ToList();
+            }
         }
 
         public override string ToString()

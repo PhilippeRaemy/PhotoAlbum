@@ -1,4 +1,6 @@
-﻿namespace PictureProcessor
+﻿using System.Diagnostics;
+
+namespace PictureProcessor
 {
     using SimpleCommandlineParser;
     using System;
@@ -31,6 +33,7 @@
                 .AddSwitch("DryRun", () => _dryRun = true, "Only display work at hand")
                 .AddSwitch("Delete", () => _delete = true, "Permanently delete duplicate pictures (if --Deduplicate is specified")
                 .AddSwitch("Verbose", () => _verbose = true, "Produce verbose console output")
+                .AddSwitch("Debug", () => Debugger.Launch(), "Produce verbose console output")
                 .AddOptionalIntegerParameter("Timeout", a => _timeoutSeconds = a,
                     "Timeout for loading a picture", "30")
                 .AddOptionalIntegerParameter("MaxTasks", a => _maxTasks = a,
