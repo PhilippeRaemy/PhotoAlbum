@@ -14,7 +14,7 @@
 
         static PictureSignature TraceSignature(PictureSignature ps)
         {
-            Tracer.WriteLine(() => ps.ToString());
+            Tracer.WriteDebug(() => ps.ToString());
             return ps;
         }
 

@@ -15,7 +15,7 @@
             if (file is null) return null;
             file.Refresh();
             if (!file.Exists) return null;
-            Tracer.WriteLine(() => $"Reading image from {file.FullName}");
+            Tracer.WriteDebug(() => $"Reading image from {file.FullName}");
             Image image=null;
             using (var mStream = new MemoryStream())
             {
@@ -30,14 +30,14 @@
                 }
                 catch (Exception e)
                 {
-                    Tracer.WriteLine(() => $"Reading image from {file} failed with {e}");
+                    Tracer.WriteDebug(() => $"Reading image from {file} failed with {e}");
                     try
                     {
                         image = LoadWebP(file.FullName);
                     }
                     catch (Exception ex)
                     {
-                        Tracer.WriteLine(() => $"Reading image from {file} failed with {ex}");
+                        Tracer.WriteDebug(() => $"Reading image from {file} failed with {ex}");
                     }
                 }
             }

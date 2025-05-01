@@ -294,9 +294,9 @@ namespace TestsPictureHandler
             {
                 if ((prop.GetValue(metadata) is ReadOnlyCollection<string> collection))
                 {
-                    Tracer.WriteLine(() => $"{prop.Name} : [{collection.ToDelimitedString(", ")}]");
+                    Tracer.WriteDebug(() => $"{prop.Name} : [{collection.ToDelimitedString(", ")}]");
                 }
-                else Tracer.WriteLine(() => $"{prop.Name} : {prop.GetValue(metadata)}");
+                else Tracer.WriteDebug(() => $"{prop.Name} : {prop.GetValue(metadata)}");
             }
         }
 
@@ -310,7 +310,7 @@ namespace TestsPictureHandler
             {
                 if (img is null)
                 {
-                    Tracer.WriteLine(() => $"Got expected exception load failure.");
+                    Tracer.WriteDebug(() => $"Got expected exception load failure.");
                     return;
                 }
                 foreach (var imgPropertyItem in img.PropertyItems)
@@ -326,7 +326,7 @@ namespace TestsPictureHandler
                     var propName = Enum.IsDefined(typeof(PropertyItemIdEnum), imgPropertyItem.Id)
                         ? ((PropertyItemIdEnum)imgPropertyItem.Id).ToString()
                         : "Unknown property item id";
-                    Tracer.WriteLine(() => $"{imgPropertyItem.Id:X} - {imgPropertyItem.Len} - {imgPropertyItem.Type} - {propName} : {value}");
+                    Tracer.WriteDebug(() => $"{imgPropertyItem.Id:X} - {imgPropertyItem.Len} - {imgPropertyItem.Type} - {propName} : {value}");
                 }
             }
         }
@@ -359,7 +359,7 @@ namespace TestsPictureHandler
                 img.RotateFlip(rotateFlipType);
                 // ReSharper disable once AssignNullToNotNullAttribute
                 var newFileName = Path.Combine(fi.DirectoryName, $"{fi.Name}-{rotateFlipType}{fi.Extension}");
-                Tracer.WriteLine(() => newFileName);
+                Tracer.WriteDebug(() => newFileName);
                 img.Save(newFileName, ImageFormat.Jpeg);
             }
         }

@@ -8,13 +8,14 @@ namespace Tracer
     public static class Tracer
     {
         static bool _tracing;
+
         static Tracer()
         {
             Trace.Listeners.Add(new ConsoleTraceListener());
-            if (Trace.Listeners != null && Trace.Listeners.Cast<TraceListener>().Any()){
-                _tracing = true;
-            }
+            if (Trace.Listeners != null && Trace.Listeners.Cast<TraceListener>().Any()) _tracing = true;
         }
+
+        public static void DisableTracing() => _tracing = false;
 
         public static void WriteLine(params (string, object)[] traces)
         {
@@ -23,16 +24,23 @@ namespace Tracer
             Trace.WriteLine(message);
         }
 
-        public static void WriteLine(params object[] traces)
+        public static void WriteInfo(params object[] traces) => WriteLine(true, traces);
+
+        public static void WriteDebug(params object[] traces) => WriteLine(_tracing, traces);
+
+        static void WriteLine(bool tracing, params object[] traces)
         {
-            if (!_tracing) return;
+            if (!tracing) return;
             var message = string.Join(" ", traces);
             Trace.WriteLine(message);
         }
 
-        public static void WriteLine(Func<string> tracer)
+        public static void WriteInfo(Func<string> tracer) => WriteLine(true, tracer);
+        public static void WriteDebug(Func<string> tracer) => WriteLine(_tracing, tracer);
+
+        static void WriteLine(bool tracing, Func<string> tracer)
         {
-            if (!_tracing || tracer is null) return;
+            if (!tracing || tracer is null) return;
             Trace.WriteLine(tracer.Invoke());
         }
     }

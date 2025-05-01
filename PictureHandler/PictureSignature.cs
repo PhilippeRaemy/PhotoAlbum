@@ -84,7 +84,7 @@
             await Task.Delay(timeout);
             if (other.IsCompleted)
             {
-                // Console.WriteLine($"{context} succeeded before timeout!");
+                // Console.WriteDebug($"{context} succeeded before timeout!");
                 return;
             }
             Console.WriteLine($"{context} Timed-out!");
@@ -122,7 +122,7 @@
             if (_signature is null) return null;
             feedback?.Invoke(this);
             Debug.Assert(_signature!=null);
-            Tracer.WriteLine(() => $"Signature for {FileInfo.Name} is {_signature}");
+            Tracer.WriteDebug(() => $"Signature for {FileInfo.Name} is {_signature}");
             return _signature;
         }
 

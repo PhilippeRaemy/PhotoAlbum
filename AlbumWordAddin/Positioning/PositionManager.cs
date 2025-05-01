@@ -81,18 +81,18 @@
             if (selectedShapes.Length == 0) throw new InvalidOperationException("Please select one or more images.");
             if (selectedShapes.Any(s => s == null))
             {
-                selectedShapes.ForEach(sh => Tracer.WriteLine(() => sh.GetLocationString()));
+                selectedShapes.ForEach(sh => Tracer.WriteDebug(() => sh.GetLocationString()));
                 throw new InvalidOperationException("Some selected shapes are null");
             }
             var shapes = Globals.ThisAddIn.MoveAllToSamePage(selectedShapes).ReplaceSelection();
             if (selectedShapes.Length != shapes.Length)
             {
-                Tracer.WriteLine(() => $"We had {selectedShapes.Length} selected shapes, {shapes} after MoveallToSamePage.");
+                Tracer.WriteDebug(() => $"We had {selectedShapes.Length} selected shapes, {shapes} after MoveallToSamePage.");
                 throw new InvalidOperationException("MoveallToSamePage altered shaped count");
             }
             if (shapes.Any(s => s == null))
             {
-                selectedShapes.ForEach(sh => Tracer.WriteLine(() => sh.GetLocationString()));
+                selectedShapes.ForEach(sh => Tracer.WriteDebug(() => sh.GetLocationString()));
                 throw new InvalidOperationException("Some moved shapes are null");
 
 

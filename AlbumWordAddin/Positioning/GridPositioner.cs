@@ -66,7 +66,7 @@
             {
                 candidate = draft.IncreaseSpacing(delta).CheapToArray();
                 var y1 = candidate.GetAverageSpacing();
-                Tracer.WriteLine(() => $"spacing:{spacing}, y0:{y0}, y1:{y1}, delta:{delta}.");
+                Tracer.WriteDebug(() => $"spacing:{spacing}, y0:{y0}, y1:{y1}, delta:{delta}.");
                 if (Math.Abs(y1 - spacing) < 0.01f)
                 {
                     return candidate;

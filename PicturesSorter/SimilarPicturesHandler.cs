@@ -1,5 +1,4 @@
-﻿
-namespace PicturesSorter
+﻿namespace PicturesSorter
 {
     using Microsoft.VisualBasic.FileIO;
     using PictureHandler;
@@ -57,6 +56,7 @@ namespace PicturesSorter
 
         public async Task<Dictionary<PictureSignature, List<PictureSignature>>> LoadPictures(bool recurse = true)
         {
+            if (!Verbose) Tracer.DisableTracing();
             var extensions = new[] { ".jpg", ".jpeg", ".png" };
             if (Directory is null)
             {
@@ -64,7 +64,8 @@ namespace PicturesSorter
                 return new Dictionary<PictureSignature, List<PictureSignature>>();
             }
 
-            var searchOption = recurse ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly;
+            var searchOption =
+                recurse ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly;
             var files = new Queue<FileInfo>(
                 Directory.EnumerateFiles("*", searchOption)
                     .Where(fi => extensions.Contains(fi.Extension, StringComparer.InvariantCultureIgnoreCase))
@@ -79,9 +80,8 @@ namespace PicturesSorter
                 int myTaskNum;
                 int filesDone = 0;
                 lock (this) myTaskNum = taskNum++;
-                if (Verbose)
-                    Tracer.WriteLine(() =>
-                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} :  Starting...");
+                Tracer.WriteDebug(() =>
+                    $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} :  Starting...");
                 while (true)
                 {
                     FileInfo file;
@@ -89,9 +89,8 @@ namespace PicturesSorter
                     {
                         if (files.Count == 0)
                         {
-                            if (Verbose)
-                                Tracer.WriteLine(() =>
-                                    $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
+                            Tracer.WriteDebug(() =>
+                                $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {filesDone} Done!");
                             return; // we're done!
                         }
 
@@ -99,30 +98,26 @@ namespace PicturesSorter
                     }
 
                     var signature = new PictureSignature(file, 16, 4, false);
-                    if (Verbose)
-                        Tracer.WriteLine(() =>
-                            $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
+                    Tracer.WriteDebug(() =>
+                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file.FullName}");
                     var signatureList = await signature.GetSignatureAsync(LoadPictureTimeout, ReceiveSignature)
                         .ConfigureAwait(false);
-                    if (Verbose)
-                        Tracer.WriteLine(() =>
-                            $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");
+                    Tracer.WriteDebug(() =>
+                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : {file?.FullName} Done. Signature is {(signatureList is null ? string.Empty : string.Join(",", signatureList))}");
                     lock (_signatures) _signatures.Add(signature);
-                    if (Verbose)
-                        try
-                        {
-                            Tracer.WriteLine(() =>
-                                $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
-                        }
-                        catch
-                        {
-                            // ignored division by zero
-                        }
+                    try
+                    {
+                        Tracer.WriteDebug(() =>
+                            $"LoadPictureThread {myTaskNum:d2} : {++filesDone} : {_countDone / (DateTime.Now - startTime).TotalSeconds:f2}[#/s] : {file.FullName}");
+                    }
+                    catch
+                    {
+                        // ignored division by zero
+                    }
 
                     var formIsAlive = KeepGoingFunc?.Invoke() ?? true;
-                    if (Verbose)
-                        Tracer.WriteLine(() =>
-                            $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : Form is alive : {formIsAlive}.");
+                    Tracer.WriteDebug(() =>
+                        $"LoadPictureThread {myTaskNum:D2} : {DateTime.Now - startTime:g} : Form is alive : {formIsAlive}.");
                     if (!formIsAlive) break;
                 }
             }
@@ -169,20 +164,19 @@ namespace PicturesSorter
 
         void ReceiveSignature(PictureSignature newSignature)
         {
-            if (Verbose) Tracer.WriteLine(() => $"Got {newSignature.FileInfo.FullName}");
+            Tracer.WriteInfo(() => $"Got {newSignature.FileInfo.FullName}");
             _countDone += 1;
             IncrementProgressAction?.Invoke();
             var handled = false;
-            var logger = new Action<string>(s => Tracer.WriteLine(() => s));
+            var logger = new Action<string>(s => Tracer.WriteInfo(() => s));
             lock (_similarSignatures)
             {
                 // look for 2 or more similar pictures already displayed: adding 1
                 foreach (var s in _similarSignatures.Keys
                              .Where(s => s.GetSimilarityWith(newSignature) > SimilarityFactor))
                 {
-                    if (Verbose)
-                        Tracer.WriteLine(() =>
-                            $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
+                    Tracer.WriteInfo(() =>
+                        $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
                     var (nSign, pSign) = RemoveDuplicate(newSignature, s, Delete, FilePreference, ByFolder, logger);
                     if (nSign is null)
                     {
@@ -205,16 +199,16 @@ namespace PicturesSorter
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, Delete, FilePreference, ByFolder, logger);
-                        if (Verbose)
-                            Tracer.WriteLine(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
+                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, Delete, FilePreference, ByFolder,
+                            logger);
+                        Tracer.WriteInfo(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
                         if (nSign is null) break; // do nothing: that new picture has been discarded
                         _distinctSignatures.Remove(previous);
                         if (pSign is not null)
                         {
                             _similarSignatures.Add(previous, [previous, newSignature]);
-                            if (Verbose)
-                                Tracer.WriteLine(() => $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.");
+                            Tracer.WriteInfo(() =>
+                                $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.");
                         }
 
                         handled = true;
@@ -223,7 +217,7 @@ namespace PicturesSorter
                 if (handled) return;
 
                 _distinctSignatures.Add(newSignature);
-                if (Verbose) Tracer.WriteLine($"    {newSignature.FileInfo.FullName} added to the list of distinct pictures.");
+                Tracer.WriteInfo($"    {newSignature.FileInfo.FullName} added to the list of distinct pictures.");
             }
         }
 

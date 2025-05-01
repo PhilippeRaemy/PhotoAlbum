@@ -345,7 +345,7 @@ namespace AlbumWordAddin
                         = dualFile.DualExists ? dualFile.DualFileInfo.FullName
                         : dualFile.Exists     ? dualFile.FileInfo.FullName
                         : shape.LinkFormat.SourceFullName;
-                    Tracer.WriteLine(() => $"{trace}{shape.LinkFormat.SourceFullName}.");
+                    Tracer.WriteDebug(() => $"{trace}{shape.LinkFormat.SourceFullName}.");
                 }
             }
         }

@@ -81,7 +81,7 @@
             }
 
             _testFolder.GetFiles().Pipe(Console.WriteLine);
-            Tracer.WriteLine(() => "test done!");
+            Tracer.WriteDebug(() => "test done!");
         }
     }
 }

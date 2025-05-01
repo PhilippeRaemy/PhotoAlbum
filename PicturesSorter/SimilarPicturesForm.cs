@@ -48,7 +48,7 @@ namespace PicturesSorter
                 maxLength == minLength ? 1
                 : fi.Length == minLength ? 0
                 : percent);
-            Tracer.WriteLine(() => 
+            Tracer.WriteDebug(() => 
                 $"{fi.Name} : InterpolateColor({lowResColor}, {hiResColor}, {minLength}, {maxLength}, {fi.Length})[%={percent}]={color}");
             return color;
         }
@@ -99,12 +99,12 @@ namespace PicturesSorter
             var fileInfo = signature.FileInfo;
             if (PanelMain.InvokeRequired)
             {
-                Tracer.WriteLine(() => $"   Invoke creating picture at ({signature.Location}) for {fileInfo.Name}.");
+                Tracer.WriteDebug(() => $"   Invoke creating picture at ({signature.Location}) for {fileInfo.Name}.");
                 PanelMain.Invoke(new Action(() => CreatePictureBox(signature, w, h, selected, backColor, pb)));
                 return pb;
             }
 
-            Tracer.WriteLine(() => 
+            Tracer.WriteDebug(() => 
                 $"   Creating picture at ({signature.Location}) for {fileInfo.Name}. Selected : {selected}");
             pb = new SelectablePictureBox(signature, labelFile);
 
@@ -253,12 +253,12 @@ namespace PicturesSorter
                         var stageDirectory = new DirectoryInfo(Path.Combine(pb.FileInfo.DirectoryName, "spare"));
                         stageDirectory.Create();
                         pb.FileInfo.MoveTo(Path.Combine(stageDirectory.FullName, pb.FileInfo.Name));
-                        Tracer.WriteLine(() => $"{pb.FileInfo.Name} staged to {stageDirectory.FullName}");
+                        Tracer.WriteDebug(() => $"{pb.FileInfo.Name} staged to {stageDirectory.FullName}");
                     }
                     else
                     {
                         pb.FileInfo.Delete();
-                        Tracer.WriteLine(() => $"{pb.FileInfo.Name} deleted");
+                        Tracer.WriteDebug(() => $"{pb.FileInfo.Name} deleted");
                     }
 
                     pb.Parent.Controls.Remove(pb);
