@@ -12,12 +12,6 @@ namespace PicturesSorter
     using System.Threading.Tasks;
     using Tracer;
 
-    public enum FilePreferenceEnum
-    {
-        Larger,
-        Older
-    }
-
     public enum DeduplicateResultsEnum
     {
         KeepNone,
@@ -37,7 +31,6 @@ namespace PicturesSorter
         public Action IncrementProgressAction { get; set; }
         public Func<bool> KeepGoingFunc { get; set; }
         public bool Verbose { get; set; }
-        public FilePreferenceEnum FilePreference { get; set; }
         public bool ByFolder { get; set; }
         public bool Delete { get; set; }
         public bool DryRun { get; set; }
@@ -188,7 +181,7 @@ namespace PicturesSorter
                 {
                     Tracer.WriteInfo(() =>
                         $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
-                    switch (RemoveDuplicate(newSignature, s, Delete, FilePreference, ByFolder, logger))
+                    switch (RemoveDuplicate(newSignature, s, Delete, ByFolder, logger))
                     {
                         case DeduplicateResultsEnum.KeepNone:
                             Debug.Assert(false, "It's not possible that deduplicate discards boh files!");
@@ -217,7 +210,7 @@ namespace PicturesSorter
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, Delete, FilePreference, ByFolder,
+                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, Delete, ByFolder,
                             logger);
                         Tracer.WriteInfo(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
                         if (nSign is null) break; // do nothing: that new picture has been discarded
@@ -245,17 +238,14 @@ namespace PicturesSorter
         /// <param name="nSign"></param>
         /// <param name="pSign"></param>
         /// <param name="delete"></param>
-        /// <param name="filePreference"></param>
         /// <param name="byFolder"></param>
         /// <param name="logger"></param>
         /// <returns>(nSign, pSign), in order, possibly </returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         ///  TODO: separate the comparison logic and handle the previously existing signatures as a list: we might have several similar pictures but in different folders!
-        DeduplicateResultsEnum RemoveDuplicate(
-            PictureSignature nSign, PictureSignature pSign,
-            bool delete, FilePreferenceEnum filePreference, bool byFolder, Action<string> logger)
+        DeduplicateResultsEnum RemoveDuplicate(PictureSignature nSign, PictureSignature pSign,
+            bool delete, bool byFolder, Action<string> logger)
         {
-            DeduplicateResultsEnum results;
             nSign.FileInfo.Refresh();
             pSign.FileInfo.Refresh();
             if (!nSign.FileInfo.Exists || !pSign.FileInfo.Exists)
@@ -271,18 +261,9 @@ namespace PicturesSorter
 
             if (byFolder && pSign.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName)
                 return DeduplicateResultsEnum.KeepBoth;
-            results = filePreference switch
-            {
-                FilePreferenceEnum.Larger
-                    => nSign.FileInfo.Length > pSign.FileInfo.Length
-                        ? DeduplicateResultsEnum.KeepNew
-                        : DeduplicateResultsEnum.KeepOld,
-                FilePreferenceEnum.Older
-                    => nSign.FileInfo.CreationTimeUtc < pSign.FileInfo.CreationTimeUtc
-                        ? DeduplicateResultsEnum.KeepNew
-                        : DeduplicateResultsEnum.KeepOld,
-                _ => throw new ArgumentOutOfRangeException(nameof(filePreference), filePreference, null)
-            };
+            var results = nSign > pSign
+                ? DeduplicateResultsEnum.KeepNew
+                : DeduplicateResultsEnum.KeepOld;
             // one of them has to be deleted
             var toBeDeleted = (results == DeduplicateResultsEnum.KeepNew ? nSign  : pSign).FileInfo;
             toBeDeleted.Refresh();

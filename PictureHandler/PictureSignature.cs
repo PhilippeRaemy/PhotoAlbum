@@ -21,13 +21,15 @@
             => obj?.Signature?.GetHashCode() ?? int.MinValue;
     }
 
-    public class PictureSignature: IEquatable<PictureSignature>
+    public class PictureSignature: IEquatable<PictureSignature>,IComparable<PictureSignature>
     {
+
         readonly int _size;
         readonly ushort _levels;
         readonly TimeSpan _loadPictureTimeout = TimeSpan.FromSeconds(5);
         Signature _signature;
         Signature _flippedSignature;
+ 
 
         public FileInfo FileInfo { get; }
         public Signature Signature
@@ -129,19 +131,35 @@
         void SetSignatureFromImage(Image image)
         {
             if (image == null) return;
-            using (var bmp = new Bitmap(_size, _size))
-            using (var g = Graphics.FromImage(bmp))
-            {
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.DrawImage(image, 0, 0, _size, _size);
-                if (image.Width > image.Height) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                // bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
-                _signature = Enumerable.Range(0, _size)
-                    .SelectMany(x => Enumerable.Range(0, _size)
-                        .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
-                    .ToList();
-            }
+            using var bmp = new Bitmap(_size, _size);
+            using var g = Graphics.FromImage(bmp);
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g.DrawImage(image, 0, 0, _size, _size);
+            if (image.Width > image.Height) bmp.RotateFlip(RotateFlipType.Rotate90FlipNone);
+            // bmp.Save(Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".bmp"), ImageFormat.Bmp);
+            _signature = Enumerable.Range(0, _size)
+                .SelectMany(x => Enumerable.Range(0, _size)
+                    .Select(y => (ushort)Math.Round(bmp.GetPixel(x, y).GetBrightness() * _levels)))
+                .ToList();
         }
+
+        public static bool operator <(PictureSignature a, PictureSignature b) => a.CompareTo(b) < 0;
+        public static bool operator >(PictureSignature a, PictureSignature b) => a.CompareTo(b) > 0;
+        public static bool operator <=(PictureSignature a, PictureSignature b) => a.CompareTo(b) <= 0;
+        public static bool operator >=(PictureSignature a, PictureSignature b) => a.CompareTo(b) >= 0;
+
+        public int CompareTo(PictureSignature other) =>
+            FileInfo is null ? throw new NullReferenceException("Can't compare from signature with null file reference")
+            : other is null ? throw new NullReferenceException("Can't compare with null signatures")
+            : other?.FileInfo is null ? throw new NullReferenceException("Can't compare to signature with null file reference")
+            : !FileInfo.DoRefresh().Exists && !other.FileInfo.DoRefresh().Exists ? throw new NullReferenceException("Can't compare to signatures with non existing file references")
+            : !FileInfo.Exists ? -1
+            : !other.FileInfo.Exists ? 1
+            : FileInfo.Length > other.FileInfo.Length ? 1
+            : FileInfo.Length < other.FileInfo.Length ? -1
+            : FileInfo.CreationTimeUtc < other.FileInfo.CreationTimeUtc ? 1
+            : FileInfo.CreationTimeUtc > other.FileInfo.CreationTimeUtc ? -1
+            : 0;
 
         public override string ToString()
         {
@@ -202,6 +220,12 @@
             var flipped = sign.Select(x => x).ToList();
             flipped.Reverse();
             return flipped;
+        }
+
+        public static FileInfo DoRefresh(this FileInfo fi)
+        {
+            fi.Refresh();
+            return fi;
         }
     }
 
