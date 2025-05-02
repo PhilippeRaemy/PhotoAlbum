@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using MoreLinq.Extensions;
 
 namespace PicturesSorter
 {
@@ -34,6 +33,7 @@ namespace PicturesSorter
         public bool ByFolder { get; set; }
         public bool Delete { get; set; }
         public bool DryRun { get; set; }
+        public bool Deduplicate { get; set; } = false;
 
         readonly List<PictureSignature> _signatures = new();
 
@@ -181,26 +181,31 @@ namespace PicturesSorter
                 {
                     Tracer.WriteInfo(() =>
                         $"    Found similar with {s.FileInfo.FullName}. {_similarSignatures[s].Count} pre-existing.");
-                    switch (RemoveDuplicate(newSignature, s, Delete, ByFolder, logger))
+                    if (Deduplicate)
                     {
-                        case DeduplicateResultsEnum.KeepNone:
-                            Debug.Assert(false, "It's not possible that deduplicate discards boh files!");
-                            break;
-                        case DeduplicateResultsEnum.KeepOld:
-                            // do nothing, means we've discarded the new coming signature
-                            break;
-                        case DeduplicateResultsEnum.KeepNew:
-                            // nSign is better than pSign, and we've discarded pSign
-                            // we need to 
-                            _similarSignatures[newSignature] = _similarSignatures[s];
-                            _similarSignatures[newSignature].Remove(s);
-                            break;
-                        case DeduplicateResultsEnum.KeepBoth:
-                            _similarSignatures[s].Append(newSignature);
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
+                        var (key, value) =
+                            RemoveDuplicate(newSignature, s, _similarSignatures[s], Delete, ByFolder, logger);
+                        if (key.Equals(s))
+                        {
+                            _similarSignatures[s] = value;
+                            Tracer.WriteDebug(
+                                $"    The list of similar to {s.FileInfo.FullName} was updated after deduplication of {newSignature.FileInfo.FullName}.");
+                        }
+                        else
+                        {
+                            _similarSignatures.Remove(s);
+                            _similarSignatures[key] = value;
+                            Tracer.WriteDebug(
+                                $"    The list of similar to {s.FileInfo.FullName} was replaced by {key.FileInfo.FullName} after deduplication of {newSignature.FileInfo.FullName}.");
+                        }
                     }
+                    else
+                    {
+                        _similarSignatures[s].Add(newSignature);
+                        Tracer.WriteDebug(
+                            $"    {newSignature.FileInfo.FullName} was added as similar to {s.FileInfo.FullName}.");
+                    }
+
                     handled = true;
                 }
 
@@ -210,16 +215,33 @@ namespace PicturesSorter
                                  .ToArray() // necessary to close the linq query before to modify the collection
                             )
                     {
-                        var (nSign, pSign) = RemoveDuplicate(newSignature, previous, Delete, ByFolder,
-                            logger);
-                        Tracer.WriteInfo(() => $"    Found similar with {previous.FileInfo.FullName}. New.");
-                        if (nSign is null) break; // do nothing: that new picture has been discarded
-                        _distinctSignatures.Remove(previous);
-                        if (pSign is not null)
+                        switch (Deduplicate
+                                    ? RemoveDuplicate(newSignature, previous, Delete, ByFolder, logger)
+                                    : DeduplicateResultsEnum.KeepBoth)
                         {
-                            _similarSignatures.Add(previous, [previous, newSignature]);
-                            Tracer.WriteDebug(() =>
-                                $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.");
+                            case DeduplicateResultsEnum.KeepNone: // shouldn't happen :(
+                                _distinctSignatures.Remove(previous);
+                                Tracer.WriteDebug(() =>
+                                    $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.");
+                                break;
+                            case DeduplicateResultsEnum.KeepOld:
+                                // do nothing: that new picture has been discarded
+                                break;
+                            case DeduplicateResultsEnum.KeepNew:
+                                _distinctSignatures.Remove(previous);
+                                _distinctSignatures.Add(newSignature);
+                                Tracer.WriteDebug(() =>
+                                    $"    {previous.FileInfo.FullName} removed from the list of distinct pictures.\n" +
+                                    $"    {newSignature.FileInfo.FullName} was added to the list of distinct pictures.");
+                                break;
+                            case DeduplicateResultsEnum.KeepBoth:
+                                Tracer.WriteDebug(() =>
+                                    $"    {previous.FileInfo.FullName} removed from the list of distinct pictures and added to similar signatures dictionary with {newSignature.FileInfo.FullName}.");
+                                _distinctSignatures.Remove(previous);
+                                _similarSignatures.Add(previous, [previous, newSignature]);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
 
                         handled = true;
@@ -230,6 +252,38 @@ namespace PicturesSorter
                 _distinctSignatures.Add(newSignature);
                 Tracer.WriteDebug($"    {newSignature.FileInfo.FullName} added to the list of distinct pictures.");
             }
+        }
+
+        (PictureSignature, List<PictureSignature>) RemoveDuplicate(PictureSignature nSign, PictureSignature keySign,
+            List<PictureSignature> pSigns,
+            bool delete, bool byFolder, Action<string> logger)
+        {
+            if (!ByFolder) throw new ApplicationException("Impossible code branch when not deduplicating by folder!");
+            pSigns = pSigns.Append(nSign).ToList();
+            var best = pSigns.Append(nSign).Max(); // keep the best as the new key
+            var exceptions = new List<ApplicationException>();
+
+            IEnumerable<PictureSignature> TrackExceptions(ApplicationException ex)
+            {
+                exceptions.Add(ex);
+                return [];
+            }
+
+            var newSignatures = pSigns.SelectMany(s =>
+                s.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName
+                    ? [s]
+                    : RemoveDuplicate(nSign, s, Delete, ByFolder, logger) switch
+                    {
+                        DeduplicateResultsEnum.KeepNone =>
+                            TrackExceptions(new ApplicationException(
+                                $"Both files {nSign.FileInfo?.FullName} and  {s.FileInfo?.FullName} are bad? Impossible case!")),
+                        DeduplicateResultsEnum.KeepOld => [s],
+                        DeduplicateResultsEnum.KeepNew => [nSign],
+                        DeduplicateResultsEnum.KeepBoth => [s, nSign], // possible if on dry run
+                        _ => throw new ArgumentOutOfRangeException()
+                    }).ToList();
+            if (exceptions.Any()) throw new AggregateException("Impossible code case detected at runtime", exceptions);
+            return (keySign, newSignatures);
         }
 
         /// <summary>
@@ -246,6 +300,8 @@ namespace PicturesSorter
         DeduplicateResultsEnum RemoveDuplicate(PictureSignature nSign, PictureSignature pSign,
             bool delete, bool byFolder, Action<string> logger)
         {
+            if (!Deduplicate)
+                throw new ApplicationException("Cannot call RemoveDuplicate when Deduplicate flag not set!");
             nSign.FileInfo.Refresh();
             pSign.FileInfo.Refresh();
             if (!nSign.FileInfo.Exists || !pSign.FileInfo.Exists)
@@ -265,16 +321,21 @@ namespace PicturesSorter
                 ? DeduplicateResultsEnum.KeepNew
                 : DeduplicateResultsEnum.KeepOld;
             // one of them has to be deleted
-            var toBeDeleted = (results == DeduplicateResultsEnum.KeepNew ? nSign  : pSign).FileInfo;
+            var toBeDeleted = (results == DeduplicateResultsEnum.KeepNew ? nSign : pSign).FileInfo;
             toBeDeleted.Refresh();
             if (!toBeDeleted.Exists)
             {
                 logger?.Invoke($"{toBeDeleted.FullName} does not exist anymore");
                 return results;
             }
+
             if (DryRun)
+            {
                 logger?.Invoke($"{toBeDeleted.FullName} would be {(delete ? "deleted" : "recycled")}");
-            else if (delete)
+                return DeduplicateResultsEnum.KeepBoth;
+            }
+
+            if (delete)
             {
                 toBeDeleted.Delete();
                 logger?.Invoke($"{toBeDeleted.FullName} has been deleted");

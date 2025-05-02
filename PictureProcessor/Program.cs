@@ -92,7 +92,8 @@ namespace PictureProcessor
                 KeepGoingFunc = null,
                 Delete = delete,
                 DryRun = dryRun,
-                Verbose = verbose
+                Verbose = verbose,
+                Deduplicate = true
             };
             similarPicturesHandler.LoadPictures(recurse).Wait();
 
