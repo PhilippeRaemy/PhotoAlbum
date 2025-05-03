@@ -124,7 +124,7 @@
             if (_signature is null) return null;
             feedback?.Invoke(this);
             Debug.Assert(_signature!=null);
-            Tracer.WriteDebug(() => $"Signature for {FileInfo.Name} is {_signature}");
+            // Tracer.WriteDebug(ToString);
             return _signature;
         }
 
@@ -161,19 +161,33 @@
             : FileInfo.CreationTimeUtc > other.FileInfo.CreationTimeUtc ? -1
             : 0;
 
+        // int _toStringLevel = 0;
         public override string ToString()
         {
-            var (format, sep) = _levels <= 16 ? ("x1", false)
-                : _levels <= 256 ? ("x2", true)
-                : _levels <= 4096 ?("x3", true)
-                : ("x4", true);
-            var sb = new StringBuilder();
-            foreach (var i in Signature)
+            // Console.WriteLine($"{FileInfo.FullName} : {_toStringLevel++}");
+            try
             {
-                sb.Append(i.ToString(format));
-                if (sep) sb.Append("-");
+                // if (_toStringLevel > 10) throw new StackOverflowException();
+                var (format, sep) = _levels <= 16 ? ("x1", false)
+                    : _levels <= 256 ? ("x2", true)
+                    : _levels <= 4096 ? ("x3", true)
+                    : ("x4", true);
+                var sb = new StringBuilder(FileInfo.FullName).Append("[");
+                foreach (var i in _signature)
+                {
+                    sb.Append(i.ToString(format));
+                    if (sep) sb.Append("-");
+                    // Console.WriteLine($"{FileInfo.FullName} : {_toStringLevel} : {i.ToString(format)}");
+                }
+
+                // _toStringLevel--;
+                return sb.Append("]").ToString();
             }
-            return sb.ToString();
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"{FileInfo.FullName} : {ex.Message}\r\n{ex.StackTrace}");
+                throw;
+            }
         }
 
         public bool Equals(PictureSignature other, double tolerance) =>

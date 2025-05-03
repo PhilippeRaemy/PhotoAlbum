@@ -229,7 +229,7 @@
             this.deleteRightToolStripMenuItem});
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
             this.deleteToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
-            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Text = "DeleteMode";
             // 
             // deleteLeftToolStripMenuItem
             // 

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using PictureHandler;
 
 namespace PictureProcessor
 {
@@ -11,6 +12,7 @@ namespace PictureProcessor
 
     public static class Program
     {
+        static bool _useRootName;
         static DirectoryInfo _rootPath = new DirectoryInfo(Directory.GetCurrentDirectory());
         static bool _recurse;
         static bool _dryRun;
@@ -20,6 +22,7 @@ namespace PictureProcessor
         static int _timeoutSeconds=30;
         static int _maxTasks=4;
         static string _command;
+        static DirectoryInfo _target;
 
         public static int Main(string[] args)
         {
@@ -28,11 +31,13 @@ namespace PictureProcessor
                 .WithErrorWriter(Console.Error.WriteLine)
                 .WithHelpWriter(Console.WriteLine)
                 .AddStringParameter("Command", a => _command = a, "Command to be run. Available commands are `gui` and `deduplicate`.")
-                .AddStringParameter("RootPath", RootPath, "The path from which to explore pictures", ".")
+                .AddStringParameter("RootPath", RootPath, "The path(s) from which to explore pictures. Can be a list of folders, delimited by a pipe character `|`.", ".")
                 .AddSwitch("Recurse", () => _recurse = true, "Explore subfolders")
                 .AddSwitch("DryRun", () => _dryRun = true, "Only display work at hand")
                 .AddSwitch("Delete", () => _delete = true, "Permanently delete duplicate pictures (if --Deduplicate is specified")
                 .AddSwitch("Verbose", () => _verbose = true, "Produce verbose console output")
+                .AddOptionalStringParameter("Target", a => _target = new DirectoryInfo(a), "An alternate directory root where to move duplicate files")
+                .AddSwitch("UseRootName", () => _useRootName = true, "If the `Target` is provided, use the last folder name of the provided roots for 1st target level.")
                 .AddSwitch("Debug", () => Debugger.Launch(), "Produce verbose console output")
                 .AddOptionalIntegerParameter("Timeout", a => _timeoutSeconds = a,
                     "Timeout for loading a picture", "30")
@@ -45,10 +50,35 @@ namespace PictureProcessor
             switch (_command?.ToLowerInvariant())
             {
                 case "gui":
+                    if (_recurse || _dryRun || _delete || _useRootName || _target != null)
+                    {
+                        MessageBox.Show(
+                            "Can't use any of '--Recurse', '--DryRun', '--Delete', '--UseAltName' or '--Target' options on the command line with the --gui  switch",
+                            "Invalid command line options", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return -1;
+                    }
                     ShowGui(_rootPath, _recurse, _similarity);
                     break;
                 case "deduplicate":
-                    DeduplicatePictures(_rootPath, _recurse, _delete, _dryRun, _verbose, _similarity, _timeoutSeconds, _maxTasks);
+                    if (_target != null)
+                    {
+                        if (_delete)
+                        {
+                            Console.Error.Write("Can't use the --delete option with a target directory.");
+                            return -1;
+                        }
+                    }
+                    else if (_useRootName)
+                    {
+                        Console.Error.Write("Can't use the --UseRootName option without a target directory.");
+                        return -1;
+                    }
+
+                    var deleteMode = _dryRun ? DeleteModeEnum.DryRun
+                        : _delete ? DeleteModeEnum.Delete
+                        : _target != null ? (_useRootName ? DeleteModeEnum.UseRootName : DeleteModeEnum.UseTarget)
+                        : DeleteModeEnum.Recycle;
+                    DeduplicatePictures(_rootPath, _recurse, deleteMode, _target, _verbose, _similarity, _timeoutSeconds, _maxTasks);
                     break;
                 default:
                     Console.WriteLine("Unknown command: " + _command);
@@ -78,7 +108,8 @@ namespace PictureProcessor
             Application.Run(sims);
         }
 
-        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, bool delete, bool dryRun, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
+        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, DeleteModeEnum deleteMode,
+            DirectoryInfo targetDirectory, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
         {
             var similarPicturesHandler = new SimilarPicturesHandler
             {
@@ -90,8 +121,8 @@ namespace PictureProcessor
                 SetProgressMaxAction = null,
                 IncrementProgressAction = null,
                 KeepGoingFunc = null,
-                Delete = delete,
-                DryRun = dryRun,
+                DeleteMode = deleteMode,
+                TargetDirectory = targetDirectory,
                 Verbose = verbose,
                 Deduplicate = true
             };
@@ -103,6 +134,5 @@ namespace PictureProcessor
         {
             MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
     }
 }

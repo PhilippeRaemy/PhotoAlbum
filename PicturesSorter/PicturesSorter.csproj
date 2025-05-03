@@ -62,6 +62,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteModeEnum.cs" />
     <Compile Include="SimilarPicturesForm.cs">
       <SubType>Form</SubType>
     </Compile>

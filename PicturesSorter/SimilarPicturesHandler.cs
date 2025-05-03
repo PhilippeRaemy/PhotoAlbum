@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Windows.Forms;
+using FolderWalker;
 
 namespace PicturesSorter
 {
@@ -31,8 +33,8 @@ namespace PicturesSorter
         public Func<bool> KeepGoingFunc { get; set; }
         public bool Verbose { get; set; }
         public bool ByFolder { get; set; }
-        public bool Delete { get; set; }
-        public bool DryRun { get; set; }
+        public DeleteModeEnum DeleteMode { get; set; }
+        public DirectoryInfo TargetDirectory { get; set; }
         public bool Deduplicate { get; set; } = false;
 
         readonly List<PictureSignature> _signatures = new();
@@ -166,6 +168,8 @@ namespace PicturesSorter
             return _similarSignatures;
         }
 
+
+
         void ReceiveSignature(PictureSignature newSignature)
         {
             Tracer.WriteDebug($"Processing {newSignature.FileInfo.FullName}");
@@ -184,7 +188,7 @@ namespace PicturesSorter
                     if (Deduplicate)
                     {
                         var (key, value) =
-                            RemoveDuplicate(newSignature, s, _similarSignatures[s], Delete, ByFolder, logger);
+                            RemoveDuplicate(newSignature, s, _similarSignatures[s], DeleteMode, ByFolder, logger);
                         if (key.Equals(s))
                         {
                             _similarSignatures[s] = value;
@@ -210,13 +214,15 @@ namespace PicturesSorter
                 }
 
                 if (!handled) // look for one similar yet to be displayed picture: adding 2
+                {
+                    var newHandled = false;
                     foreach (var previous in _distinctSignatures
-                                 .Where(p => p.GetSimilarityWith(newSignature) > SimilarityFactor)
-                                 .ToArray() // necessary to close the linq query before to modify the collection
-                            )
+                              .Where(p => p.GetSimilarityWith(newSignature) > SimilarityFactor)
+                              .ToArray() // necessary to close the linq query before to modify the collection
+                         )
                     {
                         switch (Deduplicate
-                                    ? RemoveDuplicate(newSignature, previous, Delete, ByFolder, logger)
+                                    ? RemoveDuplicate(newSignature, previous, DeleteMode, ByFolder, logger)
                                     : DeduplicateResultsEnum.KeepBoth)
                         {
                             case DeduplicateResultsEnum.KeepNone: // shouldn't happen :(
@@ -226,6 +232,7 @@ namespace PicturesSorter
                                 break;
                             case DeduplicateResultsEnum.KeepOld:
                                 // do nothing: that new picture has been discarded
+                                newHandled = true;
                                 break;
                             case DeduplicateResultsEnum.KeepNew:
                                 _distinctSignatures.Remove(previous);
@@ -245,7 +252,8 @@ namespace PicturesSorter
                         }
 
                         handled = true;
-                    }
+                        if (newHandled) break; // we've handled the new picture, there no need to further check the distinct pictures...
+                    }}
 
                 if (handled) return;
 
@@ -256,7 +264,7 @@ namespace PicturesSorter
 
         (PictureSignature, List<PictureSignature>) RemoveDuplicate(PictureSignature nSign, PictureSignature keySign,
             List<PictureSignature> pSigns,
-            bool delete, bool byFolder, Action<string> logger)
+            DeleteModeEnum delete, bool byFolder, Action<string> logger)
         {
             if (!ByFolder) throw new ApplicationException("Impossible code branch when not deduplicating by folder!");
             pSigns = pSigns.Append(nSign).ToList();
@@ -272,7 +280,7 @@ namespace PicturesSorter
             var newSignatures = pSigns.SelectMany(s =>
                 s.FileInfo.DirectoryName != nSign.FileInfo.DirectoryName
                     ? [s]
-                    : RemoveDuplicate(nSign, s, Delete, ByFolder, logger) switch
+                    : RemoveDuplicate(nSign, s, DeleteMode, ByFolder, logger) switch
                     {
                         DeduplicateResultsEnum.KeepNone =>
                             TrackExceptions(new ApplicationException(
@@ -298,7 +306,7 @@ namespace PicturesSorter
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         ///  TODO: separate the comparison logic and handle the previously existing signatures as a list: we might have several similar pictures but in different folders!
         DeduplicateResultsEnum RemoveDuplicate(PictureSignature nSign, PictureSignature pSign,
-            bool delete, bool byFolder, Action<string> logger)
+            DeleteModeEnum delete, bool byFolder, Action<string> logger)
         {
             if (!Deduplicate)
                 throw new ApplicationException("Cannot call RemoveDuplicate when Deduplicate flag not set!");
@@ -321,7 +329,7 @@ namespace PicturesSorter
                 ? DeduplicateResultsEnum.KeepNew
                 : DeduplicateResultsEnum.KeepOld;
             // one of them has to be deleted
-            var toBeDeleted = (results == DeduplicateResultsEnum.KeepNew ? nSign : pSign).FileInfo;
+            var toBeDeleted = (results == DeduplicateResultsEnum.KeepOld ? nSign : pSign).FileInfo;
             toBeDeleted.Refresh();
             if (!toBeDeleted.Exists)
             {
@@ -329,23 +337,30 @@ namespace PicturesSorter
                 return results;
             }
 
-            if (DryRun)
+            switch (DeleteMode)
             {
-                logger?.Invoke($"{toBeDeleted.FullName} would be {(delete ? "deleted" : "recycled")}");
-                return DeduplicateResultsEnum.KeepBoth;
+                case DeleteModeEnum.DryRun:
+                    logger?.Invoke($"{toBeDeleted.FullName} would be discarded");
+                    return DeduplicateResultsEnum.KeepBoth;
+                case DeleteModeEnum.Delete:
+                    toBeDeleted.Delete();
+                    logger?.Invoke($"{toBeDeleted.FullName} has been deleted");
+                    break;
+                case DeleteModeEnum.UseRootName:
+                case DeleteModeEnum.UseTarget:
+                    var targetFolder = new DirectoryInfo(toBeDeleted.DirectoryName.Replace(
+                        DeleteMode== DeleteModeEnum.UseRootName ? Directory.Parent.FullName : Directory.FullName, 
+                        TargetDirectory.FullName)).EnsureExists();
+                    toBeDeleted.MoveTo(targetFolder.FullName);
+                    logger?.Invoke($"{toBeDeleted.FullName} has been moved to {targetFolder.FullName}");
+                    break;
+                case DeleteModeEnum.Recycle:
+                    FileSystem.DeleteFile(toBeDeleted.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                    logger?.Invoke($"{toBeDeleted.FullName} has been recycled");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-
-            if (delete)
-            {
-                toBeDeleted.Delete();
-                logger?.Invoke($"{toBeDeleted.FullName} has been deleted");
-            }
-            else
-            {
-                FileSystem.DeleteFile(toBeDeleted.FullName, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-                logger?.Invoke($"{toBeDeleted.FullName} has been recycled");
-            }
-
             return results;
         }
     }

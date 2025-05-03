@@ -69,5 +69,14 @@ namespace FolderWalker
 
             return currentDirectory.Parent;
         }
+
+        public static DirectoryInfo EnsureExists(this DirectoryInfo d)
+        {
+            if (d.Exists) return d;
+
+            d.Parent.EnsureExists();
+            d.Create();
+            return d;
+        }
     }
 }
