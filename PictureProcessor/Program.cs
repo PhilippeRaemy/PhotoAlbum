@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using PictureHandler;
 
 namespace PictureProcessor
@@ -13,7 +14,7 @@ namespace PictureProcessor
     public static class Program
     {
         static bool _useRootName;
-        static DirectoryInfo _rootPath = new DirectoryInfo(Directory.GetCurrentDirectory());
+        static DirectoryInfo[] _rootPaths = [new DirectoryInfo(Directory.GetCurrentDirectory())];
         static bool _recurse;
         static bool _dryRun;
         static bool _delete;
@@ -31,7 +32,7 @@ namespace PictureProcessor
                 .WithErrorWriter(Console.Error.WriteLine)
                 .WithHelpWriter(Console.WriteLine)
                 .AddStringParameter("Command", a => _command = a, "Command to be run. Available commands are `gui` and `deduplicate`.")
-                .AddStringParameter("RootPath", RootPath, "The path(s) from which to explore pictures. Can be a list of folders, delimited by a pipe character `|`.", ".")
+                .AddStringParameter("RootPath", RootPaths, "The path(s) from which to explore pictures. Can be a list of folders, delimited by a pipe character `|`.", ".")
                 .AddSwitch("Recurse", () => _recurse = true, "Explore subfolders")
                 .AddSwitch("DryRun", () => _dryRun = true, "Only display work at hand")
                 .AddSwitch("Delete", () => _delete = true, "Permanently delete duplicate pictures (if --Deduplicate is specified")
@@ -57,7 +58,7 @@ namespace PictureProcessor
                             "Invalid command line options", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return -1;
                     }
-                    ShowGui(_rootPath, _recurse, _similarity);
+                    ShowGui(_rootPaths, _recurse, _similarity);
                     break;
                 case "deduplicate":
                     if (_target != null)
@@ -78,7 +79,7 @@ namespace PictureProcessor
                         : _delete ? DeleteModeEnum.Delete
                         : _target != null ? (_useRootName ? DeleteModeEnum.UseRootName : DeleteModeEnum.UseTarget)
                         : DeleteModeEnum.Recycle;
-                    DeduplicatePictures(_rootPath, _recurse, deleteMode, _target, _verbose, _similarity, _timeoutSeconds, _maxTasks);
+                    DeduplicatePictures(_rootPaths, _recurse, deleteMode, _target, _verbose, _similarity, _timeoutSeconds, _maxTasks);
                     break;
                 default:
                     Console.WriteLine("Unknown command: " + _command);
@@ -89,13 +90,17 @@ namespace PictureProcessor
             return 0;
         }
 
-        static void RootPath(string a)
+        static void RootPaths(string paths)
         {
-            _rootPath = new DirectoryInfo(a);
-            if(!_rootPath.Exists) throw new DirectoryNotFoundException(a);
+            _rootPaths = paths.Split('|').Select(a =>
+            {
+                var d = new DirectoryInfo(a);
+                if (!d.Exists) throw new DirectoryNotFoundException(a);
+                return d;
+            }).ToArray();
         }
 
-        static void ShowGui(DirectoryInfo rootPath, bool recurse, int similarity)
+        static void ShowGui(DirectoryInfo[] rootPath, bool recurse, int similarity)
         {
             var sims = new SimilarPicturesForm(); 
             var t = sims.LoadPictures(rootPath);
@@ -108,12 +113,12 @@ namespace PictureProcessor
             Application.Run(sims);
         }
 
-        static void DeduplicatePictures(DirectoryInfo rootPath, bool recurse, DeleteModeEnum deleteMode,
+        static void DeduplicatePictures(DirectoryInfo[] rootPath, bool recurse, DeleteModeEnum deleteMode,
             DirectoryInfo targetDirectory, bool verbose, int similarity, int timeoutSeconds, int maxTasks)
         {
             var similarPicturesHandler = new SimilarPicturesHandler
             {
-                Directory = rootPath,
+                Directories = rootPath,
                 SimilarityFactor = (double)similarity / 100,
                 LoadPictureTimeout = TimeSpan.FromSeconds(timeoutSeconds),
                 MaxTasks = maxTasks,

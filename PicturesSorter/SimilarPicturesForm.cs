@@ -136,7 +136,7 @@ namespace PicturesSorter
 
 
         public async System.Threading.Tasks.Task<Dictionary<PictureSignature, List<PictureSignature>>> 
-            LoadPictures(DirectoryInfo directory, bool silent = false)
+            LoadPictures(DirectoryInfo[] directory, bool silent = false)
         {
             try
             {
@@ -144,7 +144,7 @@ namespace PicturesSorter
                 {
                     _similarPicturesHandler = new SimilarPicturesHandler
                     {
-                        Directory = directory,
+                        Directories = directory,
                         SimilarityFactor = (double)similarityFactor.Value / 100,
                         LoadPictureTimeout = _loadPictureTimeout,
                         MaxTasks = MAX_TASKS,

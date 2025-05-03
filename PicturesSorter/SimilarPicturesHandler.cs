@@ -23,7 +23,7 @@ namespace PicturesSorter
 
     public class SimilarPicturesHandler
     {
-        public DirectoryInfo Directory { get; set; }
+        public DirectoryInfo[] Directories { get; set; }
         public double SimilarityFactor { get; set; }
         public TimeSpan LoadPictureTimeout { get; set; }
         public int MaxTasks { get; set; }
@@ -63,7 +63,7 @@ namespace PicturesSorter
         {
             if (!Verbose) Tracer.DisableTracing();
             var extensions = new[] { ".jpg", ".jpeg", ".png" };
-            if (Directory is null)
+            if (Directories is null)
             {
                 CloseAction?.Invoke();
                 return new Dictionary<PictureSignature, List<PictureSignature>>();
@@ -72,9 +72,10 @@ namespace PicturesSorter
             var searchOption =
                 recurse ? System.IO.SearchOption.AllDirectories : System.IO.SearchOption.TopDirectoryOnly;
             var files = new Queue<FileInfo>(
-                Directory.EnumerateFiles("*", searchOption)
+
+                Directories.SelectMany(d => d.EnumerateFiles("*", searchOption)
                     .Where(fi => extensions.Contains(fi.Extension, StringComparer.InvariantCultureIgnoreCase))
-                    .OrderByDescending(fi => fi.Length)); // better (and heavier) images first
+                    .OrderByDescending(fi => fi.Length))); // better (and heavier) images first
 
             SetProgressMaxAction?.Invoke(files.Count);
             var taskNum = 0;
@@ -349,7 +350,7 @@ namespace PicturesSorter
                 case DeleteModeEnum.UseRootName:
                 case DeleteModeEnum.UseTarget:
                     var targetFolder = new DirectoryInfo(toBeDeleted.DirectoryName.Replace(
-                        DeleteMode== DeleteModeEnum.UseRootName ? Directory.Parent.FullName : Directory.FullName, 
+                        DeleteMode== DeleteModeEnum.UseRootName ? Directories.First().Parent.FullName : Directories.First().FullName, 
                         TargetDirectory.FullName)).EnsureExists();
                     toBeDeleted.MoveTo(targetFolder.FullName);
                     logger?.Invoke($"{toBeDeleted.FullName} has been moved to {targetFolder.FullName}");
