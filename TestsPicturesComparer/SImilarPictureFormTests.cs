@@ -50,7 +50,7 @@
             var files = _testFolder.GetFiles();
             var form = new SimilarPicturesForm();
 
-            form.LoadPictures(_testFolder);
+            form.LoadPictures([_testFolder]);
             // form.ShowDialog();
             SimilarPicturesForm.MuteDialogs = true;
             form.SimilarPicturesForm_KeyUp(form.PanelMain, new KeyEventArgs(keyData)); 
