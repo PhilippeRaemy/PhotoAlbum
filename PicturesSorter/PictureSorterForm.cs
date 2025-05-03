@@ -401,7 +401,7 @@
         {
             var sims = new SimilarPicturesForm();
             sims.Focus();
-            sims.LoadPictures(_currentDirectory);
+            _ = sims.LoadPictures([_currentDirectory]);
             sims.ShowDialog();
             OpenFolderImpl(_currentDirectory, _sortBySignature);
         }
